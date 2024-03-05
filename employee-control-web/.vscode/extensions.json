@@ -1,0 +1,19 @@
+{
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=827846
+  "recommendations": [
+    "Angular.ng-template",
+    "cyrilletuzi.angular-schematics",
+    "DavidAnson.vscode-markdownlint",
+    "dbaeumer.vscode-eslint",
+    "EditorConfig.EditorConfig",
+    "esbenp.prettier-vscode",
+    "johnpapa.angular2",
+    "mariusAlchimavicius.json-to-ts",
+    "SonarSource.sonarlint-vscode",
+    "steoates.autoimport",
+    "streetsidesoftware.code-spell-checker",
+    "streetsidesoftware.code-spell-checker-spanish",
+    "stringham.move-ts",
+    "usernamehw.errorlens"
+  ]
+}

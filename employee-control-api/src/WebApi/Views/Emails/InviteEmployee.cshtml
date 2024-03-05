@@ -1,0 +1,20 @@
+﻿@model InviteEmployeeViewModel
+
+@{
+  ViewData["Title"] = "Aceptar invitación";
+}
+
+<h3>Bienvenido a <strong>@Model.SiteName</strong></h3>
+
+<p>
+  La empresa @Model.CompanyName le ha mandado una invitación, por favor para completar el registro visite el siguiente enlace<br/>
+
+  <a class="btn btn-outline-primary" href="@Model.Callback">Aceptar invitación</a>
+</p>
+
+<p>Tiene un periodo de 24 horas para la validación del correo electrónico.</p>
+
+<p>
+  Si no puede navegar al enlace anterior, copie y pegue el siguiente enlace en su navegador<br/>
+  @Model.Callback
+</p>

@@ -1,0 +1,18 @@
+<button (click)="handleClick()" [class]="btnClass" [disabled]="loading" [type]="btnType">
+  @if (!loading) {
+    <span>
+      <ng-content />
+      @if (btnIcon) {
+        <span [class]="btnIcon"></span>
+      }
+      {{ btnText }}
+    </span>
+  }
+
+  <aw-spinner
+    [color]="spinnerColor"
+    [extraCss]="spinnerClass"
+    [loading]="loading"
+    [size]="spinnerSize"
+    [text]="spinnerLoadingText" />
+</button>

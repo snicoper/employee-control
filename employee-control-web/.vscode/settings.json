@@ -1,0 +1,58 @@
+{
+  "editor.formatOnSave": true,
+  "editor.rulers": [99, 119],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "editor.guides.indentation": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.tslint": "explicit",
+    "source.fixAll.stylelint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  // Prettier.
+  "prettier.singleQuote": true,
+  "prettier.printWidth": 120,
+  "prettier.trailingComma": "none",
+  // Languages.
+  "typescript.preferences.quoteStyle": "single",
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.importModuleSpecifier": "shortest",
+  "[markdown]": {
+    "editor.tabSize": 4,
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "comments": "on",
+      "strings": "on",
+      "other": "on"
+    },
+    "editor.formatOnSave": false
+  },
+  // Code Spell Checker.
+  "cSpell.words": [
+    "apexcharts",
+    "Apexcharts",
+    "datepicker",
+    "Datepicker",
+    "datetime",
+    "dayjs",
+    "deserializa",
+    "devkit",
+    "fontawesome",
+    "fortawesome",
+    "inicialización",
+    "linebreak",
+    "luxon",
+    "plusplus",
+    "popperjs",
+    "redirecciona",
+    "Redireccionar",
+    "rrhh",
+    "Rrhh",
+    "RRHH",
+    "tabset",
+    "toastr",
+    "tzdb"
+  ]
+}

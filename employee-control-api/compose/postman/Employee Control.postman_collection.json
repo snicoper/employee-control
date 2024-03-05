@@ -1,0 +1,607 @@
+{
+	"info": {
+		"_postman_id": "9752b797-2754-418b-99f7-df5fd004adc2",
+		"name": "Employee Control",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3523454"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Login 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Data contains accessToken', function () {\r",
+											"    pm.expect(pm.response.json().accessToken).not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test('Data contains refreshToken', function () {\r",
+											"    pm.expect(pm.response.json().refreshToken).not.be.empty;\r",
+											"});\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.environment.set('access_token', jsonData['accessToken']);\r",
+											"pm.environment.set('refresh_token', jsonData['refreshToken']);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"identifier\": \"admin\",\r\n  \"password\": \"Password4!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}/auth/login",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login 401",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 401', function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"identifier\": \"adminnnnnnnnnn\",\r\n  \"password\": \"Password4!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}/auth/login",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "RefreshToken",
+					"item": [
+						{
+							"name": "RefreshToken 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('Data contains accessToken', function () {\r",
+											"    pm.expect(pm.response.json().accessToken).not.be.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test('Data contains refreshToken', function () {\r",
+											"    pm.expect(pm.response.json().refreshToken).not.be.empty;\r",
+											"});\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"pm.environment.set('access_token', jsonData['accessToken']);\r",
+											"pm.environment.set('refresh_token', jsonData['refreshToken']);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"refreshToken\": \"{{refresh_token}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}/auth/refresh-token",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"auth",
+										"refresh-token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RefreshToken 401",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 401', function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"refreshToken\": \"expiredToeen\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}/auth/refresh-token",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"auth",
+										"refresh-token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Register",
+					"item": [
+						{
+							"name": "Register 201",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "AdminIdentity",
+			"item": [
+				{
+					"name": "GetAdminIdentitiesPaginated",
+					"item": [
+						{
+							"name": "GetAdminIdentitiesPaginated 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{api_url}}/admin/identity/paginated",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"admin",
+										"identity",
+										"paginated"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetAdminIdentitiesPaginated 401",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 401', function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_url}}/admin/identity/paginated",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"admin",
+										"identity",
+										"paginated"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Home",
+			"item": [
+				{
+					"name": "Prueba",
+					"item": [
+						{
+							"name": "Prueba 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_url}}/home",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"home"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "TestMail",
+					"item": [
+						{
+							"name": "TestEmail 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_url}}/home/test-email",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"home",
+										"test-email"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "TestRenderHtml",
+					"item": [
+						{
+							"name": "TestRenderHtml 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_url}}/home/test-render-html",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"home",
+										"test-render-html"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Localization",
+			"item": [
+				{
+					"name": "CurrentLocale",
+					"item": [
+						{
+							"name": "CurrentLocale 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('locale contains es-ES', function () {\r",
+											"    pm.expect(pm.response.json().locale).to.eql('es-ES');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_url}}/localization/current-locale",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"localization",
+										"current-locale"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CurrentLocale en-US 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('locale contains en-US', function () {\r",
+											"    pm.expect(pm.response.json().locale).to.eql('en-US');\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept-Language",
+										"value": "en-US",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_url}}/localization/current-locale",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"localization",
+										"current-locale"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "SupportedLocales",
+					"item": [
+						{
+							"name": "SupportedLocales 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test('locales have 4 items', function () {\r",
+											"    pm.expect(Object.keys(pm.response.json().locales).length).to.eql(4);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_url}}/localization/supported-locales",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"localization",
+										"supported-locales"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Establecer envs.",
+					"pm.environment.set('accept_languaje', 'es-ES');",
+					"pm.environment.set('api_url', 'https://localhost:7000/api/v1');",
+					"",
+					"// Todas las peticiones añadir Accept-Languaje al header.",
+					"pm.request.headers.add({key: 'Accept-Language', value: pm.environment.get(\"accept_languaje\") });",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

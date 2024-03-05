@@ -1,0 +1,22 @@
+@if (progressStackedCollection.title) {
+  <div class="text-muted small ms-1">{{ progressStackedCollection.title }}</div>
+}
+
+<div class="progress-stacked mb-2">
+  @for (item of progressStackedCollection.progressStackedItems; track item) {
+    <div
+      [attr.aria-valuemax]="item.valueMax"
+      [attr.aria-valuemin]="item.valueMin"
+      [attr.aria-valuenow]="item.valueNow"
+      [ngStyle]="{ width: item.percent + '%' }"
+      aria-label="Segment one"
+      class="progress"
+      role="progressbar">
+      <div [ngClass]="item.background" [title]="item.tooltip" awTooltip class="progress-bar">
+        {{ item.content }}
+      </div>
+    </div>
+  }
+
+  <ng-content select="[awDescription]" />
+</div>

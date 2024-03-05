@@ -1,0 +1,47 @@
+<!-- toolbar -->
+<div class="mb-2">
+  <h3 class="text-center mb-4">Seleccionar empleado</h3>
+
+  <span>
+    <aw-table-input-search
+      (clickClean)="handleClickClean($event)"
+      [apiResult]="apiResult"
+      [tableHeaderConfig]="tableHeaderConfig" />
+  </span>
+</div>
+<!-- end toolbar -->
+
+<!-- table -->
+<aw-table [apiResult]="apiResult" [loading]="loading">
+  <thead awThead>
+    <tr
+      (clickOrdering)="handleReloadData()"
+      [apiResult]="apiResult"
+      [tableHeaderConfig]="tableHeaderConfig"
+      awTableHeader></tr>
+  </thead>
+
+  @if (apiResult) {
+    <tbody awTbody>
+      @for (user of apiResult.items; track user) {
+        <tr (click)="handleSelectItem(user)" class="cursor-pointer">
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.email }}</td>
+        </tr>
+      }
+    </tbody>
+  }
+</aw-table>
+<!-- end table -->
+
+<!-- pagination -->
+@if (apiResult) {
+  <aw-pagination
+    (changePage)="handleReloadData()"
+    (changePageListNumber)="handleReloadData()"
+    [apiResult]="apiResult" />
+}
+<!-- end pagination -->
+
+<aw-btn-back text="Cancelar" />

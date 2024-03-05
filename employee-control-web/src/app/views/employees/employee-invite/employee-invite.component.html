@@ -1,0 +1,70 @@
+<aw-view-base>
+  <aw-view-header [breadcrumb]="breadcrumb">Invitar empleado</aw-view-header>
+
+  <aw-card>
+    <!-- from-->
+    <form (ngSubmit)="handleSubmit()" [formGroup]="form">
+      <aw-non-field-errors [badRequest]="badRequest" />
+
+      <!-- firstName -->
+      <div class="mb-2">
+        <aw-form-input
+          [badRequest]="badRequest"
+          [form]="form"
+          [submitted]="submitted"
+          fieldName="firstName"
+          formControlName="firstName"
+          label="Nombre" />
+      </div>
+      <!-- end firstName -->
+
+      <!-- lastName -->
+      <div class="mb-2">
+        <aw-form-input
+          [badRequest]="badRequest"
+          [form]="form"
+          [submitted]="submitted"
+          fieldName="lastName"
+          formControlName="lastName"
+          label="Apellidos" />
+      </div>
+      <!-- end lastName -->
+
+      <!-- email -->
+      <div class="mb-2">
+        <aw-form-input
+          [badRequest]="badRequest"
+          [form]="form"
+          [inputType]="formInputTypes.email"
+          [submitted]="submitted"
+          fieldName="email"
+          formControlName="email"
+          label="Email" />
+      </div>
+      <!-- end email -->
+
+      <!-- timezone -->
+      <div class="mb-2">
+        <aw-form-timezone
+          [badRequest]="badRequest"
+          [form]="form"
+          [submitted]="submitted"
+          fieldName="timezone"
+          formControlName="timezone"
+          label="Zona horaria" />
+      </div>
+      <!-- end timezone -->
+
+      <!-- buttons-->
+      <aw-btn-back cssClass="btn btn-primary mt-2 me-2" />
+
+      <aw-btn-loading
+        [loading]="loading"
+        btnClass="btn btn-success mt-2"
+        btnIcon="fas fa-user-plus"
+        btnText="Invitar" />
+      <!-- end buttons-->
+    </form>
+    <!-- end from-->
+  </aw-card>
+</aw-view-base>

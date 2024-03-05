@@ -1,0 +1,38 @@
+<aw-view-base>
+  <aw-view-header [breadcrumb]="breadcrumb">
+    Tarea - <span awHeaderSubtitle>{{ companyTask()?.name }}</span>
+  </aw-view-header>
+
+  <aw-company-task-details [companyTaskId]="companyTaskId" />
+
+  <!-- tabs -->
+  @if (companyTaskId && companyTask()) {
+    <div class="mt-3">
+      <aw-card>
+        <div>
+          <tabset>
+            <tab #tabUsers="tab" heading="Empleados">
+              @if (tabUsers.active && employeeComponent === employeeLoadComponent.employees) {
+                <aw-company-task-users
+                  (changeComponent)="handleChangeComponent()"
+                  />
+              }
+              @if (tabUsers.active && employeeComponent === employeeLoadComponent.addEmployees) {
+                <aw-company-task-add-users
+                  (changeComponent)="handleChangeComponent()"
+                  />
+              }
+            </tab>
+            <tab #tabB="tab" heading="Basic Title 1">
+              @if (tabB.active) {
+                <aw-company-task-users />
+              }
+            </tab>
+            <tab #tabC="tab" heading="Basic Title 2">Basic content 2</tab>
+          </tabset>
+        </div>
+      </aw-card>
+    </div>
+  }
+  <!-- end tabs -->
+</aw-view-base>
