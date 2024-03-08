@@ -1,0 +1,74 @@
+<aw-view-base>
+  <aw-view-header [breadcrumb]="breadcrumb">Categorías de ausencias</aw-view-header>
+
+  <aw-card>
+    <!-- toolbar -->
+    <div class="d-flex mb-2">
+      <span class="me-auto">
+        <a [routerLink]="siteUrls.categoryAbsences.create" class="btn btn-sm btn-outline-success">
+          <span class="fa-solid fa-list-check"></span> Crear ausencia
+        </a>
+      </span>
+
+      <span>
+        <aw-table-input-search
+          (clickClean)="handleClickClean($event)"
+          [apiResult]="apiResult"
+          [tableHeaderConfig]="tableHeaderConfig" />
+      </span>
+    </div>
+    <!-- end toolbar -->
+
+    <!-- table -->
+    <aw-table [apiResult]="apiResult" [loading]="loading">
+      <thead awThead>
+        <tr
+          (clickOrdering)="handleReloadData()"
+          [apiResult]="apiResult"
+          [tableHeaderConfig]="tableHeaderConfig"
+          awTableHeader></tr>
+      </thead>
+
+      @if (apiResult) {
+        <tbody awTbody>
+          @for (categoryAbsence of apiResult.items; track categoryAbsence) {
+            <tr>
+              <td>
+                <aw-badge
+                  [background]="categoryAbsence.background"
+                  [color]="categoryAbsence.color"
+                  [name]="categoryAbsence.description"></aw-badge>
+              </td>
+              <td [innerHTML]="categoryAbsence.active | boolToIcon"></td>
+              <td>
+                <aw-dot [color]="categoryAbsence.background"></aw-dot>
+              </td>
+              <td>
+                <aw-dot [color]="categoryAbsence.color"></aw-dot>
+              </td>
+              <td>
+                <span class="d-flex justify-content-end btn-actions">
+                  <span
+                    (click)="handleEdit(categoryAbsence)"
+                    awTooltip
+                    class="fa-solid fa-pencil cursor-pointer"
+                    title="Editar"></span>
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      }
+    </aw-table>
+    <!-- end table -->
+
+    <!-- pagination -->
+    @if (apiResult) {
+      <aw-pagination
+        (changePage)="handleReloadData()"
+        (changePageListNumber)="handleReloadData()"
+        [apiResult]="apiResult" />
+    }
+    <!-- end pagination -->
+  </aw-card>
+</aw-view-base>

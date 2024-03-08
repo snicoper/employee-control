@@ -1,0 +1,11 @@
+tr {
+  .btn-actions {
+    visibility: hidden;
+  }
+
+  &:hover {
+    .btn-actions {
+      visibility: visible;
+    }
+  }
+}

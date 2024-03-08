@@ -1,0 +1,24 @@
+<div [ngClass]="extraCss" class="card border-0 shadow-sm bg-body-tertiary">
+  <ng-content select="[awCardHeader]" />
+  <ng-content select="[awCardImage]" />
+
+  <div class="card-body">
+    @if (!loading) {
+      <ng-content select="[awCardTitle]" />
+      <ng-content select="[awCardSubTitle]" />
+    }
+
+    <!-- main content -->
+    @if (!loading) {
+      <p class="card-text">
+        <ng-content />
+      </p>
+    } @else {
+      <aw-spinner [loading]="loading" [size]="spinnerSize" />
+    }
+    <!-- end main content -->
+
+  </div>
+
+  <ng-content class="card-footer text-muted" select="[awCardFooter]" />
+</div>

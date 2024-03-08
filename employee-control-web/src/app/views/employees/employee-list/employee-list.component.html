@@ -1,0 +1,57 @@
+<aw-view-base>
+  <aw-view-header [breadcrumb]="breadcrumb">Lista de empleados</aw-view-header>
+
+  <aw-card>
+    <!-- toolbar -->
+    <div class="d-flex mb-2">
+      <span class="me-auto">
+        <a [routerLink]="siteUrls.employees.invite" class="btn btn-sm btn-outline-success">
+          <span class="fas fa-user-plus"></span> Invitar empleado
+        </a>
+      </span>
+
+      <span>
+        <aw-table-input-search
+          (clickClean)="handleClickClean($event)"
+          [apiResult]="apiResult"
+          [tableHeaderConfig]="tableHeaderConfig" />
+      </span>
+    </div>
+    <!-- end toolbar -->
+
+    <!-- table -->
+    <aw-table [apiResult]="apiResult" [loading]="loading">
+      <thead awThead>
+        <tr
+          (clickOrdering)="handleReloadData()"
+          [apiResult]="apiResult"
+          [tableHeaderConfig]="tableHeaderConfig"
+        awTableHeader></tr>
+      </thead>
+
+      @if (apiResult) {
+        <tbody awTbody>
+          @for (employee of apiResult.items; track employee) {
+            <tr (click)="handleSelectItem(employee)" class="cursor-pointer">
+              <td>{{ employee.firstName }}</td>
+              <td>{{ employee.lastName }}</td>
+              <td>{{ employee.email }}</td>
+              <td [innerHTML]="employee.active | boolToIcon"></td>
+              <td [innerHTML]="employee.emailConfirmed | boolToIcon"></td>
+            </tr>
+          }
+        </tbody>
+      }
+    </aw-table>
+    <!-- end table -->
+
+    <!-- pagination -->
+    @if (apiResult) {
+      <aw-pagination
+        (changePage)="handleReloadData()"
+        (changePageListNumber)="handleReloadData()"
+        [apiResult]="apiResult" />
+    }
+    <!-- end pagination -->
+  </aw-card>
+</aw-view-base>

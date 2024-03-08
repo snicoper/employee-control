@@ -1,0 +1,44 @@
+<aw-view-base [footerState]="false" [navbarState]="false" [sidebarState]="false">
+  <div class="form-login w-100 m-auto mt-5">
+    <aw-card extraCss="p-4">
+      <form (ngSubmit)="handleSubmit()" [formGroup]="form">
+        <h1 class="h3 mb-3 fw-normal"><span class="fa-solid fa-user"></span> Iniciar sesión</h1>
+        <hr />
+
+        @if (invalidLogin) {
+          <div class="alert alert-danger" role="alert">Nombre de usuario o contraseña no validos.</div>
+        }
+
+        <aw-non-field-errors [badRequest]="badRequest" />
+
+        <!-- email -->
+        <div class="mb-2">
+          <aw-form-floating
+            [badRequest]="badRequest"
+            [form]="form"
+            [submitted]="submitted"
+            fieldName="email"
+            formControlName="email"
+            label="Email" />
+        </div>
+        <!-- end email -->
+
+        <!-- password -->
+        <aw-form-floating
+          [badRequest]="badRequest"
+          [form]="form"
+          [inputType]="formTypes.password"
+          [submitted]="submitted"
+          fieldName="password"
+          formControlName="password"
+          label="Contraseña" />
+        <!-- end password -->
+
+        <a [routerLink]="[siteUrls.accounts.register]" class="small">Registro nuevo usuario</a>
+        <a [routerLink]="[siteUrls.accounts.recoveryPassword]" class="small p-2">¿Olvidaste contraseña?</a>
+
+        <aw-btn-loading [loading]="loading" btnClass="w-100 btn btn-lg btn-primary mt-2" btnText="Acceder" />
+      </form>
+    </aw-card>
+  </div>
+</aw-view-base>

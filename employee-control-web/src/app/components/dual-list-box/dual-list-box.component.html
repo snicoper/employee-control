@@ -1,0 +1,78 @@
+<div class="dual-list-box">
+  @if (!loading) {
+    <div class="d-flex">
+      <!-- left box -->
+      <div class="flex-fill box-left me-3">
+        <input
+          (input)="handleFilterLeftBox()"
+          [(ngModel)]="termLeftValue"
+          class="form-control mb-2"
+          placeholder="Filtrar..."
+          type="search" />
+        <select
+          [(ngModel)]="itemsLeftSelected"
+          [id]="boxLeftId"
+          [size]="size"
+          aria-label="Items unselected"
+          class="form-select"
+          multiple>
+          @for (item of htmlItemSelectorsLeft; track item) {
+            <option [ngValue]="item.id">{{ item.value }}</option>
+          }
+        </select>
+        <button
+          (click)="handleLeftBtnClick()"
+          [disabled]="!itemsLeftSelected.length"
+          [ngClass]="{
+            'btn-outline-primary': !itemsLeftSelected.length,
+            'btn-primary': itemsLeftSelected.length
+          }"
+          class="w-100 btn btn-outline-primary mt-1">
+          <span class="fa-solid fa-arrow-right-long"></span>
+        </button>
+      </div>
+      <!-- end left box -->
+      <!-- right box -->
+      <div class="flex-fill box-right">
+        <input
+          (input)="handleFilterRightBox()"
+          [(ngModel)]="termRightValue"
+          class="form-control mb-2"
+          placeholder="Filtrar..."
+          type="search" />
+        <select
+          [(ngModel)]="itemsRightSelected"
+          [id]="boxRightId"
+          [size]="size"
+          aria-label="Items selected"
+          class="form-select"
+          multiple>
+          @for (item of htmlItemSelectorsRight; track item) {
+            <option [ngValue]="item.id">{{ item.value }}</option>
+          }
+        </select>
+        <button
+          (click)="handleRightBtnClick()"
+          [disabled]="!itemsRightSelected.length"
+          [ngClass]="{ 'btn-outline-primary': !itemsRightSelected.length, 'btn-primary': itemsRightSelected.length }"
+          class="w-100 btn btn-outline-primary mt-1">
+          <span class="fa-solid fa-arrow-left-long"></span>
+        </button>
+      </div>
+      <!-- end right box -->
+    </div>
+    <div class="d-flex mt-3">
+      <button (click)="handleSaveChanges()" class="btn btn-outline-success m-auto">
+        <span class="fa-solid fa-floppy-disk"></span> Guardar cambios
+      </button>
+    </div>
+  }
+
+  @if (loading) {
+    <div class="d-flex">
+      <div class="m-auto">
+        <aw-spinner [loading]="loading" [size]="100" />
+      </div>
+    </div>
+  }
+</div>

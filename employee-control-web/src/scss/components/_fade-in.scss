@@ -1,0 +1,11 @@
+.fade-in {
+  @include fade-in-variant(0.5s);
+}
+
+.fade-in-fast {
+  @include fade-in-variant(0.3s);
+}
+
+.fade-in-slow {
+  @include fade-in-variant(0.7s);
+}

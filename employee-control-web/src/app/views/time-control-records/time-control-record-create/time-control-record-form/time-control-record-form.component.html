@@ -1,0 +1,53 @@
+<form (ngSubmit)="handleSubmit()" [formGroup]="form">
+  <!-- timeStart y timeFinish -->
+  <div class="mt-3 row">
+    <div class="col-6">
+      <aw-form-datepicker
+        [badRequest]="badRequest"
+        [form]="form"
+        [submitted]="submitted"
+        fieldName="dateStart"
+        formControlName="dateStart"
+        label="Inicio" />
+      <div class="mt-3"></div>
+      <aw-form-timepicker
+        [badRequest]="badRequest"
+        [form]="form"
+        [submitted]="submitted"
+        fieldName="timeStart"
+        formControlName="timeStart"
+        label="" />
+    </div>
+
+    <div class="col-6">
+      <aw-form-datepicker
+        [badRequest]="badRequest"
+        [form]="form"
+        [submitted]="submitted"
+        fieldName="dateFinish"
+        formControlName="dateFinish"
+        label="Final" />
+      <div class="mt-3"></div>
+      <aw-form-timepicker
+        [badRequest]="badRequest"
+        [form]="form"
+        [submitted]="submitted"
+        fieldName="timeFinish"
+        formControlName="timeFinish"
+        label="" />
+    </div>
+    <!-- end timeStart y timeFinish -->
+  </div>
+  <!-- footer -->
+  <div class="col-12 mt-4">
+    <aw-btn-back text="Cancelar" />
+    <aw-btn-loading
+      [btnType]="btnType.submit"
+      [loading]="loadingForm"
+      btnClass="btn btn-success ms-2"
+      btnIcon="fa-regular fa-floppy-disk"
+      btnText="Crear tiempo"
+      spinnerLoadingText="Creando" />
+  </div>
+  <!-- end footer -->
+</form>

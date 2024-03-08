@@ -1,0 +1,126 @@
+<aw-view-base>
+  <aw-view-header [breadcrumb]="breadcrumb">Tiempos de empleados</aw-view-header>
+
+  <aw-card>
+    <!-- toolbar -->
+    <div class="d-flex mb-2">
+      <span class="me-auto">
+        <a [routerLink]="siteUrls.timeControlRecords.create" class="btn btn-sm btn-outline-success">
+          <span class="fa-regular fa-clock"></span> Añadir tiempo
+        </a>
+      </span>
+
+      <span>
+        <aw-table-input-search
+          (clickClean)="handleClickClean($event)"
+          [apiResult]="apiResult"
+          [tableHeaderConfig]="tableHeaderConfig" />
+      </span>
+    </div>
+    <!-- end toolbar -->
+
+    <!-- table -->
+    <aw-table [apiResult]="apiResult" [loading]="loading">
+      <thead awThead>
+        <tr
+          (clickOrdering)="handleReloadData()"
+          [apiResult]="apiResult"
+          [tableHeaderConfig]="tableHeaderConfig"
+          awTableHeader></tr>
+      </thead>
+
+      @if (apiResult) {
+        <tbody awTbody>
+          @for (timeControl of apiResult.items; track timeControl) {
+            <tr>
+              <td>{{ timeControl.firstName }}</td>
+              <td>{{ timeControl.lastName }}</td>
+              <td>
+                <span [innerHTML]="timeControl.deviceTypeStart | deviceType"></span>
+                {{ timeControl.start | datetime }}
+
+                @if (getStartOpenStreetMapLink(timeControl)) {
+                  <a [href]="getStartOpenStreetMapLink(timeControl)" target="_blank">
+                    <span awTooltip class="fa-solid fa-location-pin text-success" title="Ver en mapa"></span>
+                  </a>
+                }
+              </td>
+              <td>
+                <span [innerHTML]="timeControl.deviceTypeFinish | deviceType"></span>
+
+                @if (timeControl.timeState === timeState.close) {
+                  {{ timeControl.finish | datetime }}
+                  @if (getFinishOpenStreetMapLink(timeControl)) {
+                    <a [href]="getFinishOpenStreetMapLink(timeControl)" target="_blank">
+                      <span awTooltip class="fa-solid fa-location-pin text-success" title="Ver en mapa"></span>
+                    </a>
+                  }
+                }
+              </td>
+              <td>
+                @if (timeControl.closedBy === closedBy.staff || timeControl.closedBy === closedBy.system) {
+                  <span class="fa-solid fa-exclamation text-danger"></span>
+                }
+
+                {{ timeControl.closedBy | closedBy }}
+              </td>
+              <td>
+                @if (timeControl.timeState === timeState.open) {
+                  <aw-dot-success />
+                }
+
+                @if (timeControl.timeState === timeState.close) {
+                  <aw-dot-danger />
+                }
+              </td>
+              <td>
+                @if (timeControl.duration > 1) {
+                  {{ timeControl.duration | durationToTime }}
+                }
+
+                @if (timeControl.duration === 0) {
+                  ...
+                }
+              </td>
+              <td>
+                <span class="d-flex justify-content-end btn-actions">
+                  @if (timeControl.timeState === timeState.close) {
+                    <span
+                      (click)="handleTimeControlModalEdit(timeControl)"
+                      awTooltip
+                      class="fa-solid fa-pencil cursor-pointer"
+                      title="Editar"></span>
+
+                    <span
+                      (click)="handleDeleteTimeControl(timeControl)"
+                      awTooltip
+                      class="fa-solid fa-circle-xmark cursor-pointer text-danger ms-2"
+                      title="Eliminar"></span>
+                  }
+
+                  @if (timeControl.timeState === timeState.open) {
+                    <span
+                      (click)="handleCloseTimeControl(timeControl)"
+                      awTooltip
+                      class="fa-solid fa-lock cursor-pointer text-danger"
+                      title="Cerrar"></span>
+                  }
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      }
+    </aw-table>
+    <!-- end table -->
+
+    <!-- pagination -->
+    @if (apiResult) {
+      <aw-pagination
+        (changePage)="handleReloadData()"
+        (changePageListNumber)="handleReloadData()"
+        [apiResult]="apiResult" />
+    }
+    <!-- end pagination -->
+  </aw-card>
+</aw-view-base>
