@@ -1,5 +1,5 @@
 ﻿using EmployeeControl.Application.Common.Interfaces.Common;
-using EmployeeControl.Application.Common.Interfaces.Features.Company;
+using EmployeeControl.Application.Common.Interfaces.Features.Companies;
 using MediatR;
 
 namespace EmployeeControl.Application.Features.Companies.Queries.GetCompanyByCurrentUser;

@@ -1,5 +1,5 @@
 ﻿using EmployeeControl.Application.Common.Interfaces.Data;
-using EmployeeControl.Application.Common.Interfaces.Features.Company;
+using EmployeeControl.Application.Common.Interfaces.Features.Companies;
 using EmployeeControl.Application.Common.Interfaces.Features.Identity;
 using EmployeeControl.Domain.Constants;
 using EmployeeControl.Domain.Entities;

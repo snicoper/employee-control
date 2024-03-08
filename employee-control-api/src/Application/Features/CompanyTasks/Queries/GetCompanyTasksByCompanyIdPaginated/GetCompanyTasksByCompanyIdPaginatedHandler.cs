@@ -16,7 +16,7 @@ internal class GetCompanyTasksByCompanyIdPaginatedHandler(
         GetCompanyTasksByCompanyIdPaginatedQuery request,
         CancellationToken cancellationToken)
     {
-        // Cada compañía solo puede ser sus tareas.
+        // Cada compañía solo puede ver sus tareas.
         permissionsValidationService.ItsFromTheCompany(request.CompanyId);
 
         var tasks = context

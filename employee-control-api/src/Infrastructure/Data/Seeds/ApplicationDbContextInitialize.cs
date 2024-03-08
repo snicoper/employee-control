@@ -1,5 +1,5 @@
 ﻿using EmployeeControl.Application.Common.Interfaces.Common;
-using EmployeeControl.Application.Common.Interfaces.Features.Company;
+using EmployeeControl.Application.Common.Interfaces.Features.Companies;
 using EmployeeControl.Domain.Constants;
 using EmployeeControl.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -44,12 +44,68 @@ public class ApplicationDbContextInitialize(
 
     private async Task TrySeedAsync()
     {
-        await CreateCompanies();
-        await CreateRoles();
-        await CreateUsers();
+        await CreateCompaniesAsync();
+        await CreateRolesAsync();
+        await CreateUsersAsync();
+        await CreateCompanyTasksAsync();
+        await CreateDepartementsAsync();
     }
 
-    private async Task CreateCompanies()
+    private async Task CreateDepartementsAsync()
+    {
+        if (await context.Departments.AnyAsync())
+        {
+            return;
+        }
+
+        var company = await context.Companies.FirstOrDefaultAsync(c => c.Name == "Test Company");
+
+        if (company is null)
+        {
+            return;
+        }
+
+        var department = new Department
+        {
+            Name = "IT",
+            Active = true,
+            CompanyId = company.Id,
+            Background = "#28961f",
+            Color = "#ffffff"
+        };
+
+        context.Departments.Add(department);
+        await context.SaveChangesAsync(CancellationToken.None);
+    }
+
+    private async Task CreateCompanyTasksAsync()
+    {
+        if (await context.CompanyTasks.AnyAsync())
+        {
+            return;
+        }
+
+        var company = await context.Companies.FirstOrDefaultAsync(c => c.Name == "Test Company");
+
+        if (company is null)
+        {
+            return;
+        }
+
+        var companyTask = new CompanyTask
+        {
+            Name = "Agenda",
+            Active = true,
+            CompanyId = company.Id,
+            Background = "#8722d1",
+            Color = "#dfedfe"
+        };
+
+        context.CompanyTasks.Add(companyTask);
+        await context.SaveChangesAsync(CancellationToken.None);
+    }
+
+    private async Task CreateCompaniesAsync()
     {
         var companies = new List<Company> { new() { Name = "Company test" }, new() { Name = "Test Company" } };
 
@@ -59,7 +115,7 @@ public class ApplicationDbContextInitialize(
         }
     }
 
-    private async Task CreateRoles()
+    private async Task CreateRolesAsync()
     {
         // Default roles.
         var createRole = new List<ApplicationRole>
@@ -78,7 +134,7 @@ public class ApplicationDbContextInitialize(
         }
     }
 
-    private async Task CreateUsers()
+    private async Task CreateUsersAsync()
     {
         var companies = context.Companies.ToList();
 
@@ -132,6 +188,33 @@ public class ApplicationDbContextInitialize(
 
             // Roles de usuario.
             var rolesToAdd = new[] { Roles.EnterpriseAdmin, Roles.EnterpriseStaff, Roles.HumanResources, Roles.Employee };
+
+            await userManager.AddToRolesAsync(user, rolesToAdd);
+
+            // Settings.
+            var settings = new EmployeeSettings { UserId = user.Id, Timezone = "Europe/Madrid" };
+            context.EmployeeSettings.Add(settings);
+        }
+
+        // Employee user.
+        user = new ApplicationUser
+        {
+            CompanyId = companies[1].Id,
+            UserName = "alice@example.com",
+            FirstName = "Alice",
+            LastName = "Gonzalez",
+            Email = "alice@example.com",
+            EntryDate = dateTimeService.UtcNow,
+            Active = true,
+            EmailConfirmed = true
+        };
+
+        if (!await userManager.Users.AnyAsync(u => u.Email == user.Email))
+        {
+            await userManager.CreateAsync(user, "Password4!");
+
+            // Roles de usuario.
+            var rolesToAdd = new[] { Roles.Employee };
 
             await userManager.AddToRolesAsync(user, rolesToAdd);
 

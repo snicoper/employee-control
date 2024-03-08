@@ -6,7 +6,7 @@ using MediatR;
 
 namespace EmployeeControl.Application.Features.CompanySettings.Commands.UpdateCompanySettings;
 
-public class UpdateCompanySettingsHandler(
+internal class UpdateCompanySettingsHandler(
     ICompanySettingsService companySettingsService,
     IPermissionsValidationService permissionsValidationService,
     IMapper mapper)
