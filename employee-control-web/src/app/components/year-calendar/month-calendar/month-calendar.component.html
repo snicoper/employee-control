@@ -1,0 +1,33 @@
+<div class="card-container">
+  <aw-card>
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <p class="calendar-current-date">{{ currentDate }}</p>
+      </div>
+
+      <div class="calendar-body">
+        <ul class="calendar-weekdays">
+          @for (week of weeks; track week) {
+            <li>{{ week }}</li>
+          }
+        </ul>
+
+        <ul class="calendar-dates">
+          @for (calendarDay of calendarDays; track calendarDay) {
+            <li
+              (click)="handleClick(calendarDay)"
+              [ngClass]="{ inactive: calendarDay.inactive, active: calendarDay.isToday }">
+              <span [ngStyle]="{ background: calendarDay.background, color: calendarDay.color }" class="calendar-day">
+                @if (calendarDay.day < 10) {
+                  &nbsp;{{ calendarDay.day }}&nbsp;
+                } @else {
+                  {{ calendarDay.day }}
+                }
+              </span>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </aw-card>
+</div>

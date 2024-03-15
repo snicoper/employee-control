@@ -49,6 +49,32 @@ public class ApplicationDbContextInitialize(
         await CreateUsersAsync();
         await CreateCompanyTasksAsync();
         await CreateDepartementsAsync();
+        await CreateCategoryAbsencesAsync();
+    }
+
+    private async Task CreateCategoryAbsencesAsync()
+    {
+        if (await context.CategoryAbsences.AnyAsync())
+        {
+            return;
+        }
+
+        var company = await context.Companies.FirstOrDefaultAsync(c => c.Name == "Test Company");
+
+        if (company is null)
+        {
+            return;
+        }
+
+        var categoryAbsences =
+            new List<CategoryAbsence>
+            {
+                new() { Description = "Maternidad", CompanyId = company.Id, Background = "#28961f", Color = "#ffffff" },
+                new() { Description = "Baja laboral", CompanyId = company.Id, Background = "#8722d1", Color = "#dfedfe" }
+            };
+
+        context.CategoryAbsences.AddRange(categoryAbsences);
+        await context.SaveChangesAsync(CancellationToken.None);
     }
 
     private async Task CreateDepartementsAsync()

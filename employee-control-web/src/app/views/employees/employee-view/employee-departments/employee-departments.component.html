@@ -1,21 +1,18 @@
-<div class="d-flex my-3">
-  <h5 class="m-auto">
+<div class="d-flex justify-content-between my-3">
+  <h5>
     Departamentos asignados a
     <small class="text-muted">{{ employeeSelected()?.firstName }} {{ employeeSelected()?.lastName }}</small>
   </h5>
-</div>
 
-<!-- filter -->
-<div class="d-flex mb-2">
-  <span class="me-auto">&nbsp;</span>
+  <!-- filter -->
   <span>
     <aw-table-input-search
       (clickClean)="handleClickClean($event)"
       [apiResult]="apiResult"
       [tableHeaderConfig]="tableHeaderConfig" />
   </span>
+  <!-- end filter -->
 </div>
-<!-- end filter -->
 
 <!-- table -->
 <aw-table [apiResult]="apiResult" [loading]="loading">
@@ -24,7 +21,7 @@
       (clickOrdering)="handleReloadData()"
       [apiResult]="apiResult"
       [tableHeaderConfig]="tableHeaderConfig"
-    awTableHeader></tr>
+      awTableHeader></tr>
   </thead>
 
   @if (apiResult) {

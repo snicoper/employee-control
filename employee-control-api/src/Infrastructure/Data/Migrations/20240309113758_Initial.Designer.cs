@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EmployeeControl.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240223143255_Initial")]
+    [Migration("20240309113758_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -230,6 +230,47 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.ToTable("Companies", (string)null);
                 });
 
+            modelBuilder.Entity("EmployeeControl.Domain.Entities.CompanyHoliday", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CompanyId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly>("Day")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("Day", "CompanyId")
+                        .IsUnique();
+
+                    b.ToTable("CompanyHolidays", (string)null);
+                });
+
             modelBuilder.Entity("EmployeeControl.Domain.Entities.CompanySettings", b =>
                 {
                     b.Property<string>("Id")
@@ -380,6 +421,21 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
                     b.HasKey("UserId", "CompanyTaskId");
 
                     b.HasIndex("CompanyTaskId");
@@ -402,6 +458,21 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
                     b.HasKey("UserId", "DepartmentId");
 
                     b.HasIndex("CompanyId");
@@ -411,6 +482,49 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.HasIndex("UserId", "DepartmentId", "CompanyId");
 
                     b.ToTable("EmployeeDepartments", (string)null);
+                });
+
+            modelBuilder.Entity("EmployeeControl.Domain.Entities.EmployeeHoliday", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Consumed")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<int>("TotalDays")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.HasIndex("Year", "UserId")
+                        .IsUnique();
+
+                    b.ToTable("EmployeeHolidays", (string)null);
                 });
 
             modelBuilder.Entity("EmployeeControl.Domain.Entities.EmployeeSettings", b =>
@@ -513,6 +627,58 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("TimeControls", (string)null);
+                });
+
+            modelBuilder.Entity("EmployeeControl.Domain.Entities.WorkDays", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CompanyId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Friday")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Monday")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Saturday")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Sunday")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Thursday")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Tuesday")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Wednesday")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId")
+                        .IsUnique();
+
+                    b.HasIndex("Id");
+
+                    b.ToTable("WorkDays", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -648,6 +814,17 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("EmployeeControl.Domain.Entities.CompanyHoliday", b =>
+                {
+                    b.HasOne("EmployeeControl.Domain.Entities.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
             modelBuilder.Entity("EmployeeControl.Domain.Entities.CompanySettings", b =>
                 {
                     b.HasOne("EmployeeControl.Domain.Entities.Company", "Company")
@@ -735,6 +912,17 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("EmployeeControl.Domain.Entities.EmployeeHoliday", b =>
+                {
+                    b.HasOne("EmployeeControl.Domain.Entities.ApplicationUser", "User")
+                        .WithOne("EmployeeHolidays")
+                        .HasForeignKey("EmployeeControl.Domain.Entities.EmployeeHoliday", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("EmployeeControl.Domain.Entities.EmployeeSettings", b =>
                 {
                     b.HasOne("EmployeeControl.Domain.Entities.ApplicationUser", "User")
@@ -763,6 +951,17 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EmployeeControl.Domain.Entities.WorkDays", b =>
+                {
+                    b.HasOne("EmployeeControl.Domain.Entities.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -822,6 +1021,9 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("EmployeeControl.Domain.Entities.ApplicationUser", b =>
                 {
+                    b.Navigation("EmployeeHolidays")
+                        .IsRequired();
+
                     b.Navigation("EmployeeSettings")
                         .IsRequired();
 

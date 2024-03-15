@@ -23,11 +23,12 @@ namespace EmployeeControl.WebApi.Controllers;
 public class TimesControlController : ApiControllerBase
 {
     /// <summary>
-    /// Obtener registros de <see cref="TimeControl" /> de el Id de una <see cref="Company" />.
+    /// Obtener registros de <see cref="TimeControl" /> por el Id de una <see cref="Company" />.
+    /// <para>El <see cref="TimeControl" /> se obtiene con información del empleado.</para>
     /// </summary>
     /// <param name="companyId">Id compañía.</param>
-    /// <param name="from">Filtro: día o inicio de rango.</param>
-    /// <param name="to">Filtro: final de un rango.</param>
+    /// <param name="from">Filtro: inicio del rango.</param>
+    /// <param name="to">Filtro: final del rango.</param>
     /// <param name="requestData"><see cref="ResponseData{TResponse}" />.</param>
     /// <returns><see cref="ResponseData{TResponse}" /> con los filtros aplicados.</returns>
     [HttpGet("companies/{companyId}/from/{from}/to/{to}/paginated")]
@@ -44,11 +45,12 @@ public class TimesControlController : ApiControllerBase
     }
 
     /// <summary>
-    /// Obtener registros de <see cref="TimeControl" /> de el Id de una <see cref="ApplicationUser" />.
+    /// Obtener registros de <see cref="TimeControl" /> por el Id de un <see cref="ApplicationUser" />.
+    /// <para>El <see cref="TimeControl" /> se obtiene con información del empleado.</para>
     /// </summary>
     /// <param name="employeeId">Id empleado.</param>
-    /// <param name="from">Filtro: día o inicio de rango.</param>
-    /// <param name="to">Filtro: final de un rango.</param>
+    /// <param name="from">Filtro: inicio de rango.</param>
+    /// <param name="to">Filtro: final del rango.</param>
     /// <param name="requestData"><see cref="ResponseData{TResponse}" />.</param>
     /// <returns><see cref="ResponseData{TResponse}" /> con los filtros aplicados.</returns>
     [HttpGet("employees/{employeeId}/from/{from}/to/{to}/paginated")]

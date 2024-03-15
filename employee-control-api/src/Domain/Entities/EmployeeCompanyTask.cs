@@ -1,11 +1,12 @@
-﻿using EmployeeControl.Domain.Interfaces;
+﻿using EmployeeControl.Domain.Common;
+using EmployeeControl.Domain.Interfaces;
 
 namespace EmployeeControl.Domain.Entities;
 
 /// <summary>
 /// Asociación de empleados y tareas de la compañía.
 /// </summary>
-public class EmployeeCompanyTask : ICompany
+public class EmployeeCompanyTask : BaseAuditableEntity, ICompany
 {
     public string UserId { get; set; } = default!;
 

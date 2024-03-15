@@ -4,25 +4,28 @@
   <aw-card>
     <aw-month-selector (changeMonthSelected)="handleDateSelected($event)" [dateSelected]="dateSelected" />
 
-    <div class="d-flex mt-4">
+    <div class="d-flex justify-content-between mt-4">
       <!-- state -->
-      @if (currentTimeControl()?.timeState === timeStates.open) {
-        <aw-dot-success />
-        <span class="small text-muted">
-          Tiempo iniciado: <strong>{{ currentTimeControl()?.start | datetimeFormat: "cccc t" }}</strong>
-        </span>
-      }
+      <div>
+        @if (currentTimeControl()?.timeState === timeStates.open) {
+          <aw-dot-success />
 
-      @if (currentTimeControl()?.timeState === timeStates.close) {
-        <aw-dot-danger />
-        <span class="small text-muted">El tiempo esta finalizado</span>
-      }
+          <span class="small text-muted">
+            Tiempo iniciado: <strong>{{ currentTimeControl()?.start | datetimeFormat: "cccc t" }}</strong>
+          </span>
+        }
+
+        @if (currentTimeControl()?.timeState === timeStates.close) {
+          <aw-dot-danger />
+          <span class="small text-muted">El tiempo esta finalizado</span>
+        }
+      </div>
       <!-- end state -->
 
-      <div class="ms-auto small text-muted">Tiempo total: {{ timeTotalInMonth }}</div>
+      <div class="small text-muted">Tiempo total: {{ timeTotalInMonth }}</div>
 
       <!-- button state -->
-      <div class="ms-auto justify-content-center">
+      <div>
         @if (currentTimeControl()?.timeState === timeStates.open) {
           <aw-btn-loading
             (eventClick)="handleTimeFinished()"

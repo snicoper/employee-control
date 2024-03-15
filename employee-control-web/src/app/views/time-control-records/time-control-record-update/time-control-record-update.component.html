@@ -1,18 +1,12 @@
-<div class="modal-content">
-  <!-- header -->
-  <div class="modal-header">
-    <h5 class="modal-title">Registro de tiempo</h5>
-    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-  </div>
-  <!-- end header -->
+<aw-view-base>
+  <aw-view-header [breadcrumb]="breadcrumb">Actualizar tiempo</aw-view-header>
 
-  <!-- body -->
-  <div class="modal-body">
+  <aw-card>
     @if (timeControl) {
       <form (ngSubmit)="handleSubmit()" [formGroup]="form">
-        <!-- timeStart y timeFinish -->
-        <div class="mb-2 d-flex">
-          <div>
+        <div class="mb-2 row">
+          <!-- timeStart -->
+          <div class="col-6">
             <aw-form-datepicker
               [badRequest]="badRequest"
               [form]="form"
@@ -20,7 +14,9 @@
               fieldName="dateStart"
               formControlName="dateStart"
               label="Inicio" />
+
             <div class="mt-3"></div>
+
             <aw-form-timepicker
               [badRequest]="badRequest"
               [form]="form"
@@ -29,7 +25,10 @@
               formControlName="timeStart"
               label="" />
           </div>
-          <div class="ms-auto">
+          <!-- end timeStart -->
+
+          <!-- timeFinish -->
+          <div class="col-6">
             <aw-form-datepicker
               [badRequest]="badRequest"
               [form]="form"
@@ -37,7 +36,9 @@
               fieldName="dateFinish"
               formControlName="dateFinish"
               label="Final" />
+
             <div class="mt-3"></div>
+
             <aw-form-timepicker
               [badRequest]="badRequest"
               [form]="form"
@@ -46,24 +47,21 @@
               formControlName="timeFinish"
               label="" />
           </div>
-          <!-- end timeStart y timeFinish -->
+          <!-- end timeFinish -->
+
+          <div class="mt-3 col-12">
+            <aw-btn-back />
+
+            <aw-btn-loading
+              [btnType]="btnType.submit"
+              [loading]="loadingForm"
+              btnClass="btn btn-success ms-2"
+              btnIcon="fa-regular fa-floppy-disk"
+              btnText="Guardar"
+              spinnerLoadingText="Guardando" />
+          </div>
         </div>
-        <!-- footer -->
-        <div class="modal-footer">
-          <button (click)="handleClose()" class="btn btn-secondary" data-bs-dismiss="modal" type="button">
-            Cerrar
-          </button>
-          <aw-btn-loading
-            [btnType]="btnType.submit"
-            [loading]="loadingForm"
-            btnClass="btn btn-success ms-2"
-            btnIcon="fa-regular fa-floppy-disk"
-            btnText="Guardar cambios"
-            spinnerLoadingText="Guardando" />
-        </div>
-        <!-- end footer -->
       </form>
     }
-  </div>
-  <!-- end body -->
-</div>
+  </aw-card>
+</aw-view-base>

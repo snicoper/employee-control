@@ -11,22 +11,22 @@ public class EmployeeCompanyTaskConfiguration : IEntityTypeConfiguration<Employe
         builder.ToTable("EmployeeCompanyTasks");
 
         // Key.
-        builder.HasKey(uct => new { uct.UserId, uct.CompanyTaskId });
+        builder.HasKey(ect => new { ect.UserId, ect.CompanyTaskId });
 
         // Indexes.
-        builder.HasIndex(uct => new { uct.CompanyId, uct.UserId, uct.CompanyTaskId })
+        builder.HasIndex(ect => new { ect.CompanyId, ect.UserId, ect.CompanyTaskId })
             .IsUnique();
 
         // Relations.
-        builder.HasOne(uct => uct.User)
+        builder.HasOne(ect => ect.User)
             .WithMany(au => au.UserCompanyTasks)
-            .HasForeignKey(uct => uct.UserId)
+            .HasForeignKey(ect => ect.UserId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
-        builder.HasOne(uct => uct.CompanyTask)
+        builder.HasOne(ect => ect.CompanyTask)
             .WithMany(ct => ct.UserCompanyTasks)
-            .HasForeignKey(uct => uct.CompanyTaskId)
+            .HasForeignKey(ect => ect.CompanyTaskId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
     }

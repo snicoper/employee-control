@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
 import { TableHeaderConfig } from '@aw/components/tables/table-header/table-header.config';
 import { logError } from '@aw/core/errors/_index';
-import { OrderTypes } from '@aw/core/features/api-result/_index';
+import { LogicalOperators, OrderTypes, RelationalOperators } from '@aw/core/features/api-result/_index';
 import { ApiResult } from '@aw/core/features/api-result/api-result';
 import { ApiUrls } from '@aw/core/urls/api-urls';
 import { SiteUrls } from '@aw/core/urls/site-urls';
@@ -13,10 +14,9 @@ import { ClosedBy } from '@aw/models/entities/types/closed-by.model';
 import { TimeControlApiService } from '@aw/services/api/_index';
 import { JwtService } from '@aw/services/jwt.service';
 import { SimpleGeolocationService } from '@aw/services/simple-geolocation.service';
-import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { TimeControlRecordUpdateComponent } from '../time-control-record-update/time-control-record-update.component';
 import { TimeControlRecordResponse } from './time-contol-record-esponse.model';
 import { timeControlRecordListTableHeaders } from './time-control-record-list-table-header';
 
@@ -28,8 +28,8 @@ export class TimeControlRecordListComponent {
   private readonly timeControlApiService = inject(TimeControlApiService);
   private readonly jwtService = inject(JwtService);
   private readonly simpleGeolocationService = inject(SimpleGeolocationService);
-  private readonly bsModalService = inject(BsModalService);
   private readonly toastrService = inject(ToastrService);
+  private readonly router = inject(Router);
 
   readonly breadcrumb = new BreadcrumbCollection();
 
@@ -43,6 +43,7 @@ export class TimeControlRecordListComponent {
   to?: Date | string = 'null';
   loadingTimeState = false;
   bsModalRef?: BsModalRef;
+  filterOpenTimesValue = false;
 
   constructor() {
     this.apiResult.addOrder('start', OrderTypes.ascending, 1);
@@ -71,23 +72,15 @@ export class TimeControlRecordListComponent {
     return null;
   }
 
-  handleTimeControlModalEdit(timeControl: TimeControlRecordResponse): void {
-    const initialState: ModalOptions = {
-      keyboard: false,
-      class: 'modal-lg',
-      initialState: {
-        timeControlId: timeControl.id
-      }
-    };
+  handleFilterOpenTimesChange(): void {
+    this.filterOpenTimesValue = !this.filterOpenTimesValue;
+    this.handleClickClean(this.apiResult);
+    this.loadTimeControlRecords();
+  }
 
-    this.bsModalRef = this.bsModalService.show(TimeControlRecordUpdateComponent, initialState);
-    this.bsModalRef.content.saveForm.subscribe({
-      next: (result: boolean) => {
-        if (result) {
-          this.loadTimeControlRecords();
-        }
-      }
-    });
+  handleTimeControlUpdate(timeControl: TimeControlRecordResponse): void {
+    const url = urlReplaceParams(SiteUrls.timeControlRecords.update, { id: timeControl.id });
+    this.router.navigateByUrl(url);
   }
 
   handleReloadData(): void {
@@ -150,6 +143,18 @@ export class TimeControlRecordListComponent {
       from: this.from as string,
       to: this.to as string
     });
+
+    this.apiResult = ApiResult.clone(this.apiResult);
+    this.apiResult.removeFilterByPropertyName('timeState');
+
+    if (this.filterOpenTimesValue) {
+      this.apiResult.addFilter(
+        'timeState',
+        RelationalOperators.equalTo,
+        TimeState.open.toString(),
+        this.apiResult.filters.length === 0 ? LogicalOperators.none : LogicalOperators.and
+      );
+    }
 
     this.timeControlApiService
       .getPaginated<TimeControlRecordResponse>(this.apiResult, url)

@@ -61,6 +61,12 @@ export const sidebarMenu: SidebarMenu[] = [
         link: SiteUrls.timeControlRecords.home,
         active: false,
         requiredRole: Roles.enterpriseStaff
+      },
+      {
+        title: 'Días festivos',
+        link: SiteUrls.manageHolidays.home,
+        active: false,
+        requiredRole: Roles.enterpriseStaff
       }
     ]
   },

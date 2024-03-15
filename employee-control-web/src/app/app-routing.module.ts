@@ -38,6 +38,7 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
+    data: { roles: [Roles.employee] },
     loadChildren: () => import('@aw/views/dashboard/dashboard.module').then((m) => m.DashboardModule)
   },
   {
@@ -47,10 +48,22 @@ const routes: Routes = [
     loadChildren: () => import('@aw/views/departments/departments.module').then((m) => m.DepartmentsModule)
   },
   {
+    path: 'employee-holiday',
+    data: { roles: [Roles.employee] },
+    loadChildren: () =>
+      import('@aw/views/employee-holidays/employee-holidays.module').then((m) => m.EmployeeHolidaysModule)
+  },
+  {
     path: 'employee',
     data: { roles: [Roles.humanResources] },
     canActivate: [AuthGuard],
     loadChildren: () => import('@aw/views/employees/employees.module').then((m) => m.EmployeesModule)
+  },
+  {
+    path: 'manage-holiday',
+    data: { roles: [Roles.humanResources] },
+    canActivate: [AuthGuard],
+    loadChildren: () => import('@aw/views/manage-holidays/manage-holidays.module').then((m) => m.ManageHolidaysModule)
   },
   {
     path: 'error',

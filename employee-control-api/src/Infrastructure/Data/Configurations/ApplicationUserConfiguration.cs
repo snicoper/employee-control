@@ -27,9 +27,9 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
-        builder.HasOne(c => c.EmployeeSettings)
-            .WithOne(cs => cs.User)
-            .HasForeignKey<EmployeeSettings>(cs => cs.UserId)
+        builder.HasOne(au => au.EmployeeSettings)
+            .WithOne(es => es.User)
+            .HasForeignKey<EmployeeSettings>(es => es.UserId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 

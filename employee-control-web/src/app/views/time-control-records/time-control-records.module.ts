@@ -11,10 +11,9 @@ import { AwViewsModule } from '@aw/components/views/aw-views.module';
 import { AwDirectivesModule } from '@aw/directives/aw-directives.module';
 import { AwPipesModule } from '@aw/pipes/pipes.module';
 import { TimeControlRecordListComponent } from '@aw/views/time-control-records/time-control-record-list/time-control-record-list.component';
-import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
+import { TimeControlRecordCreateFormComponent } from './time-control-record-create/time-control-record-create-form/time-control-record-create-form.component';
 import { TimeControlRecordCreateComponent } from './time-control-record-create/time-control-record-create.component';
 import { TimeControlRecordCreateService } from './time-control-record-create/time-control-record-create.service';
-import { TimeControlRecordFormComponent } from './time-control-record-create/time-control-record-form/time-control-record-form.component';
 import { TimeControlSelectEmployeeComponent } from './time-control-record-create/time-control-select-employee/time-control-select-employee.component';
 import { TimeControlRecordUpdateComponent } from './time-control-record-update/time-control-record-update.component';
 import { TimeControlRecordsRoutingModule } from './time-control-records-routing.module';
@@ -25,12 +24,11 @@ import { TimeControlRecordsRoutingModule } from './time-control-records-routing.
     TimeControlRecordUpdateComponent,
     TimeControlRecordCreateComponent,
     TimeControlSelectEmployeeComponent,
-    TimeControlRecordFormComponent
+    TimeControlRecordCreateFormComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ModalModule,
     TimeControlRecordsRoutingModule,
     AwDirectivesModule,
     AwViewsModule,
@@ -42,6 +40,6 @@ import { TimeControlRecordsRoutingModule } from './time-control-records-routing.
     AwButtonsModule,
     AwFormsModule
   ],
-  providers: [BsModalService, TimeControlRecordCreateService]
+  providers: [TimeControlRecordCreateService]
 })
 export class TimeControlRecordsModule {}

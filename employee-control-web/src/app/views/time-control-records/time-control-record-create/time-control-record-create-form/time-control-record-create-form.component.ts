@@ -15,10 +15,10 @@ import { TimeControlRecordCreateRequest } from '../time-control-record-create-re
 import { TimeControlRecordCreateService } from '../time-control-record-create.service';
 
 @Component({
-  selector: 'aw-time-control-record-form',
-  templateUrl: './time-control-record-form.component.html'
+  selector: 'aw-time-control-record-create-form',
+  templateUrl: './time-control-record-create-form.component.html'
 })
-export class TimeControlRecordFormComponent implements OnInit {
+export class TimeControlRecordCreateFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly toastrService = inject(ToastrService);

@@ -1,21 +1,29 @@
 <aw-view-base>
-  <aw-view-header [breadcrumb]="breadcrumb">Tiempos de empleados</aw-view-header>
+  <aw-view-header [breadcrumb]="breadcrumb">Registro de tiempos</aw-view-header>
 
   <aw-card>
     <!-- toolbar -->
-    <div class="d-flex mb-2">
-      <span class="me-auto">
+    <div class="d-flex mb-2 justify-content-between">
+      <div>
         <a [routerLink]="siteUrls.timeControlRecords.create" class="btn btn-sm btn-outline-success">
           <span class="fa-regular fa-clock"></span> Añadir tiempo
         </a>
-      </span>
+      </div>
 
-      <span>
+      <button
+        (click)="handleFilterOpenTimesChange()"
+        [ngClass]="{ 'btn-primary': filterOpenTimesValue, 'btn-outline-primary': !filterOpenTimesValue }"
+        type="button"
+        class="btn btn-sm">
+        <span class="fa-regular fa-hourglass-half"></span> Tiempos abiertos
+      </button>
+
+      <div>
         <aw-table-input-search
           (clickClean)="handleClickClean($event)"
           [apiResult]="apiResult"
           [tableHeaderConfig]="tableHeaderConfig" />
-      </span>
+      </div>
     </div>
     <!-- end toolbar -->
 
@@ -86,7 +94,7 @@
                 <span class="d-flex justify-content-end btn-actions">
                   @if (timeControl.timeState === timeState.close) {
                     <span
-                      (click)="handleTimeControlModalEdit(timeControl)"
+                      (click)="handleTimeControlUpdate(timeControl)"
                       awTooltip
                       class="fa-solid fa-pencil cursor-pointer"
                       title="Editar"></span>

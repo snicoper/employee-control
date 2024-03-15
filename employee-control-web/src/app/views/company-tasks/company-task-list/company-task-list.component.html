@@ -3,8 +3,8 @@
 
   <aw-card>
     <!-- toolbar -->
-    <div class="d-flex mb-2">
-      <span class="me-auto">
+    <div class="d-flex justify-content-between mb-2">
+      <span>
         <a [routerLink]="siteUrls.companyTasks.create" class="btn btn-sm btn-outline-success">
           <span class="fa-solid fa-list-check"></span> Crear tarea
         </a>
@@ -26,7 +26,7 @@
           (clickOrdering)="handleReloadData()"
           [apiResult]="apiResult"
           [tableHeaderConfig]="tableHeaderConfig"
-        awTableHeader></tr>
+          awTableHeader></tr>
       </thead>
 
       @if (apiResult) {

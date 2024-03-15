@@ -73,7 +73,20 @@ export class ApiResult<T> {
    * @returns ApiResult<T>.
    */
   removeFilter(filter: ApiResultItemFilter): this {
-    const index = this.orders.findIndex((item) => item.propertyName === filter.propertyName);
+    const index = this.filters.findIndex((item) => item.propertyName === filter.propertyName);
+    this.filters.splice(index, 1);
+
+    return this;
+  }
+
+  /**
+   * Elimina un filtro por el propertyName.
+   *
+   * @param propertyName Nombre de la propiedad a eliminar.
+   * @returns ApiResult<T>.
+   */
+  removeFilterByPropertyName(propertyName: string): this {
+    const index = this.filters.findIndex((item) => item.propertyName === propertyName);
     this.filters.splice(index, 1);
 
     return this;

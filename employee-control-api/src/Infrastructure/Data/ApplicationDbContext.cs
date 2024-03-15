@@ -10,6 +10,8 @@ namespace EmployeeControl.Infrastructure.Data;
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : IdentityDbContext<ApplicationUser, ApplicationRole, string>(options), IApplicationDbContext
 {
+    public DbSet<CompanyHoliday> CompanyHolidays => Set<CompanyHoliday>();
+
     public DbSet<CategoryAbsence> CategoryAbsences => Set<CategoryAbsence>();
 
     public DbSet<Company> Companies => Set<Company>();
@@ -22,11 +24,15 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<EmployeeCompanyTask> EmployeeCompanyTasks => Set<EmployeeCompanyTask>();
 
+    public DbSet<EmployeeHoliday> EmployeeHolidays => Set<EmployeeHoliday>();
+
     public DbSet<EmployeeDepartment> EmployeeDepartments => Set<EmployeeDepartment>();
 
     public DbSet<EmployeeSettings> EmployeeSettings => Set<EmployeeSettings>();
 
     public DbSet<TimeControl> TimeControls => Set<TimeControl>();
+
+    public DbSet<WorkDays> WorkDays => Set<WorkDays>();
 
     public new DatabaseFacade Database => base.Database;
 

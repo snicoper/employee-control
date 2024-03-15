@@ -11,18 +11,18 @@ public class EmployeeSettingsConfiguration : IEntityTypeConfiguration<EmployeeSe
         builder.ToTable("EmployeeSettings");
 
         // Key.
-        builder.HasIndex(e => e.Id);
+        builder.HasIndex(es => es.Id);
 
         // Indexes
-        builder.HasIndex(e => e.UserId)
+        builder.HasIndex(es => es.UserId)
             .IsUnique();
 
         // Properties.
-        builder.Property(e => e.Timezone)
+        builder.Property(es => es.Timezone)
             .HasMaxLength(50)
             .IsRequired();
 
-        builder.Property(e => e.UserId)
+        builder.Property(es => es.UserId)
             .IsRequired();
     }
 }

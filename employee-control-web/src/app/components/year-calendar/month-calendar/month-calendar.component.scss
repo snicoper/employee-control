@@ -1,0 +1,54 @@
+.card-container {
+  margin: 1px;
+  max-width: 350px;
+}
+
+:host ::ng-deep .calendar-header {
+  .calendar-current-date {
+    font-weight: 500;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+:host ::ng-deep .calendar-body {
+  ul {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .calendar-dates {
+    li {
+      margin-top: 17px;
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+
+      .calendar-day {
+        padding: 8px;
+
+        &:hover {
+          background-color: cadetblue;
+        }
+      }
+    }
+
+    .inactive {
+      color: #939393;
+    }
+  }
+
+  li {
+    width: calc(100% / 7);
+  }
+
+  .calendar-weekdays {
+    li {
+      cursor: default;
+      font-weight: 500;
+    }
+  }
+}

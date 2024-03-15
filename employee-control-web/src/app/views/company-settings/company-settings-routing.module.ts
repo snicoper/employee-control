@@ -5,7 +5,7 @@ import { CompanySettingsUpdateComponent } from './company-settings-update/compan
 
 const routes: Routes = [
   {
-    path: 'details',
+    path: '',
     component: CompanySettingsDetailsComponent,
     data: { title: 'Configuración de empresa' }
   },

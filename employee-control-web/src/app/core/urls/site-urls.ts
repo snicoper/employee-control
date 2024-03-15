@@ -2,6 +2,13 @@
 export const SiteUrls = {
   home: '/',
 
+  accounts: {
+    register: '/accounts/register',
+    registerSuccess: '/account/register-success',
+    registerValidate: '/account/register-validate',
+    recoveryPassword: '/account/recovery-password'
+  },
+
   auth: {
     login: '/auth/login',
     logout: '/auth/logout'
@@ -13,15 +20,8 @@ export const SiteUrls = {
     update: '/category-absence/{id}/update'
   },
 
-  accounts: {
-    register: '/accounts/register',
-    registerSuccess: '/account/register-success',
-    registerValidate: '/account/register-validate',
-    recoveryPassword: '/account/recovery-password'
-  },
-
   companySettings: {
-    details: '/company-setting/details',
+    details: '/company-setting',
     update: '/company-setting/update'
   },
 
@@ -32,11 +32,19 @@ export const SiteUrls = {
     update: '/task/{id}/update'
   },
 
+  dashboard: {
+    dashboard: '/dashboard'
+  },
+
   departments: {
     list: '/department',
     details: '/department/{id}',
     create: '/department/create',
     update: '/department/{id}/update'
+  },
+
+  employeeHolidays: {
+    home: '/employee-holiday'
   },
 
   employees: {
@@ -48,8 +56,13 @@ export const SiteUrls = {
     settingsEdit: '/employee/settings/update'
   },
 
-  dashboard: {
-    dashboard: '/dashboard'
+  errors: {
+    forbidden: '/error/403',
+    notFound: '/error/404'
+  },
+
+  manageHolidays: {
+    home: '/manage-holiday'
   },
 
   tests: {
@@ -58,15 +71,11 @@ export const SiteUrls = {
 
   timeControlRecords: {
     home: '/time-control-record',
-    create: '/time-control-record/create'
+    create: '/time-control-record/create',
+    update: '/time-control-record/{id}/update'
   },
 
   timeControl: {
     home: '/time-control'
-  },
-
-  errors: {
-    forbidden: '/error/403',
-    notFound: '/error/404'
   }
 };

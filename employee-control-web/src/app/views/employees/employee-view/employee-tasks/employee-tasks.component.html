@@ -1,12 +1,8 @@
-<div class="d-flex my-3">
-  <h5 class="m-auto">
+<div class="d-flex justify-content-between my-3">
+  <h5>
     Tareas de <small class="text-muted">{{ employeeSelected()?.firstName }} {{ employeeSelected()?.lastName }}</small>
   </h5>
-</div>
 
-<!-- filter -->
-<div class="d-flex mb-2">
-  <span class="me-auto">&nbsp;</span>
   <span>
     <aw-table-input-search
       (clickClean)="handleClickClean($event)"
@@ -23,7 +19,7 @@
       (clickOrdering)="handleReloadData()"
       [apiResult]="apiResult"
       [tableHeaderConfig]="tableHeaderConfig"
-    awTableHeader></tr>
+      awTableHeader></tr>
   </thead>
 
   @if (apiResult) {

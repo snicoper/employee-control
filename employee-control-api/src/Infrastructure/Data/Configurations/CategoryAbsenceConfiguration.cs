@@ -11,30 +11,30 @@ public class CategoryAbsenceConfiguration : IEntityTypeConfiguration<CategoryAbs
         builder.ToTable("CategoryAbsences");
 
         // Primary key.
-        builder.HasKey(c => c.Id);
+        builder.HasKey(ca => ca.Id);
 
         // Indexes.
-        builder.HasIndex(c => c.Id);
+        builder.HasIndex(ca => ca.Id);
 
-        builder.HasIndex(c => new { c.Description, c.CompanyId })
+        builder.HasIndex(ca => new { ca.Description, ca.CompanyId })
             .IsUnique();
 
         // Properties.
-        builder.Property(c => c.Description)
+        builder.Property(ca => ca.Description)
             .HasMaxLength(256)
             .IsRequired();
 
-        builder.Property(d => d.Background)
+        builder.Property(ca => ca.Background)
             .IsRequired()
             .HasMaxLength(7);
 
-        builder.Property(d => d.Color)
+        builder.Property(ca => ca.Color)
             .IsRequired()
             .HasMaxLength(7);
 
-        builder.Property(d => d.Active);
+        builder.Property(ca => ca.Active);
 
-        builder.Property(c => c.CompanyId)
+        builder.Property(ca => ca.CompanyId)
             .IsRequired();
     }
 }

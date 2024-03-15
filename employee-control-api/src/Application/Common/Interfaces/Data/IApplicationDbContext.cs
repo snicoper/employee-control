@@ -10,6 +10,8 @@ public interface IApplicationDbContext
 
     DbSet<Company> Companies { get; }
 
+    DbSet<CompanyHoliday> CompanyHolidays { get; }
+
     DbSet<CompanySettings> CompanySettings { get; }
 
     DbSet<CompanyTask> CompanyTasks { get; }
@@ -18,11 +20,15 @@ public interface IApplicationDbContext
 
     DbSet<EmployeeCompanyTask> EmployeeCompanyTasks { get; }
 
+    DbSet<EmployeeHoliday> EmployeeHolidays { get; }
+
     DbSet<EmployeeDepartment> EmployeeDepartments { get; }
 
     DbSet<EmployeeSettings> EmployeeSettings { get; }
 
     DbSet<TimeControl> TimeControls { get; }
+
+    DbSet<WorkDays> WorkDays { get; }
 
     DatabaseFacade Database { get; }
 

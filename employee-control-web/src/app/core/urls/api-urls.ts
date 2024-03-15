@@ -56,6 +56,8 @@ export const ApiUrls = {
     deactivateDepartment: '/departments/deactivate'
   },
 
+  employeeHolidays: {},
+
   employees: {
     getEmployeesPaginated: '/employees/paginated',
     getEmployeeById: '/employees/{id}',
