@@ -15,7 +15,11 @@
         [ngClass]="{ 'btn-primary': filterOpenTimesValue, 'btn-outline-primary': !filterOpenTimesValue }"
         type="button"
         class="btn btn-sm">
-        <span class="fa-regular fa-hourglass-half"></span> Tiempos abiertos
+        @if (filterOpenTimesValue) {
+          <span class="fa-regular fa-hourglass-half"></span> Todos los tiempos
+        } @else {
+          <span class="fa-regular fa-hourglass-half"></span> Tiempos abiertos
+        }
       </button>
 
       <div>

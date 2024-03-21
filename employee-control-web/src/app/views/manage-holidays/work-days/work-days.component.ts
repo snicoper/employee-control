@@ -7,6 +7,7 @@ import { WorkDays } from './../../../models/entities/work-days.model';
 })
 export class WorkDaysComponent {
   workdays!: WorkDays;
+  year = new Date().getFullYear();
 
   constructor() {
     this.loadWorkDays();

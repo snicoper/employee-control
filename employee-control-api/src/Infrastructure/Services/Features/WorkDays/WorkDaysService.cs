@@ -16,4 +16,12 @@ public class WorkDaysService(IApplicationDbContext context) : IWorkDaysService
 
         return workDays;
     }
+
+    public async Task<Domain.Entities.WorkDays> UpdateAsync(Domain.Entities.WorkDays workDays, CancellationToken cancellationToken)
+    {
+        context.WorkDays.Update(workDays);
+        await context.SaveChangesAsync(cancellationToken);
+
+        return workDays;
+    }
 }

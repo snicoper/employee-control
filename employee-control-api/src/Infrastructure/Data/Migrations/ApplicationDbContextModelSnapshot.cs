@@ -957,8 +957,8 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
             modelBuilder.Entity("EmployeeControl.Domain.Entities.WorkDays", b =>
                 {
                     b.HasOne("EmployeeControl.Domain.Entities.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
+                        .WithOne("WorkDays")
+                        .HasForeignKey("EmployeeControl.Domain.Entities.WorkDays", "CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1049,6 +1049,9 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.Navigation("Departaments");
 
                     b.Navigation("Users");
+
+                    b.Navigation("WorkDays")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EmployeeControl.Domain.Entities.CompanyTask", b =>

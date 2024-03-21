@@ -13,4 +13,12 @@ public interface IWorkDaysService
     /// <exception cref="NotFoundException">En caso de no existir.</exception>
     /// <returns><see cref="Domain.Entities.WorkDays" /> en caso de existir.</returns>
     Task<Domain.Entities.WorkDays> GetByCompanyIdAsync(string companyId, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Actualizar un <see cref="Domain.Entities.WorkDays"/>.
+    /// </summary>
+    /// <param name="workDays">Datos a actualizar.</param>
+    /// <param name="cancellationToken"><see cref="CancellationToken"/>.</param>
+    /// <returns><see cref="Domain.Entities.WorkDays"/> actualizado.</returns>
+    Task<Domain.Entities.WorkDays> UpdateAsync(Domain.Entities.WorkDays workDays, CancellationToken cancellationToken);
 }

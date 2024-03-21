@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EmployeeControl.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240309113758_Initial")]
+    [Migration("20240319122734_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -956,8 +956,8 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
             modelBuilder.Entity("EmployeeControl.Domain.Entities.WorkDays", b =>
                 {
                     b.HasOne("EmployeeControl.Domain.Entities.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
+                        .WithOne("WorkDays")
+                        .HasForeignKey("EmployeeControl.Domain.Entities.WorkDays", "CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1048,6 +1048,9 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.Navigation("Departaments");
 
                     b.Navigation("Users");
+
+                    b.Navigation("WorkDays")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EmployeeControl.Domain.Entities.CompanyTask", b =>

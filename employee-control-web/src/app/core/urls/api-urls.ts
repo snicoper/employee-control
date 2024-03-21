@@ -100,5 +100,10 @@ export const ApiUrls = {
     finishTimeControlByStaff: '/times-control/finish/staff',
     updateTimeControl: '/times-control/{id}',
     deleteTimeControl: '/times-control/{id}'
+  },
+
+  workDays: {
+    getWorkDaysByCompanyId: '/work-days/company/{companyId}',
+    updateWorkDays: '/work-days/{id}'
   }
 };
