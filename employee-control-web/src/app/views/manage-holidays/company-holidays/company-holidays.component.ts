@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ApiUrls } from '@aw/core/urls/api-urls';
 import { WorkDays } from '@aw/models/entities/_index';
@@ -7,13 +8,12 @@ import { CurrentCompanyEmployeeService } from '@aw/services/states/_index';
 import { ToastrService } from 'ngx-toastr';
 import { urlReplaceParams } from './../../../core/utils/common-utils';
 import { WeekDaysEnum } from './week-days.enum';
-import { NgClass } from '@angular/common';
 
 @Component({
-    selector: 'aw-company-holidays',
-    templateUrl: './company-holidays.component.html',
-    standalone: true,
-    imports: [NgClass]
+  selector: 'aw-company-holidays',
+  templateUrl: './company-holidays.component.html',
+  standalone: true,
+  imports: [NgClass]
 })
 export class CompanyHolidaysComponent {
   private readonly currentCompanyEmployeeService = inject(CurrentCompanyEmployeeService);

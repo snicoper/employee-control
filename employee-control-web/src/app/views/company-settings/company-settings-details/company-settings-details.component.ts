@@ -1,21 +1,28 @@
 import { Component, computed, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
 import { SiteUrls } from '@aw/core/urls/site-urls';
 import { CurrentCompanySettingsService } from '@aw/services/states/_index';
-import { getTimeZones, TimeZone } from '@vvo/tzdb';
+import { TimeZone, getTimeZones } from '@vvo/tzdb';
 import { DateTime } from 'luxon';
+import { CardComponent } from '../../../components/cards/card/card.component';
 import { TableLoadingComponent } from '../../../components/tables/table-loading/table-loading.component';
 import { TooltipInfoComponent } from '../../../components/tooltips/tooltip-info/tooltip-info.component';
-import { RouterLink } from '@angular/router';
-import { CardComponent } from '../../../components/cards/card/card.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
 
 @Component({
-    selector: 'aw-company-settings-details',
-    templateUrl: './company-settings-details.component.html',
-    standalone: true,
-    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, RouterLink, TooltipInfoComponent, TableLoadingComponent]
+  selector: 'aw-company-settings-details',
+  templateUrl: './company-settings-details.component.html',
+  standalone: true,
+  imports: [
+    ViewBaseComponent,
+    ViewHeaderComponent,
+    CardComponent,
+    RouterLink,
+    TooltipInfoComponent,
+    TableLoadingComponent
+  ]
 })
 export class CompanySettingsDetailsComponent {
   private readonly currentCompanySettingsService = inject(CurrentCompanySettingsService);

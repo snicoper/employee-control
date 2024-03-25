@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
 import { ApiUrls, SiteUrls } from '@aw/core/urls/_index';
@@ -10,23 +10,35 @@ import { Department } from '@aw/models/entities/department.model';
 import { JwtService } from '@aw/services/_index';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { DepartmentApiService } from './../../../services/api/department-api.service';
-import { DepartmentCreateResponse } from './depatment-create-response.model';
+import { BadgeComponent } from '../../../components/badges/badge/badge.component';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
+import { CardComponent } from '../../../components/cards/card/card.component';
+import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
 import { FormColorComponent } from '../../../components/forms/inputs/form-color/form-color.component';
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
-import { BadgeComponent } from '../../../components/badges/badge/badge.component';
-import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
-import { CardComponent } from '../../../components/cards/card/card.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { DepartmentApiService } from './../../../services/api/department-api.service';
+import { DepartmentCreateResponse } from './depatment-create-response.model';
 
 @Component({
-    selector: 'aw-department-create',
-    templateUrl: './department-create.component.html',
-    standalone: true,
-    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, FormsModule, ReactiveFormsModule, NonFieldErrorsComponent, BadgeComponent, FormInputComponent, FormColorComponent, BtnLoadingComponent, BtnBackComponent]
+  selector: 'aw-department-create',
+  templateUrl: './department-create.component.html',
+  standalone: true,
+  imports: [
+    ViewBaseComponent,
+    ViewHeaderComponent,
+    CardComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NonFieldErrorsComponent,
+    BadgeComponent,
+    FormInputComponent,
+    FormColorComponent,
+    BtnLoadingComponent,
+    BtnBackComponent
+  ]
 })
 export class DepartmentCreateComponent {
   private readonly fb = inject(FormBuilder);

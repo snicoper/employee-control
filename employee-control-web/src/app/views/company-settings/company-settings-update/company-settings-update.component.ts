@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
 import { ApiUrls } from '@aw/core/urls/api-urls';
@@ -12,18 +12,27 @@ import { CurrentCompanySettingsService } from '@aw/services/states/_index';
 import { DateTime } from 'luxon';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
-import { FormTimezoneComponent } from '../../../components/forms/inputs/form-timezone/form-timezone.component';
+import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
 import { CardComponent } from '../../../components/cards/card/card.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { FormTimezoneComponent } from '../../../components/forms/inputs/form-timezone/form-timezone.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
 
 @Component({
-    selector: 'aw-company-settings-update',
-    templateUrl: './company-settings-update.component.html',
-    standalone: true,
-    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, FormsModule, ReactiveFormsModule, FormTimezoneComponent, BtnBackComponent, BtnLoadingComponent]
+  selector: 'aw-company-settings-update',
+  templateUrl: './company-settings-update.component.html',
+  standalone: true,
+  imports: [
+    ViewBaseComponent,
+    ViewHeaderComponent,
+    CardComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormTimezoneComponent,
+    BtnBackComponent,
+    BtnLoadingComponent
+  ]
 })
 export class CompanySettingsUpdateComponent {
   private readonly currentCompanySettingsService = inject(CurrentCompanySettingsService);

@@ -2,21 +2,29 @@ import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
 import { SiteUrls } from '@aw/core/urls/_index';
-import { DepartmentSelectedService } from './department-selected.service';
-import { EmployeeLoadComponent } from './employee-load-component.model';
-import { DepartmentAddUsersComponent } from './department-add-users/department-add-users.component';
-import { DepartmentUsersComponent } from './department-users/department-users.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CardComponent } from '../../../components/cards/card/card.component';
-import { DepartmentDetailsComponent } from './department-details/department-details.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { DepartmentAddUsersComponent } from './department-add-users/department-add-users.component';
+import { DepartmentDetailsComponent } from './department-details/department-details.component';
+import { DepartmentSelectedService } from './department-selected.service';
+import { DepartmentUsersComponent } from './department-users/department-users.component';
+import { EmployeeLoadComponent } from './employee-load-component.model';
 
 @Component({
-    selector: 'aw-department-view',
-    templateUrl: './department-view.component.html',
-    standalone: true,
-    imports: [ViewBaseComponent, ViewHeaderComponent, DepartmentDetailsComponent, CardComponent, TabsModule, DepartmentUsersComponent, DepartmentAddUsersComponent]
+  selector: 'aw-department-view',
+  templateUrl: './department-view.component.html',
+  standalone: true,
+  imports: [
+    ViewBaseComponent,
+    ViewHeaderComponent,
+    DepartmentDetailsComponent,
+    CardComponent,
+    TabsModule,
+    DepartmentUsersComponent,
+    DepartmentAddUsersComponent
+  ]
 })
 export class DepartmentViewComponent {
   private readonly route = inject(ActivatedRoute);

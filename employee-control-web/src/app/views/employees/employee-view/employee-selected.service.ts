@@ -15,7 +15,7 @@ import { finalize } from 'rxjs';
  * Contiene estados del usuario seleccionado, roles y estado actual en el
  * control de tiempos.
  */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class EmployeeSelectedService {
   private readonly employeesApiService = inject(EmployeesApiService);
   private readonly timeControlApiService = inject(TimeControlApiService);

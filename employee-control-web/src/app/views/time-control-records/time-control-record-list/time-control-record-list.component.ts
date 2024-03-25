@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
@@ -17,29 +18,45 @@ import { SimpleGeolocationService } from '@aw/services/simple-geolocation.servic
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { TimeControlRecordResponse } from './time-contol-record-esponse.model';
-import { timeControlRecordListTableHeaders } from './time-control-record-list-table-header';
-import { DeviceTypePipe } from '../../../pipes/device-type.pipe';
-import { DurationToTimePipe } from '../../../pipes/duration-to-time.pipe';
-import { ClosedByPipe } from '../../../pipes/closed-by.pipe';
-import { DatetimePipe } from '../../../pipes/datetime.pipe';
-import { PaginationComponent } from '../../../components/pagination/pagination.component';
+import { CardComponent } from '../../../components/cards/card/card.component';
 import { DotDangerComponent } from '../../../components/colors/dot-danger/dot-danger.component';
 import { DotSuccessComponent } from '../../../components/colors/dot-success/dot-success.component';
-import { TooltipDirective } from '../../../directives/tooltip.directive';
+import { PaginationComponent } from '../../../components/pagination/pagination.component';
 import { TableHeaderComponent } from '../../../components/tables/table-header/table-header.component';
-import { TableComponent } from '../../../components/tables/table/table.component';
 import { TableInputSearchComponent } from '../../../components/tables/table-input-search/table-input-search.component';
-import { NgClass } from '@angular/common';
-import { CardComponent } from '../../../components/cards/card/card.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { TableComponent } from '../../../components/tables/table/table.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { TooltipDirective } from '../../../directives/tooltip.directive';
+import { ClosedByPipe } from '../../../pipes/closed-by.pipe';
+import { DatetimePipe } from '../../../pipes/datetime.pipe';
+import { DeviceTypePipe } from '../../../pipes/device-type.pipe';
+import { DurationToTimePipe } from '../../../pipes/duration-to-time.pipe';
+import { TimeControlRecordResponse } from './time-contol-record-esponse.model';
+import { timeControlRecordListTableHeaders } from './time-control-record-list-table-header';
 
 @Component({
-    selector: 'aw-time-control-record-list',
-    templateUrl: './time-control-record-list.component.html',
-    standalone: true,
-    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, RouterLink, NgClass, TableInputSearchComponent, TableComponent, TableHeaderComponent, TooltipDirective, DotSuccessComponent, DotDangerComponent, PaginationComponent, DatetimePipe, ClosedByPipe, DurationToTimePipe, DeviceTypePipe]
+  selector: 'aw-time-control-record-list',
+  templateUrl: './time-control-record-list.component.html',
+  standalone: true,
+  imports: [
+    ViewBaseComponent,
+    ViewHeaderComponent,
+    CardComponent,
+    RouterLink,
+    NgClass,
+    TableInputSearchComponent,
+    TableComponent,
+    TableHeaderComponent,
+    TooltipDirective,
+    DotSuccessComponent,
+    DotDangerComponent,
+    PaginationComponent,
+    DatetimePipe,
+    ClosedByPipe,
+    DurationToTimePipe,
+    DeviceTypePipe
+  ]
 })
 export class TimeControlRecordListComponent {
   private readonly timeControlApiService = inject(TimeControlApiService);

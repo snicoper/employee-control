@@ -8,22 +8,32 @@ import { SiteUrls } from '@aw/core/urls/site-urls';
 import { urlReplaceParams } from '@aw/core/utils/_index';
 import { EmployeesApiService } from '@aw/services/api/_index';
 import { finalize } from 'rxjs';
-import { EmployeeListResponse } from './employee-list-response.model';
-import { employeeListTableHeaders } from './employee-list-table-headers';
-import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
+import { CardComponent } from '../../../components/cards/card/card.component';
 import { PaginationComponent } from '../../../components/pagination/pagination.component';
 import { TableHeaderComponent } from '../../../components/tables/table-header/table-header.component';
-import { TableComponent } from '../../../components/tables/table/table.component';
 import { TableInputSearchComponent } from '../../../components/tables/table-input-search/table-input-search.component';
-import { CardComponent } from '../../../components/cards/card/card.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { TableComponent } from '../../../components/tables/table/table.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
+import { EmployeeListResponse } from './employee-list-response.model';
+import { employeeListTableHeaders } from './employee-list-table-headers';
 
 @Component({
-    selector: 'aw-employee-list',
-    templateUrl: './employee-list.component.html',
-    standalone: true,
-    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, RouterLink, TableInputSearchComponent, TableComponent, TableHeaderComponent, PaginationComponent, BoolToIconPipe]
+  selector: 'aw-employee-list',
+  templateUrl: './employee-list.component.html',
+  standalone: true,
+  imports: [
+    ViewBaseComponent,
+    ViewHeaderComponent,
+    CardComponent,
+    RouterLink,
+    TableInputSearchComponent,
+    TableComponent,
+    TableHeaderComponent,
+    PaginationComponent,
+    BoolToIconPipe
+  ]
 })
 export class EmployeeListComponent {
   private readonly employeesApiService = inject(EmployeesApiService);

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
 import { ApiUrls } from '@aw/core/urls/api-urls';
@@ -11,22 +11,34 @@ import { CompanyTaskApiService } from '@aw/services/api/_index';
 import { JwtService } from '@aw/services/jwt.service';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { CompanyTaskCreateRequest } from './company-task-create-request.model';
-import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
+import { BadgeComponent } from '../../../components/badges/badge/badge.component';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
+import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
+import { CardComponent } from '../../../components/cards/card/card.component';
+import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
 import { FormColorComponent } from '../../../components/forms/inputs/form-color/form-color.component';
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
-import { BadgeComponent } from '../../../components/badges/badge/badge.component';
-import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
-import { CardComponent } from '../../../components/cards/card/card.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { CompanyTaskCreateRequest } from './company-task-create-request.model';
 
 @Component({
-    selector: 'aw-company-task-create',
-    templateUrl: './company-task-create.component.html',
-    standalone: true,
-    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, FormsModule, ReactiveFormsModule, NonFieldErrorsComponent, BadgeComponent, FormInputComponent, FormColorComponent, BtnBackComponent, BtnLoadingComponent]
+  selector: 'aw-company-task-create',
+  templateUrl: './company-task-create.component.html',
+  standalone: true,
+  imports: [
+    ViewBaseComponent,
+    ViewHeaderComponent,
+    CardComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NonFieldErrorsComponent,
+    BadgeComponent,
+    FormInputComponent,
+    FormColorComponent,
+    BtnBackComponent,
+    BtnLoadingComponent
+  ]
 })
 export class CompanyTaskCreateComponent {
   private readonly fb = inject(FormBuilder);

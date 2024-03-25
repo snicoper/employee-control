@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, computed, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { SiteUrls } from '@aw/core/urls/_index';
 import { ApiUrls } from '@aw/core/urls/api-urls';
 import { urlReplaceParams } from '@aw/core/utils/_index';
@@ -6,21 +7,29 @@ import { CompanyTaskApiService } from '@aw/services/api/_index';
 import { DateTime } from 'luxon';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { CompanyTaskSelectedService } from '../company-task-selected.service';
-import { DatetimePipe } from '../../../../pipes/datetime.pipe';
-import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
-import { RouterLink } from '@angular/router';
-import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-back.component';
-import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
-import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
 import { BadgeComponent } from '../../../../components/badges/badge/badge.component';
+import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-back.component';
+import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
 import { CardComponent } from '../../../../components/cards/card/card.component';
+import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
+import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
+import { DatetimePipe } from '../../../../pipes/datetime.pipe';
+import { CompanyTaskSelectedService } from '../company-task-selected.service';
 
 @Component({
-    selector: 'aw-company-task-details',
-    templateUrl: './company-task-details.component.html',
-    standalone: true,
-    imports: [CardComponent, BadgeComponent, BtnLoadingComponent, TableLoadingComponent, BtnBackComponent, RouterLink, BoolToIconPipe, DatetimePipe]
+  selector: 'aw-company-task-details',
+  templateUrl: './company-task-details.component.html',
+  standalone: true,
+  imports: [
+    CardComponent,
+    BadgeComponent,
+    BtnLoadingComponent,
+    TableLoadingComponent,
+    BtnBackComponent,
+    RouterLink,
+    BoolToIconPipe,
+    DatetimePipe
+  ]
 })
 export class CompanyTaskDetailsComponent implements OnDestroy {
   @Input({ required: true }) companyTaskId = '';

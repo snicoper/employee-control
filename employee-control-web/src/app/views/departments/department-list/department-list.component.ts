@@ -10,23 +10,35 @@ import { Department } from '@aw/models/entities/department.model';
 import { JwtService } from '@aw/services/_index';
 import { DepartmentApiService } from '@aw/services/api/_index';
 import { finalize } from 'rxjs';
-import { departmentListTableHeaders } from './department-list-table-heades';
-import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
-import { PaginationComponent } from '../../../components/pagination/pagination.component';
-import { DotComponent } from '../../../components/colors/dot/dot.component';
 import { BadgeComponent } from '../../../components/badges/badge/badge.component';
-import { TableHeaderComponent } from '../../../components/tables/table-header/table-header.component';
-import { TableComponent } from '../../../components/tables/table/table.component';
-import { TableInputSearchComponent } from '../../../components/tables/table-input-search/table-input-search.component';
 import { CardComponent } from '../../../components/cards/card/card.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { DotComponent } from '../../../components/colors/dot/dot.component';
+import { PaginationComponent } from '../../../components/pagination/pagination.component';
+import { TableHeaderComponent } from '../../../components/tables/table-header/table-header.component';
+import { TableInputSearchComponent } from '../../../components/tables/table-input-search/table-input-search.component';
+import { TableComponent } from '../../../components/tables/table/table.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
+import { departmentListTableHeaders } from './department-list-table-heades';
 
 @Component({
-    selector: 'aw-department-list',
-    templateUrl: './department-list.component.html',
-    standalone: true,
-    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, RouterLink, TableInputSearchComponent, TableComponent, TableHeaderComponent, BadgeComponent, DotComponent, PaginationComponent, BoolToIconPipe]
+  selector: 'aw-department-list',
+  templateUrl: './department-list.component.html',
+  standalone: true,
+  imports: [
+    ViewBaseComponent,
+    ViewHeaderComponent,
+    CardComponent,
+    RouterLink,
+    TableInputSearchComponent,
+    TableComponent,
+    TableHeaderComponent,
+    BadgeComponent,
+    DotComponent,
+    PaginationComponent,
+    BoolToIconPipe
+  ]
 })
 export class DepartmentListComponent {
   private readonly departmentApiService = inject(DepartmentApiService);

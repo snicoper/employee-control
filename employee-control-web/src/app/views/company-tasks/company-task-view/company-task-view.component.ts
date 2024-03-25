@@ -2,21 +2,29 @@ import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
 import { SiteUrls } from '@aw/core/urls/site-urls';
-import { CompanyTaskSelectedService } from './company-task-selected.service';
-import { EmployeeLoadComponent } from './employee-load-component.model';
-import { CompanyTaskAddUsersComponent } from './company-task-add-users/company-task-add-users.component';
-import { CompanyTaskUsersComponent } from './company-task-users/company-task-users.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CardComponent } from '../../../components/cards/card/card.component';
-import { CompanyTaskDetailsComponent } from './company-task-details/company-task-details.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { CompanyTaskAddUsersComponent } from './company-task-add-users/company-task-add-users.component';
+import { CompanyTaskDetailsComponent } from './company-task-details/company-task-details.component';
+import { CompanyTaskSelectedService } from './company-task-selected.service';
+import { CompanyTaskUsersComponent } from './company-task-users/company-task-users.component';
+import { EmployeeLoadComponent } from './employee-load-component.model';
 
 @Component({
-    selector: 'aw-company-task-view',
-    templateUrl: './company-task-view.component.html',
-    standalone: true,
-    imports: [ViewBaseComponent, ViewHeaderComponent, CompanyTaskDetailsComponent, CardComponent, TabsModule, CompanyTaskUsersComponent, CompanyTaskAddUsersComponent]
+  selector: 'aw-company-task-view',
+  templateUrl: './company-task-view.component.html',
+  standalone: true,
+  imports: [
+    ViewBaseComponent,
+    ViewHeaderComponent,
+    CompanyTaskDetailsComponent,
+    CardComponent,
+    TabsModule,
+    CompanyTaskUsersComponent,
+    CompanyTaskAddUsersComponent
+  ]
 })
 export class CompanyTaskViewComponent {
   private readonly route = inject(ActivatedRoute);

@@ -6,7 +6,7 @@ import { CompanyTaskApiService } from '@aw/services/api/_index';
 import { finalize } from 'rxjs';
 
 /** Tarea seleccionada desde la lista (company-task-list). */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CompanyTaskSelectedService {
   private readonly companyTaskApiService = inject(CompanyTaskApiService);
 

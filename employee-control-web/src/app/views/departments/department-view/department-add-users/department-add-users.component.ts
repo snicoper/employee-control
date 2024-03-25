@@ -7,15 +7,15 @@ import { ResultResponse } from '@aw/models/result-response.model';
 import { DepartmentApiService } from '@aw/services/api/_index';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
+import { DualListBoxComponent } from '../../../../components/dual-list-box/dual-list-box.component';
 import { DepartmentSelectedService } from '../department-selected.service';
 import { DepartmentAddUserResponse } from './department-add-user-response.model';
-import { DualListBoxComponent } from '../../../../components/dual-list-box/dual-list-box.component';
 
 @Component({
-    selector: 'aw-department-add-users',
-    templateUrl: './department-add-users.component.html',
-    standalone: true,
-    imports: [DualListBoxComponent]
+  selector: 'aw-department-add-users',
+  templateUrl: './department-add-users.component.html',
+  standalone: true,
+  imports: [DualListBoxComponent]
 })
 export class DepartmentAddUsersComponent {
   @Output() changeComponent = new EventEmitter();

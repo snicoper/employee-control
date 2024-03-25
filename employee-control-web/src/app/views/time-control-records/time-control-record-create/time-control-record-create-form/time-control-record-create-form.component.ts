@@ -1,5 +1,5 @@
 import { Component, OnInit, computed, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BtnType } from '@aw/components/buttons/btn-loading/btn-loading.type';
 import { ApiUrls, SiteUrls } from '@aw/core/urls/_index';
@@ -11,18 +11,25 @@ import { DateTime } from 'luxon';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
+import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-back.component';
+import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
+import { FormDatepickerComponent } from '../../../../components/forms/inputs/form-datepicker/form-datepicker.component';
+import { FormTimePickerComponent } from '../../../../components/forms/inputs/form-timepicker/form-timepicker.component';
 import { TimeControlRecordCreateRequest } from '../time-control-record-create-request.model';
 import { TimeControlRecordCreateService } from '../time-control-record-create.service';
-import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
-import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-back.component';
-import { FormTimePickerComponent } from '../../../../components/forms/inputs/form-timepicker/form-timepicker.component';
-import { FormDatepickerComponent } from '../../../../components/forms/inputs/form-datepicker/form-datepicker.component';
 
 @Component({
-    selector: 'aw-time-control-record-create-form',
-    templateUrl: './time-control-record-create-form.component.html',
-    standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, FormDatepickerComponent, FormTimePickerComponent, BtnBackComponent, BtnLoadingComponent]
+  selector: 'aw-time-control-record-create-form',
+  templateUrl: './time-control-record-create-form.component.html',
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormDatepickerComponent,
+    FormTimePickerComponent,
+    BtnBackComponent,
+    BtnLoadingComponent
+  ]
 })
 export class TimeControlRecordCreateFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);

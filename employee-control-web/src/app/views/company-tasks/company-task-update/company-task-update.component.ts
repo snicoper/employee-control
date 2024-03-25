@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
 import { ApiUrls } from '@aw/core/urls/api-urls';
@@ -10,22 +10,35 @@ import { CompanyTask } from '@aw/models/entities/company-task.model';
 import { CompanyTaskApiService } from '@aw/services/api/_index';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
-import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
-import { FormColorComponent } from '../../../components/forms/inputs/form-color/form-color.component';
-import { FormCheckboxComponent } from '../../../components/forms/inputs/form-checkbox/form-checkbox.component';
-import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { BadgeComponent } from '../../../components/badges/badge/badge.component';
-import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
+import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
+import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
 import { CardComponent } from '../../../components/cards/card/card.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
+import { FormCheckboxComponent } from '../../../components/forms/inputs/form-checkbox/form-checkbox.component';
+import { FormColorComponent } from '../../../components/forms/inputs/form-color/form-color.component';
+import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
 
 @Component({
-    selector: 'aw-company-task-update',
-    templateUrl: './company-task-update.component.html',
-    standalone: true,
-    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, FormsModule, ReactiveFormsModule, NonFieldErrorsComponent, BadgeComponent, FormInputComponent, FormCheckboxComponent, FormColorComponent, BtnBackComponent, BtnLoadingComponent]
+  selector: 'aw-company-task-update',
+  templateUrl: './company-task-update.component.html',
+  standalone: true,
+  imports: [
+    ViewBaseComponent,
+    ViewHeaderComponent,
+    CardComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NonFieldErrorsComponent,
+    BadgeComponent,
+    FormInputComponent,
+    FormCheckboxComponent,
+    FormColorComponent,
+    BtnBackComponent,
+    BtnLoadingComponent
+  ]
 })
 export class CompanyTaskUpdateComponent {
   private readonly route = inject(ActivatedRoute);

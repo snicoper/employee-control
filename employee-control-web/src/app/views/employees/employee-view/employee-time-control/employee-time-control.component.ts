@@ -7,15 +7,15 @@ import { DatetimeUtils, urlReplaceParams } from '@aw/core/utils/_index';
 import { TimeControlApiService } from '@aw/services/api/_index';
 import { DateTime } from 'luxon';
 import { finalize } from 'rxjs';
-import { EmployeeSelectedService } from '../employee-selected.service';
 import { TimeControlProgressComponent } from '../../../../components/progress/time-control-progress/time-control-progress.component';
 import { MonthSelectorComponent } from '../../../../components/selectors/month-selector/month-selector.component';
+import { EmployeeSelectedService } from '../employee-selected.service';
 
 @Component({
-    selector: 'aw-employee-time-control',
-    templateUrl: './employee-time-control.component.html',
-    standalone: true,
-    imports: [MonthSelectorComponent, TimeControlProgressComponent]
+  selector: 'aw-employee-time-control',
+  templateUrl: './employee-time-control.component.html',
+  standalone: true,
+  imports: [MonthSelectorComponent, TimeControlProgressComponent]
 })
 export class EmployeeTimeControlComponent {
   private readonly timeControlApiService = inject(TimeControlApiService);
