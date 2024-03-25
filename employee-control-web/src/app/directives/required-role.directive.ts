@@ -2,7 +2,10 @@ import { Directive, ElementRef, Input, OnInit, inject } from '@angular/core';
 import { Roles } from '@aw/core/types/roles';
 import { JwtService } from '@aw/services/jwt.service';
 
-@Directive({ selector: '[awRequiredRole]' })
+@Directive({
+    selector: '[awRequiredRole]',
+    standalone: true
+})
 export class RequiredRoleDirective implements OnInit {
   private readonly elementRef = inject(ElementRef);
   private readonly jwtService = inject(JwtService);

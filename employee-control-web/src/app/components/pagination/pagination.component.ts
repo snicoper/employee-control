@@ -1,9 +1,14 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ApiResult } from '@aw/core/features/api-result/_index';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'aw-pagination',
-  templateUrl: './pagination.component.html'
+    selector: 'aw-pagination',
+    templateUrl: './pagination.component.html',
+    standalone: true,
+    imports: [FormsModule, NgClass, TooltipModule]
 })
 export class PaginationComponent<T> implements OnChanges {
   @Input({ required: true }) apiResult = new ApiResult<T>();

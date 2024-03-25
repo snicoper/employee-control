@@ -13,10 +13,7 @@
       <!-- table content -->
       @if (apiResult.items.length) {
         <ng-content select="[awTbody]" />
-      }
-      <!-- end table content -->
-      <!-- no data -->
-      @if (!apiResult.items.length) {
+      } @else {
         <tbody>
           <tr>
             <td class="text-center" colspan="100%">
@@ -25,7 +22,7 @@
           </tr>
         </tbody>
       }
-      <!-- end no data -->
+      <!-- end table content -->
     }
 
     <!-- spinner loading data -->

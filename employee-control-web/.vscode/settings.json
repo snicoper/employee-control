@@ -41,9 +41,11 @@
     "devkit",
     "fontawesome",
     "fortawesome",
+    "friday",
     "inicialización",
     "linebreak",
     "luxon",
+    "monday",
     "plusplus",
     "popperjs",
     "redirecciona",
@@ -51,8 +53,13 @@
     "rrhh",
     "Rrhh",
     "RRHH",
+    "saturday",
+    "sunday",
     "tabset",
+    "thursday",
     "toastr",
-    "tzdb"
+    "tuesday",
+    "tzdb",
+    "wednesday"
   ]
 }

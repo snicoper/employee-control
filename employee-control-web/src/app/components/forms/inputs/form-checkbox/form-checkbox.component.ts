@@ -1,6 +1,8 @@
 import { Component, forwardRef, Input } from '@angular/core';
-import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { BadRequest } from '@aw/models/_index';
+import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
+import { NgClass } from '@angular/common';
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 /* eslint-disable  @typescript-eslint/no-unused-vars */
@@ -8,15 +10,17 @@ import { BadRequest } from '@aw/models/_index';
 /* eslint-disable  @typescript-eslint/no-empty-function */
 
 @Component({
-  selector: 'aw-form-checkbox',
-  templateUrl: './form-checkbox.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => FormCheckboxComponent),
-      multi: true
-    }
-  ]
+    selector: 'aw-form-checkbox',
+    templateUrl: './form-checkbox.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FormCheckboxComponent),
+            multi: true
+        }
+    ],
+    standalone: true,
+    imports: [FormsModule, NgClass, FieldErrorComponent]
 })
 export class FormCheckboxComponent implements ControlValueAccessor {
   @Input({ required: true }) badRequest: BadRequest | undefined;

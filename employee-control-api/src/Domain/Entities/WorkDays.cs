@@ -3,6 +3,9 @@ using EmployeeControl.Domain.Interfaces;
 
 namespace EmployeeControl.Domain.Entities;
 
+/// <summary>
+/// Días laborables de la compañía.
+/// </summary>
 public class WorkDays : BaseAuditableEntity, ICompany
 {
     public bool Monday { get; set; }

@@ -2,9 +2,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       @for (bread of breadcrumb.getItems(); track bread) {
-        <li
-          [ngClass]="{ active: bread.active }"
-          class="breadcrumb-item small">
+        <li [ngClass]="{ active: bread.active }" class="breadcrumb-item small">
           @if (bread.active) {
             <a [routerLink]="bread.link">
               @if (bread.icon) {
@@ -14,8 +12,7 @@
               }
               {{ bread.text }}
             </a>
-          }
-          @if (!bread.active) {
+          } @else {
             <span class="text-muted">
               <span [ngClass]="bread.icon" aria-current="page"></span>
               {{ bread.text }}

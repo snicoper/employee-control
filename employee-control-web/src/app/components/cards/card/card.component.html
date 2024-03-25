@@ -6,18 +6,15 @@
     @if (!loading) {
       <ng-content select="[awCardTitle]" />
       <ng-content select="[awCardSubTitle]" />
-    }
 
-    <!-- main content -->
-    @if (!loading) {
+      <!-- main content -->
       <p class="card-text">
         <ng-content />
       </p>
+      <!-- end main content -->
     } @else {
       <aw-spinner [loading]="loading" [size]="spinnerSize" />
     }
-    <!-- end main content -->
-
   </div>
 
   <ng-content class="card-footer text-muted" select="[awCardFooter]" />

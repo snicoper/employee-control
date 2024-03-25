@@ -1,10 +1,17 @@
 import { Component, Input, OnInit, computed, inject } from '@angular/core';
 import { LayoutService } from '@aw/services/_index';
+import { FooterComponent } from '../../footer/footer.component';
+import { NavbarComponent } from '../../navbar/navbar.component';
+import { SidebarComponent } from '../../sidebar/sidebar.component';
+import { NgClass } from '@angular/common';
+import { ViewTitleComponent } from '../view-title/view-title.component';
 
 @Component({
-  selector: 'aw-view-base',
-  templateUrl: './view-base.component.html',
-  styleUrls: ['./view-base.component.scss']
+    selector: 'aw-view-base',
+    templateUrl: './view-base.component.html',
+    styleUrls: ['./view-base.component.scss'],
+    standalone: true,
+    imports: [ViewTitleComponent, NgClass, SidebarComponent, NavbarComponent, FooterComponent]
 })
 export class ViewBaseComponent implements OnInit {
   private readonly layoutService = inject(LayoutService);

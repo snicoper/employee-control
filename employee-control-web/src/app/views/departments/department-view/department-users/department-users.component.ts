@@ -10,10 +10,16 @@ import { finalize } from 'rxjs';
 import { DepartmentSelectedService } from '../department-selected.service';
 import { DepartmentUserResponse } from './department-users-response.model';
 import { departmentUsersTableHeaders } from './department-users-table-headers';
+import { PaginationComponent } from '../../../../components/pagination/pagination.component';
+import { TableHeaderComponent } from '../../../../components/tables/table-header/table-header.component';
+import { TableComponent } from '../../../../components/tables/table/table.component';
+import { TableInputSearchComponent } from '../../../../components/tables/table-input-search/table-input-search.component';
 
 @Component({
-  selector: 'aw-department-users',
-  templateUrl: './department-users.component.html'
+    selector: 'aw-department-users',
+    templateUrl: './department-users.component.html',
+    standalone: true,
+    imports: [TableInputSearchComponent, TableComponent, TableHeaderComponent, PaginationComponent]
 })
 export class DepartmentUsersComponent {
   @Output() changeComponent = new EventEmitter();

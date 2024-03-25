@@ -2,10 +2,14 @@ import { Component, inject } from '@angular/core';
 import { ThemeColors } from '@aw/core/types/_index';
 import { Roles } from '@aw/core/types/roles';
 import { JwtService, LayoutService, ThemeColorService } from '@aw/services/_index';
+import { NgClass } from '@angular/common';
+import { ViewBaseComponent } from '../../components/views/view-base/view-base.component';
 
 @Component({
-  selector: 'aw-home',
-  templateUrl: './home.component.html'
+    selector: 'aw-home',
+    templateUrl: './home.component.html',
+    standalone: true,
+    imports: [ViewBaseComponent, NgClass]
 })
 export class HomeComponent {
   readonly layoutService = inject(LayoutService);

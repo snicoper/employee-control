@@ -5,8 +5,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PaginationComponent } from './pagination.component';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, TooltipModule.forRoot()],
-  declarations: [PaginationComponent],
-  exports: [PaginationComponent]
+    imports: [CommonModule, FormsModule, TooltipModule.forRoot(), PaginationComponent],
+    exports: [PaginationComponent]
 })
 export class AwPaginationModule {}

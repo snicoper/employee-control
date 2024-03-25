@@ -1,9 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MonthCalendarComponent } from './month-calendar/month-calendar.component';
 
 @Component({
-  selector: 'aw-year-calendar',
-  templateUrl: './year-calendar.component.html',
-  styleUrl: './year-calendar.component.scss'
+    selector: 'aw-year-calendar',
+    templateUrl: './year-calendar.component.html',
+    styleUrl: './year-calendar.component.scss',
+    standalone: true,
+    imports: [MonthCalendarComponent]
 })
 export class YearCalendarComponent implements OnInit {
   @Input({ required: true }) year = new Date().getFullYear();

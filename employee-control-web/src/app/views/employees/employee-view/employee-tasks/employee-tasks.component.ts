@@ -9,10 +9,18 @@ import { CompanyTaskApiService } from '@aw/services/api/_index';
 import { finalize } from 'rxjs';
 import { EmployeeSelectedService } from '../employee-selected.service';
 import { employeeTasksTableHeaders } from './employee-tasks-table-headers';
+import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
+import { PaginationComponent } from '../../../../components/pagination/pagination.component';
+import { BadgeComponent } from '../../../../components/badges/badge/badge.component';
+import { TableHeaderComponent } from '../../../../components/tables/table-header/table-header.component';
+import { TableComponent } from '../../../../components/tables/table/table.component';
+import { TableInputSearchComponent } from '../../../../components/tables/table-input-search/table-input-search.component';
 
 @Component({
-  selector: 'aw-employee-tasks',
-  templateUrl: './employee-tasks.component.html'
+    selector: 'aw-employee-tasks',
+    templateUrl: './employee-tasks.component.html',
+    standalone: true,
+    imports: [TableInputSearchComponent, TableComponent, TableHeaderComponent, BadgeComponent, PaginationComponent, BoolToIconPipe]
 })
 export class EmployeeTasksComponent {
   private readonly companyTaskApiService = inject(CompanyTaskApiService);

@@ -1,10 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CalendarDay } from '@aw/components/year-calendar/month-calendar/calendar-day.model';
+import { NgClass, NgStyle } from '@angular/common';
+import { CardComponent } from '../../cards/card/card.component';
 
 @Component({
-  selector: 'aw-month-calendar',
-  templateUrl: './month-calendar.component.html',
-  styleUrl: './month-calendar.component.scss'
+    selector: 'aw-month-calendar',
+    templateUrl: './month-calendar.component.html',
+    styleUrl: './month-calendar.component.scss',
+    standalone: true,
+    imports: [CardComponent, NgClass, NgStyle]
 })
 export class MonthCalendarComponent implements OnInit {
   @Input({ required: true }) date = new Date();

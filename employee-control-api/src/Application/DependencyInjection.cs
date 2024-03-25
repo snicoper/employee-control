@@ -16,11 +16,12 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
         // Scrutor.
-        services.Scan(scan =>
-            scan.FromCallingAssembly()
-                .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Service")))
-                .AsImplementedInterfaces()
-                .WithTransientLifetime());
+        services.Scan(
+            scan =>
+                scan.FromCallingAssembly()
+                    .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Service")))
+                    .AsImplementedInterfaces()
+                    .WithTransientLifetime());
 
         // Automapper.
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -29,23 +30,25 @@ public static class DependencyInjection
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         // MediatR.
-        services.AddMediatR(config =>
-        {
-            config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-            config.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
-            config.AddBehavior(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
-            config.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-            config.AddBehavior(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
-        });
+        services.AddMediatR(
+            config =>
+            {
+                config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+                config.AddBehavior(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
+                config.AddBehavior(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviour<,>));
+                config.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+                config.AddBehavior(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
+            });
 
         // Set the JSON serializer options (No se si esto funciona).
-        services.Configure<JsonOptions>(options =>
-        {
-            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
-            options.SerializerOptions.PropertyNameCaseInsensitive = true;
-            options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            options.SerializerOptions.WriteIndented = true;
-        });
+        services.Configure<JsonOptions>(
+            options =>
+            {
+                options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.SerializerOptions.PropertyNameCaseInsensitive = true;
+                options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                options.SerializerOptions.WriteIndented = true;
+            });
 
         // Strongly typed options validations.
         services.AddOptions<JwtSettings>()

@@ -18,10 +18,21 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { TimeControlChangeStateRequest } from './time-control-change-state.request.model';
+import { DatetimeFormatPipe } from '../../pipes/datetime-format.pipe';
+import { TimeControlProgressComponent } from '../../components/progress/time-control-progress/time-control-progress.component';
+import { BtnLoadingComponent } from '../../components/buttons/btn-loading/btn-loading.component';
+import { DotDangerComponent } from '../../components/colors/dot-danger/dot-danger.component';
+import { DotSuccessComponent } from '../../components/colors/dot-success/dot-success.component';
+import { MonthSelectorComponent } from '../../components/selectors/month-selector/month-selector.component';
+import { CardComponent } from '../../components/cards/card/card.component';
+import { ViewHeaderComponent } from '../../components/views/view-header/view-header.component';
+import { ViewBaseComponent } from '../../components/views/view-base/view-base.component';
 
 @Component({
-  selector: 'aw-times-control',
-  templateUrl: './times-control.component.html'
+    selector: 'aw-times-control',
+    templateUrl: './times-control.component.html',
+    standalone: true,
+    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, MonthSelectorComponent, DotSuccessComponent, DotDangerComponent, BtnLoadingComponent, TimeControlProgressComponent, DatetimeFormatPipe]
 })
 export class TimesControlComponent {
   private readonly timeControlApiService = inject(TimeControlApiService);

@@ -4,7 +4,10 @@ import { AfterViewInit, Directive, ElementRef, OnDestroy, inject } from '@angula
 
 declare let bootstrap: any;
 
-@Directive({ selector: '[awTooltip]' })
+@Directive({
+    selector: '[awTooltip]',
+    standalone: true
+})
 export class TooltipDirective implements AfterViewInit, OnDestroy {
   private elementRef = inject(ElementRef);
 

@@ -43,7 +43,7 @@ public interface IPermissionsValidationService
 
     /// <summary>
     /// Comprueba si un usuario pertenece a una compañía por la Id de la compañía.
-    /// <para>Similar a CheckEntityCompanyIsOwnerAsync, pero no requiere de Entidad.</para>
+    /// <para>Similar a <see cref="CheckEntityCompanyIsOwnerAsync{TEntity}(TEntity)"/>, pero no requiere de Entidad.</para>
     /// </summary>
     /// <param name="companyId">Id compañía.</param>
     /// <returns>True si pertenece, false en caso contrario.</returns>

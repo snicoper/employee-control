@@ -6,8 +6,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { MonthSelectorComponent } from './month-selector/month-selector.component';
 
 @NgModule({
-  declarations: [MonthSelectorComponent],
-  imports: [CommonModule, FormsModule, NgSelectModule, BsDatepickerModule.forRoot()],
-  exports: [MonthSelectorComponent]
+    imports: [CommonModule, FormsModule, NgSelectModule, BsDatepickerModule.forRoot(), MonthSelectorComponent],
+    exports: [MonthSelectorComponent]
 })
 export class AwSelectorsModule {}

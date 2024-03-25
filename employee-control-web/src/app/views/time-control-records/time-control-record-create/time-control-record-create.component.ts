@@ -2,10 +2,17 @@ import { Component, OnDestroy, computed, inject } from '@angular/core';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
 import { SiteUrls } from '@aw/core/urls/_index';
 import { TimeControlRecordCreateService } from './time-control-record-create.service';
+import { TimeControlRecordCreateFormComponent } from './time-control-record-create-form/time-control-record-create-form.component';
+import { TimeControlSelectEmployeeComponent } from './time-control-select-employee/time-control-select-employee.component';
+import { CardComponent } from '../../../components/cards/card/card.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 
 @Component({
-  selector: 'aw-time-control-record-create',
-  templateUrl: './time-control-record-create.component.html'
+    selector: 'aw-time-control-record-create',
+    templateUrl: './time-control-record-create.component.html',
+    standalone: true,
+    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, TimeControlSelectEmployeeComponent, TimeControlRecordCreateFormComponent]
 })
 export class TimeControlRecordCreateComponent implements OnDestroy {
   private readonly timeControlRecordCreateService = inject(TimeControlRecordCreateService);

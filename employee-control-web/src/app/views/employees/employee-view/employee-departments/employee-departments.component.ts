@@ -10,10 +10,18 @@ import { finalize } from 'rxjs';
 import { DepartmentApiService } from './../../../../services/api/department-api.service';
 import { EmployeeSelectedService } from './../employee-selected.service';
 import { employeeDepartmentsTableHeaders } from './employee-departments-table-headers';
+import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
+import { PaginationComponent } from '../../../../components/pagination/pagination.component';
+import { BadgeComponent } from '../../../../components/badges/badge/badge.component';
+import { TableHeaderComponent } from '../../../../components/tables/table-header/table-header.component';
+import { TableComponent } from '../../../../components/tables/table/table.component';
+import { TableInputSearchComponent } from '../../../../components/tables/table-input-search/table-input-search.component';
 
 @Component({
-  selector: 'aw-employee-departments',
-  templateUrl: './employee-departments.component.html'
+    selector: 'aw-employee-departments',
+    templateUrl: './employee-departments.component.html',
+    standalone: true,
+    imports: [TableInputSearchComponent, TableComponent, TableHeaderComponent, BadgeComponent, PaginationComponent, BoolToIconPipe]
 })
 export class EmployeeDepartmentsComponent {
   private readonly departmentApiService = inject(DepartmentApiService);

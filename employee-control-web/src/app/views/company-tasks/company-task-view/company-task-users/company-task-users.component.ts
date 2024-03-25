@@ -10,10 +10,16 @@ import { finalize } from 'rxjs';
 import { CompanyTaskSelectedService } from '../company-task-selected.service';
 import { CompanyTaskUserResponse } from './company-task-users-response.model';
 import { companyTaskUsersTableHeaders } from './company-task-users-table-headers';
+import { PaginationComponent } from '../../../../components/pagination/pagination.component';
+import { TableHeaderComponent } from '../../../../components/tables/table-header/table-header.component';
+import { TableComponent } from '../../../../components/tables/table/table.component';
+import { TableInputSearchComponent } from '../../../../components/tables/table-input-search/table-input-search.component';
 
 @Component({
-  selector: 'aw-company-task-users',
-  templateUrl: './company-task-users.component.html'
+    selector: 'aw-company-task-users',
+    templateUrl: './company-task-users.component.html',
+    standalone: true,
+    imports: [TableInputSearchComponent, TableComponent, TableHeaderComponent, PaginationComponent]
 })
 export class CompanyTaskUsersComponent {
   @Output() changeComponent = new EventEmitter();

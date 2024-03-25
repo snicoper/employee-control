@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
 import { ApiUrls } from '@aw/core/urls/api-urls';
@@ -13,10 +13,18 @@ import { EmployeeSettingsService } from '@aw/services/states/_index';
 import { DateTime } from 'luxon';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
+import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
+import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-back.component';
+import { FormTimezoneComponent } from '../../../../components/forms/inputs/form-timezone/form-timezone.component';
+import { CardComponent } from '../../../../components/cards/card/card.component';
+import { ViewHeaderComponent } from '../../../../components/views/view-header/view-header.component';
+import { ViewBaseComponent } from '../../../../components/views/view-base/view-base.component';
 
 @Component({
-  selector: 'aw-employee-settings-edit',
-  templateUrl: './employee-settings-edit.component.html'
+    selector: 'aw-employee-settings-edit',
+    templateUrl: './employee-settings-edit.component.html',
+    standalone: true,
+    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, FormsModule, ReactiveFormsModule, FormTimezoneComponent, BtnBackComponent, BtnLoadingComponent]
 })
 export class EmployeeSettingsEditComponent {
   private readonly employeeSettingsService = inject(EmployeeSettingsService);

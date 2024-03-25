@@ -9,10 +9,14 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { EmployeeSelectedService } from '../../employee-selected.service';
 import { EmployeeRolesRequest } from './employee-roles-request.model';
+import { BtnLoadingComponent } from '../../../../../components/buttons/btn-loading/btn-loading.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'aw-employee-roles-edit',
-  templateUrl: './employee-roles-edit.component.html'
+    selector: 'aw-employee-roles-edit',
+    templateUrl: './employee-roles-edit.component.html',
+    standalone: true,
+    imports: [FormsModule, BtnLoadingComponent]
 })
 export class EmployeeRolesEditComponent {
   private readonly employeesApiService = inject(EmployeesApiService);

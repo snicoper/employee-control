@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
 import { TableHeaderConfig } from '@aw/components/tables/table-header/table-header.config';
 import { ApiResult } from '@aw/core/features/api-result/api-result';
@@ -11,10 +11,22 @@ import { JwtService } from '@aw/services/_index';
 import { DepartmentApiService } from '@aw/services/api/_index';
 import { finalize } from 'rxjs';
 import { departmentListTableHeaders } from './department-list-table-heades';
+import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
+import { PaginationComponent } from '../../../components/pagination/pagination.component';
+import { DotComponent } from '../../../components/colors/dot/dot.component';
+import { BadgeComponent } from '../../../components/badges/badge/badge.component';
+import { TableHeaderComponent } from '../../../components/tables/table-header/table-header.component';
+import { TableComponent } from '../../../components/tables/table/table.component';
+import { TableInputSearchComponent } from '../../../components/tables/table-input-search/table-input-search.component';
+import { CardComponent } from '../../../components/cards/card/card.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 
 @Component({
-  selector: 'aw-department-list',
-  templateUrl: './department-list.component.html'
+    selector: 'aw-department-list',
+    templateUrl: './department-list.component.html',
+    standalone: true,
+    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, RouterLink, TableInputSearchComponent, TableComponent, TableHeaderComponent, BadgeComponent, DotComponent, PaginationComponent, BoolToIconPipe]
 })
 export class DepartmentListComponent {
   private readonly departmentApiService = inject(DepartmentApiService);

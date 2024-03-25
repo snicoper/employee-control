@@ -3,11 +3,7 @@
   @for (progressStacked of progressStackedCollection; track progressStacked) {
     <aw-progress-stacked [progressStackedCollection]="progressStacked" />
   }
-}
-<!-- end times -->
-
-<!-- loading -->
-@if (loading) {
+} @else {
   <aw-spinner [loading]="loading" [size]="100" />
 }
-<!-- end loading -->
+<!-- end times -->

@@ -6,10 +6,19 @@ import { DepartmentApiService } from '@aw/services/api/_index';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { DepartmentSelectedService } from '../department-selected.service';
+import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
+import { RouterLink } from '@angular/router';
+import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-back.component';
+import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
+import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
+import { BadgeComponent } from '../../../../components/badges/badge/badge.component';
+import { CardComponent } from '../../../../components/cards/card/card.component';
 
 @Component({
-  selector: 'aw-department-details',
-  templateUrl: './department-details.component.html'
+    selector: 'aw-department-details',
+    templateUrl: './department-details.component.html',
+    standalone: true,
+    imports: [CardComponent, BadgeComponent, BtnLoadingComponent, TableLoadingComponent, BtnBackComponent, RouterLink, BoolToIconPipe]
 })
 export class DepartmentDetailsComponent implements OnDestroy {
   @Input({ required: true }) departmentId = '';

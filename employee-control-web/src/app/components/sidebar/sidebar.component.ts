@@ -5,18 +5,24 @@ import { JwtService } from '@aw/services/_index';
 import { CurrentCompanyEmployeeService, CurrentTimeControlStateService } from '@aw/services/states/_index';
 import { SidebarMenu, SidebarMenuTypes } from './sidebar-menu-types.model';
 import { SidebarService } from './sidebar.service';
+import { RouterLinkActive, RouterLink } from '@angular/router';
+import { RequiredRoleDirective } from '../../directives/required-role.directive';
+import { NgClass } from '@angular/common';
+import { NgScrollbar } from 'ngx-scrollbar';
 
 @Component({
-  selector: 'aw-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
-  animations: [
-    trigger('slide', [
-      state('up', style({ height: 0 })),
-      state('down', style({ height: '*' })),
-      transition('up <=> down', animate(200))
-    ])
-  ]
+    selector: 'aw-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.scss'],
+    animations: [
+        trigger('slide', [
+            state('up', style({ height: 0 })),
+            state('down', style({ height: '*' })),
+            transition('up <=> down', animate(200))
+        ])
+    ],
+    standalone: true,
+    imports: [NgScrollbar, NgClass, RequiredRoleDirective, RouterLinkActive, RouterLink]
 })
 export class SidebarComponent {
   private readonly jwtService = inject(JwtService);

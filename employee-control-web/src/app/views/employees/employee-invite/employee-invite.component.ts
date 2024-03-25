@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
 import { FormInputTypes } from '@aw/core/types/_index';
@@ -13,10 +13,20 @@ import { CurrentCompanySettingsService } from '@aw/services/states/_index';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { InviteEmployeeRequest } from './employee-invite-request.model';
+import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
+import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
+import { FormTimezoneComponent } from '../../../components/forms/inputs/form-timezone/form-timezone.component';
+import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
+import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
+import { CardComponent } from '../../../components/cards/card/card.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 
 @Component({
-  selector: 'aw-employee-invite',
-  templateUrl: './employee-invite.component.html'
+    selector: 'aw-employee-invite',
+    templateUrl: './employee-invite.component.html',
+    standalone: true,
+    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, FormsModule, ReactiveFormsModule, NonFieldErrorsComponent, FormInputComponent, FormTimezoneComponent, BtnBackComponent, BtnLoadingComponent]
 })
 export class EmployeeInviteComponent {
   private readonly fb = inject(FormBuilder);

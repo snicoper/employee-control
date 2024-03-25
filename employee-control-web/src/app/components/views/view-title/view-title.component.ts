@@ -5,8 +5,9 @@ import { AppEnvironments } from '@aw/core/config/_index';
 
 /** Establece el titulo de la pagina (pestaña del navegador). */
 @Component({
-  selector: 'aw-view-title',
-  template: ''
+    selector: 'aw-view-title',
+    template: '',
+    standalone: true
 })
 export class ViewTitleComponent implements OnInit {
   @Input({ required: true }) pageTitle = AppEnvironments.siteName;
@@ -19,8 +20,8 @@ export class ViewTitleComponent implements OnInit {
   ngOnInit(): void {
     if (this.pageTitle) {
       this.setTitle(this.pageTitle);
-    } else if ('title' in this.route.snapshot.data) {
-      this.setTitle(this.route.snapshot.data['title']);
+    } else if ('title' in this.route.snapshot) {
+      this.setTitle(this.route.snapshot.title);
     } else {
       this.setTitle();
     }

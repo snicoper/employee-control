@@ -8,7 +8,7 @@
               'time-state-open': currentTimeControl()?.timeState === timeStates.open,
               'time-state-close': currentTimeControl()?.timeState === timeStates.close
             }"
-            alt="User picture"
+            alt="User avatar"
             class="img-responsive img-rounded"
             src="assets/images/user.jpg" />
         </div>
@@ -24,16 +24,17 @@
           @for (sidebarMenu of sidebarMenus; track sidebarMenu) {
             <li
               [awRequiredRole]="sidebarMenu.requiredRole"
-            [ngClass]="{
-              active: sidebarMenu.active,
-              'sidebar-dropdown': sidebarMenu.type === sidebarMenuTypes.dropdown,
-              'header-menu': sidebarMenu.type === sidebarMenuTypes.header
-            }">
+              [ngClass]="{
+                active: sidebarMenu.active,
+                'sidebar-dropdown': sidebarMenu.type === sidebarMenuTypes.dropdown,
+                'header-menu': sidebarMenu.type === sidebarMenuTypes.header
+              }">
               <!-- type header -->
               @if (sidebarMenu.type === sidebarMenuTypes.header) {
                 <span>{{ sidebarMenu.title }}</span>
               }
               <!-- end type header -->
+
               <!-- type != header && type != simple -->
               @if (sidebarMenu.type !== sidebarMenuTypes.header && sidebarMenu.type !== sidebarMenuTypes.simple) {
                 <a (click)="toggle(sidebarMenu)" class="cursor-pointer">
@@ -47,6 +48,7 @@
                 </a>
               }
               <!-- end type != header && type != simple -->
+
               <!-- type simple -->
               @if (sidebarMenu.type === sidebarMenuTypes.simple) {
                 <a [routerLink]="[sidebarMenu.link]" routerLinkActive="active">
@@ -60,6 +62,7 @@
                 </a>
               }
               <!-- end type simple -->
+
               <!-- type dropdown -->
               @if (sidebarMenu.type === sidebarMenuTypes.dropdown) {
                 <div [@slide]="getState(sidebarMenu)" class="sidebar-submenu">
@@ -71,11 +74,13 @@
                             <span [ngClass]="submenu.icon"></span>
                             {{ submenu.title }}
                           }
+
                           @if (!submenu.icon) {
                             <span class="ms-3">
                               {{ submenu.title }}
                             </span>
                           }
+
                           @if (submenu.badge) {
                             <span [ngClass]="submenu.badge.class" class="badge badge-pill">
                               {{ submenu.badge.text }}

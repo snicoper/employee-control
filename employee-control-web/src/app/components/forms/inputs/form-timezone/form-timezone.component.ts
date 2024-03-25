@@ -1,22 +1,27 @@
 import { Component, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { BadRequest } from '@aw/models/_index';
 import { getTimeZones } from '@vvo/tzdb';
+import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
+import { NgClass } from '@angular/common';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 /* eslint-disable  @typescript-eslint/no-unused-vars */
 /* eslint-disable  @typescript-eslint/no-empty-function */
 
 @Component({
-  selector: 'aw-form-timezone',
-  templateUrl: './form-timezone.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => FormTimezoneComponent),
-      multi: true
-    }
-  ]
+    selector: 'aw-form-timezone',
+    templateUrl: './form-timezone.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FormTimezoneComponent),
+            multi: true
+        }
+    ],
+    standalone: true,
+    imports: [NgSelectModule, FormsModule, NgClass, FieldErrorComponent]
 })
 export class FormTimezoneComponent implements ControlValueAccessor {
   @Input({ required: true }) badRequest: BadRequest | undefined;

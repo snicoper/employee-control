@@ -1,15 +1,18 @@
 ﻿using EmployeeControl.Application.Common.Interfaces.Features.Identity;
 using EmployeeControl.Application.Common.Models;
+using EmployeeControl.Application.Localizations;
 using EmployeeControl.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Localization;
 
 namespace EmployeeControl.Application.Features.Accounts.Commands.RecoveryPassword;
 
 internal class RecoveryPasswordHandler(
     IIdentityService identityService,
     UserManager<ApplicationUser> userManager,
-    IIdentityEmailsService identityEmailsService)
+    IIdentityEmailsService identityEmailsService,
+    IStringLocalizer<IdentityLocalizer> localizer)
     : IRequestHandler<RecoveryPasswordCommand, Result>
 {
     public async Task<Result> Handle(RecoveryPasswordCommand request, CancellationToken cancellationToken)
@@ -19,7 +22,9 @@ internal class RecoveryPasswordHandler(
         // Para restablecer contraseña, el usuario ha debido confirmar el email.
         if (!user.EmailConfirmed)
         {
-            return Result.Failure("Correo electrónico no confirmado.");
+            var message = localizer["Correo electrónico no confirmado."];
+
+            return Result.Failure(message);
         }
 
         // Generar code de validación y enviar correo electrónico.

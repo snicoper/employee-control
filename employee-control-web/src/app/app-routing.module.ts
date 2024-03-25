@@ -6,87 +6,84 @@ import { AuthGuard } from './guards/_index';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('@aw/views/home/home.module').then((m) => m.HomeModule)
+    loadChildren: () => import('@aw/views/home/home-routing.module').then((m) => m.routes)
   },
   {
-    path: 'account',
-    loadChildren: () => import('@aw/views/accounts/accounts.module').then((m) => m.AccountsModule)
+    path: 'accounts',
+    loadChildren: () => import('@aw/views/accounts/accounts-routing.module').then((m) => m.routes)
   },
   {
     path: 'auth',
-    loadChildren: () => import('@aw/views/auth/auth.module').then((m) => m.AuthModule)
+    loadChildren: () => import('@aw/views/auth/auth-routing.module').then((m) => m.routes)
   },
   {
     path: 'category-absence',
     data: { roles: [Roles.humanResources] },
     canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('@aw/views/category-absences/category-absences.module').then((m) => m.CategoryAbsencesModule)
+    loadChildren: () => import('@aw/views/category-absences/category-absences-routing.module').then((m) => m.routes)
   },
   {
     path: 'company-setting',
     data: { roles: [Roles.humanResources] },
     canActivate: [AuthGuard],
-    loadChildren: () =>
-      import('@aw/views/company-settings/company-settings.module').then((m) => m.CompanySettingsModule)
+    loadChildren: () => import('@aw/views/company-settings/company-settings-routing.module').then((m) => m.routes)
   },
   {
     path: 'task',
     data: { roles: [Roles.humanResources] },
     canActivate: [AuthGuard],
-    loadChildren: () => import('@aw/views/company-tasks/company-tasks.module').then((m) => m.CompanyTasksModule)
+    loadChildren: () => import('@aw/views/company-tasks/company-tasks-routing.module').then((m) => m.routes)
   },
   {
     path: 'dashboard',
     data: { roles: [Roles.employee] },
-    loadChildren: () => import('@aw/views/dashboard/dashboard.module').then((m) => m.DashboardModule)
+    loadChildren: () => import('@aw/views/dashboard/dashboard-routing.module').then((m) => m.routes)
   },
   {
     path: 'department',
     data: { roles: [Roles.humanResources] },
     canActivate: [AuthGuard],
-    loadChildren: () => import('@aw/views/departments/departments.module').then((m) => m.DepartmentsModule)
+    loadChildren: () => import('@aw/views/departments/departments-routing.module').then((m) => m.routes)
   },
   {
     path: 'employee-holiday',
     data: { roles: [Roles.employee] },
-    loadChildren: () =>
-      import('@aw/views/employee-holidays/employee-holidays.module').then((m) => m.EmployeeHolidaysModule)
+    loadChildren: () => import('@aw/views/employee-holidays/employee-holidays-routing.module').then((m) => m.routes)
   },
   {
     path: 'employee',
     data: { roles: [Roles.humanResources] },
     canActivate: [AuthGuard],
-    loadChildren: () => import('@aw/views/employees/employees.module').then((m) => m.EmployeesModule)
+    loadChildren: () => import('@aw/views/employees/employees-routing.module').then((m) => m.routes)
   },
   {
     path: 'manage-holiday',
     data: { roles: [Roles.humanResources] },
     canActivate: [AuthGuard],
-    loadChildren: () => import('@aw/views/manage-holidays/manage-holidays.module').then((m) => m.ManageHolidaysModule)
+    loadChildren: () => import('@aw/views/manage-holidays/manage-holidays-routing.module').then((m) => m.routes)
   },
   {
     path: 'error',
-    loadChildren: () => import('@aw/views/errors/errors.module').then((m) => m.ErrorsModule)
+    loadChildren: () => import('@aw/views/errors/errors-routing.module').then((m) => m.routes)
   },
   {
     path: 'test',
     data: { roles: [Roles.siteAdmin] },
     canActivate: [AuthGuard],
-    loadChildren: () => import('@aw/views/tests/tests.module').then((m) => m.TestsModule)
+    loadChildren: () => import('@aw/views/tests/tests-routing.module').then((m) => m.routes)
   },
   {
     path: 'time-control-record',
     data: { roles: [Roles.enterpriseStaff] },
     canActivate: [AuthGuard],
     loadChildren: () =>
-      import('@aw/views/time-control-records/time-control-records.module').then((m) => m.TimeControlRecordsModule)
+      import('@aw/views/time-control-records/time-control-records-routing.module').then((m) => m.routes)
   },
   {
     path: 'time-control',
     data: { roles: [Roles.employee] },
     canActivate: [AuthGuard],
-    loadChildren: () => import('@aw/views/times-control/times-control.module').then((m) => m.TimesControlModule)
+    loadChildren: () => import('@aw/views/times-control/times-control-routing.module').then((m) => m.routes)
   },
   {
     path: '**',

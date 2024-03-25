@@ -2,12 +2,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ApiResult, ApiResultItemOrderBy, OrderTypes } from '@aw/core/features/api-result/_index';
 import { TableHeaderField } from './table-header-field.interface';
 import { TableHeaderConfig } from './table-header.config';
+import { NgClass } from '@angular/common';
 
 @Component({
-  // eslint-disable-next-line
-  selector: '[awTableHeader]',
-  templateUrl: './table-header.component.html',
-  styleUrls: ['./table-header.component.scss']
+    // eslint-disable-next-line
+    selector: '[awTableHeader]',
+    templateUrl: './table-header.component.html',
+    styleUrls: ['./table-header.component.scss'],
+    standalone: true,
+    imports: [NgClass]
 })
 export class TableHeaderComponent<T> {
   @Input({ required: true }) tableHeaderConfig = new TableHeaderConfig();

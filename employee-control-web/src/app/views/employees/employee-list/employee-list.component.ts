@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
 import { TableHeaderConfig } from '@aw/components/tables/table-header/table-header.config';
 import { ApiResult } from '@aw/core/features/api-result/api-result';
@@ -10,10 +10,20 @@ import { EmployeesApiService } from '@aw/services/api/_index';
 import { finalize } from 'rxjs';
 import { EmployeeListResponse } from './employee-list-response.model';
 import { employeeListTableHeaders } from './employee-list-table-headers';
+import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
+import { PaginationComponent } from '../../../components/pagination/pagination.component';
+import { TableHeaderComponent } from '../../../components/tables/table-header/table-header.component';
+import { TableComponent } from '../../../components/tables/table/table.component';
+import { TableInputSearchComponent } from '../../../components/tables/table-input-search/table-input-search.component';
+import { CardComponent } from '../../../components/cards/card/card.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 
 @Component({
-  selector: 'aw-employee-list',
-  templateUrl: './employee-list.component.html'
+    selector: 'aw-employee-list',
+    templateUrl: './employee-list.component.html',
+    standalone: true,
+    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, RouterLink, TableInputSearchComponent, TableComponent, TableHeaderComponent, PaginationComponent, BoolToIconPipe]
 })
 export class EmployeeListComponent {
   private readonly employeesApiService = inject(EmployeesApiService);

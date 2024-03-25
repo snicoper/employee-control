@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ClosedBy } from '@aw/models/entities/types/closed-by.model';
 
-@Pipe({ name: 'closedBy' })
+@Pipe({
+    name: 'closedBy',
+    standalone: true
+})
 export class ClosedByPipe implements PipeTransform {
   transform(value: ClosedBy): string {
     switch (value) {

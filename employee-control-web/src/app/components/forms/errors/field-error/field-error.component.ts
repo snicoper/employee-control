@@ -4,8 +4,9 @@ import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { BadRequest } from '@aw/models/_index';
 
 @Component({
-  selector: 'aw-field-error',
-  templateUrl: './field-error.component.html'
+    selector: 'aw-field-error',
+    templateUrl: './field-error.component.html',
+    standalone: true
 })
 export class FieldErrorComponent implements OnInit {
   @Input({ required: true }) badRequest: BadRequest | undefined;

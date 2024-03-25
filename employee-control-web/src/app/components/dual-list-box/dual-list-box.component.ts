@@ -1,11 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HtmlItemSelector } from '@aw/core/models/_index';
 import { DualListBox } from './dual-list-box.model';
+import { SpinnerComponent } from '../spinner/spinner.component';
+import { NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'aw-dual-list-box',
-  templateUrl: './dual-list-box.component.html',
-  styleUrls: ['./dual-list-box.component.scss']
+    selector: 'aw-dual-list-box',
+    templateUrl: './dual-list-box.component.html',
+    styleUrls: ['./dual-list-box.component.scss'],
+    standalone: true,
+    imports: [FormsModule, NgClass, SpinnerComponent]
 })
 export class DualListBoxComponent implements OnInit {
   @Input({ required: true }) htmlItemSelector: HtmlItemSelector[] = [];

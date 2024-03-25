@@ -17,39 +17,37 @@ import { FormTimePickerComponent } from './inputs/form-timepicker/form-timepicke
 import { FormTimezoneComponent } from './inputs/form-timezone/form-timezone.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    TimepickerModule.forRoot(),
-    BsDatepickerModule.forRoot(),
-    NgSelectModule
-  ],
-  declarations: [
-    FieldErrorComponent,
-    NonFieldErrorsComponent,
-    FormCheckboxComponent,
-    FormColorComponent,
-    FormDatepickerComponent,
-    FormFloatingComponent,
-    FormInputComponent,
-    FormSwitchComponent,
-    FormTextareaComponent,
-    FormTimePickerComponent,
-    FormTimezoneComponent
-  ],
-  exports: [
-    FieldErrorComponent,
-    NonFieldErrorsComponent,
-    FormCheckboxComponent,
-    FormColorComponent,
-    FormDatepickerComponent,
-    FormFloatingComponent,
-    FormInputComponent,
-    FormSwitchComponent,
-    FormTextareaComponent,
-    FormTimePickerComponent,
-    FormTimezoneComponent
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TimepickerModule.forRoot(),
+        BsDatepickerModule.forRoot(),
+        NgSelectModule,
+        FieldErrorComponent,
+        NonFieldErrorsComponent,
+        FormCheckboxComponent,
+        FormColorComponent,
+        FormDatepickerComponent,
+        FormFloatingComponent,
+        FormInputComponent,
+        FormSwitchComponent,
+        FormTextareaComponent,
+        FormTimePickerComponent,
+        FormTimezoneComponent
+    ],
+    exports: [
+        FieldErrorComponent,
+        NonFieldErrorsComponent,
+        FormCheckboxComponent,
+        FormColorComponent,
+        FormDatepickerComponent,
+        FormFloatingComponent,
+        FormInputComponent,
+        FormSwitchComponent,
+        FormTextareaComponent,
+        FormTimePickerComponent,
+        FormTimezoneComponent
+    ]
 })
 export class AwFormsModule {}

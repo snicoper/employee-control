@@ -66,9 +66,7 @@
         <span class="fa-solid fa-floppy-disk"></span> Guardar cambios
       </button>
     </div>
-  }
-
-  @if (loading) {
+  } @else {
     <div class="d-flex">
       <div class="m-auto">
         <aw-spinner [loading]="loading" [size]="100" />

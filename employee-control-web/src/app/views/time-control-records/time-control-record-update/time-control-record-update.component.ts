@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
 import { BtnType } from '@aw/components/buttons/btn-loading/btn-loading.type';
@@ -15,10 +15,19 @@ import { DateTime } from 'luxon';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { TimeControlRecordRequest } from './time-control-record-request';
+import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
+import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
+import { FormTimePickerComponent } from '../../../components/forms/inputs/form-timepicker/form-timepicker.component';
+import { FormDatepickerComponent } from '../../../components/forms/inputs/form-datepicker/form-datepicker.component';
+import { CardComponent } from '../../../components/cards/card/card.component';
+import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 
 @Component({
-  selector: 'aw-time-control-record-update',
-  templateUrl: './time-control-record-update.component.html'
+    selector: 'aw-time-control-record-update',
+    templateUrl: './time-control-record-update.component.html',
+    standalone: true,
+    imports: [ViewBaseComponent, ViewHeaderComponent, CardComponent, FormsModule, ReactiveFormsModule, FormDatepickerComponent, FormTimePickerComponent, BtnBackComponent, BtnLoadingComponent]
 })
 export class TimeControlRecordUpdateComponent implements OnInit {
   private readonly timeControlApiService = inject(TimeControlApiService);

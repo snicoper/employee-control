@@ -65,6 +65,7 @@
         </li>
       }
       <!-- end previous page -->
+
       <!-- pages -->
       @if (showPagesButtons) {
         @for (item of pageRange(); track item) {
@@ -79,6 +80,7 @@
         }
       }
       <!-- end pages -->
+
       <!-- next page -->
       @if (!apiResult.hasNextPage) {
         <li class="page-item disabled ms-2">
@@ -90,6 +92,7 @@
           </a>
         </li>
       }
+
       @if (apiResult.hasNextPage) {
         <li [tooltip]="'common.next'" class="page-item ms-2">
           <a (click)="handleChangePage(apiResult.pageNumber + 1)" aria-label="Next" class="page-link cursor-pointer">
@@ -101,6 +104,7 @@
         </li>
       }
       <!-- end next page -->
+
       <!-- last page -->
       @if (!apiResult.hasNextPage) {
         <li class="page-item disabled">

@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormInputTypes } from '@aw/core/types/_index';
 import { ApiUrls, SiteUrls } from '@aw/core/urls/_index';
 import { BadRequest } from '@aw/models/_index';
@@ -11,11 +11,18 @@ import { CurrentCompanyEmployeeService, EmployeeSettingsService } from '@aw/serv
 import { finalize } from 'rxjs';
 import { LoginRequest } from './login-request.model';
 import { LoginResponse } from './login-response.model';
+import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
+import { FormFloatingComponent } from '../../../components/forms/inputs/form-floating/form-floating.component';
+import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
+import { CardComponent } from '../../../components/cards/card/card.component';
+import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 
 @Component({
-  selector: 'aw-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'aw-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: true,
+    imports: [ViewBaseComponent, CardComponent, FormsModule, ReactiveFormsModule, NonFieldErrorsComponent, FormFloatingComponent, RouterLink, BtnLoadingComponent]
 })
 export class LoginComponent {
   private readonly fb = inject(FormBuilder);

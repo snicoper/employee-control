@@ -4,8 +4,9 @@ import { SiteUrls } from '@aw/core/urls/site-urls';
 import { JwtService } from '@aw/services/_index';
 
 @Component({
-  selector: 'aw-logout',
-  template: ''
+    selector: 'aw-logout',
+    template: '',
+    standalone: true
 })
 export class LogoutComponent {
   private readonly jwtService = inject(JwtService);

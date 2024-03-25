@@ -9,10 +9,13 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { DepartmentSelectedService } from '../department-selected.service';
 import { DepartmentAddUserResponse } from './department-add-user-response.model';
+import { DualListBoxComponent } from '../../../../components/dual-list-box/dual-list-box.component';
 
 @Component({
-  selector: 'aw-department-add-users',
-  templateUrl: './department-add-users.component.html'
+    selector: 'aw-department-add-users',
+    templateUrl: './department-add-users.component.html',
+    standalone: true,
+    imports: [DualListBoxComponent]
 })
 export class DepartmentAddUsersComponent {
   @Output() changeComponent = new EventEmitter();

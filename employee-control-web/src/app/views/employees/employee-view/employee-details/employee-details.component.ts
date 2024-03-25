@@ -12,10 +12,23 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { EmployeeSelectedService } from '../employee-selected.service';
 import { EmployeeRolesEditComponent } from './employee-roles-edit/employee-roles-edit.component';
+import { DatetimePipe } from '../../../../pipes/datetime.pipe';
+import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
+import { RouterLink } from '@angular/router';
+import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-back.component';
+import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
+import { DotDangerComponent } from '../../../../components/colors/dot-danger/dot-danger.component';
+import { DotSuccessComponent } from '../../../../components/colors/dot-success/dot-success.component';
+import { RequiredRoleDirective } from '../../../../directives/required-role.directive';
+import { SpinnerComponent } from '../../../../components/spinner/spinner.component';
+import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
+import { CardComponent } from '../../../../components/cards/card/card.component';
 
 @Component({
-  selector: 'aw-employee-details',
-  templateUrl: './employee-details.component.html'
+    selector: 'aw-employee-details',
+    templateUrl: './employee-details.component.html',
+    standalone: true,
+    imports: [CardComponent, BtnLoadingComponent, SpinnerComponent, RequiredRoleDirective, DotSuccessComponent, DotDangerComponent, TableLoadingComponent, BtnBackComponent, RouterLink, BoolToIconPipe, DatetimePipe]
 })
 export class EmployeeDetailsComponent implements OnDestroy {
   private readonly employeesApiService = inject(EmployeesApiService);

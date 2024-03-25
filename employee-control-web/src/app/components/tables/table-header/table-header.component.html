@@ -6,13 +6,13 @@
         <span (click)="handleClickOrder(header)" class="cursor-pointer">
           {{ header.text }}
         </span>
-      }
-      @if (!header.sortable) {
+      } @else {
         <span>
           {{ header.text }}
         </span>
       }
       <!-- end text header -->
+
       <!-- sortable -->
       @if (header.sortable) {
         <div (click)="handleClickOrder(header)" class="cursor-pointer ml-auto">
@@ -26,8 +26,9 @@
               class="fas fa-angle-down arrow opacity3">
             </span>
           }
+
           @if (header.orderType === orderTypes.none) {
-            <span class="ml-auto opacity3"> &nbsp;<span class="icon fas fa-arrows-alt-v"></span> </span>
+            <span class="ml-auto opacity3">&nbsp;<span class="icon fas fa-arrows-alt-v"></span></span>
           }
           <!-- end sort order -->
         </div>

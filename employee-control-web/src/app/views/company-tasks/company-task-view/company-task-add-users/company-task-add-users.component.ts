@@ -9,10 +9,13 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { CompanyTaskSelectedService } from '../company-task-selected.service';
 import { CompanyTaskAddUserResponse } from './company-task-add-user-response.model';
+import { DualListBoxComponent } from '../../../../components/dual-list-box/dual-list-box.component';
 
 @Component({
-  selector: 'aw-company-task-add-users',
-  templateUrl: './company-task-add-users.component.html'
+    selector: 'aw-company-task-add-users',
+    templateUrl: './company-task-add-users.component.html',
+    standalone: true,
+    imports: [DualListBoxComponent]
 })
 export class CompanyTaskAddUsersComponent {
   @Output() changeComponent = new EventEmitter();
