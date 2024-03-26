@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { EmployeeInviteComponent } from './employee-invite/employee-invite.component';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { EmployeeSettingsDetailsComponent } from './employee-settings/employee-settings-details/employee-settings-details.component';
-import { EmployeeSettingsEditComponent } from './employee-settings/employee-settings-edit/employee-settings-edit.component';
+import { EmployeeSettingsUpdateComponent } from './employee-settings/employee-settings-update/employee-settings-update.component';
 import { EmployeeUpdateComponent } from './employee-update/employee-update.component';
 import { EmployeeViewComponent } from './employee-view/employee-view.component';
 
@@ -23,8 +23,8 @@ export const routes: Routes = [
     title: 'Configuración de usuario'
   },
   {
-    path: 'settings/edit',
-    component: EmployeeSettingsEditComponent,
+    path: 'settings/update',
+    component: EmployeeSettingsUpdateComponent,
     title: 'Editar configuración de usuario'
   },
   {

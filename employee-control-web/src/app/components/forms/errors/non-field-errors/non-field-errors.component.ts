@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { ValidationErrors } from '@aw/core/types/_index';
-import { BadRequest } from '@aw/models/_index';
+import { ValidationErrors } from '../../../../core/types/_index';
+import { BadRequest } from '../../../../models/_index';
 
 @Component({
-    selector: 'aw-non-field-errors',
-    templateUrl: './non-field-errors.component.html',
-    standalone: true
+  selector: 'aw-non-field-errors',
+  templateUrl: './non-field-errors.component.html',
+  standalone: true
 })
 export class NonFieldErrorsComponent {
   @Input({ required: true }) badRequest: BadRequest | undefined;
@@ -13,7 +13,7 @@ export class NonFieldErrorsComponent {
   validationErrors = ValidationErrors;
 
   get hasErrors(): boolean {
-    return !!(this.badRequest?.errors && this.badRequest.errors[ValidationErrors.nonFieldErrors]);
+    return !!this.badRequest?.errors[ValidationErrors.nonFieldErrors];
   }
 
   getErrors(): string[] | undefined {

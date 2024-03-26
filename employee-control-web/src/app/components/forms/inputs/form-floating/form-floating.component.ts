@@ -1,26 +1,26 @@
-import { Component, forwardRef, Input } from '@angular/core';
-import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
-import { FormInputTypes } from '@aw/core/types/_index';
-import { BadRequest } from '@aw/models/_index';
-import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
 import { NgClass } from '@angular/common';
+import { Component, forwardRef, Input } from '@angular/core';
+import { ControlValueAccessor, FormGroup, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormInputTypes } from '../../../../core/types/_index';
+import { BadRequest } from '../../../../models/_index';
+import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 /* eslint-disable  @typescript-eslint/no-unused-vars */
 /* eslint-disable  @typescript-eslint/no-empty-function */
 
 @Component({
-    selector: 'aw-form-floating',
-    templateUrl: './form-floating.component.html',
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => FormFloatingComponent),
-            multi: true
-        }
-    ],
-    standalone: true,
-    imports: [FormsModule, NgClass, FieldErrorComponent]
+  selector: 'aw-form-floating',
+  templateUrl: './form-floating.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => FormFloatingComponent),
+      multi: true
+    }
+  ],
+  standalone: true,
+  imports: [FormsModule, NgClass, FieldErrorComponent]
 })
 export class FormFloatingComponent implements ControlValueAccessor {
   @Input({ required: true }) badRequest: BadRequest | undefined;

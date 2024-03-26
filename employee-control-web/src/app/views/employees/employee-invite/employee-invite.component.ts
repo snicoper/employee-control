@@ -2,16 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
-import { FormInputTypes } from '@aw/core/types/_index';
-import { ApiUrls, SiteUrls } from '@aw/core/urls/_index';
-import { urlReplaceParams } from '@aw/core/utils/_index';
-import { BadRequest } from '@aw/models/_index';
-import { JwtService } from '@aw/services/_index';
-import { EmployeesApiService } from '@aw/services/api/_index';
-import { CurrentCompanySettingsService } from '@aw/services/states/_index';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
+import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
 import { CardComponent } from '../../../components/cards/card/card.component';
@@ -20,6 +13,13 @@ import { FormInputComponent } from '../../../components/forms/inputs/form-input/
 import { FormTimezoneComponent } from '../../../components/forms/inputs/form-timezone/form-timezone.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { FormInputTypes } from '../../../core/types/_index';
+import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
+import { urlReplaceParams } from '../../../core/utils/_index';
+import { BadRequest } from '../../../models/_index';
+import { JwtService } from '../../../services/_index';
+import { EmployeesApiService } from '../../../services/api/_index';
+import { CurrentCompanySettingsService } from '../../../services/states/_index';
 import { InviteEmployeeRequest } from './employee-invite-request.model';
 
 @Component({

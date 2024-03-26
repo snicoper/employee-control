@@ -1,4 +1,4 @@
-import { CategoryAbsence } from './categoty-absence.model';
+import { CategoryAbsence } from './category-absence.model';
 import { CompanySettings } from './company-settings.model';
 import { CompanyTask } from './company-task.model';
 import { Department } from './department.model';

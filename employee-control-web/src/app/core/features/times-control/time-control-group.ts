@@ -1,7 +1,7 @@
-import { ProgressStackedCollection } from '@aw/components/progress/progress-stacked/progress-stacked-collection';
-import { DatetimeUtils, calculatePercent } from '@aw/core/utils/_index';
-import { ClosedBy } from '@aw/models/entities/types/_index';
 import { DateTime } from 'luxon';
+import { ProgressStackedCollection } from '../../../components/progress/progress-stacked/progress-stacked-collection';
+import { ClosedBy } from '../../../models/entities/types/_index';
+import { DatetimeUtils, calculatePercent } from '../../utils/_index';
 import { ProcessTimeControlGroups } from './process-time-control-groups';
 import { TimeControlGroupResponse, TimeResponse } from './times-control-response.model';
 

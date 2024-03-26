@@ -1,9 +1,5 @@
 import { Component, Input, OnDestroy, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { SiteUrls } from '@aw/core/urls/_index';
-import { ApiUrls } from '@aw/core/urls/api-urls';
-import { urlReplaceParams } from '@aw/core/utils/_index';
-import { CompanyTaskApiService } from '@aw/services/api/_index';
 import { DateTime } from 'luxon';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
@@ -12,8 +8,11 @@ import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-ba
 import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
 import { CardComponent } from '../../../../components/cards/card/card.component';
 import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
+import { ApiUrls, SiteUrls } from '../../../../core/urls/_index';
+import { urlReplaceParams } from '../../../../core/utils/_index';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
 import { DatetimePipe } from '../../../../pipes/datetime.pipe';
+import { CompanyTaskApiService } from '../../../../services/api/_index';
 import { CompanyTaskSelectedService } from '../company-task-selected.service';
 
 @Component({

@@ -1,4 +1,4 @@
-import { DeviceType } from '@aw/models/entities/types/_index';
+import { DeviceType } from '../../../models/entities/types/_index';
 
 export interface TimeControlRecordCreateRequest {
   userId: string;

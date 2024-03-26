@@ -2,22 +2,21 @@ import { Component, computed, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
-import { ApiUrls } from '@aw/core/urls/api-urls';
-import { SiteUrls } from '@aw/core/urls/site-urls';
-import { BadRequest, ResultResponse } from '@aw/models/_index';
-import { CompanySettings } from '@aw/models/entities/company-settings.model';
-import { CompanySettingsApiService } from '@aw/services/api/_index';
-import { CurrentCompanySettingsService } from '@aw/services/states/_index';
 import { DateTime } from 'luxon';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
+import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
 import { CardComponent } from '../../../components/cards/card/card.component';
 import { FormTimezoneComponent } from '../../../components/forms/inputs/form-timezone/form-timezone.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
+import { BadRequest, ResultResponse } from '../../../models/_index';
+import { CompanySettings } from '../../../models/entities/company-settings.model';
+import { CompanySettingsApiService } from '../../../services/api/_index';
+import { CurrentCompanySettingsService } from '../../../services/states/_index';
 
 @Component({
   selector: 'aw-company-settings-update',

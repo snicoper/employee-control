@@ -1,7 +1,6 @@
-import { PeriodDatetime } from '@aw/core/models/_index';
-import { calculatePercent } from '@aw/core/utils/common-utils';
-import { DatetimeUtils } from '@aw/core/utils/datetime-utils';
 import { DateTime } from 'luxon';
+import { PeriodDatetime } from '../../models/_index';
+import { DatetimeUtils, calculatePercent } from '../../utils/_index';
 import { TimeControlGroupResponse, TimeResponse } from './times-control-response.model';
 
 /**

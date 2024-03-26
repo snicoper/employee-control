@@ -1,15 +1,15 @@
 import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
-import { SiteUrls } from '@aw/core/urls/_index';
-import { TimeState } from '@aw/models/entities/types/_index';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { CardComponent } from '../../../components/cards/card/card.component';
 import { DotDangerComponent } from '../../../components/colors/dot-danger/dot-danger.component';
 import { DotSuccessComponent } from '../../../components/colors/dot-success/dot-success.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { SiteUrls } from '../../../core/urls/_index';
+import { TimeState } from '../../../models/entities/types/_index';
 import { EmployeeDepartmentsComponent } from './employee-departments/employee-departments.component';
 import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
 import { EmployeeSelectedService } from './employee-selected.service';

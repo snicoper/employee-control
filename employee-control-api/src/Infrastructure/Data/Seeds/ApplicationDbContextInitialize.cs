@@ -69,8 +69,22 @@ public class ApplicationDbContextInitialize(
         var categoryAbsences =
             new List<CategoryAbsence>
             {
-                new() { Description = "Maternidad", CompanyId = company.Id, Background = "#28961f", Color = "#ffffff" },
-                new() { Description = "Baja laboral", CompanyId = company.Id, Background = "#8722d1", Color = "#dfedfe" }
+                new()
+                {
+                    Description = "Maternidad",
+                    CompanyId = company.Id,
+                    Active = true,
+                    Background = "#28961f",
+                    Color = "#ffffff"
+                },
+                new()
+                {
+                    Description = "Baja laboral",
+                    CompanyId = company.Id,
+                    Active = true,
+                    Background = "#8722d1",
+                    Color = "#dfedfe"
+                }
             };
 
         context.CategoryAbsences.AddRange(categoryAbsences);

@@ -1,12 +1,5 @@
 import { Component, OnDestroy, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Roles, roleToHumanReadable } from '@aw/core/types/_index';
-import { ApiUrls, SiteUrls } from '@aw/core/urls/_index';
-import { urlReplaceParams } from '@aw/core/utils/_index';
-import { ResultResponse } from '@aw/models/_index';
-import { TimeState } from '@aw/models/entities/types/_index';
-import { JwtService } from '@aw/services/_index';
-import { EmployeesApiService } from '@aw/services/api/_index';
 import { DateTime } from 'luxon';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
@@ -18,9 +11,16 @@ import { DotDangerComponent } from '../../../../components/colors/dot-danger/dot
 import { DotSuccessComponent } from '../../../../components/colors/dot-success/dot-success.component';
 import { SpinnerComponent } from '../../../../components/spinner/spinner.component';
 import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
+import { Roles, roleToHumanReadable } from '../../../../core/types/_index';
+import { ApiUrls, SiteUrls } from '../../../../core/urls/_index';
+import { urlReplaceParams } from '../../../../core/utils/_index';
 import { RequiredRoleDirective } from '../../../../directives/required-role.directive';
+import { ResultResponse } from '../../../../models/_index';
+import { TimeState } from '../../../../models/entities/types/_index';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
 import { DatetimePipe } from '../../../../pipes/datetime.pipe';
+import { JwtService } from '../../../../services/_index';
+import { EmployeesApiService } from '../../../../services/api/_index';
 import { EmployeeSelectedService } from '../employee-selected.service';
 import { EmployeeRolesEditComponent } from './employee-roles-edit/employee-roles-edit.component';
 

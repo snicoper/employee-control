@@ -1,25 +1,25 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
-import { TableHeaderConfig } from '@aw/components/tables/table-header/table-header.config';
-import { ApiResult } from '@aw/core/features/api-result/_index';
-import { ApiUrls } from '@aw/core/urls/_index';
-import { SiteUrls } from '@aw/core/urls/site-urls';
-import { urlReplaceParams } from '@aw/core/utils/_index';
-import { CategoryAbsence } from '@aw/models/entities/_index';
-import { CategoryAbsencesApiService } from '@aw/services/api/_index';
-import { CurrentCompanyEmployeeService } from '@aw/services/states/_index';
 import { finalize } from 'rxjs';
 import { BadgeComponent } from '../../../components/badges/badge/badge.component';
+import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { CardComponent } from '../../../components/cards/card/card.component';
 import { DotComponent } from '../../../components/colors/dot/dot.component';
 import { PaginationComponent } from '../../../components/pagination/pagination.component';
 import { TableHeaderComponent } from '../../../components/tables/table-header/table-header.component';
+import { TableHeaderConfig } from '../../../components/tables/table-header/table-header.config';
 import { TableInputSearchComponent } from '../../../components/tables/table-input-search/table-input-search.component';
 import { TableComponent } from '../../../components/tables/table/table.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
-import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
+import { ApiResult } from '../../../core/features/api-result/api-result';
+import { ApiUrls } from '../../../core/urls/api-urls';
+import { SiteUrls } from '../../../core/urls/site-urls';
+import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CategoryAbsence } from '../../../models/entities/category-absence.model';
+import { BoolToIconPipe } from '../../../pipes/_index';
+import { CategoryAbsencesApiService } from '../../../services/api/category-absences-api.service';
+import { CurrentCompanyEmployeeService } from '../../../services/states/current-company-employee.service';
 import { categoryAbsenceListTableHeader } from './category-absence-list-table-headers';
 
 @Component({

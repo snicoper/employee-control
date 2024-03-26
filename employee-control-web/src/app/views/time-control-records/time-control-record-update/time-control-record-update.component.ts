@@ -2,25 +2,24 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
-import { BtnType } from '@aw/components/buttons/btn-loading/btn-loading.type';
-import { ApiUrls } from '@aw/core/urls/api-urls';
-import { SiteUrls } from '@aw/core/urls/site-urls';
-import { urlReplaceParams } from '@aw/core/utils/common-utils';
-import { CustomValidation } from '@aw/core/validators/_index';
-import { BadRequest, ResultResponse } from '@aw/models/_index';
-import { TimeControl } from '@aw/models/entities/time-control.model';
-import { TimeControlApiService } from '@aw/services/api/time-control-api.service';
 import { DateTime } from 'luxon';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
+import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
+import { BtnType } from '../../../components/buttons/btn-loading/btn-loading.type';
 import { CardComponent } from '../../../components/cards/card/card.component';
 import { FormDatepickerComponent } from '../../../components/forms/inputs/form-datepicker/form-datepicker.component';
 import { FormTimePickerComponent } from '../../../components/forms/inputs/form-timepicker/form-timepicker.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
+import { urlReplaceParams } from '../../../core/utils/_index';
+import { CustomValidation } from '../../../core/validators/_index';
+import { BadRequest, ResultResponse } from '../../../models/_index';
+import { TimeControl } from '../../../models/entities/_index';
+import { TimeControlApiService } from '../../../services/api/_index';
 import { TimeControlRecordRequest } from './time-control-record-request';
 
 @Component({
@@ -130,6 +129,13 @@ export class TimeControlRecordUpdateComponent implements OnInit {
       0
     );
 
+    // Comprobar si start es menor a end.
+    if (start > end) {
+      this.form.get('timeFinish')?.setErrors({ noFutureDate: true });
+
+      return timeControl;
+    }
+
     timeControl.id = this.timeControlId;
     timeControl.start = start.toISOString();
     timeControl.finish = end.toISOString();
@@ -180,10 +186,7 @@ export class TimeControlRecordUpdateComponent implements OnInit {
         timeFinish: [endWithOffset, []]
       },
       {
-        validators: [
-          CustomValidation.dateStartGreaterThanFinish('dateStart', 'dateFinish'),
-          CustomValidation.dateStartGreaterThanFinish('timeStart', 'timeFinish')
-        ]
+        validators: [CustomValidation.dateStartGreaterThanFinish('dateStart', 'dateFinish')]
       }
     );
   }

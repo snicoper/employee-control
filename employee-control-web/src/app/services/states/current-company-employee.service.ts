@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { ApiUrls } from '@aw/core/urls/api-urls';
-import { CurrentCompanyEmployeeResponse } from '@aw/models/_index';
+import { ApiUrls } from '../../core/urls/_index';
+import { CurrentCompanyEmployeeResponse } from '../../models/_index';
 import { CompaniesApiService } from '../api/companies-api.service';
 import { JwtService } from '../jwt.service';
 
@@ -31,5 +31,9 @@ export class CurrentCompanyEmployeeService {
 
   setValue(entity: CurrentCompanyEmployeeResponse | null): void {
     this.currentCompanyEmployeeResponse$.set(entity);
+  }
+
+  clean(): void {
+    this.currentCompanyEmployeeResponse$.set(null);
   }
 }

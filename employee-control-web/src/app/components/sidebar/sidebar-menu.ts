@@ -1,5 +1,5 @@
-import { Roles } from '@aw/core/types/roles';
-import { SiteUrls } from '@aw/core/urls/site-urls';
+import { Roles } from '../../core/types/_index';
+import { SiteUrls } from '../../core/urls/_index';
 import { SidebarMenu, SidebarMenuTypes } from './sidebar-menu-types.model';
 
 export const sidebarMenu: SidebarMenu[] = [
@@ -83,7 +83,7 @@ export const sidebarMenu: SidebarMenu[] = [
       },
       {
         title: 'Control de tiempo',
-        link: SiteUrls.timeControl.home,
+        link: SiteUrls.timesControl.home,
         active: false
       }
     ]

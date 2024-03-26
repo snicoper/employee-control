@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { urlReplaceParams } from '@aw/core/utils/common-utils';
+import { urlReplaceParams } from '../core/utils/_index';
 
 @Injectable({ providedIn: 'root' })
 export class SimpleGeolocationService {

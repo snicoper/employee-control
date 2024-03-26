@@ -1,9 +1,8 @@
 import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ThemeColors } from '@aw/core/types/_index';
-import { Roles } from '@aw/core/types/roles';
-import { JwtService, LayoutService, ThemeColorService } from '@aw/services/_index';
 import { ViewBaseComponent } from '../../components/views/view-base/view-base.component';
+import { Roles, ThemeColors } from '../../core/types/_index';
+import { JwtService, LayoutService, ThemeColorService } from '../../services/_index';
 
 @Component({
   selector: 'aw-home',

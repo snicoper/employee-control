@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { BtnType } from './btn-loading.type';
 import { SpinnerComponent } from '../../spinner/spinner.component';
+import { BtnType } from './btn-loading.type';
 
 @Component({
-    selector: 'aw-btn-loading',
-    templateUrl: './btn-loading.component.html',
-    standalone: true,
-    imports: [SpinnerComponent]
+  selector: 'aw-btn-loading',
+  templateUrl: './btn-loading.component.html',
+  standalone: true,
+  imports: [SpinnerComponent]
 })
 export class BtnLoadingComponent {
   @Input({ required: true }) loading = false;

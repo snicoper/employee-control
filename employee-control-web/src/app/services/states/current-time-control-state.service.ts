@@ -1,8 +1,8 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { ApiUrls } from '@aw/core/urls/_index';
-import { urlReplaceParams } from '@aw/core/utils/common-utils';
-import { CurrentTimeControlResponse } from '@aw/models/_index';
 import { finalize } from 'rxjs';
+import { ApiUrls } from '../../core/urls/_index';
+import { urlReplaceParams } from '../../core/utils/_index';
+import { CurrentTimeControlResponse } from '../../models/_index';
 import { TimeControlApiService } from '../api/time-control-api.service';
 import { JwtService } from '../jwt.service';
 
@@ -24,6 +24,11 @@ export class CurrentTimeControlStateService {
 
   getCurrentStateValue(): CurrentTimeControlResponse | null {
     return this.currentTimeControl$();
+  }
+
+  clean(): void {
+    this.loadingCurrentTimeControl$.set(false);
+    this.currentTimeControl$.set(null);
   }
 
   private loadCurrentTimeControl(): void {

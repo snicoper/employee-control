@@ -1,28 +1,28 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { NgClass } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
-import { TimeState } from '@aw/models/entities/types/time-state.model';
-import { JwtService } from '@aw/services/_index';
-import { CurrentCompanyEmployeeService, CurrentTimeControlStateService } from '@aw/services/states/_index';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { NgScrollbar } from 'ngx-scrollbar';
+import { RequiredRoleDirective } from '../../directives/required-role.directive';
+import { TimeState } from '../../models/entities/types/_index';
+import { JwtService } from '../../services/_index';
+import { CurrentCompanyEmployeeService, CurrentTimeControlStateService } from '../../services/states/_index';
 import { SidebarMenu, SidebarMenuTypes } from './sidebar-menu-types.model';
 import { SidebarService } from './sidebar.service';
-import { RouterLinkActive, RouterLink } from '@angular/router';
-import { RequiredRoleDirective } from '../../directives/required-role.directive';
-import { NgClass } from '@angular/common';
-import { NgScrollbar } from 'ngx-scrollbar';
 
 @Component({
-    selector: 'aw-sidebar',
-    templateUrl: './sidebar.component.html',
-    styleUrls: ['./sidebar.component.scss'],
-    animations: [
-        trigger('slide', [
-            state('up', style({ height: 0 })),
-            state('down', style({ height: '*' })),
-            transition('up <=> down', animate(200))
-        ])
-    ],
-    standalone: true,
-    imports: [NgScrollbar, NgClass, RequiredRoleDirective, RouterLinkActive, RouterLink]
+  selector: 'aw-sidebar',
+  templateUrl: './sidebar.component.html',
+  styleUrls: ['./sidebar.component.scss'],
+  animations: [
+    trigger('slide', [
+      state('up', style({ height: 0 })),
+      state('down', style({ height: '*' })),
+      transition('up <=> down', animate(200))
+    ])
+  ],
+  standalone: true,
+  imports: [NgScrollbar, NgClass, RequiredRoleDirective, RouterLinkActive, RouterLink]
 })
 export class SidebarComponent {
   private readonly jwtService = inject(JwtService);

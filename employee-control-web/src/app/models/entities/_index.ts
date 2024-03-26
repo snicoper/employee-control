@@ -1,4 +1,4 @@
-export { CategoryAbsence } from './categoty-absence.model';
+export { CategoryAbsence } from './category-absence.model';
 export { CompanyHoliday } from './company-holiday.model';
 export { CompanyTask } from './company-task.model';
 export { Company } from './company.model';

@@ -1,22 +1,22 @@
 import { Component, computed, inject } from '@angular/core';
-import { Roles } from '@aw/core/types/roles';
-import { ApiUrls } from '@aw/core/urls/api-urls';
-import { urlReplaceParams } from '@aw/core/utils/_index';
-import { ResultResponse } from '@aw/models/result-response.model';
-import { EmployeesApiService } from '@aw/services/api/_index';
+import { FormsModule } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
+import { BtnLoadingComponent } from '../../../../../components/buttons/btn-loading/btn-loading.component';
+import { Roles } from '../../../../../core/types/_index';
+import { ApiUrls } from '../../../../../core/urls/_index';
+import { urlReplaceParams } from '../../../../../core/utils/_index';
+import { ResultResponse } from '../../../../../models/_index';
+import { EmployeesApiService } from '../../../../../services/api/_index';
 import { EmployeeSelectedService } from '../../employee-selected.service';
 import { EmployeeRolesRequest } from './employee-roles-request.model';
-import { BtnLoadingComponent } from '../../../../../components/buttons/btn-loading/btn-loading.component';
-import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'aw-employee-roles-edit',
-    templateUrl: './employee-roles-edit.component.html',
-    standalone: true,
-    imports: [FormsModule, BtnLoadingComponent]
+  selector: 'aw-employee-roles-edit',
+  templateUrl: './employee-roles-edit.component.html',
+  standalone: true,
+  imports: [FormsModule, BtnLoadingComponent]
 })
 export class EmployeeRolesEditComponent {
   private readonly employeesApiService = inject(EmployeesApiService);

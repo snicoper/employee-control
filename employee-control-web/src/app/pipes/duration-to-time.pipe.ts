@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DatetimeUtils } from '@aw/core/utils/datetime-utils';
+import { DatetimeUtils } from '../core/utils/_index';
 
 @Pipe({
-    name: 'durationToTime',
-    standalone: true
+  name: 'durationToTime',
+  standalone: true
 })
 export class DurationToTimePipe implements PipeTransform {
   transform(value: number): string {

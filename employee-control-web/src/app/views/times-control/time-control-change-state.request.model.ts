@@ -1,4 +1,4 @@
-import { DeviceType } from '@aw/models/entities/types/device-type.model';
+import { DeviceType } from '../../models/entities/types/_index';
 
 export interface TimeControlChangeStateRequest {
   employeeId: string;

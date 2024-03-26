@@ -7,9 +7,9 @@ import {
   HttpStatusCode
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ApiResultItemFilter, ApiResultItemOrderBy } from '@aw/core/features/api-result/_index';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ApiResultItemFilter, ApiResultItemOrderBy } from '../core/features/api-result/_index';
 
 /** Comprueba si es un ApiResult y deserializa filters. */
 @Injectable()

@@ -1,17 +1,17 @@
+import { NgClass } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { AppEnvironments } from '@aw/core/config/_index';
-import { ThemeColors } from '@aw/core/types/_index';
-import { SiteUrls } from '@aw/core/urls/_index';
-import { AuthService, JwtService, LayoutService, ThemeColorService } from '@aw/services/_index';
-import { NgClass } from '@angular/common';
+import { AppEnvironments } from '../../core/config/_index';
+import { ThemeColors } from '../../core/types/_index';
+import { SiteUrls } from '../../core/urls/_index';
+import { AuthService, JwtService, LayoutService, ThemeColorService } from '../../services/_index';
 
 @Component({
-    selector: 'aw-navbar',
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.scss'],
-    standalone: true,
-    imports: [NgClass, RouterLink, RouterLinkActive]
+  selector: 'aw-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.scss'],
+  standalone: true,
+  imports: [NgClass, RouterLink, RouterLinkActive]
 })
 export class NavbarComponent {
   private readonly jwtService = inject(JwtService);

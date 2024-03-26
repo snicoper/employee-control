@@ -1,11 +1,11 @@
 import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ApiUrls } from '@aw/core/urls/api-urls';
-import { WorkDays } from '@aw/models/entities/_index';
-import { ResultResponse } from '@aw/models/result-response.model';
-import { WorkDaysApiService } from '@aw/services/api/_index';
-import { CurrentCompanyEmployeeService } from '@aw/services/states/_index';
 import { ToastrService } from 'ngx-toastr';
+import { ApiUrls } from '../../../core/urls/_index';
+import { ResultResponse } from '../../../models/_index';
+import { WorkDays } from '../../../models/entities/_index';
+import { WorkDaysApiService } from '../../../services/api/_index';
+import { CurrentCompanyEmployeeService } from '../../../services/states/_index';
 import { urlReplaceParams } from './../../../core/utils/common-utils';
 import { WeekDaysEnum } from './week-days.enum';
 

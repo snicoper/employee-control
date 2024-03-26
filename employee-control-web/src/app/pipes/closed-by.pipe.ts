@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ClosedBy } from '@aw/models/entities/types/closed-by.model';
+import { ClosedBy } from '../models/entities/types/_index';
 
 @Pipe({
-    name: 'closedBy',
-    standalone: true
+  name: 'closedBy',
+  standalone: true
 })
 export class ClosedByPipe implements PipeTransform {
   transform(value: ClosedBy): string {

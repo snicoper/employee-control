@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { AppEnvironments } from '@aw/core/config/_index';
+import { AppEnvironments } from '../../../core/config/_index';
 
 /** Establece el titulo de la pagina (pestaña del navegador). */
 @Component({
-    selector: 'aw-view-title',
-    template: '',
-    standalone: true
+  selector: 'aw-view-title',
+  template: '',
+  standalone: true
 })
 export class ViewTitleComponent implements OnInit {
   @Input({ required: true }) pageTitle = AppEnvironments.siteName;

@@ -1,29 +1,28 @@
-import { Component, forwardRef, inject, Input } from '@angular/core';
-import { FormGroup, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
-import { LocalizationService, LocalizationUtils } from '@aw/core/features/localizations/_index';
-import { FormInputTypes } from '@aw/core/types/_index';
-import { BadRequest } from '@aw/models/_index';
-import { BsDatepickerConfig, BsLocaleService, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
 import { NgClass } from '@angular/common';
+import { Component, forwardRef, inject, Input } from '@angular/core';
+import { FormGroup, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { BsDatepickerConfig, BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { LocalizationService, LocalizationUtils } from '../../../../core/features/localizations/_index';
+import { FormInputTypes } from '../../../../core/types/_index';
+import { BadRequest } from '../../../../models/_index';
+import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 /* eslint-disable  @typescript-eslint/no-unused-vars */
-
 /* eslint-disable  @typescript-eslint/no-empty-function */
 
 @Component({
-    selector: 'aw-form-datepicker',
-    templateUrl: './form-datepicker.component.html',
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => FormDatepickerComponent),
-            multi: true
-        }
-    ],
-    standalone: true,
-    imports: [BsDatepickerModule, FormsModule, NgClass, FieldErrorComponent]
+  selector: 'aw-form-datepicker',
+  templateUrl: './form-datepicker.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => FormDatepickerComponent),
+      multi: true
+    }
+  ],
+  standalone: true,
+  imports: [BsDatepickerModule, FormsModule, NgClass, FieldErrorComponent]
 })
 export class FormDatepickerComponent {
   private readonly bsLocaleService = inject(BsLocaleService);

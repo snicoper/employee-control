@@ -1,25 +1,25 @@
-import { Component, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
-import { BadRequest } from '@aw/models/_index';
-import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
 import { NgClass } from '@angular/common';
+import { Component, Input, forwardRef } from '@angular/core';
+import { ControlValueAccessor, FormGroup, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { BadRequest } from '../../../../models/_index';
+import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 /* eslint-disable  @typescript-eslint/no-unused-vars */
 /* eslint-disable  @typescript-eslint/no-empty-function */
 
 @Component({
-    selector: 'aw-form-color',
-    templateUrl: './form-color.component.html',
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => FormColorComponent),
-            multi: true
-        }
-    ],
-    standalone: true,
-    imports: [FormsModule, NgClass, FieldErrorComponent]
+  selector: 'aw-form-color',
+  templateUrl: './form-color.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => FormColorComponent),
+      multi: true
+    }
+  ],
+  standalone: true,
+  imports: [FormsModule, NgClass, FieldErrorComponent]
 })
 export class FormColorComponent implements ControlValueAccessor {
   @Input({ required: true }) badRequest: BadRequest | undefined;

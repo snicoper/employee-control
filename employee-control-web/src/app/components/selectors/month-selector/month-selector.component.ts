@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { LocalizationService, LocalizationUtils } from '@aw/core/features/localizations/_index';
-import { BsDatepickerConfig, BsLocaleService, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { CalendarCellViewModel } from 'ngx-bootstrap/datepicker/models';
 import { FormsModule } from '@angular/forms';
+import { BsDatepickerConfig, BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { CalendarCellViewModel } from 'ngx-bootstrap/datepicker/models';
+import { LocalizationService, LocalizationUtils } from '../../../core/features/localizations/_index';
 
 @Component({
-    selector: 'aw-month-selector',
-    templateUrl: './month-selector.component.html',
-    standalone: true,
-    imports: [BsDatepickerModule, FormsModule]
+  selector: 'aw-month-selector',
+  templateUrl: './month-selector.component.html',
+  standalone: true,
+  imports: [BsDatepickerModule, FormsModule]
 })
 export class MonthSelectorComponent {
   private readonly bsLocaleService = inject(BsLocaleService);

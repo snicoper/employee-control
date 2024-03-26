@@ -1,37 +1,34 @@
 import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
-import { TableHeaderConfig } from '@aw/components/tables/table-header/table-header.config';
-import { logError } from '@aw/core/errors/_index';
-import { LogicalOperators, OrderTypes, RelationalOperators } from '@aw/core/features/api-result/_index';
-import { ApiResult } from '@aw/core/features/api-result/api-result';
-import { ApiUrls } from '@aw/core/urls/api-urls';
-import { SiteUrls } from '@aw/core/urls/site-urls';
-import { urlReplaceParams } from '@aw/core/utils/_index';
-import { ResultResponse } from '@aw/models/_index';
-import { TimeState } from '@aw/models/entities/types/_index';
-import { ClosedBy } from '@aw/models/entities/types/closed-by.model';
-import { TimeControlApiService } from '@aw/services/api/_index';
-import { JwtService } from '@aw/services/jwt.service';
-import { SimpleGeolocationService } from '@aw/services/simple-geolocation.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
+import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { CardComponent } from '../../../components/cards/card/card.component';
 import { DotDangerComponent } from '../../../components/colors/dot-danger/dot-danger.component';
 import { DotSuccessComponent } from '../../../components/colors/dot-success/dot-success.component';
 import { PaginationComponent } from '../../../components/pagination/pagination.component';
 import { TableHeaderComponent } from '../../../components/tables/table-header/table-header.component';
+import { TableHeaderConfig } from '../../../components/tables/table-header/table-header.config';
 import { TableInputSearchComponent } from '../../../components/tables/table-input-search/table-input-search.component';
 import { TableComponent } from '../../../components/tables/table/table.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { logError } from '../../../core/errors/_index';
+import { ApiResult, LogicalOperators, OrderTypes, RelationalOperators } from '../../../core/features/api-result/_index';
+import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
+import { urlReplaceParams } from '../../../core/utils/_index';
 import { TooltipDirective } from '../../../directives/tooltip.directive';
+import { ResultResponse } from '../../../models/_index';
+import { ClosedBy, TimeState } from '../../../models/entities/types/_index';
 import { ClosedByPipe } from '../../../pipes/closed-by.pipe';
 import { DatetimePipe } from '../../../pipes/datetime.pipe';
 import { DeviceTypePipe } from '../../../pipes/device-type.pipe';
 import { DurationToTimePipe } from '../../../pipes/duration-to-time.pipe';
+import { JwtService } from '../../../services/_index';
+import { TimeControlApiService } from '../../../services/api/_index';
+import { SimpleGeolocationService } from '../../../services/simple-geolocation.service';
 import { TimeControlRecordResponse } from './time-contol-record-esponse.model';
 import { timeControlRecordListTableHeaders } from './time-control-record-list-table-header';
 
@@ -167,7 +164,7 @@ export class TimeControlRecordListComponent {
   }
 
   private setBreadcrumb(): void {
-    this.breadcrumb.add('Registro de tiempos', SiteUrls.timeControl.home, '', false);
+    this.breadcrumb.add('Registro de tiempos', SiteUrls.timesControl.home, '', false);
   }
 
   private loadTimeControlRecords(): void {

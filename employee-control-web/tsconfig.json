@@ -19,21 +19,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": ["ES2022", "dom"],
-    "paths": {
-      "@aw/components/*": ["src/app/components/*"],
-      "@aw/core/*": ["src/app/core/*"],
-      "@aw/directives/*": ["src/app/directives/*"],
-      "@aw/guards/*": ["src/app/guards/*"],
-      "@aw/interceptors/*": ["src/app/interceptors/*"],
-      "@aw/models/*": ["src/app/models/*"],
-      "@aw/pipes/*": ["src/app/pipes/*"],
-      "@aw/services/*": ["src/app/services/*"],
-      "@aw/store/*": ["src/app/store/*"],
-      "@aw/validators/*": ["src/app/validators/*"],
-      "@aw/views/*": ["src/app/views/*"],
-      "@aw/environments/*": ["src/environments/*"]
-    }
+    "lib": ["ES2022", "dom"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

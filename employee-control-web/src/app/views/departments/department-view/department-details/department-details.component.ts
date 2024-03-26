@@ -1,9 +1,5 @@
 import { Component, computed, inject, Input, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ApiUrls, SiteUrls } from '@aw/core/urls/_index';
-import { urlReplaceParams } from '@aw/core/utils/_index';
-import { ResultResponse } from '@aw/models/result-response.model';
-import { DepartmentApiService } from '@aw/services/api/_index';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { BadgeComponent } from '../../../../components/badges/badge/badge.component';
@@ -11,7 +7,11 @@ import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-ba
 import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
 import { CardComponent } from '../../../../components/cards/card/card.component';
 import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
+import { ApiUrls, SiteUrls } from '../../../../core/urls/_index';
+import { urlReplaceParams } from '../../../../core/utils/_index';
+import { ResultResponse } from '../../../../models/_index';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
+import { DepartmentApiService } from '../../../../services/api/_index';
 import { DepartmentSelectedService } from '../department-selected.service';
 
 @Component({

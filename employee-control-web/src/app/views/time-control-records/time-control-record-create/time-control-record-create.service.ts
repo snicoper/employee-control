@@ -1,7 +1,7 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { TimeControlRecordEmployeeResponse } from './time-control-record-employee-response.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TimeControlRecordCreateService {
   private readonly employeeSelected$ = signal<TimeControlRecordEmployeeResponse | null>(null);
 

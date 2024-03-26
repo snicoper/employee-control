@@ -1,18 +1,4 @@
 import { Component, computed, inject } from '@angular/core';
-import { ProgressStackedCollection } from '@aw/components/progress/progress-stacked/progress-stacked-collection';
-import { logError } from '@aw/core/errors/log-messages';
-import { TimeControlGroupResponse } from '@aw/core/features/times-control/_index';
-import { TimeControlProgressStacked } from '@aw/core/features/times-control/time-control-group';
-import { ApiUrls } from '@aw/core/urls/api-urls';
-import { urlReplaceParams } from '@aw/core/utils/_index';
-import { DatetimeUtils } from '@aw/core/utils/datetime-utils';
-import { DeviceType, deviceToDeviceType } from '@aw/models/entities/types/device-type.model';
-import { TimeState } from '@aw/models/entities/types/time-state.model';
-import { ResultResponse } from '@aw/models/result-response.model';
-import { JwtService } from '@aw/services/_index';
-import { TimeControlApiService } from '@aw/services/api/_index';
-import { SimpleGeolocationService } from '@aw/services/simple-geolocation.service';
-import { CurrentTimeControlStateService } from '@aw/services/states/_index';
 import { DateTime } from 'luxon';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ToastrService } from 'ngx-toastr';
@@ -21,11 +7,23 @@ import { BtnLoadingComponent } from '../../components/buttons/btn-loading/btn-lo
 import { CardComponent } from '../../components/cards/card/card.component';
 import { DotDangerComponent } from '../../components/colors/dot-danger/dot-danger.component';
 import { DotSuccessComponent } from '../../components/colors/dot-success/dot-success.component';
+import { ProgressStackedCollection } from '../../components/progress/progress-stacked/progress-stacked-collection';
 import { TimeControlProgressComponent } from '../../components/progress/time-control-progress/time-control-progress.component';
 import { MonthSelectorComponent } from '../../components/selectors/month-selector/month-selector.component';
 import { ViewBaseComponent } from '../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../components/views/view-header/view-header.component';
+import { logError } from '../../core/errors/_index';
+import { TimeControlGroupResponse } from '../../core/features/times-control/_index';
+import { TimeControlProgressStacked } from '../../core/features/times-control/time-control-group';
+import { ApiUrls } from '../../core/urls/_index';
+import { DatetimeUtils, urlReplaceParams } from '../../core/utils/_index';
+import { ResultResponse } from '../../models/_index';
+import { DeviceType, TimeState, deviceToDeviceType } from '../../models/entities/types/_index';
 import { DatetimeFormatPipe } from '../../pipes/datetime-format.pipe';
+import { JwtService } from '../../services/_index';
+import { TimeControlApiService } from '../../services/api/_index';
+import { SimpleGeolocationService } from '../../services/simple-geolocation.service';
+import { CurrentTimeControlStateService } from '../../services/states/_index';
 import { TimeControlChangeStateRequest } from './time-control-change-state.request.model';
 
 @Component({

@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DeviceType } from '@aw/models/entities/types/device-type.model';
+import { DeviceType } from '../models/entities/types/_index';
 
 @Pipe({
-    name: 'deviceType',
-    standalone: true
+  name: 'deviceType',
+  standalone: true
 })
 export class DeviceTypePipe implements PipeTransform {
   transform(value: DeviceType): string {

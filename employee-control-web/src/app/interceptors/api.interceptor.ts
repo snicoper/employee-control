@@ -1,8 +1,8 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { LocalizationService } from '@aw/core/features/localizations/_index';
-import { JwtService } from '@aw/services/_index';
 import { Observable } from 'rxjs';
+import { LocalizationService } from '../core/features/localizations/_index';
+import { JwtService } from '../services/_index';
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {

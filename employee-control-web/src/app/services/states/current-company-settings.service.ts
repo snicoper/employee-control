@@ -1,8 +1,8 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { ApiUrls } from '@aw/core/urls/api-urls';
-import { urlReplaceParams } from '@aw/core/utils/common-utils';
-import { CompanySettings } from '@aw/models/entities/company-settings.model';
 import { finalize } from 'rxjs';
+import { ApiUrls } from '../../core/urls/_index';
+import { urlReplaceParams } from '../../core/utils/_index';
+import { CompanySettings } from '../../models/entities/company-settings.model';
 import { CompanySettingsApiService } from '../api/company-settings-api.service';
 import { JwtService } from '../jwt.service';
 
@@ -24,6 +24,11 @@ export class CurrentCompanySettingsService {
 
   getCompanySettingsValue(): CompanySettings | null {
     return this.companySettings$();
+  }
+
+  clean(): void {
+    this.loadingCompanySettings$.set(false);
+    this.companySettings$.set(null);
   }
 
   private loadCompanySettings(): void {

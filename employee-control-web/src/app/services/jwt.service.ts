@@ -1,11 +1,11 @@
 import { HttpRequest } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { LocalStorageKeys } from '@aw/core/types/_index';
-import { ApiUrls, SiteUrls } from '@aw/core/urls/_index';
-import { RefreshTokenRequest, RefreshTokenResponse } from '@aw/models/_index';
 import { jwtDecode } from 'jwt-decode';
 import { Observable, tap } from 'rxjs';
+import { LocalStorageKeys } from '../core/types/_index';
+import { ApiUrls, SiteUrls } from '../core/urls/_index';
+import { RefreshTokenRequest, RefreshTokenResponse } from '../models/_index';
 import { AuthApiService } from './api/_index';
 import { AuthService } from './auth.service';
 import { LocalStorageService } from './local-storage.service';

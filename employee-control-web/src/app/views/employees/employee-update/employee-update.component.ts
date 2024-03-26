@@ -2,16 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
-import { FormInputTypes } from '@aw/core/types/_index';
-import { SiteUrls } from '@aw/core/urls/_index';
-import { ApiUrls } from '@aw/core/urls/api-urls';
-import { urlReplaceParams } from '@aw/core/utils/_index';
-import { BadRequest, ResultResponse } from '@aw/models/_index';
-import { User } from '@aw/models/entities/_index';
-import { EmployeesApiService } from '@aw/services/api/_index';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
+import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
 import { CardComponent } from '../../../components/cards/card/card.component';
@@ -21,6 +14,12 @@ import { FormInputComponent } from '../../../components/forms/inputs/form-input/
 import { SpinnerComponent } from '../../../components/spinner/spinner.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { FormInputTypes } from '../../../core/types/_index';
+import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
+import { urlReplaceParams } from '../../../core/utils/_index';
+import { BadRequest, ResultResponse } from '../../../models/_index';
+import { User } from '../../../models/entities/_index';
+import { EmployeesApiService } from '../../../services/api/_index';
 
 @Component({
   selector: 'aw-employee-update',
@@ -85,7 +84,7 @@ export class EmployeeUpdateComponent {
       .subscribe({
         next: (result: ResultResponse) => {
           if (!result.succeeded) {
-            this.toastrService.error('Ha courrido un error al actualizar el empleado.');
+            this.toastrService.error('Ha ocurrido un error al actualizar el empleado.');
 
             return;
           }

@@ -1,17 +1,16 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ApiUrls } from '@aw/core/urls/api-urls';
-import { SiteUrls } from '@aw/core/urls/site-urls';
-import { ResultResponse } from '@aw/models/_index';
-import { AccountsApiService } from '@aw/services/api/_index';
-import { RegisterValidateRequest } from './register-validate-request.model';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
+import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
+import { ResultResponse } from '../../../models/_index';
+import { AccountsApiService } from '../../../services/api/_index';
+import { RegisterValidateRequest } from './register-validate-request.model';
 
 @Component({
-    selector: 'aw-register-validate',
-    templateUrl: './register-validate.component.html',
-    standalone: true,
-    imports: [ViewBaseComponent, RouterLink]
+  selector: 'aw-register-validate',
+  templateUrl: './register-validate.component.html',
+  standalone: true,
+  imports: [ViewBaseComponent, RouterLink]
 })
 export class RegisterValidateComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
@@ -38,10 +37,10 @@ export class RegisterValidateComponent implements OnInit {
 
   private validateEmail(): void {
     this.accountsApiService
-      .post<RegisterValidateRequest, ResultResponse>(
-        this.registerValidateRequest,
-        ApiUrls.accounts.registerValidateEmail
-      )
+      .post<
+        RegisterValidateRequest,
+        ResultResponse
+      >(this.registerValidateRequest, ApiUrls.accounts.registerValidateEmail)
       .subscribe({
         next: (result: ResultResponse) => {
           if (!result.succeeded) {

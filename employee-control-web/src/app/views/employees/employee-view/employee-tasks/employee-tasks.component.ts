@@ -1,18 +1,18 @@
 import { Component, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { TableHeaderConfig } from '@aw/components/tables/table-header/table-header.config';
-import { ApiResult } from '@aw/core/features/api-result/api-result';
-import { ApiUrls, SiteUrls } from '@aw/core/urls/_index';
-import { urlReplaceParams } from '@aw/core/utils/_index';
-import { CompanyTask } from '@aw/models/entities/company-task.model';
-import { CompanyTaskApiService } from '@aw/services/api/_index';
 import { finalize } from 'rxjs';
 import { BadgeComponent } from '../../../../components/badges/badge/badge.component';
 import { PaginationComponent } from '../../../../components/pagination/pagination.component';
 import { TableHeaderComponent } from '../../../../components/tables/table-header/table-header.component';
+import { TableHeaderConfig } from '../../../../components/tables/table-header/table-header.config';
 import { TableInputSearchComponent } from '../../../../components/tables/table-input-search/table-input-search.component';
 import { TableComponent } from '../../../../components/tables/table/table.component';
+import { ApiResult } from '../../../../core/features/api-result/_index';
+import { ApiUrls, SiteUrls } from '../../../../core/urls/_index';
+import { urlReplaceParams } from '../../../../core/utils/_index';
+import { CompanyTask } from '../../../../models/entities/_index';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
+import { CompanyTaskApiService } from '../../../../services/api/_index';
 import { EmployeeSelectedService } from '../employee-selected.service';
 import { employeeTasksTableHeaders } from './employee-tasks-table-headers';
 

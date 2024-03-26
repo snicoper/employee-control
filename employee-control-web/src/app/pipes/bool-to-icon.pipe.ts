@@ -8,8 +8,8 @@ import { Pipe, PipeTransform } from '@angular/core';
  *  <td [innerHTML]="employee.is_staff | boolToIcon"></td>
  */
 @Pipe({
-    name: 'boolToIcon',
-    standalone: true
+  name: 'boolToIcon',
+  standalone: true
 })
 export class BoolToIconPipe implements PipeTransform {
   transform(value: boolean | undefined): string {

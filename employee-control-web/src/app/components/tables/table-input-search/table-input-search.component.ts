@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ApiResult, LogicalOperators, RelationalOperators } from '@aw/core/features/api-result/_index';
+import { FormsModule } from '@angular/forms';
+import { ApiResult, LogicalOperators, RelationalOperators } from '../../../core/features/api-result/_index';
 import { TableHeaderField } from '../table-header/table-header-field.interface';
 import { TableHeaderConfig } from '../table-header/table-header.config';
-import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'aw-table-input-search',
-    templateUrl: './table-input-search.component.html',
-    standalone: true,
-    imports: [FormsModule]
+  selector: 'aw-table-input-search',
+  templateUrl: './table-input-search.component.html',
+  standalone: true,
+  imports: [FormsModule]
 })
 export class TableInputSearchComponent<T> {
   @Input({ required: true }) tableHeaderConfig = new TableHeaderConfig();

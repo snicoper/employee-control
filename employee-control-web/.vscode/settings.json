@@ -18,7 +18,6 @@
   // Languages.
   "typescript.preferences.quoteStyle": "single",
   "javascript.preferences.quoteStyle": "single",
-  "typescript.preferences.importModuleSpecifier": "shortest",
   "[markdown]": {
     "editor.tabSize": 4,
     "editor.wordWrap": "on",

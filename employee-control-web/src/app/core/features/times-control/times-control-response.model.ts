@@ -1,4 +1,4 @@
-import { ClosedBy, TimeState } from '@aw/models/entities/types/_index';
+import { ClosedBy, TimeState } from '../../../models/entities/types/_index';
 
 // Respuestas a la API al hace peticiones de grupos con TimeControl.
 export interface TimeControlGroupResponse {

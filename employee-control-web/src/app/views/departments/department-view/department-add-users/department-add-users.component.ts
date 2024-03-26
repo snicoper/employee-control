@@ -1,13 +1,13 @@
 import { Component, computed, EventEmitter, inject, Output } from '@angular/core';
-import { DualListBox } from '@aw/components/dual-list-box/dual-list-box.model';
-import { HtmlItemSelector } from '@aw/core/models/_index';
-import { ApiUrls } from '@aw/core/urls/api-urls';
-import { urlReplaceParams } from '@aw/core/utils/_index';
-import { ResultResponse } from '@aw/models/result-response.model';
-import { DepartmentApiService } from '@aw/services/api/_index';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { DualListBoxComponent } from '../../../../components/dual-list-box/dual-list-box.component';
+import { DualListBox } from '../../../../components/dual-list-box/dual-list-box.model';
+import { HtmlItemSelector } from '../../../../core/models/_index';
+import { ApiUrls } from '../../../../core/urls/_index';
+import { urlReplaceParams } from '../../../../core/utils/_index';
+import { ResultResponse } from '../../../../models/_index';
+import { DepartmentApiService } from '../../../../services/api/_index';
 import { DepartmentSelectedService } from '../department-selected.service';
 import { DepartmentAddUserResponse } from './department-add-user-response.model';
 

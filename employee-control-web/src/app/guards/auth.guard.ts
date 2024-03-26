@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { logDebug } from '@aw/core/errors/_index';
-import { SiteUrls } from '@aw/core/urls/_index';
-import { AuthService, JwtService } from '@aw/services/_index';
 import { ToastrService } from 'ngx-toastr';
+import { logDebug } from '../core/errors/_index';
+import { SiteUrls } from '../core/urls/_index';
+import { AuthService, JwtService } from '../services/_index';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard {

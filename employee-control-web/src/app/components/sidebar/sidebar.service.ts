@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { LocalStorageKeys } from '@aw/core/types/local-storage-keys';
-import { LocalStorageService } from '@aw/services/_index';
+import { LocalStorageKeys } from '../../core/types/_index';
+import { LocalStorageService } from '../../services/_index';
 import { sidebarMenu } from './sidebar-menu';
 import { SidebarMenu } from './sidebar-menu-types.model';
 

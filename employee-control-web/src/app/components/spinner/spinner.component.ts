@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'aw-spinner',
-    templateUrl: './spinner.component.html',
-    standalone: true,
-    imports: [NgClass]
+  selector: 'aw-spinner',
+  templateUrl: './spinner.component.html',
+  standalone: true,
+  imports: [NgClass]
 })
 export class SpinnerComponent implements OnInit {
   /** Solo mostrara el spinner cuando loading sea true. */

@@ -1,20 +1,20 @@
 import { Component, OnInit, computed, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BtnType } from '@aw/components/buttons/btn-loading/btn-loading.type';
-import { ApiUrls, SiteUrls } from '@aw/core/urls/_index';
-import { CustomValidation } from '@aw/core/validators/_index';
-import { BadRequest, ResultResponse } from '@aw/models/_index';
-import { deviceToDeviceType } from '@aw/models/entities/types/_index';
-import { TimeControlApiService } from '@aw/services/api/_index';
 import { DateTime } from 'luxon';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
+import { BtnType } from '../../../../components/buttons/btn-loading/btn-loading.type';
 import { FormDatepickerComponent } from '../../../../components/forms/inputs/form-datepicker/form-datepicker.component';
 import { FormTimePickerComponent } from '../../../../components/forms/inputs/form-timepicker/form-timepicker.component';
+import { ApiUrls, SiteUrls } from '../../../../core/urls/_index';
+import { CustomValidation } from '../../../../core/validators/_index';
+import { BadRequest, ResultResponse } from '../../../../models/_index';
+import { deviceToDeviceType } from '../../../../models/entities/types/_index';
+import { TimeControlApiService } from '../../../../services/api/_index';
 import { TimeControlRecordCreateRequest } from '../time-control-record-create-request.model';
 import { TimeControlRecordCreateService } from '../time-control-record-create.service';
 
@@ -114,6 +114,13 @@ export class TimeControlRecordCreateFormComponent implements OnInit {
       0
     );
 
+    // Comprobar si start es menor a end.
+    if (start > end) {
+      this.form.get('timeFinish')?.setErrors({ noFutureDate: true });
+
+      return timeControl;
+    }
+
     timeControl.start = start.toISOString();
     timeControl.finish = end.toISOString();
 
@@ -145,10 +152,7 @@ export class TimeControlRecordCreateFormComponent implements OnInit {
         timeFinish: ['', [Validators.required]]
       },
       {
-        validators: [
-          CustomValidation.dateStartGreaterThanFinish('dateStart', 'dateFinish'),
-          CustomValidation.dateStartGreaterThanFinish('timeStart', 'timeFinish')
-        ]
+        validators: [CustomValidation.dateStartGreaterThanFinish('dateStart', 'dateFinish')]
       }
     );
   }

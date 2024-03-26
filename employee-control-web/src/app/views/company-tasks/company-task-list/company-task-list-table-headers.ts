@@ -1,5 +1,5 @@
-import { TableHeaderField } from '@aw/components/tables/table-header/table-header-field.interface';
-import { OrderTypes } from '@aw/core/features/api-result/_index';
+import { TableHeaderField } from '../../../components/tables/table-header/table-header-field.interface';
+import { OrderTypes } from '../../../core/features/api-result/_index';
 
 export const companyTaskListTableHeader: TableHeaderField[] = [
   {

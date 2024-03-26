@@ -1,4 +1,4 @@
-import { OrderTypes } from '@aw/core/features/api-result/_index';
+import { OrderTypes } from '../../../core/features/api-result/_index';
 
 export interface TableHeaderField {
   field: string;

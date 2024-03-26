@@ -1,14 +1,14 @@
 import { Component, computed, inject } from '@angular/core';
-import { ProgressStackedCollection } from '@aw/components/progress/progress-stacked/progress-stacked-collection';
-import { TimeControlGroupResponse } from '@aw/core/features/times-control/_index';
-import { TimeControlProgressStacked } from '@aw/core/features/times-control/time-control-group';
-import { ApiUrls } from '@aw/core/urls/_index';
-import { DatetimeUtils, urlReplaceParams } from '@aw/core/utils/_index';
-import { TimeControlApiService } from '@aw/services/api/_index';
 import { DateTime } from 'luxon';
 import { finalize } from 'rxjs';
+import { ProgressStackedCollection } from '../../../../components/progress/progress-stacked/progress-stacked-collection';
 import { TimeControlProgressComponent } from '../../../../components/progress/time-control-progress/time-control-progress.component';
 import { MonthSelectorComponent } from '../../../../components/selectors/month-selector/month-selector.component';
+import { TimeControlGroupResponse } from '../../../../core/features/times-control/_index';
+import { TimeControlProgressStacked } from '../../../../core/features/times-control/time-control-group';
+import { ApiUrls } from '../../../../core/urls/_index';
+import { DatetimeUtils, urlReplaceParams } from '../../../../core/utils/_index';
+import { TimeControlApiService } from '../../../../services/api/_index';
 import { EmployeeSelectedService } from '../employee-selected.service';
 
 @Component({

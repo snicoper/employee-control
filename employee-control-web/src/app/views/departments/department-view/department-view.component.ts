@@ -1,11 +1,11 @@
 import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
-import { SiteUrls } from '@aw/core/urls/_index';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { CardComponent } from '../../../components/cards/card/card.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { SiteUrls } from '../../../core/urls/_index';
 import { DepartmentAddUsersComponent } from './department-add-users/department-add-users.component';
 import { DepartmentDetailsComponent } from './department-details/department-details.component';
 import { DepartmentSelectedService } from './department-selected.service';

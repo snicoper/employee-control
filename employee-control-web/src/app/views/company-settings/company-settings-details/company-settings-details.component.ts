@@ -1,15 +1,15 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { BreadcrumbCollection } from '@aw/components/breadcrumb/breadcrumb-collection';
-import { SiteUrls } from '@aw/core/urls/site-urls';
-import { CurrentCompanySettingsService } from '@aw/services/states/_index';
 import { TimeZone, getTimeZones } from '@vvo/tzdb';
 import { DateTime } from 'luxon';
+import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { CardComponent } from '../../../components/cards/card/card.component';
 import { TableLoadingComponent } from '../../../components/tables/table-loading/table-loading.component';
 import { TooltipInfoComponent } from '../../../components/tooltips/tooltip-info/tooltip-info.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { SiteUrls } from '../../../core/urls/_index';
+import { CurrentCompanySettingsService } from '../../../services/states/_index';
 
 @Component({
   selector: 'aw-company-settings-details',
