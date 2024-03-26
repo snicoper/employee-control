@@ -14,7 +14,7 @@ import { FormInputTypes } from '../../../core/types/_index';
 import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
 import { BadRequest } from '../../../models/_index';
 import { AccountsApiService } from '../../../services/api/_index';
-import { CurrentCompanySettingsService } from './../../../services/states/current-company-settings.service';
+import { CurrentCompanySettingsStateService } from '../../../services/states/_index';
 import { RegisterRequest } from './register-request.model';
 
 @Component({
@@ -37,7 +37,7 @@ import { RegisterRequest } from './register-request.model';
 export class RegisterComponent {
   private readonly fb = inject(FormBuilder);
   private readonly accountsApiService = inject(AccountsApiService);
-  private readonly currentCompanySettingsService = inject(CurrentCompanySettingsService);
+  private readonly currentCompanySettingsStateService = inject(CurrentCompanySettingsStateService);
   private readonly route = inject(Router);
   private readonly toastrService = inject(ToastrService);
 
@@ -84,7 +84,7 @@ export class RegisterComponent {
       password: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]],
       companyName: ['', [Validators.required]],
-      timezone: [this.currentCompanySettingsService.companySettings()?.timezone, [Validators.required]]
+      timezone: [this.currentCompanySettingsStateService.companySettings()?.timezone, [Validators.required]]
     });
   }
 }

@@ -30,6 +30,11 @@ public class TimeControlConfiguration : IEntityTypeConfiguration<TimeControl>
         builder.Property(tc => tc.Finish)
             .IsRequired();
 
+        builder.Property(tc => tc.Incidence);
+
+        builder.Property(tc => tc.IncidenceDescription)
+            .HasMaxLength(256);
+
         builder.Property(tc => tc.ClosedBy)
             .IsRequired();
 

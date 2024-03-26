@@ -6,7 +6,7 @@ import { NgScrollbar } from 'ngx-scrollbar';
 import { RequiredRoleDirective } from '../../directives/required-role.directive';
 import { TimeState } from '../../models/entities/types/_index';
 import { JwtService } from '../../services/_index';
-import { CurrentCompanyEmployeeService, CurrentTimeControlStateService } from '../../services/states/_index';
+import { CurrentCompanyEmployeeStateService, CurrentTimeControlStateService } from '../../services/states/_index';
 import { SidebarMenu, SidebarMenuTypes } from './sidebar-menu-types.model';
 import { SidebarService } from './sidebar.service';
 
@@ -27,7 +27,7 @@ import { SidebarService } from './sidebar.service';
 export class SidebarComponent {
   private readonly jwtService = inject(JwtService);
   private readonly sidebarService = inject(SidebarService);
-  private readonly currentCompanyEmployeeService = inject(CurrentCompanyEmployeeService);
+  private readonly currentCompanyEmployeeStateService = inject(CurrentCompanyEmployeeStateService);
   private readonly currentTimeControlStateService = inject(CurrentTimeControlStateService);
 
   readonly currentTimeControl = computed(() => this.currentTimeControlStateService.currentTimeControl());
@@ -45,7 +45,7 @@ export class SidebarComponent {
   }
 
   get companyName(): string {
-    return this.currentCompanyEmployeeService.getValue()?.name as string;
+    return this.currentCompanyEmployeeStateService.getValue()?.name as string;
   }
 
   toggle(currentMenu: SidebarMenu): void {

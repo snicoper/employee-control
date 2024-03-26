@@ -34,7 +34,7 @@ public class CompanyService(
         company.CompanySettings = new CompanySettings { CompanyId = company.Id, Timezone = timezone };
 
         // Crear los días de trabajo para la compañía, por defecto días laborables de lunes a viernes.
-        company.WorkDays = new Domain.Entities.WorkDays
+        company.WorkingDaysWeek = new Domain.Entities.WorkingDaysWeek
         {
             CompanyId = company.Id,
             Monday = true,

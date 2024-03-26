@@ -19,7 +19,7 @@ import { urlReplaceParams } from '../../../core/utils/common-utils';
 import { CategoryAbsence } from '../../../models/entities/category-absence.model';
 import { BoolToIconPipe } from '../../../pipes/_index';
 import { CategoryAbsencesApiService } from '../../../services/api/category-absences-api.service';
-import { CurrentCompanyEmployeeService } from '../../../services/states/current-company-employee.service';
+import { CurrentCompanyEmployeeStateService } from '../../../services/states/_index';
 import { categoryAbsenceListTableHeader } from './category-absence-list-table-headers';
 
 @Component({
@@ -42,7 +42,7 @@ import { categoryAbsenceListTableHeader } from './category-absence-list-table-he
 })
 export class CategoryAbsenceListComponent {
   private readonly categoryAbsencesApiService = inject(CategoryAbsencesApiService);
-  private readonly currentCompanyEmployeeService = inject(CurrentCompanyEmployeeService);
+  private readonly currentCompanyEmployeeStateService = inject(CurrentCompanyEmployeeStateService);
   private readonly router = inject(Router);
 
   readonly breadcrumb = new BreadcrumbCollection();
@@ -83,7 +83,7 @@ export class CategoryAbsenceListComponent {
   private loadCompanyTasks(): void {
     this.loading = true;
     const url = urlReplaceParams(ApiUrls.categoryAbsences.getCategoryAbsenceByCompanyIdPaginated, {
-      companyId: this.currentCompanyEmployeeService.getValue()?.id.toString() ?? ''
+      companyId: this.currentCompanyEmployeeStateService.getValue()?.id.toString() ?? ''
     });
 
     this.categoryAbsencesApiService

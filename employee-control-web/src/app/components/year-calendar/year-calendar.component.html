@@ -1,5 +1,5 @@
 <div class="d-flex flex-wrap justify-content-center">
   @for (date of monthsInYear; track date) {
-    <aw-month-calendar [date]="date" />
+    <aw-month-calendar [date]="date" [calendarDayEvents]="calendarDayEvents" />
   }
 </div>

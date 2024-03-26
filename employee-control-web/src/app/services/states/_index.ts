@@ -1,4 +1,5 @@
-export { CurrentCompanyEmployeeService } from './current-company-employee.service';
-export { CurrentCompanySettingsService } from './current-company-settings.service';
+export { CurrentCompanyEmployeeStateService } from './current-company-employee-state.service';
+export { CurrentCompanySettingsStateService } from './current-company-settings-state.service';
 export { CurrentTimeControlStateService } from './current-time-control-state.service';
-export { EmployeeSettingsService } from './employee-settings.service';
+export { EmployeeSettingsStateService } from './employee-settings-state.service';
+export { WorkingDaysWeekStateService } from './working-days-week-state.service';

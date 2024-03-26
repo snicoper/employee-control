@@ -8,15 +8,26 @@
 
     <table class="table table-striped table-borderless">
       <caption></caption>
-      <thead>
+      <tbody>
         <!-- details -->
         @if (!loadingCompanySettings()) {
           <tr>
             <th>
               Zona horaria
-              <aw-tooltip-info content="Prueba de tooltip" cssClass="text-info"></aw-tooltip-info>
+              <aw-tooltip-info content="Zona horaria de la compañía" cssClass="text-info"></aw-tooltip-info>
             </th>
             <td>{{ companySettings()?.timezone }} - {{ nowWithTimezone }}</td>
+          </tr>
+          <tr>
+            <th>
+              Días laborables
+              <aw-tooltip-info
+                content="Días por defecto considerados laborables"
+                cssClass="text-info"></aw-tooltip-info>
+            </th>
+            <td>
+              <aw-working-days-week />
+            </td>
           </tr>
         }
         <!-- end details -->
@@ -24,7 +35,7 @@
         <!-- spinner -->
         <aw-table-loading [loading]="loadingCompanySettings()"></aw-table-loading>
         <!-- end spinner -->
-      </thead>
+      </tbody>
     </table>
   </aw-card>
 </aw-view-base>

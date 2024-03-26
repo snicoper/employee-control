@@ -11,4 +11,4 @@ export { EmployeeHolidaysApiService } from './employee-holidays-api.service';
 export { EmployeesApiService } from './employees-api.service';
 export { IdentityRolesApiService } from './identity-roles-api.service';
 export { TimeControlApiService } from './time-control-api.service';
-export { WorkDaysApiService } from './work-days-api.service';
+export { WorkingDaysWeekApiService } from './working-days-week-api.service';

@@ -5,10 +5,11 @@ import { urlReplaceParams } from '../../core/utils/_index';
 import { CurrentTimeControlResponse } from '../../models/_index';
 import { TimeControlApiService } from '../api/time-control-api.service';
 import { JwtService } from '../jwt.service';
+import { StateService } from './state.service';
 
 /** Estado del usuario activo. */
 @Injectable({ providedIn: 'root' })
-export class CurrentTimeControlStateService {
+export class CurrentTimeControlStateService implements StateService<CurrentTimeControlResponse | null> {
   private readonly jwtService = inject(JwtService);
   private readonly timeControlApiService = inject(TimeControlApiService);
 
@@ -22,7 +23,7 @@ export class CurrentTimeControlStateService {
     this.loadCurrentTimeControl();
   }
 
-  getCurrentStateValue(): CurrentTimeControlResponse | null {
+  getValue(): CurrentTimeControlResponse | null {
     return this.currentTimeControl$();
   }
 

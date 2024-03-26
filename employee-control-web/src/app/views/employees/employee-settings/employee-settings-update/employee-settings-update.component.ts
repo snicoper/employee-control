@@ -17,7 +17,7 @@ import { urlReplaceParams } from '../../../../core/utils/_index';
 import { BadRequest } from '../../../../models/_index';
 import { EmployeeSettings } from '../../../../models/entities/_index';
 import { EmployeesApiService } from '../../../../services/api/_index';
-import { EmployeeSettingsService } from '../../../../services/states/_index';
+import { EmployeeSettingsStateService } from '../../../../services/states/_index';
 
 @Component({
   selector: 'aw-employee-settings-update',
@@ -35,13 +35,13 @@ import { EmployeeSettingsService } from '../../../../services/states/_index';
   ]
 })
 export class EmployeeSettingsUpdateComponent {
-  private readonly employeeSettingsService = inject(EmployeeSettingsService);
+  private readonly employeeSettingsStateService = inject(EmployeeSettingsStateService);
   private readonly employeesApiService = inject(EmployeesApiService);
   private readonly fb = inject(FormBuilder);
   private readonly toastrService = inject(ToastrService);
   private readonly router = inject(Router);
 
-  readonly employeeSettings = computed(() => this.employeeSettingsService.employeeSettings());
+  readonly employeeSettings = computed(() => this.employeeSettingsStateService.employeeSettings());
 
   readonly breadcrumb = new BreadcrumbCollection();
 
@@ -83,7 +83,7 @@ export class EmployeeSettingsUpdateComponent {
           if (result) {
             this.toastrService.success('Configuración actualizada con éxito');
             this.router.navigateByUrl(SiteUrls.employees.settings);
-            this.employeeSettingsService.refresh();
+            this.employeeSettingsStateService.refresh();
           }
         }
       });

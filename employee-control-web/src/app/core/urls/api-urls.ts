@@ -102,8 +102,8 @@ export const ApiUrls = {
     deleteTimeControl: '/times-control/{id}'
   },
 
-  workDays: {
-    getWorkDaysByCompanyId: '/work-days/company/{companyId}',
-    updateWorkDays: '/work-days/{id}'
+  workingDaysWeek: {
+    getWorkingDaysWeekByCompanyId: '/working-days-week/company/{companyId}',
+    updateWorkingDaysWeek: '/working-days-week/{id}'
   }
 };

@@ -8,6 +8,8 @@ export interface TimeControl {
   id: string;
   start: Date;
   finish?: Date;
+  incidence: boolean;
+  incidenceDescription?: string;
   closedBy: ClosedBy;
   timeState: TimeState;
   deviceTypeStart: DeviceType;

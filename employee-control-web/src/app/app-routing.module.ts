@@ -46,21 +46,10 @@ const routes: Routes = [
     loadChildren: () => import('./views/departments/departments-routing.module').then((m) => m.routes)
   },
   {
-    path: 'employee-holidays',
-    data: { roles: [Roles.employee] },
-    loadChildren: () => import('./views/employee-holidays/employee-holidays-routing.module').then((m) => m.routes)
-  },
-  {
     path: 'employees',
     data: { roles: [Roles.humanResources] },
     canActivate: [AuthGuard],
     loadChildren: () => import('./views/employees/employees-routing.module').then((m) => m.routes)
-  },
-  {
-    path: 'manage-holidays',
-    data: { roles: [Roles.humanResources] },
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./views/manage-holidays/manage-holidays-routing.module').then((m) => m.routes)
   },
   {
     path: 'errors',

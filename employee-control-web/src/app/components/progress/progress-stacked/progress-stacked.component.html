@@ -5,12 +5,13 @@
 <div class="progress-stacked mb-2">
   @for (item of progressStackedCollection.progressStackedItems; track item) {
     <div
+      (click)="handleClickProgress(item)"
       [attr.aria-valuemax]="item.valueMax"
       [attr.aria-valuemin]="item.valueMin"
       [attr.aria-valuenow]="item.valueNow"
       [ngStyle]="{ width: item.percent + '%' }"
       aria-label="Segment one"
-      class="progress"
+      class="progress cursor-pointer"
       role="progressbar">
       <div [ngClass]="item.background" [title]="item.tooltip" awTooltip class="progress-bar">
         {{ item.content }}

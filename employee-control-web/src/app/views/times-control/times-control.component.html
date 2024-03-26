@@ -52,7 +52,10 @@
 
   <!-- times -->
   <aw-card>
-    <aw-time-control-progress [loading]="loadingTimeControls" [progressStackedCollection]="progressStackedCollection" />
+    <aw-time-control-progress
+      (clickProgress)="handleClickProgress($event)"
+      [loading]="loadingTimeControls"
+      [progressStackedCollection]="progressStackedCollection" />
   </aw-card>
   <!-- end times -->
 </aw-view-base>

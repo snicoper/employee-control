@@ -19,7 +19,7 @@ import { urlReplaceParams } from '../../../core/utils/_index';
 import { CompanyTask } from '../../../models/entities/_index';
 import { BoolToIconPipe, DatetimePipe } from '../../../pipes/_index';
 import { CompanyTaskApiService } from '../../../services/api/_index';
-import { CurrentCompanyEmployeeService } from '../../../services/states/_index';
+import { CurrentCompanyEmployeeStateService } from '../../../services/states/_index';
 import { companyTaskListTableHeader } from './company-task-list-table-headers';
 
 @Component({
@@ -44,7 +44,7 @@ import { companyTaskListTableHeader } from './company-task-list-table-headers';
 export class CompanyTaskListComponent {
   private readonly companyTaskApiService = inject(CompanyTaskApiService);
   private readonly router = inject(Router);
-  private readonly currentCompanyEmployeeService = inject(CurrentCompanyEmployeeService);
+  private readonly currentCompanyEmployeeStateService = inject(CurrentCompanyEmployeeStateService);
 
   readonly breadcrumb = new BreadcrumbCollection();
 
@@ -85,7 +85,7 @@ export class CompanyTaskListComponent {
   private loadCompanyTasks(): void {
     this.loading = true;
     const url = urlReplaceParams(ApiUrls.companyTasks.getCompanyTasksByCompanyIdPaginated, {
-      companyId: this.currentCompanyEmployeeService.getValue()?.id.toString() ?? ''
+      companyId: this.currentCompanyEmployeeStateService.getValue()?.id.toString() ?? ''
     });
 
     this.companyTaskApiService

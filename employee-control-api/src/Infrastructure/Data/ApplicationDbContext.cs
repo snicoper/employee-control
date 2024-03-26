@@ -32,7 +32,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<TimeControl> TimeControls => Set<TimeControl>();
 
-    public DbSet<WorkDays> WorkDays => Set<WorkDays>();
+    public DbSet<WorkingDaysWeek> WorkingDaysWeek => Set<WorkingDaysWeek>();
 
     public new DatabaseFacade Database => base.Database;
 

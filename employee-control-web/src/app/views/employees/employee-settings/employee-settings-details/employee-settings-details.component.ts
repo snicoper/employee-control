@@ -9,7 +9,7 @@ import { TooltipInfoComponent } from '../../../../components/tooltips/tooltip-in
 import { ViewBaseComponent } from '../../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../../components/views/view-header/view-header.component';
 import { SiteUrls } from '../../../../core/urls/_index';
-import { EmployeeSettingsService } from '../../../../services/states/_index';
+import { EmployeeSettingsStateService } from '../../../../services/states/_index';
 
 @Component({
   selector: 'aw-employee-settings-details',
@@ -25,10 +25,10 @@ import { EmployeeSettingsService } from '../../../../services/states/_index';
   ]
 })
 export class EmployeeSettingsDetailsComponent {
-  private readonly employeeSettingsService = inject(EmployeeSettingsService);
+  private readonly employeeSettingsStateService = inject(EmployeeSettingsStateService);
 
-  readonly employeeSettings = computed(() => this.employeeSettingsService.employeeSettings());
-  readonly loadingEmployeeSettings = computed(() => this.employeeSettingsService.loadingEmployeeSettings());
+  readonly employeeSettings = computed(() => this.employeeSettingsStateService.employeeSettings());
+  readonly loadingEmployeeSettings = computed(() => this.employeeSettingsStateService.loadingEmployeeSettings());
 
   readonly breadcrumb = new BreadcrumbCollection();
   nowWithTimezone = '';

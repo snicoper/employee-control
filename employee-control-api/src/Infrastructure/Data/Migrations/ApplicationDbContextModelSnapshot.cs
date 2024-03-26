@@ -591,6 +591,13 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.Property<DateTimeOffset>("Finish")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("Incidence")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("IncidenceDescription")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
                     b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
@@ -630,7 +637,7 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.ToTable("TimeControls", (string)null);
                 });
 
-            modelBuilder.Entity("EmployeeControl.Domain.Entities.WorkDays", b =>
+            modelBuilder.Entity("EmployeeControl.Domain.Entities.WorkingDaysWeek", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -679,7 +686,7 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
 
                     b.HasIndex("Id");
 
-                    b.ToTable("WorkDays", (string)null);
+                    b.ToTable("WorkingDaysWeek", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -954,11 +961,11 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EmployeeControl.Domain.Entities.WorkDays", b =>
+            modelBuilder.Entity("EmployeeControl.Domain.Entities.WorkingDaysWeek", b =>
                 {
                     b.HasOne("EmployeeControl.Domain.Entities.Company", "Company")
-                        .WithOne("WorkDays")
-                        .HasForeignKey("EmployeeControl.Domain.Entities.WorkDays", "CompanyId")
+                        .WithOne("WorkingDaysWeek")
+                        .HasForeignKey("EmployeeControl.Domain.Entities.WorkingDaysWeek", "CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1050,7 +1057,7 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
 
                     b.Navigation("Users");
 
-                    b.Navigation("WorkDays")
+                    b.Navigation("WorkingDaysWeek")
                         .IsRequired();
                 });
 

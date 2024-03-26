@@ -28,7 +28,7 @@ public interface IApplicationDbContext
 
     DbSet<TimeControl> TimeControls { get; }
 
-    DbSet<WorkDays> WorkDays { get; }
+    DbSet<WorkingDaysWeek> WorkingDaysWeek { get; }
 
     DatabaseFacade Database { get; }
 

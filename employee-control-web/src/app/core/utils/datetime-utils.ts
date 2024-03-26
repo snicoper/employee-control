@@ -47,4 +47,24 @@ export abstract class DatetimeUtils {
 
     return `${minutes}m`;
   }
+
+  static getWeekDaysFromYear(year: number, weekDay: number): Date[] {
+    const result: Date[] = [];
+    const start = DateTime.fromObject({ year: year, month: 1, day: 1 });
+    const end = DateTime.fromObject({ year: year, month: 12, day: 31 });
+
+    const interval = Interval.fromDateTimes(start, end);
+    const subIntervals = interval.splitBy({ days: 1 });
+    subIntervals.reduce((days, subInt) => {
+      const d = subInt.start;
+
+      if (d && d?.weekday === weekDay) {
+        result.push(d.toJSDate());
+      }
+
+      return d?.weekday === weekDay ? days + 1 : days;
+    }, 0);
+
+    return result;
+  }
 }

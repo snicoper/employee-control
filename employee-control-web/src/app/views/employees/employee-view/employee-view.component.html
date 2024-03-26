@@ -4,6 +4,7 @@
     @if (employeeTimeControlState()?.timeState === timeStates.open) {
       <aw-dot-success />
     }
+
     @if (employeeTimeControlState()?.timeState === timeStates.close) {
       <aw-dot-danger />
     }
@@ -12,14 +13,10 @@
   </aw-view-header>
   <!-- end header -->
 
-  <!-- employee details -->
   @if (employeeSelected()) {
     <aw-employee-details />
-  }
-  <!-- end employee details -->
 
-  <!-- tabs -->
-  @if (employeeSelected()) {
+    <!-- tabs -->
     <div class="mt-3">
       <aw-card>
         <div>
@@ -41,6 +38,6 @@
         </div>
       </aw-card>
     </div>
+    <!-- end tabs -->
   }
 </aw-view-base>
-<!-- end tabs -->

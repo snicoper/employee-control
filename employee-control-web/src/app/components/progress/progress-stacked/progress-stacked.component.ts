@@ -1,7 +1,8 @@
 import { NgClass, NgStyle } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TooltipDirective } from '../../../directives/tooltip.directive';
 import { ProgressStackedCollection } from './progress-stacked-collection';
+import { ProgressStackedItem } from './progress-stacked-item.model';
 
 @Component({
   selector: 'aw-progress-stacked',
@@ -13,7 +14,13 @@ import { ProgressStackedCollection } from './progress-stacked-collection';
 export class ProgressStackedComponent {
   @Input({ required: true }) progressStackedCollection: ProgressStackedCollection;
 
+  @Output() clickProgress = new EventEmitter<ProgressStackedItem>();
+
   constructor() {
     this.progressStackedCollection = new ProgressStackedCollection();
+  }
+
+  handleClickProgress(progressStackedItem: ProgressStackedItem): void {
+    this.clickProgress.emit(progressStackedItem);
   }
 }

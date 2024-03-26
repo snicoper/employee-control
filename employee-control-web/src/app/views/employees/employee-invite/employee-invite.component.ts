@@ -19,7 +19,7 @@ import { urlReplaceParams } from '../../../core/utils/_index';
 import { BadRequest } from '../../../models/_index';
 import { JwtService } from '../../../services/_index';
 import { EmployeesApiService } from '../../../services/api/_index';
-import { CurrentCompanySettingsService } from '../../../services/states/_index';
+import { CurrentCompanySettingsStateService } from '../../../services/states/_index';
 import { InviteEmployeeRequest } from './employee-invite-request.model';
 
 @Component({
@@ -45,7 +45,7 @@ export class EmployeeInviteComponent {
   private readonly jwtService = inject(JwtService);
   private readonly toastrService = inject(ToastrService);
   private readonly router = inject(Router);
-  private readonly currentCompanySettingsService = inject(CurrentCompanySettingsService);
+  private readonly currentCompanySettingsStateService = inject(CurrentCompanySettingsStateService);
 
   readonly breadcrumb = new BreadcrumbCollection();
 
@@ -96,7 +96,7 @@ export class EmployeeInviteComponent {
   }
 
   private buildForm(): void {
-    const companySettings = this.currentCompanySettingsService.getCompanySettingsValue();
+    const companySettings = this.currentCompanySettingsStateService.getValue();
 
     this.form = this.fb.group({
       firstName: ['', [Validators.required]],

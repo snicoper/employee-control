@@ -1,7 +1,7 @@
 <!-- times -->
 @if (!loading) {
   @for (progressStacked of progressStackedCollection; track progressStacked) {
-    <aw-progress-stacked [progressStackedCollection]="progressStacked" />
+    <aw-progress-stacked [progressStackedCollection]="progressStacked" (clickProgress)="handleClickProgress($event)" />
   }
 } @else {
   <aw-spinner [loading]="loading" [size]="100" />

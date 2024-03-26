@@ -18,6 +18,7 @@ internal class CreateTimeControlHandler(
         var timeControl = mapper.Map<TimeControl>(request);
 
         timeControl.CompanyId = currentUserService.CompanyId;
+        timeControl.Incidence = false;
         timeControl.ClosedBy = ClosedBy.Staff;
         timeControl.TimeState = TimeState.Close;
         timeControl.DeviceTypeStart = request.DeviceType;

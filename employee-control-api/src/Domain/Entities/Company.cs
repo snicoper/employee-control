@@ -11,7 +11,7 @@ public class Company : BaseAuditableEntity
 
     public CompanySettings CompanySettings { get; set; } = null!;
 
-    public WorkDays WorkDays { get; set; } = null!;
+    public WorkingDaysWeek WorkingDaysWeek { get; set; } = null!;
 
     public ICollection<Department> Departaments { get; set; } = new List<Department>();
 

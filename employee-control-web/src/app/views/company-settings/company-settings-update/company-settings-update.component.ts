@@ -16,7 +16,7 @@ import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
 import { BadRequest, ResultResponse } from '../../../models/_index';
 import { CompanySettings } from '../../../models/entities/company-settings.model';
 import { CompanySettingsApiService } from '../../../services/api/_index';
-import { CurrentCompanySettingsService } from '../../../services/states/_index';
+import { CurrentCompanySettingsStateService } from '../../../services/states/_index';
 
 @Component({
   selector: 'aw-company-settings-update',
@@ -34,13 +34,13 @@ import { CurrentCompanySettingsService } from '../../../services/states/_index';
   ]
 })
 export class CompanySettingsUpdateComponent {
-  private readonly currentCompanySettingsService = inject(CurrentCompanySettingsService);
+  private readonly currentCompanySettingsStateService = inject(CurrentCompanySettingsStateService);
   private readonly companySettingsApiService = inject(CompanySettingsApiService);
   private readonly fb = inject(FormBuilder);
   private readonly toastrService = inject(ToastrService);
   private readonly router = inject(Router);
 
-  readonly companySettings = computed(() => this.currentCompanySettingsService.companySettings());
+  readonly companySettings = computed(() => this.currentCompanySettingsStateService.companySettings());
 
   readonly breadcrumb = new BreadcrumbCollection();
 
@@ -80,7 +80,7 @@ export class CompanySettingsUpdateComponent {
           if (result.succeeded) {
             this.toastrService.success('Configuración actualizada con éxito');
             this.router.navigateByUrl(SiteUrls.companySettings.details);
-            this.currentCompanySettingsService.refresh();
+            this.currentCompanySettingsStateService.refresh();
           }
         }
       });

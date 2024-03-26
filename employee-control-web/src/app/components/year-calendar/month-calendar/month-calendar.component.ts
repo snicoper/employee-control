@@ -12,13 +12,13 @@ import { CalendarDay } from './calendar-day.model';
 })
 export class MonthCalendarComponent implements OnInit {
   @Input({ required: true }) date = new Date();
+  @Input() calendarDayEvents: CalendarDay[] = [];
 
   private currentYear = this.date.getFullYear();
   private currentMonth = this.date.getMonth();
 
-  currentDate = '';
   calendarDays: CalendarDay[] = [];
-
+  currentDate = '';
   weeks = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   months = [
     'January',
@@ -73,14 +73,10 @@ export class MonthCalendarComponent implements OnInit {
     // Bucle para agregar las fechas del mes actual.
     for (let i = 1; i <= lastDate; i++) {
       const date = new Date(this.currentYear, this.currentMonth, i);
+      const isToday = date.getTime() === new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+      const backgroundToday = isToday ? '#6332c5' : '';
 
-      const isToday =
-        new Date(this.currentYear, this.currentMonth, i).getTime() ===
-        new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
-
-      const background = isToday ? '#6332c5' : '';
-
-      this.calendarDays.push({ date: date, day: i, isToday: isToday, inactive: false, background: background });
+      this.calendarDays.push({ date: date, day: i, isToday: isToday, inactive: false, background: backgroundToday });
     }
 
     // Bucle para agregar las primeras fechas del próximo mes.

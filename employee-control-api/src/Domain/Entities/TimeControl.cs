@@ -15,6 +15,10 @@ public class TimeControl : BaseAuditableEntity, ICompany
 
     public DateTimeOffset Finish { get; set; }
 
+    public bool Incidence { get; set; }
+
+    public string? IncidenceDescription { get; set; }
+
     public ClosedBy ClosedBy { get; set; } = ClosedBy.Unclosed;
 
     public TimeState TimeState { get; set; } = TimeState.Open;

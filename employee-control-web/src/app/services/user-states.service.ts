@@ -1,32 +1,32 @@
 import { Injectable, inject } from '@angular/core';
 import {
-  CurrentCompanyEmployeeService,
-  CurrentCompanySettingsService,
+  CurrentCompanyEmployeeStateService,
+  CurrentCompanySettingsStateService,
   CurrentTimeControlStateService,
-  EmployeeSettingsService
+  EmployeeSettingsStateService
 } from './states/_index';
 
 /** Maneja estados de un usuario al hacer login o logout. */
 @Injectable({ providedIn: 'root' })
 export class UserStatesService {
-  private readonly currentCompanyEmployeeService = inject(CurrentCompanyEmployeeService);
-  private readonly currentCompanySettingsService = inject(CurrentCompanySettingsService);
+  private readonly currentCompanyEmployeeStateService = inject(CurrentCompanyEmployeeStateService);
+  private readonly currentCompanySettingsStateService = inject(CurrentCompanySettingsStateService);
   private readonly currentTimeControlStateService = inject(CurrentTimeControlStateService);
-  private readonly employeeSettingsService = inject(EmployeeSettingsService);
+  private readonly employeeSettingsStateService = inject(EmployeeSettingsStateService);
 
   /** Carga estados del usuario. */
   load(): void {
-    this.currentCompanyEmployeeService.refresh();
-    this.currentCompanySettingsService.refresh();
+    this.currentCompanyEmployeeStateService.refresh();
+    this.currentCompanySettingsStateService.refresh();
     this.currentTimeControlStateService.refresh();
-    this.employeeSettingsService.refresh();
+    this.employeeSettingsStateService.refresh();
   }
 
   /** Elimina estados del usuario. */
   clean(): void {
-    this.currentCompanyEmployeeService.clean();
-    this.currentCompanySettingsService.clean();
+    this.currentCompanyEmployeeStateService.clean();
+    this.currentCompanySettingsStateService.clean();
     this.currentTimeControlStateService.clean();
-    this.employeeSettingsService.clean();
+    this.employeeSettingsStateService.clean();
   }
 }

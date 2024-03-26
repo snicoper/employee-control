@@ -43,10 +43,6 @@ export const SiteUrls = {
     update: '/departments/{id}/update'
   },
 
-  employeeHolidays: {
-    home: '/employee-holidays'
-  },
-
   employees: {
     list: '/employees',
     details: '/employees/{id}',
@@ -59,10 +55,6 @@ export const SiteUrls = {
   errors: {
     forbidden: '/errors/403',
     notFound: '/errors/404'
-  },
-
-  manageHolidays: {
-    home: '/manage-holidays'
   },
 
   tests: {

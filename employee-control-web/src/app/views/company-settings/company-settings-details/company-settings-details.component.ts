@@ -9,7 +9,8 @@ import { TooltipInfoComponent } from '../../../components/tooltips/tooltip-info/
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
 import { SiteUrls } from '../../../core/urls/_index';
-import { CurrentCompanySettingsService } from '../../../services/states/_index';
+import { CurrentCompanySettingsStateService } from '../../../services/states/_index';
+import { WorkingDaysWeekComponent } from '../working-days-week/working-days-week.component';
 
 @Component({
   selector: 'aw-company-settings-details',
@@ -21,14 +22,15 @@ import { CurrentCompanySettingsService } from '../../../services/states/_index';
     CardComponent,
     RouterLink,
     TooltipInfoComponent,
-    TableLoadingComponent
+    TableLoadingComponent,
+    WorkingDaysWeekComponent
   ]
 })
 export class CompanySettingsDetailsComponent {
-  private readonly currentCompanySettingsService = inject(CurrentCompanySettingsService);
+  private readonly currentCompanySettingsStateService = inject(CurrentCompanySettingsStateService);
 
-  readonly companySettings = computed(() => this.currentCompanySettingsService.companySettings());
-  readonly loadingCompanySettings = computed(() => this.currentCompanySettingsService.loadingCompanySettings());
+  readonly companySettings = computed(() => this.currentCompanySettingsStateService.companySettings());
+  readonly loadingCompanySettings = computed(() => this.currentCompanySettingsStateService.loadingCompanySettings());
 
   readonly breadcrumb = new BreadcrumbCollection();
   nowWithTimezone = '';

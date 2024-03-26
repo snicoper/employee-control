@@ -26,9 +26,9 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
-        builder.HasOne(c => c.WorkDays)
+        builder.HasOne(c => c.WorkingDaysWeek)
             .WithOne(wd => wd.Company)
-            .HasForeignKey<WorkDays>(wd => wd.CompanyId)
+            .HasForeignKey<WorkingDaysWeek>(wd => wd.CompanyId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
