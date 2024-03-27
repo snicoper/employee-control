@@ -16,6 +16,7 @@ public record GetTimeControlRangeByEmployeeIdResponse
         string Id,
         DateTimeOffset Start,
         DateTimeOffset Finish,
+        bool Incidence,
         TimeState TimeState,
         ClosedBy ClosedBy,
         int Minutes,

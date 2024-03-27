@@ -14,6 +14,10 @@ public record GetTimesControlByCompanyIdPaginatedResponse
 
     public string LastName { get; set; } = default!;
 
+    public bool Incidence { get; set; }
+
+    public string? IncidenceDescription { get; set; }
+
     public DateTimeOffset Start { get; set; }
 
     public DateTimeOffset Finish { get; set; }
@@ -34,7 +38,7 @@ public record GetTimesControlByCompanyIdPaginatedResponse
 
     public double? LongitudeFinish { get; set; }
 
-    public int Duration { get; set; }
+    public double Duration { get; set; }
 
     internal class Mapping : Profile
     {
@@ -43,7 +47,15 @@ public record GetTimesControlByCompanyIdPaginatedResponse
             CreateMap<TimeControl, GetTimesControlByCompanyIdPaginatedResponse>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.User.LastName))
-                .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => (src.Finish - src.Start).TotalMinutes));
+                .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => CalculateDuration(src)));
+        }
+
+        private double CalculateDuration(TimeControl timeControl)
+        {
+            var finish = timeControl.TimeState == TimeState.Close ? timeControl.Finish : DateTimeOffset.Now;
+            var duration = (finish - timeControl.Start).TotalMinutes;
+
+            return duration;
         }
     }
 }

@@ -23,7 +23,7 @@ export class CurrentCompanySettingsStateService implements StateService<CompanyS
     this.loadCompanySettings();
   }
 
-  getValue(): CompanySettings | null {
+  get(): CompanySettings | null {
     return this.companySettings$();
   }
 

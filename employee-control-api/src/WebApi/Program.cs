@@ -8,27 +8,29 @@ using Serilog.Sinks.SystemConsole.Themes;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddApplicationServices(builder.Configuration)
+builder.Services
+    .AddApplicationServices(builder.Configuration)
     .AddInfrastructureServices(builder.Configuration, builder.Environment)
     .AddWebApiServices();
 
 builder
     .Host
-    .UseSerilog((hostingContext, loggerConfiguration) =>
-    {
-        loggerConfiguration
-            .ReadFrom.Configuration(hostingContext.Configuration)
-            .Enrich.FromLogContext()
-            .WriteTo.Console(
-                outputTemplate:
-                "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
-                theme: AnsiConsoleTheme.Literate);
-
-        if (!hostingContext.HostingEnvironment.IsDevelopment())
+    .UseSerilog(
+        (hostingContext, loggerConfiguration) =>
         {
-            loggerConfiguration.WriteTo.File("web_api_log.txt", rollingInterval: RollingInterval.Day);
-        }
-    });
+            loggerConfiguration
+                .ReadFrom.Configuration(hostingContext.Configuration)
+                .Enrich.FromLogContext()
+                .WriteTo.Console(
+                    outputTemplate:
+                    "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
+                    theme: AnsiConsoleTheme.Literate);
+
+            if (!hostingContext.HostingEnvironment.IsDevelopment())
+            {
+                loggerConfiguration.WriteTo.File("web_api_log.txt", rollingInterval: RollingInterval.Day);
+            }
+        });
 
 var app = builder.Build();
 

@@ -12,6 +12,7 @@ export interface TimeResponse {
   id: string;
   start: Date;
   finish: Date;
+  incidence: boolean;
   timeState: TimeState;
   closedBy: ClosedBy;
   minutes: number;

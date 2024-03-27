@@ -29,7 +29,7 @@ import { DurationToTimePipe } from '../../../pipes/duration-to-time.pipe';
 import { JwtService } from '../../../services/_index';
 import { TimeControlApiService } from '../../../services/api/_index';
 import { SimpleGeolocationService } from '../../../services/simple-geolocation.service';
-import { TimeControlRecordResponse } from './time-contol-record-esponse.model';
+import { TimeControlRecordResponse } from './time-contol-record-response.model';
 import { timeControlRecordListTableHeaders } from './time-control-record-list-table-header';
 
 @Component({
@@ -118,6 +118,12 @@ export class TimeControlRecordListComponent {
     this.loadTimeControlRecords();
   }
 
+  handleDetailsTimeControl(timeControl: TimeControlRecordResponse): void {
+    const url = urlReplaceParams(SiteUrls.timeControlRecords.details, { id: timeControl.id });
+
+    this.router.navigateByUrl(url);
+  }
+
   handleCloseTimeControl(timeControl: TimeControlRecordResponse): void {
     this.loadingTimeState = true;
     const data = { timeControlId: timeControl.id };
@@ -164,7 +170,7 @@ export class TimeControlRecordListComponent {
   }
 
   private setBreadcrumb(): void {
-    this.breadcrumb.add('Registro de tiempos', SiteUrls.timesControl.home, '', false);
+    this.breadcrumb.add('Registro de tiempos', SiteUrls.timeControlRecords.home, '', false);
   }
 
   private loadTimeControlRecords(): void {

@@ -10,6 +10,7 @@ import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
 import { BtnType } from '../../../components/buttons/btn-loading/btn-loading.type';
 import { CardComponent } from '../../../components/cards/card/card.component';
+import { FormCheckboxComponent } from '../../../components/forms/inputs/form-checkbox/form-checkbox.component';
 import { FormDatepickerComponent } from '../../../components/forms/inputs/form-datepicker/form-datepicker.component';
 import { FormTimePickerComponent } from '../../../components/forms/inputs/form-timepicker/form-timepicker.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
@@ -35,7 +36,8 @@ import { TimeControlRecordRequest } from './time-control-record-request';
     FormDatepickerComponent,
     FormTimePickerComponent,
     BtnBackComponent,
-    BtnLoadingComponent
+    BtnLoadingComponent,
+    FormCheckboxComponent
   ]
 })
 export class TimeControlRecordUpdateComponent implements OnInit {
@@ -139,6 +141,7 @@ export class TimeControlRecordUpdateComponent implements OnInit {
     timeControl.id = this.timeControlId;
     timeControl.start = start.toISOString();
     timeControl.finish = end.toISOString();
+    timeControl.closeIncidence = this.form.get('closeIncidence')?.value as boolean;
 
     return timeControl;
   }
@@ -183,7 +186,8 @@ export class TimeControlRecordUpdateComponent implements OnInit {
         dateStart: [startWithOffset, [Validators.required, CustomValidation.noFutureDate]],
         dateFinish: [endWithOffset, [Validators.required, CustomValidation.noFutureDate]],
         timeStart: [startWithOffset, [Validators.required]],
-        timeFinish: [endWithOffset, []]
+        timeFinish: [endWithOffset, []],
+        closeIncidence: [false]
       },
       {
         validators: [CustomValidation.dateStartGreaterThanFinish('dateStart', 'dateFinish')]

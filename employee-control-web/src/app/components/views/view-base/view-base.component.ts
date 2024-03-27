@@ -3,7 +3,7 @@ import { Component, Input, OnInit, computed, inject } from '@angular/core';
 import { LayoutService } from '../../../services/_index';
 import { FooterComponent } from '../../footer/footer.component';
 import { NavbarComponent } from '../../navbar/navbar.component';
-import { SidebarComponent } from '../../sidebar/sidebar.component';
+import { SidebarComponent } from '../../sidebars/sidebar-menu/sidebar.component';
 import { ViewTitleComponent } from '../view-title/view-title.component';
 
 @Component({
@@ -21,16 +21,16 @@ export class ViewBaseComponent implements OnInit {
   @Input() pageTitle = '';
 
   @Input() navbarState = true;
-  @Input() sidebarState = true;
+  @Input() sidebarMenuState = true;
   @Input() footerState = true;
 
   readonly navbarState$ = computed(() => this.layoutService.navbarState$());
-  readonly sidebarState$ = computed(() => this.layoutService.sidebarState$());
+  readonly sidebarMenuState$ = computed(() => this.layoutService.sidebarMenuState$());
   readonly footerState$ = computed(() => this.layoutService.footerState$());
 
   ngOnInit(): void {
     this.layoutService.navbarState$.set(this.navbarState);
-    this.layoutService.sidebarState$.set(this.sidebarState);
+    this.layoutService.sidebarMenuState$.set(this.sidebarMenuState);
     this.layoutService.footerState$.set(this.footerState);
   }
 }

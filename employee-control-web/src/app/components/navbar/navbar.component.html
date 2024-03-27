@@ -1,6 +1,9 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top shadow">
   <div class="container-fluid">
-    <span (click)="toggleSidebarState()" [ngClass]="{ 'text-muted': sidebarState$() }" class="fa-solid fa-bars"></span>
+    <span
+      (click)="toggleSidebarState()"
+      [ngClass]="{ 'text-muted': sidebarMenuState$() }"
+      class="fa-solid fa-bars"></span>
 
     <a [routerLink]="[siteUrls.home]" class="navbar-brand cursor-pointer">{{ siteName }}</a>
 
@@ -53,7 +56,7 @@
             'fa-solid fa-moon': theme() === themeColors.light,
             'fa-regular fa-sun': theme() === themeColors.dark
           }"
-        class="me-2 cursor-pointer"></span>
+          class="me-2 cursor-pointer"></span>
         @if (authState$()) {
           {{ userName }}
         }

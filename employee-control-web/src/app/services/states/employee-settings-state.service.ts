@@ -25,7 +25,7 @@ export class EmployeeSettingsStateService implements StateService<EmployeeSettin
     this.employeeSettings$.set(null);
   }
 
-  getValue(): EmployeeSettings | null {
+  get(): EmployeeSettings | null {
     return this.employeeSettings$();
   }
 

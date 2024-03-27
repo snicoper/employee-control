@@ -1,5 +1,5 @@
 export interface ProgressStackedItem {
-  id: number;
+  id: string;
   valueNow: number;
   valueMin: number;
   valueMax: number;

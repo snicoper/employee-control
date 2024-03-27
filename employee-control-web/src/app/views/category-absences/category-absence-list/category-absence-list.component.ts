@@ -83,7 +83,7 @@ export class CategoryAbsenceListComponent {
   private loadCompanyTasks(): void {
     this.loading = true;
     const url = urlReplaceParams(ApiUrls.categoryAbsences.getCategoryAbsenceByCompanyIdPaginated, {
-      companyId: this.currentCompanyEmployeeStateService.getValue()?.id.toString() ?? ''
+      companyId: this.currentCompanyEmployeeStateService.get()?.id.toString() ?? ''
     });
 
     this.categoryAbsencesApiService

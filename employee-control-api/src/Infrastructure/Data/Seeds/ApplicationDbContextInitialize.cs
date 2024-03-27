@@ -242,7 +242,7 @@ public class ApplicationDbContextInitialize(
             CompanyId = companies[1].Id,
             UserName = "alice@example.com",
             FirstName = "Alice",
-            LastName = "Gonzalez",
+            LastName = "Smith",
             Email = "alice@example.com",
             EntryDate = dateTimeService.UtcNow,
             Active = true,

@@ -38,6 +38,8 @@ export abstract class DatetimeUtils {
    * @returns Tiempo H:M
    */
   static formatMinutesToTime(minutes: number): string {
+    minutes = Math.floor(minutes);
+
     if (minutes > 60) {
       const hours = Math.floor(minutes / 60);
       const rest = Math.floor(minutes % 60);

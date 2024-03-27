@@ -99,6 +99,7 @@ export const ApiUrls = {
     finishTimeControl: '/times-control/finish',
     finishTimeControlByStaff: '/times-control/finish/staff',
     updateTimeControl: '/times-control/{id}',
+    createIncidence: '/times-control/{id}/create-incidence',
     deleteTimeControl: '/times-control/{id}'
   },
 

@@ -78,11 +78,15 @@
               </td>
               <td>
                 @if (timeControl.timeState === timeState.open) {
-                  <aw-dot-success />
+                  <span awTooltip title="Abierto">
+                    <aw-dot-success />
+                  </span>
                 }
 
                 @if (timeControl.timeState === timeState.close) {
-                  <aw-dot-danger />
+                  <span awTooltip title="Cerrado">
+                    <aw-dot-danger />
+                  </span>
                 }
               </td>
               <td>
@@ -91,16 +95,32 @@
                 }
 
                 @if (timeControl.duration === 0) {
-                  ...
+                  <span>...</span>
+                }
+              </td>
+              <td>
+                @if (timeControl.incidence) {
+                  <span
+                    awTooltip
+                    [title]="timeControl.incidenceDescription"
+                    class="fa-solid fa-triangle-exclamation text-danger"></span>
+                } @else {
+                  <span>&nbsp;</span>
                 }
               </td>
               <td>
                 <span class="d-flex justify-content-end btn-actions">
+                  <span
+                    (click)="handleDetailsTimeControl(timeControl)"
+                    awTooltip
+                    class="fa-solid fa-eye cursor-pointer text-info"
+                    title="Detalles"></span>
+
                   @if (timeControl.timeState === timeState.close) {
                     <span
                       (click)="handleTimeControlUpdate(timeControl)"
                       awTooltip
-                      class="fa-solid fa-pencil cursor-pointer"
+                      class="fa-solid fa-pencil text-success cursor-pointer ms-2"
                       title="Editar"></span>
 
                     <span
@@ -114,7 +134,7 @@
                     <span
                       (click)="handleCloseTimeControl(timeControl)"
                       awTooltip
-                      class="fa-solid fa-lock cursor-pointer text-danger"
+                      class="fa-solid fa-lock cursor-pointer text-danger ms-2"
                       title="Cerrar"></span>
                   }
                 </span>

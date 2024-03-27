@@ -1,3 +1,10 @@
+@import "variables";
+
 .form-register {
   max-width: 530px;
+}
+
+.register-container {
+  height: calc(100vh);
+  margin-top: -$navbar-margin-top; // Restar el margin top.
 }

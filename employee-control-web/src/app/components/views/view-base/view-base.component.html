@@ -4,9 +4,9 @@
 }
 <!-- end title -->
 
-<div [ngClass]="{ toggled: !sidebarState$() }" class="page-wrapper">
+<div [ngClass]="{ toggled: !sidebarMenuState$() }" class="page-wrapper">
   <!-- sidebar -->
-  @if (sidebarState$()) {
+  @if (sidebarMenuState$()) {
     <aw-sidebar />
   }
   <!-- end sidebar -->

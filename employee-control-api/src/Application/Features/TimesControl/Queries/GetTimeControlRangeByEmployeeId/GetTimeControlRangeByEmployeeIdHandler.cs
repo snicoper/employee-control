@@ -41,14 +41,16 @@ internal class GetTimeControlRangeByEmployeeIdHandler(IDateTimeService dateTimeS
             var percent = Math.Round(diff.TotalMinutes / minutesInDay * 100, 2);
             var minutes = (int)Math.Floor(diff.TotalMinutes);
 
-            timeControlResponse.Times.Add(new GetTimeControlRangeByEmployeeIdResponse.TimeControlResponse(
-                control.Id,
-                control.Start,
-                timeFinish,
-                control.TimeState,
-                control.ClosedBy,
-                minutes,
-                percent));
+            timeControlResponse.Times.Add(
+                new GetTimeControlRangeByEmployeeIdResponse.TimeControlResponse(
+                    control.Id,
+                    control.Start,
+                    timeFinish,
+                    control.Incidence,
+                    control.TimeState,
+                    control.ClosedBy,
+                    minutes,
+                    percent));
 
             totalMinutes += diff;
         }

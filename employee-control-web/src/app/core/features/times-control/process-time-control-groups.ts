@@ -98,15 +98,7 @@ export class ProcessTimeControlGroups {
 
     // |-------------------| Current day.
     //    |----------| Time.
-    const newTime = {
-      id: time.id,
-      start: period.start.toJSDate(),
-      finish: period.end.toJSDate(),
-      timeState: time.timeState,
-      closedBy: time.closedBy,
-      minutes: period.duration(),
-      dayPercent: calculatePercent(this.minutesInDay, period.duration())
-    } as TimeResponse;
+    const newTime = this.createTimeResponse(time, period.start.toJSDate(), period.end.toJSDate(), period.duration());
 
     currentItemControl.totalMinutes += period.duration();
     currentItemControl.times.push(newTime);
@@ -130,15 +122,12 @@ export class ProcessTimeControlGroups {
     // |---------------| Current day.
     //                    |--------| Time.
     if (period.start.day > this.groupEndDay.day) {
-      const newOverTime1 = {
-        id: time.id,
-        start: period.start.toJSDate(),
-        finish: period.end.toJSDate(),
-        timeState: time.timeState,
-        closedBy: time.closedBy,
-        minutes: period.duration(),
-        dayPercent: calculatePercent(this.minutesInDay, period.duration())
-      } as TimeResponse;
+      const newOverTime1 = this.createTimeResponse(
+        time,
+        period.start.toJSDate(),
+        period.end.toJSDate(),
+        period.duration()
+      );
 
       nextTimeControl.totalMinutes += period.duration();
       nextTimeControl.times.push(newOverTime1);
@@ -154,29 +143,23 @@ export class ProcessTimeControlGroups {
     const duration = Math.abs(Math.round(period.duration() - diffMidnight));
 
     // Día siguiente desde las 00:00.00.
-    const newOverTime2 = {
-      id: time.id,
-      start: period.end.startOf('day').toJSDate(),
-      finish: period.end.startOf('day').plus({ minutes: duration }).toJSDate(),
-      timeState: time.timeState,
-      closedBy: time.closedBy,
-      minutes: duration,
-      dayPercent: calculatePercent(this.minutesInDay, duration)
-    } as TimeResponse;
+    const newOverTime2 = this.createTimeResponse(
+      time,
+      period.end.startOf('day').toJSDate(),
+      period.end.startOf('day').plus({ minutes: duration }).toJSDate(),
+      duration
+    );
 
     nextTimeControl.totalMinutes += duration;
     nextTimeControl.times.unshift(newOverTime2);
 
     // Día actual hasta las 23:59:59.
-    const newTime = {
-      id: time.id,
-      start: period.start.toJSDate(),
-      finish: period.start.endOf('day').toJSDate(),
-      timeState: time.timeState,
-      closedBy: time.closedBy,
-      minutes: diffMidnight,
-      dayPercent: calculatePercent(this.minutesInDay, diffMidnight)
-    } as TimeResponse;
+    const newTime = this.createTimeResponse(
+      time,
+      period.start.toJSDate(),
+      period.start.endOf('day').toJSDate(),
+      diffMidnight
+    );
 
     currentItemControl.totalMinutes += diffMidnight;
     currentItemControl.times.push(newTime);
@@ -200,18 +183,15 @@ export class ProcessTimeControlGroups {
     //               |---------------------| Current day.
     // |---------| Time.
     if (period.end.day < this.groupStartDay.day) {
-      const newOverTime1 = {
-        id: time.id,
-        start: period.start.toJSDate(),
-        finish: period.end.toJSDate(),
-        timeState: time.timeState,
-        closedBy: time.closedBy,
-        minutes: period.duration(),
-        dayPercent: calculatePercent(this.minutesInDay, period.duration())
-      } as TimeResponse;
+      const newUnderTime1 = this.createTimeResponse(
+        time,
+        period.start.toJSDate(),
+        period.end.toJSDate(),
+        period.duration()
+      );
 
       prevTimeControl.totalMinutes += period.duration();
-      prevTimeControl.times.push(newOverTime1);
+      prevTimeControl.times.push(newUnderTime1);
 
       return;
     }
@@ -224,15 +204,12 @@ export class ProcessTimeControlGroups {
     // Día anterior hasta las 00:00.00.
     //            |-----------------------| Current day.
     //        |--------| Time.
-    const newUnderTime = {
-      id: time.id,
-      start: period.start.toJSDate(),
-      finish: period.end.endOf('day').toJSDate(),
-      timeState: time.timeState,
-      closedBy: time.closedBy,
-      minutes: duration,
-      dayPercent: calculatePercent(this.minutesInDay, duration)
-    } as TimeResponse;
+    const newUnderTime = this.createTimeResponse(
+      time,
+      period.start.toJSDate(),
+      period.end.endOf('day').toJSDate(),
+      duration
+    );
 
     prevTimeControl.totalMinutes += duration;
     prevTimeControl.times.push(newUnderTime);
@@ -240,15 +217,12 @@ export class ProcessTimeControlGroups {
     // Día actual desde las 00:00:00.
     //      |-----------------------| Current day.
     // |--------| Time.
-    const newTime = {
-      id: time.id,
-      start: period.start.startOf('day').toJSDate(),
-      finish: period.start.plus(duration).toJSDate(),
-      timeState: time.timeState,
-      closedBy: time.closedBy,
-      minutes: diffMidnight,
-      dayPercent: calculatePercent(this.minutesInDay, diffMidnight)
-    } as TimeResponse;
+    const newTime = this.createTimeResponse(
+      time,
+      period.start.startOf('day').toJSDate(),
+      period.start.plus(duration).toJSDate(),
+      diffMidnight
+    );
 
     currentItemControl.totalMinutes += diffMidnight;
     currentItemControl.times.push(newTime);
@@ -293,5 +267,21 @@ export class ProcessTimeControlGroups {
     const item = this.timeControlGroupsResult.find((timeControl) => timeControl.day === index);
 
     return item ?? null;
+  }
+
+  /** Crea un nuevo TimeControl con los tiempos calculados. */
+  private createTimeResponse(time: TimeResponse, start: Date, finish: Date, minutes: number): TimeResponse {
+    const timeResponse = {
+      id: time.id,
+      start: start,
+      finish: finish,
+      incidence: time.incidence,
+      timeState: time.timeState,
+      closedBy: time.closedBy,
+      minutes: minutes,
+      dayPercent: calculatePercent(this.minutesInDay, minutes)
+    } as TimeResponse;
+
+    return timeResponse;
   }
 }

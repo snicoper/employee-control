@@ -21,8 +21,8 @@ import { EmployeeRolesRequest } from './employee-roles-request.model';
 export class EmployeeRolesEditComponent {
   private readonly employeesApiService = inject(EmployeesApiService);
   private readonly employeeSelectedService = inject(EmployeeSelectedService);
-  private readonly bsModalRef = inject(BsModalRef);
   private readonly toastrService = inject(ToastrService);
+  private readonly bsModalRef = inject(BsModalRef);
 
   readonly employeeSelected = computed(() => this.employeeSelectedService.employeeSelected());
 

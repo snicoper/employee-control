@@ -1,6 +1,6 @@
 ﻿using EmployeeControl.Application.Common.Models;
-using EmployeeControl.Application.Features.WorkDays.Commands.UpdateWorkingDaysWeek;
-using EmployeeControl.Application.Features.WorkDays.Queries.GetWorkingDaysWeekByCompanyId;
+using EmployeeControl.Application.Features.WorkingDaysWeek.Commands.UpdateWorkingDaysWeek;
+using EmployeeControl.Application.Features.WorkingDaysWeek.Queries.GetWorkingDaysWeekByCompanyId;
 using EmployeeControl.Domain.Entities;
 using EmployeeControl.WebApi.Infrastructure;
 using Microsoft.AspNetCore.Mvc;

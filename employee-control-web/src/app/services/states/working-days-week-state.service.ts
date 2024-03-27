@@ -30,7 +30,7 @@ export class WorkingDaysWeekStateService implements StateService<WorkingDaysWeek
     this.loadWorkingDaysWeek();
   }
 
-  getValue(): WorkingDaysWeek | null {
+  get(): WorkingDaysWeek | null {
     return this.workingDaysWeek$();
   }
 
@@ -39,7 +39,7 @@ export class WorkingDaysWeekStateService implements StateService<WorkingDaysWeek
   }
 
   updateWeekDay(weekDay: WeekDays): void {
-    const workingDaysWeek = this.getValue() as WorkingDaysWeek;
+    const workingDaysWeek = this.get() as WorkingDaysWeek;
 
     switch (weekDay) {
       case WeekDays.monday:
@@ -65,12 +65,12 @@ export class WorkingDaysWeekStateService implements StateService<WorkingDaysWeek
         break;
     }
 
-    this.update(workingDaysWeek);
+    this.updateWorkingDaysWeek(workingDaysWeek);
   }
 
-  private update(workingDaysWeek: WorkingDaysWeek): void {
+  private updateWorkingDaysWeek(workingDaysWeek: WorkingDaysWeek): void {
     this.loadingWorkingDaysWeek$.set(true);
-    const url = urlReplaceParams(ApiUrls.workingDaysWeek.updateWorkingDaysWeek, { id: this.getValue()?.id as string });
+    const url = urlReplaceParams(ApiUrls.workingDaysWeek.updateWorkingDaysWeek, { id: this.get()?.id as string });
 
     this.workingDaysWeekApiService
       .put<WorkingDaysWeek, ResultResponse>(workingDaysWeek, url)
@@ -90,10 +90,16 @@ export class WorkingDaysWeekStateService implements StateService<WorkingDaysWeek
   }
 
   private loadWorkingDaysWeek(): void {
+    const companyId = this.currentCompanyEmployeeStateService.get()?.id as string;
+
+    if (!companyId) {
+      return;
+    }
+
     this.loadingWorkingDaysWeek$.set(true);
 
     const url = urlReplaceParams(ApiUrls.workingDaysWeek.getWorkingDaysWeekByCompanyId, {
-      companyId: this.currentCompanyEmployeeStateService.getValue()?.id as string
+      companyId: companyId
     });
 
     this.workingDaysWeekApiService

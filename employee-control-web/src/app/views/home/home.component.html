@@ -1,7 +1,7 @@
 <aw-view-base>
   <h1>Hello world</h1>
 
-  <h2>State de Sidebar {{ layoutService.sidebarState$() }}</h2>
+  <h2>State de Sidebar {{ layoutService.sidebarMenuState$() }}</h2>
 
   <button
     (click)="handleToggleNavbar()"
@@ -12,7 +12,10 @@
 
   <button
     (click)="handleToggleSidebar()"
-    [ngClass]="{ 'btn-warning': layoutService.sidebarState$(), 'btn-outline-warning': !layoutService.sidebarState$() }"
+    [ngClass]="{
+      'btn-warning': layoutService.sidebarMenuState$(),
+      'btn-outline-warning': !layoutService.sidebarMenuState$()
+    }"
     class="btn ms-2">
     Sidebar
   </button>

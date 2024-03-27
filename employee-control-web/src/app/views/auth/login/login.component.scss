@@ -1,4 +1,10 @@
+@import "variables";
+
 .form-login {
   max-width: 530px;
-  padding: 20px;
+}
+
+.login-container {
+  height: calc(100vh);
+  margin-top: -$navbar-margin-top; // Restar el margin top.
 }

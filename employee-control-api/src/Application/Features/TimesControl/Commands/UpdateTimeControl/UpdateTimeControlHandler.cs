@@ -19,6 +19,12 @@ internal class UpdateTimeControlHandler(
         timeControl.Start = request.Start;
         timeControl.Finish = request.Finish;
 
+        if (request.CloseIncidence)
+        {
+            timeControl.Incidence = false;
+            timeControl.IncidenceDescription = string.Empty;
+        }
+
         await timesControlService.UpdateAsync(timeControl, cancellationToken);
 
         return Result.Success();

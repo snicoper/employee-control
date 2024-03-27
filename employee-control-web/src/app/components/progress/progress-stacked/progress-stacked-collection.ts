@@ -5,6 +5,7 @@ export class ProgressStackedCollection {
   title: string = '';
 
   addItem(
+    id: string,
     valueNow: number,
     valueMin: number,
     valueMax: number,
@@ -14,7 +15,7 @@ export class ProgressStackedCollection {
     background = 'bg-primary'
   ): this {
     this.progressStackedItems.push({
-      id: this.progressStackedItems.length,
+      id: id,
       valueNow: valueNow,
       valueMin: valueMin,
       valueMax: valueMax,

@@ -14,7 +14,7 @@ import { EmployeeDepartmentsComponent } from './employee-departments/employee-de
 import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
 import { EmployeeSelectedService } from './employee-selected.service';
 import { EmployeeTasksComponent } from './employee-tasks/employee-tasks.component';
-import { EmployeeTimeControlComponent } from './employee-time-control/employee-time-control.component';
+import { EmployeeTimeControlProgressComponent } from './employee-time-control-progress/employee-time-control-progress.component';
 
 @Component({
   selector: 'aw-employee-view',
@@ -30,7 +30,7 @@ import { EmployeeTimeControlComponent } from './employee-time-control/employee-t
     TabsModule,
     EmployeeDepartmentsComponent,
     EmployeeTasksComponent,
-    EmployeeTimeControlComponent
+    EmployeeTimeControlProgressComponent
   ],
   providers: [BsModalService]
 })

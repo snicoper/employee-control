@@ -23,7 +23,7 @@ export class CurrentTimeControlStateService implements StateService<CurrentTimeC
     this.loadCurrentTimeControl();
   }
 
-  getValue(): CurrentTimeControlResponse | null {
+  get(): CurrentTimeControlResponse | null {
     return this.currentTimeControl$();
   }
 

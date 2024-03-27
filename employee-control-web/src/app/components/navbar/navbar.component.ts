@@ -24,7 +24,7 @@ export class NavbarComponent {
   readonly siteName = AppEnvironments.siteName;
   readonly siteUrls = SiteUrls;
 
-  readonly sidebarState$ = computed(() => this.layoutService.sidebarState$());
+  readonly sidebarMenuState$ = computed(() => this.layoutService.sidebarMenuState$());
   readonly authState$ = computed(() => this.authService.authValue$);
   readonly theme = computed(() => this.themeColorService.theme());
 

@@ -85,7 +85,7 @@ export class CompanyTaskListComponent {
   private loadCompanyTasks(): void {
     this.loading = true;
     const url = urlReplaceParams(ApiUrls.companyTasks.getCompanyTasksByCompanyIdPaginated, {
-      companyId: this.currentCompanyEmployeeStateService.getValue()?.id.toString() ?? ''
+      companyId: this.currentCompanyEmployeeStateService.get()?.id.toString() ?? ''
     });
 
     this.companyTaskApiService

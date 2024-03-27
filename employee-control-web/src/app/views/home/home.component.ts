@@ -42,7 +42,7 @@ export class HomeComponent {
   }
 
   handleToggleSidebar(): void {
-    this.layoutService.sidebarState$.update((value) => !value);
+    this.layoutService.sidebarMenuState$.update((value) => !value);
   }
 
   handleToggleFooter(): void {

@@ -10,7 +10,7 @@ import { ViewBaseComponent } from '../../../components/views/view-base/view-base
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
 import { SiteUrls } from '../../../core/urls/_index';
 import { CurrentCompanySettingsStateService } from '../../../services/states/_index';
-import { WorkingDaysWeekComponent } from '../working-days-week/working-days-week.component';
+import { WorkingDaysWeekComponent } from './working-days-week/working-days-week.component';
 
 @Component({
   selector: 'aw-company-settings-details',
