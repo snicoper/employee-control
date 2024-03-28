@@ -1,11 +1,13 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
-import { Roles } from '../../../core/types/_index';
-import { ApiUrls } from '../../../core/urls/_index';
-import { urlReplaceParams } from '../../../core/utils/_index';
-import { CurrentTimeControlResponse } from '../../../models/_index';
-import { User, UserRole } from '../../../models/entities/_index';
-import { EmployeesApiService, TimeControlApiService } from '../../../services/api/_index';
+import { Roles } from '../../../core/types/roles';
+import { ApiUrls } from '../../../core/urls/api-urls';
+import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CurrentTimeControlResponse } from '../../../models/current-time-control-response.model';
+import { UserRole } from '../../../models/entities/user-role.model';
+import { User } from '../../../models/entities/user.model';
+import { EmployeesApiService } from '../../../services/api/employees-api.service';
+import { TimeControlApiService } from '../../../services/api/time-control-api.service';
 
 /**
  * Empleado seleccionado desde la lista (employee-list).

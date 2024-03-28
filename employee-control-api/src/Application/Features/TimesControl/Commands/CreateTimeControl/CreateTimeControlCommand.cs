@@ -8,8 +8,13 @@ using MediatR;
 namespace EmployeeControl.Application.Features.TimesControl.Commands.CreateTimeControl;
 
 [Authorize(Roles = Roles.HumanResources)]
-public record CreateTimeControlCommand(string UserId, DateTimeOffset Start, DateTimeOffset Finish, DeviceType DeviceType)
-    : IRequest<TimeControl>
+public record CreateTimeControlCommand(
+    string UserId,
+    DateTimeOffset Start,
+    DateTimeOffset Finish,
+    DeviceType DeviceType,
+    TimeState TimeState)
+    : IRequest<string>
 {
     internal class Mapping : Profile
     {

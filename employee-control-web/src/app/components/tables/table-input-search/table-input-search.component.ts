@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ApiResult, LogicalOperators, RelationalOperators } from '../../../core/features/api-result/_index';
+import { ApiResult } from '../../../core/features/api-result/api-result';
+import { LogicalOperators } from '../../../core/features/api-result/types/logical-operator';
+import { RelationalOperators } from '../../../core/features/api-result/types/relational-operator';
 import { TableHeaderField } from '../table-header/table-header-field.interface';
 import { TableHeaderConfig } from '../table-header/table-header.config';
 

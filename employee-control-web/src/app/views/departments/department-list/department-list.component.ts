@@ -12,13 +12,14 @@ import { TableInputSearchComponent } from '../../../components/tables/table-inpu
 import { TableComponent } from '../../../components/tables/table/table.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
-import { ApiResult } from '../../../core/features/api-result/_index';
-import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
-import { urlReplaceParams } from '../../../core/utils/_index';
-import { Department } from '../../../models/entities/_index';
+import { ApiResult } from '../../../core/features/api-result/api-result';
+import { ApiUrls } from '../../../core/urls/api-urls';
+import { SiteUrls } from '../../../core/urls/site-urls';
+import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { Department } from '../../../models/entities/department.model';
 import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
-import { JwtService } from '../../../services/_index';
-import { DepartmentApiService } from '../../../services/api/_index';
+import { DepartmentApiService } from '../../../services/api/department-api.service';
+import { JwtService } from '../../../services/jwt.service';
 import { departmentListTableHeaders } from './department-list-table-heades';
 
 @Component({

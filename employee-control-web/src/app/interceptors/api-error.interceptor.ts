@@ -11,11 +11,12 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, finalize, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { logDebug, logWarning } from '../core/errors/_index';
-import { ValidationErrors } from '../core/types/_index';
-import { SiteUrls } from '../core/urls/_index';
-import { BadRequestErrors, RefreshTokenResponse } from '../models/_index';
-import { JwtService } from '../services/_index';
+import { logDebug, logWarning } from '../core/errors/log-messages';
+import { ValidationErrors } from '../core/types/validation-errors';
+import { SiteUrls } from '../core/urls/site-urls';
+import { BadRequestErrors } from '../models/bad-request-errors';
+import { RefreshTokenResponse } from '../models/refresh-token-response.model';
+import { JwtService } from '../services/jwt.service';
 
 @Injectable()
 export class ApiErrorInterceptor implements HttpInterceptor {

@@ -1,4 +1,4 @@
-import { DeviceType } from '../../models/entities/types/_index';
+import { DeviceType } from '../../models/entities/types/device-type.model';
 
 export interface TimeControlProgressChangeStateRequest {
   employeeId: string;

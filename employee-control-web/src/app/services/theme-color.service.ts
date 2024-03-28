@@ -1,5 +1,6 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { LocalStorageKeys, ThemeColors } from '../core/types/_index';
+import { LocalStorageKeys } from '../core/types/local-storage-keys';
+import { ThemeColors } from '../core/types/theme-colors';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({ providedIn: 'root' })

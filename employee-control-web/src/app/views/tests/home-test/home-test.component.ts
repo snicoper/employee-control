@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
-import { logDebug, logError, logInfo, logWarning } from '../../../core/errors/_index';
+import { logDebug, logError, logInfo, logWarning } from '../../../core/errors/log-messages';
 
 @Component({
   selector: 'aw-home-test',

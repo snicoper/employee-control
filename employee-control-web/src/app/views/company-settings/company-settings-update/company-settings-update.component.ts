@@ -12,11 +12,13 @@ import { CardComponent } from '../../../components/cards/card/card.component';
 import { FormTimezoneComponent } from '../../../components/forms/inputs/form-timezone/form-timezone.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
-import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
-import { BadRequest, ResultResponse } from '../../../models/_index';
+import { ApiUrls } from '../../../core/urls/api-urls';
+import { SiteUrls } from '../../../core/urls/site-urls';
+import { BadRequest } from '../../../models/bad-request';
 import { CompanySettings } from '../../../models/entities/company-settings.model';
-import { CompanySettingsApiService } from '../../../services/api/_index';
-import { CurrentCompanySettingsStateService } from '../../../services/states/_index';
+import { ResultResponse } from '../../../models/result-response.model';
+import { CompanySettingsApiService } from '../../../services/api/company-settings-api.service';
+import { CurrentCompanySettingsStateService } from '../../../services/states/current-company-settings-state.service';
 
 @Component({
   selector: 'aw-company-settings-update',

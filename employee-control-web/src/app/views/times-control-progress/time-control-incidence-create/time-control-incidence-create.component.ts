@@ -7,7 +7,8 @@ import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn
 import { FormTextareaComponent } from '../../../components/forms/inputs/form-textarea/form-textarea.component';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { urlReplaceParams } from '../../../core/utils/common-utils';
-import { BadRequest, ResultResponse } from '../../../models/_index';
+import { BadRequest } from '../../../models/bad-request';
+import { ResultResponse } from '../../../models/result-response.model';
 import { TimeControlApiService } from '../../../services/api/time-control-api.service';
 import { TimeControlIncidenceCreateRequest } from './time-control-incidence-create-request.model';
 

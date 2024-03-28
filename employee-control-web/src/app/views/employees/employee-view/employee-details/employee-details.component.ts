@@ -11,16 +11,17 @@ import { DotDangerComponent } from '../../../../components/colors/dot-danger/dot
 import { DotSuccessComponent } from '../../../../components/colors/dot-success/dot-success.component';
 import { SpinnerComponent } from '../../../../components/spinner/spinner.component';
 import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
-import { Roles, roleToHumanReadable } from '../../../../core/types/_index';
-import { ApiUrls, SiteUrls } from '../../../../core/urls/_index';
-import { urlReplaceParams } from '../../../../core/utils/_index';
+import { Roles, roleToHumanReadable } from '../../../../core/types/roles';
+import { ApiUrls } from '../../../../core/urls/api-urls';
+import { SiteUrls } from '../../../../core/urls/site-urls';
+import { urlReplaceParams } from '../../../../core/utils/common-utils';
 import { RequiredRoleDirective } from '../../../../directives/required-role.directive';
-import { ResultResponse } from '../../../../models/_index';
-import { TimeState } from '../../../../models/entities/types/_index';
+import { TimeState } from '../../../../models/entities/types/time-state.model';
+import { ResultResponse } from '../../../../models/result-response.model';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
 import { DatetimePipe } from '../../../../pipes/datetime.pipe';
-import { JwtService } from '../../../../services/_index';
-import { EmployeesApiService } from '../../../../services/api/_index';
+import { EmployeesApiService } from '../../../../services/api/employees-api.service';
+import { JwtService } from '../../../../services/jwt.service';
 import { EmployeeSelectedService } from '../employee-selected.service';
 import { EmployeeRolesEditComponent } from './employee-roles-edit/employee-roles-edit.component';
 

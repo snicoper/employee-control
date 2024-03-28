@@ -1,8 +1,8 @@
 import { NgClass } from '@angular/common';
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, FormGroup, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { FormInputTypes } from '../../../../core/types/_index';
-import { BadRequest } from '../../../../models/_index';
+import { FormInputTypes } from '../../../../core/types/form-input-types';
+import { BadRequest } from '../../../../models/bad-request';
 import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */

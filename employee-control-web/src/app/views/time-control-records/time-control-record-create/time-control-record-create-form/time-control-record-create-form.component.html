@@ -9,7 +9,9 @@
         fieldName="dateStart"
         formControlName="dateStart"
         label="Inicio" />
+
       <div class="mt-3"></div>
+
       <aw-form-timepicker
         [badRequest]="badRequest"
         [form]="form"
@@ -27,7 +29,9 @@
         fieldName="dateFinish"
         formControlName="dateFinish"
         label="Final" />
+
       <div class="mt-3"></div>
+
       <aw-form-timepicker
         [badRequest]="badRequest"
         [form]="form"
@@ -35,6 +39,18 @@
         fieldName="timeFinish"
         formControlName="timeFinish"
         label="" />
+
+      <button
+        [ngClass]="{ 'btn-outline-success': formAddFinishTimes, 'btn-outline-warning': !formAddFinishTimes }"
+        (click)="handleToggleFinishDateAndTime()"
+        class="btn btn-sm mt-4"
+        type="button">
+        @if (formAddFinishTimes) {
+          <span>Finalizar tiempo</span>
+        } @else {
+          <span>Dejar tiempo activo</span>
+        }
+      </button>
     </div>
     <!-- end timeStart y timeFinish -->
   </div>

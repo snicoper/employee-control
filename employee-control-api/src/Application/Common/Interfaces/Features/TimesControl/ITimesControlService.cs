@@ -18,6 +18,15 @@ public interface ITimesControlService
     Task<TimeControl> GetByIdAsync(string id, CancellationToken cancellationToken);
 
     /// <summary>
+    /// Obtener un <see cref="TimeControl" /> por su Id con datos de <see cref="ApplicationUser" />.
+    /// </summary>
+    /// <param name="id">Id del <see cref="TimeControl" />.</param>
+    /// <param name="cancellationToken"><see cref="CancellationToken" />.</param>
+    /// <exception cref="NotFoundException">En caso de no encontrar el <see cref="TimeControl" />.</exception>
+    /// <returns><see cref="TimeControl" />.</returns>
+    Task<TimeControl> GetWithEmployeeInfoByIdAsync(string id, CancellationToken cancellationToken);
+
+    /// <summary>
     /// Obtener un grupos por días de <see cref="TimeControl" /> en un rango de fechas de un
     /// empleado concreto por su Id.
     /// </summary>
@@ -57,12 +66,20 @@ public interface ITimesControlService
     Task<TimeState> GetTimeStateByEmployeeAsync(ApplicationUser user, CancellationToken cancellationToken);
 
     /// <summary>
+    /// Crea un <see cref="TimeControl" /> sin hora final.
+    /// </summary>
+    /// <param name="timeControl"><see cref="TimeControl" /> a crear.</param>
+    /// <param name="cancellationToken"><see cref="CancellationToken" />.</param>
+    /// <returns><see cref="TimeControl" /> creado.</returns>
+    Task<TimeControl> CreateWithOutFinishAsync(TimeControl timeControl, CancellationToken cancellationToken);
+
+    /// <summary>
     /// Crea un <see cref="TimeControl" /> con su hora de inicio y final.
     /// </summary>
     /// <param name="timeControl"><see cref="TimeControl" /> a crear.</param>
     /// <param name="cancellationToken"><see cref="CancellationToken" />.</param>
     /// <returns><see cref="TimeControl" /> creado.</returns>
-    Task<TimeControl> CreateAsync(TimeControl timeControl, CancellationToken cancellationToken);
+    Task<TimeControl> CreateWithFinishAsync(TimeControl timeControl, CancellationToken cancellationToken);
 
     /// <summary>
     /// Inicializar un <see cref="TimeControl" />.

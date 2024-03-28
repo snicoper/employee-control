@@ -7,11 +7,12 @@ import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-ba
 import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
 import { CardComponent } from '../../../../components/cards/card/card.component';
 import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
-import { ApiUrls, SiteUrls } from '../../../../core/urls/_index';
-import { urlReplaceParams } from '../../../../core/utils/_index';
-import { ResultResponse } from '../../../../models/_index';
+import { ApiUrls } from '../../../../core/urls/api-urls';
+import { SiteUrls } from '../../../../core/urls/site-urls';
+import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { ResultResponse } from '../../../../models/result-response.model';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
-import { DepartmentApiService } from '../../../../services/api/_index';
+import { DepartmentApiService } from '../../../../services/api/department-api.service';
 import { DepartmentSelectedService } from '../department-selected.service';
 
 @Component({

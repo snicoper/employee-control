@@ -3,7 +3,7 @@ import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormGroup, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { getTimeZones } from '@vvo/tzdb';
-import { BadRequest } from '../../../../models/_index';
+import { BadRequest } from '../../../../models/bad-request';
 import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */

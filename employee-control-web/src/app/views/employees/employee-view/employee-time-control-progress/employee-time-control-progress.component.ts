@@ -4,11 +4,12 @@ import { finalize } from 'rxjs';
 import { ProgressStackedCollection } from '../../../../components/progress/progress-stacked/progress-stacked-collection';
 import { TimeControlProgressComponent } from '../../../../components/progress/time-control-progress/time-control-progress.component';
 import { MonthSelectorComponent } from '../../../../components/selectors/month-selector/month-selector.component';
-import { TimeControlGroupResponse } from '../../../../core/features/times-control/_index';
 import { TimeControlProgressStacked } from '../../../../core/features/times-control/time-control-group';
-import { ApiUrls } from '../../../../core/urls/_index';
-import { DatetimeUtils, urlReplaceParams } from '../../../../core/utils/_index';
-import { TimeControlApiService } from '../../../../services/api/_index';
+import { TimeControlGroupResponse } from '../../../../core/features/times-control/times-control-response.model';
+import { ApiUrls } from '../../../../core/urls/api-urls';
+import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { DatetimeUtils } from '../../../../core/utils/datetime-utils';
+import { TimeControlApiService } from '../../../../services/api/time-control-api.service';
 import { EmployeeSelectedService } from '../employee-selected.service';
 
 @Component({

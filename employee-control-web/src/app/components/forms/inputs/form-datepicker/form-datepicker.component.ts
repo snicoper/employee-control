@@ -2,9 +2,10 @@ import { NgClass } from '@angular/common';
 import { Component, forwardRef, inject, Input } from '@angular/core';
 import { FormGroup, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BsDatepickerConfig, BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { LocalizationService, LocalizationUtils } from '../../../../core/features/localizations/_index';
-import { FormInputTypes } from '../../../../core/types/_index';
-import { BadRequest } from '../../../../models/_index';
+import { LocalizationUtils } from '../../../../core/features/localizations/localization-utils';
+import { LocalizationService } from '../../../../core/features/localizations/localization.service';
+import { FormInputTypes } from '../../../../core/types/form-input-types';
+import { BadRequest } from '../../../../models/bad-request';
 import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */

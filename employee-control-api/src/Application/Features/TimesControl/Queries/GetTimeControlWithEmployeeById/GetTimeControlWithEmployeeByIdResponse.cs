@@ -2,13 +2,17 @@
 using EmployeeControl.Domain.Entities;
 using EmployeeControl.Domain.Enums;
 
-namespace EmployeeControl.Application.Features.TimesControl.Queries.GetTimeControlById;
+namespace EmployeeControl.Application.Features.TimesControl.Queries.GetTimeControlWithEmployeeById;
 
-public record GetTimeControlByIdResponse
+public class GetTimeControlWithEmployeeByIdResponse
 {
     public string Id { get; set; } = default!;
 
     public string UserId { get; set; } = default!;
+
+    public string FirstName { get; set; } = default!;
+
+    public string LastName { get; set; } = default!;
 
     public bool Incidence { get; set; }
 
@@ -40,8 +44,10 @@ public record GetTimeControlByIdResponse
     {
         public Mapping()
         {
-            CreateMap<TimeControl, GetTimeControlByIdResponse>()
-                .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => CalculateDuration(src)));
+            CreateMap<TimeControl, GetTimeControlWithEmployeeByIdResponse>()
+                .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => CalculateDuration(src)))
+                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.User.FirstName))
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.User.LastName));
         }
 
         private double CalculateDuration(TimeControl timeControl)

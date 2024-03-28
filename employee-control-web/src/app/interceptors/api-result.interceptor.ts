@@ -9,7 +9,8 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiResultItemFilter, ApiResultItemOrderBy } from '../core/features/api-result/_index';
+import { ApiResultItemFilter } from '../core/features/api-result/api-result-item-filter';
+import { ApiResultItemOrderBy } from '../core/features/api-result/api-result-item-order-by';
 
 /** Comprueba si es un ApiResult y deserializa filters. */
 @Injectable()

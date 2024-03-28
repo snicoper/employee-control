@@ -18,15 +18,12 @@
         <div>La fecha de inicio no puede ser mayor a la fecha final.</div>
       }
 
-      @if (getControlErrorByErrorName("startTimeGreaterThanFinish")) {
-        <div>La fecha/hora parecen menor a la de inicio.</div>
-      }
-
       @if (getControlErrorByErrorName("noFutureDate")) {
-        <div>No fechas futuras.</div>
+        <div>La fecha ha de ser menor o igual a hoy.</div>
       }
     </span>
-    <!-- Errores obtenidos del backend pertenecientes al campo concreto. -->
+
+    <!-- errores obtenidos del backend. -->
     @if (getBadRequestErrors()) {
       <div>
         @for (error of getBadRequestErrors(); track error) {
@@ -34,5 +31,6 @@
         }
       </div>
     }
+    <!-- end errores obtenidos del backend. -->
   </div>
 }

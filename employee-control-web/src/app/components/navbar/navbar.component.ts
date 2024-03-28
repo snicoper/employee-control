@@ -1,10 +1,13 @@
 import { NgClass } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { AppEnvironments } from '../../core/config/_index';
-import { ThemeColors } from '../../core/types/_index';
-import { SiteUrls } from '../../core/urls/_index';
-import { AuthService, JwtService, LayoutService, ThemeColorService } from '../../services/_index';
+import { AppEnvironments } from '../../core/config/app-environments';
+import { ThemeColors } from '../../core/types/theme-colors';
+import { SiteUrls } from '../../core/urls/site-urls';
+import { AuthService } from '../../services/auth.service';
+import { JwtService } from '../../services/jwt.service';
+import { LayoutService } from '../../services/layout.service';
+import { ThemeColorService } from '../../services/theme-color.service';
 
 @Component({
   selector: 'aw-navbar',

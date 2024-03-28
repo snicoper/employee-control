@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BsDatepickerConfig, BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { CalendarCellViewModel } from 'ngx-bootstrap/datepicker/models';
-import { LocalizationService, LocalizationUtils } from '../../../core/features/localizations/_index';
+import { LocalizationUtils } from '../../../core/features/localizations/localization-utils';
+import { LocalizationService } from '../../../core/features/localizations/localization.service';
 
 @Component({
   selector: 'aw-month-selector',

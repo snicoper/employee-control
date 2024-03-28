@@ -1,3 +1,119 @@
 <aw-view-base>
   <aw-view-header [breadcrumb]="breadcrumb">Detalles de tiempo</aw-view-header>
+
+  @if (timeControl?.incidence) {
+    <aw-card>
+      <h4>Incidencia</h4>
+
+      <div class="alert alert-danger">
+        {{ timeControl?.incidenceDescription }}
+      </div>
+    </aw-card>
+    <div class="mt-4"></div>
+  }
+
+  <aw-card>
+    <table class="table table-borderless table-striped table-hover">
+      <tbody>
+        @if (timeControl && !loadingTimeControl) {
+          <tr>
+            <td>Empleado</td>
+            <td>{{ timeControl.firstName }} {{ timeControl.lastName }}</td>
+          </tr>
+          <tr>
+            <td>Hora de inicio</td>
+            <td>
+              <span [innerHTML]="timeControl.deviceTypeStart | deviceType"></span>
+              {{ timeControl.start | datetime }}
+
+              @if (getStartOpenStreetMapLink(timeControl)) {
+                <a [href]="getStartOpenStreetMapLink(timeControl)" target="_blank">
+                  <span awTooltip class="fa-solid fa-location-pin text-success" title="Ver en mapa"></span>
+                </a>
+              }
+            </td>
+          </tr>
+          <tr>
+            <td>Hora final</td>
+            <td>
+              <span [innerHTML]="timeControl.deviceTypeFinish | deviceType"></span>
+
+              @if (timeControl.timeState === timeState.close) {
+                {{ timeControl.finish | datetime }}
+                @if (getFinishOpenStreetMapLink(timeControl)) {
+                  <a [href]="getFinishOpenStreetMapLink(timeControl)" target="_blank">
+                    <span awTooltip class="fa-solid fa-location-pin text-success" title="Ver en mapa"></span>
+                  </a>
+                }
+              }
+            </td>
+          </tr>
+          <tr>
+            <td>Cerrado por</td>
+            <td>
+              @if (timeControl.closedBy === closedBy.staff || timeControl.closedBy === closedBy.system) {
+                <span class="fa-solid fa-exclamation text-danger"></span>
+              }
+
+              {{ timeControl.closedBy | closedBy }}
+            </td>
+          </tr>
+          <tr>
+            <td>Estado del tiempo</td>
+            <td>
+              @if (timeControl.timeState === timeState.open) {
+                <span awTooltip title="Abierto">
+                  <aw-dot-success />
+                </span>
+              }
+
+              @if (timeControl.timeState === timeState.close) {
+                <span awTooltip title="Cerrado">
+                  <aw-dot-danger />
+                </span>
+              }
+            </td>
+          </tr>
+          <tr>
+            <td>Duración</td>
+            <td>
+              @if (timeControl.duration > 1) {
+                {{ timeControl.duration | durationToTime }}
+              }
+
+              @if (timeControl.duration === 0) {
+                <span>...</span>
+              }
+            </td>
+          </tr>
+        } @else {
+          <tr>
+            <td colspan="100%">
+              <aw-spinner [loading]="loadingTimeControl" />
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <div class="mt-4">
+      <aw-btn-back />
+
+      @if (timeControl) {
+        @if (timeControl.timeState === timeState.open) {
+          <button (click)="handleTimeControlClose(timeControl)" class="btn btn-warning ms-2">
+            <span class="fa-solid fa-lock"></span> Finalizar
+          </button>
+        } @else {
+          <button (click)="handleTimeControlUpdate(timeControl)" class="btn btn-success ms-2">
+            <span class="fa-solid fa-pencil"></span> Editar
+          </button>
+
+          <button (click)="handleTimeControlDelete(timeControl)" class="btn btn-danger ms-2">
+            <span class="fa-solid fa-circle-xmark"></span> Eliminar
+          </button>
+        }
+      }
+    </div>
+  </aw-card>
 </aw-view-base>

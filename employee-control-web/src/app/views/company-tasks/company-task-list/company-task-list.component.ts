@@ -13,13 +13,15 @@ import { TableInputSearchComponent } from '../../../components/tables/table-inpu
 import { TableComponent } from '../../../components/tables/table/table.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
-import { ApiResult } from '../../../core/features/api-result/_index';
-import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
-import { urlReplaceParams } from '../../../core/utils/_index';
-import { CompanyTask } from '../../../models/entities/_index';
-import { BoolToIconPipe, DatetimePipe } from '../../../pipes/_index';
-import { CompanyTaskApiService } from '../../../services/api/_index';
-import { CurrentCompanyEmployeeStateService } from '../../../services/states/_index';
+import { ApiResult } from '../../../core/features/api-result/api-result';
+import { ApiUrls } from '../../../core/urls/api-urls';
+import { SiteUrls } from '../../../core/urls/site-urls';
+import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CompanyTask } from '../../../models/entities/company-task.model';
+import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
+import { DatetimePipe } from '../../../pipes/datetime.pipe';
+import { CompanyTaskApiService } from '../../../services/api/company-task-api.service';
+import { CurrentCompanyEmployeeStateService } from '../../../services/states/current-company-employee-state.service';
 import { companyTaskListTableHeader } from './company-task-list-table-headers';
 
 @Component({

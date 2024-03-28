@@ -1,9 +1,9 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Output, computed, inject } from '@angular/core';
 import { SpinnerComponent } from '../../../../components/spinner/spinner.component';
-import { WeekDays } from '../../../../core/types/_index';
+import { WeekDays } from '../../../../core/types/week-days';
 import { WorkingDaysWeek } from '../../../../models/entities/working-days-week.model';
-import { WorkingDaysWeekStateService } from '../../../../services/states/_index';
+import { WorkingDaysWeekStateService } from '../../../../services/states/working-days-week-state.service';
 
 @Component({
   selector: 'aw-working-days-week',

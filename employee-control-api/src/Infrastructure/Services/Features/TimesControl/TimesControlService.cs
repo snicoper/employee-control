@@ -34,6 +34,17 @@ public class TimesControlService(
         return result;
     }
 
+    public async Task<TimeControl> GetWithEmployeeInfoByIdAsync(string id, CancellationToken cancellationToken)
+    {
+        var result = await context
+                         .TimeControls
+                         .Include(tc => tc.User)
+                         .SingleOrDefaultAsync(tc => tc.Id.Equals(id), cancellationToken) ??
+                     throw new NotFoundException(nameof(TimeControl), nameof(TimeControl.Id));
+
+        return result;
+    }
+
     public async Task<IEnumerable<IGrouping<int, TimeControl>>> GetRangeByEmployeeIdAsync(
         string employeeId,
         DateTimeOffset from,
@@ -106,7 +117,20 @@ public class TimesControlService(
         return timeControl.TimeState;
     }
 
-    public async Task<TimeControl> CreateAsync(TimeControl timeControl, CancellationToken cancellationToken)
+    public async Task<TimeControl> CreateWithOutFinishAsync(TimeControl timeControl, CancellationToken cancellationToken)
+    {
+        await timesControlValidatorService.ValidateCreateAsync(timeControl, cancellationToken);
+        validationFailureService.RaiseExceptionIfExistsErrors();
+
+        await permissionsValidationService.CheckEntityCompanyIsOwnerAsync(timeControl);
+
+        await context.TimeControls.AddAsync(timeControl, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
+
+        return timeControl;
+    }
+
+    public async Task<TimeControl> CreateWithFinishAsync(TimeControl timeControl, CancellationToken cancellationToken)
     {
         await timesControlValidatorService.ValidateUpdateAsync(timeControl, cancellationToken);
         validationFailureService.RaiseExceptionIfExistsErrors();

@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ApiResult } from '../../../core/features/api-result/_index';
+import { ApiResult } from '../../../core/features/api-result/api-result';
 import { SpinnerComponent } from '../../spinner/spinner.component';
 
 @Component({

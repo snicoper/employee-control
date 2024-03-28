@@ -8,11 +8,12 @@ import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-ba
 import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
 import { CardComponent } from '../../../../components/cards/card/card.component';
 import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
-import { ApiUrls, SiteUrls } from '../../../../core/urls/_index';
-import { urlReplaceParams } from '../../../../core/utils/_index';
+import { ApiUrls } from '../../../../core/urls/api-urls';
+import { SiteUrls } from '../../../../core/urls/site-urls';
+import { urlReplaceParams } from '../../../../core/utils/common-utils';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
 import { DatetimePipe } from '../../../../pipes/datetime.pipe';
-import { CompanyTaskApiService } from '../../../../services/api/_index';
+import { CompanyTaskApiService } from '../../../../services/api/company-task-api.service';
 import { CompanyTaskSelectedService } from '../company-task-selected.service';
 
 @Component({

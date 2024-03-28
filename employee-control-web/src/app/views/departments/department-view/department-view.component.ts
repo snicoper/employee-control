@@ -5,7 +5,7 @@ import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-
 import { CardComponent } from '../../../components/cards/card/card.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
-import { SiteUrls } from '../../../core/urls/_index';
+import { SiteUrls } from '../../../core/urls/site-urls';
 import { DepartmentAddUsersComponent } from './department-add-users/department-add-users.component';
 import { DepartmentDetailsComponent } from './department-details/department-details.component';
 import { DepartmentSelectedService } from './department-selected.service';

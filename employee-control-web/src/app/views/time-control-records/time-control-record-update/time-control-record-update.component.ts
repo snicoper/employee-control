@@ -15,12 +15,14 @@ import { FormDatepickerComponent } from '../../../components/forms/inputs/form-d
 import { FormTimePickerComponent } from '../../../components/forms/inputs/form-timepicker/form-timepicker.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
-import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
-import { urlReplaceParams } from '../../../core/utils/_index';
-import { CustomValidation } from '../../../core/validators/_index';
-import { BadRequest, ResultResponse } from '../../../models/_index';
-import { TimeControl } from '../../../models/entities/_index';
-import { TimeControlApiService } from '../../../services/api/_index';
+import { ApiUrls } from '../../../core/urls/api-urls';
+import { SiteUrls } from '../../../core/urls/site-urls';
+import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CustomValidators } from '../../../core/validators/custom-validators-form';
+import { BadRequest } from '../../../models/bad-request';
+import { TimeControl } from '../../../models/entities/time-control.model';
+import { ResultResponse } from '../../../models/result-response.model';
+import { TimeControlApiService } from '../../../services/api/time-control-api.service';
 import { TimeControlRecordRequest } from './time-control-record-request';
 
 @Component({
@@ -95,8 +97,11 @@ export class TimeControlRecordUpdateComponent implements OnInit {
   }
 
   private setBreadcrumb(): void {
+    const urlDetails = urlReplaceParams(SiteUrls.timeControlRecords.details, { id: this.timeControlId });
+
     this.breadcrumb
       .add('Registro de tiempos', SiteUrls.timeControlRecords.home)
+      .add('Detalles de tiempo', urlDetails, '')
       .add('Actualizar tiempo', SiteUrls.timeControlRecords.update, '', false);
   }
 
@@ -183,14 +188,14 @@ export class TimeControlRecordUpdateComponent implements OnInit {
 
     this.form = this.fb.group(
       {
-        dateStart: [startWithOffset, [Validators.required, CustomValidation.noFutureDate]],
-        dateFinish: [endWithOffset, [Validators.required, CustomValidation.noFutureDate]],
+        dateStart: [startWithOffset, [Validators.required, CustomValidators.noFutureDate]],
+        dateFinish: [endWithOffset, [Validators.required, CustomValidators.noFutureDate]],
         timeStart: [startWithOffset, [Validators.required]],
         timeFinish: [endWithOffset, []],
         closeIncidence: [false]
       },
       {
-        validators: [CustomValidation.dateStartGreaterThanFinish('dateStart', 'dateFinish')]
+        validators: [CustomValidators.dateStartGreaterThanFinish('dateStart', 'dateFinish')]
       }
     );
   }

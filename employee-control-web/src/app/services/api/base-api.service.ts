@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AppEnvironments } from '../../core/config/_index';
-import { ApiResult } from '../../core/features/api-result/_index';
+import { AppEnvironments } from '../../core/config/app-environments';
+import { ApiResult } from '../../core/features/api-result/api-result';
 
 export abstract class BaseApiService {
   protected readonly http = inject(HttpClient);

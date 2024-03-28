@@ -11,21 +11,33 @@ internal class CreateTimeControlHandler(
     IMapper mapper,
     ICurrentUserService currentUserService,
     ITimesControlService timesControlService)
-    : IRequestHandler<CreateTimeControlCommand, TimeControl>
+    : IRequestHandler<CreateTimeControlCommand, string>
 {
-    public async Task<TimeControl> Handle(CreateTimeControlCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(CreateTimeControlCommand request, CancellationToken cancellationToken)
     {
+        TimeControl resultResponse;
         var timeControl = mapper.Map<TimeControl>(request);
 
         timeControl.CompanyId = currentUserService.CompanyId;
         timeControl.Incidence = false;
-        timeControl.ClosedBy = ClosedBy.Staff;
-        timeControl.TimeState = TimeState.Close;
         timeControl.DeviceTypeStart = request.DeviceType;
-        timeControl.DeviceTypeFinish = request.DeviceType;
 
-        var resultResponse = await timesControlService.CreateAsync(timeControl, cancellationToken);
+        if (request.TimeState == TimeState.Close)
+        {
+            timeControl.ClosedBy = ClosedBy.Staff;
+            timeControl.TimeState = TimeState.Close;
+            timeControl.DeviceTypeFinish = request.DeviceType;
 
-        return resultResponse;
+            resultResponse = await timesControlService.CreateWithFinishAsync(timeControl, cancellationToken);
+        }
+        else
+        {
+            timeControl.Finish = timeControl.Start;
+            timeControl.TimeState = TimeState.Open;
+
+            resultResponse = await timesControlService.CreateWithOutFinishAsync(timeControl, cancellationToken);
+        }
+
+        return resultResponse.Id;
     }
 }

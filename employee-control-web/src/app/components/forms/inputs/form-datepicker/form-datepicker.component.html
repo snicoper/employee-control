@@ -10,9 +10,11 @@
     [(ngModel)]="value"
     [bsConfig]="bsConfig"
     [isDisabled]="isDisabled"
+    [disabled]="isDisabled"
     [ngClass]="{ extraCss: true, 'is-invalid': isInvalid() }"
     [placeholder]="placeholder"
     [type]="inputType"
+    [id]="id"
     bsDatepicker
     class="form-control" />
 

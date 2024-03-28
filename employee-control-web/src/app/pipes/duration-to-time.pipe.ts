@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DatetimeUtils } from '../core/utils/_index';
+import { DatetimeUtils } from '../core/utils/datetime-utils';
 
 @Pipe({
   name: 'durationToTime',

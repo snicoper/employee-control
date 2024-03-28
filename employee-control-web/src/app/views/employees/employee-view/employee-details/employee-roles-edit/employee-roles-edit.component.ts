@@ -4,11 +4,11 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { BtnLoadingComponent } from '../../../../../components/buttons/btn-loading/btn-loading.component';
-import { Roles } from '../../../../../core/types/_index';
-import { ApiUrls } from '../../../../../core/urls/_index';
-import { urlReplaceParams } from '../../../../../core/utils/_index';
-import { ResultResponse } from '../../../../../models/_index';
-import { EmployeesApiService } from '../../../../../services/api/_index';
+import { Roles } from '../../../../../core/types/roles';
+import { ApiUrls } from '../../../../../core/urls/api-urls';
+import { urlReplaceParams } from '../../../../../core/utils/common-utils';
+import { ResultResponse } from '../../../../../models/result-response.model';
+import { EmployeesApiService } from '../../../../../services/api/employees-api.service';
 import { EmployeeSelectedService } from '../../employee-selected.service';
 import { EmployeeRolesRequest } from './employee-roles-request.model';
 

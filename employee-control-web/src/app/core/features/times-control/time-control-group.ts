@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon';
 import { ProgressStackedCollection } from '../../../components/progress/progress-stacked/progress-stacked-collection';
-import { ClosedBy } from '../../../models/entities/types/_index';
-import { DatetimeUtils, calculatePercent } from '../../utils/_index';
+import { ClosedBy } from '../../../models/entities/types/closed-by.model';
+import { calculatePercent } from '../../utils/common-utils';
+import { DatetimeUtils } from '../../utils/datetime-utils';
 import { ProcessTimeControlGroups } from './process-time-control-groups';
 import { TimeControlGroupResponse, TimeResponse } from './times-control-response.model';
 

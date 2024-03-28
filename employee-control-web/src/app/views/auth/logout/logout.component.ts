@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { SiteUrls } from '../../../core/urls/_index';
-import { JwtService, UserStatesService } from '../../../services/_index';
+import { SiteUrls } from '../../../core/urls/site-urls';
+import { JwtService } from '../../../services/jwt.service';
+import { UserStatesService } from '../../../services/user-states.service';
 
 @Component({
   selector: 'aw-logout',

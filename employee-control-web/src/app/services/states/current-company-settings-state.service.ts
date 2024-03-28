@@ -1,7 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
-import { ApiUrls } from '../../core/urls/_index';
-import { urlReplaceParams } from '../../core/utils/_index';
+import { ApiUrls } from '../../core/urls/api-urls';
+import { urlReplaceParams } from '../../core/utils/common-utils';
 import { CompanySettings } from '../../models/entities/company-settings.model';
 import { CompanySettingsApiService } from '../api/company-settings-api.service';
 import { JwtService } from '../jwt.service';

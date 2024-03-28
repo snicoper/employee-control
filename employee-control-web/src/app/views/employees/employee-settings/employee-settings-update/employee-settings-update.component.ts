@@ -12,12 +12,13 @@ import { CardComponent } from '../../../../components/cards/card/card.component'
 import { FormTimezoneComponent } from '../../../../components/forms/inputs/form-timezone/form-timezone.component';
 import { ViewBaseComponent } from '../../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../../components/views/view-header/view-header.component';
-import { ApiUrls, SiteUrls } from '../../../../core/urls/_index';
-import { urlReplaceParams } from '../../../../core/utils/_index';
-import { BadRequest } from '../../../../models/_index';
-import { EmployeeSettings } from '../../../../models/entities/_index';
-import { EmployeesApiService } from '../../../../services/api/_index';
-import { EmployeeSettingsStateService } from '../../../../services/states/_index';
+import { ApiUrls } from '../../../../core/urls/api-urls';
+import { SiteUrls } from '../../../../core/urls/site-urls';
+import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { BadRequest } from '../../../../models/bad-request';
+import { EmployeeSettings } from '../../../../models/entities/employee-settings.model';
+import { EmployeesApiService } from '../../../../services/api/employees-api.service';
+import { EmployeeSettingsStateService } from '../../../../services/states/employee-settings-state.service';
 
 @Component({
   selector: 'aw-employee-settings-update',

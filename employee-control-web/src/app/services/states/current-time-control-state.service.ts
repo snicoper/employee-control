@@ -1,8 +1,8 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
-import { ApiUrls } from '../../core/urls/_index';
-import { urlReplaceParams } from '../../core/utils/_index';
-import { CurrentTimeControlResponse } from '../../models/_index';
+import { ApiUrls } from '../../core/urls/api-urls';
+import { urlReplaceParams } from '../../core/utils/common-utils';
+import { CurrentTimeControlResponse } from '../../models/current-time-control-response.model';
 import { TimeControlApiService } from '../api/time-control-api.service';
 import { JwtService } from '../jwt.service';
 import { StateService } from './state.service';

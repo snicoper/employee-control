@@ -14,11 +14,12 @@ import { FormColorComponent } from '../../../components/forms/inputs/form-color/
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
-import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
-import { getRandomColorHexadecimal } from '../../../core/utils/_index';
-import { BadRequest } from '../../../models/_index';
-import { JwtService } from '../../../services/_index';
-import { CategoryAbsencesApiService } from '../../../services/api/_index';
+import { ApiUrls } from '../../../core/urls/api-urls';
+import { SiteUrls } from '../../../core/urls/site-urls';
+import { getRandomColorHexadecimal } from '../../../core/utils/common-utils';
+import { BadRequest } from '../../../models/bad-request';
+import { CategoryAbsencesApiService } from '../../../services/api/category-absences-api.service';
+import { JwtService } from '../../../services/jwt.service';
 import { CategoryAbsenceCreateRequest } from './category-absence-create-request.model';
 
 @Component({

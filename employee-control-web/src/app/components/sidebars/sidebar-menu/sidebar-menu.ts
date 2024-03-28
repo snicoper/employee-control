@@ -1,5 +1,5 @@
-import { Roles } from '../../../core/types/_index';
-import { SiteUrls } from '../../../core/urls/_index';
+import { Roles } from '../../../core/types/roles';
+import { SiteUrls } from '../../../core/urls/site-urls';
 import { SidebarMenu, SidebarMenuTypes } from './sidebar-menu-types.model';
 
 export const sidebarMenu: SidebarMenu[] = [

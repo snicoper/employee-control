@@ -3,11 +3,11 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { DualListBoxComponent } from '../../../../components/dual-list-box/dual-list-box.component';
 import { DualListBox } from '../../../../components/dual-list-box/dual-list-box.model';
-import { HtmlItemSelector } from '../../../../core/models/_index';
-import { ApiUrls } from '../../../../core/urls/_index';
-import { urlReplaceParams } from '../../../../core/utils/_index';
-import { ResultResponse } from '../../../../models/_index';
-import { DepartmentApiService } from '../../../../services/api/_index';
+import { HtmlItemSelector } from '../../../../core/models/html-item-selector.model';
+import { ApiUrls } from '../../../../core/urls/api-urls';
+import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { ResultResponse } from '../../../../models/result-response.model';
+import { DepartmentApiService } from '../../../../services/api/department-api.service';
 import { DepartmentSelectedService } from '../department-selected.service';
 import { DepartmentAddUserResponse } from './department-add-user-response.model';
 

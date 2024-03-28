@@ -8,8 +8,8 @@ import { TableLoadingComponent } from '../../../components/tables/table-loading/
 import { TooltipInfoComponent } from '../../../components/tooltips/tooltip-info/tooltip-info.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
-import { SiteUrls } from '../../../core/urls/_index';
-import { CurrentCompanySettingsStateService } from '../../../services/states/_index';
+import { SiteUrls } from '../../../core/urls/site-urls';
+import { CurrentCompanySettingsStateService } from '../../../services/states/current-company-settings-state.service';
 import { WorkingDaysWeekComponent } from './working-days-week/working-days-week.component';
 
 @Component({

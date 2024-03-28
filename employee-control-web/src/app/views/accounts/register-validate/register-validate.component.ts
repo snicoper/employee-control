@@ -1,9 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
-import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
-import { ResultResponse } from '../../../models/_index';
-import { AccountsApiService } from '../../../services/api/_index';
+import { ApiUrls } from '../../../core/urls/api-urls';
+import { SiteUrls } from '../../../core/urls/site-urls';
+import { ResultResponse } from '../../../models/result-response.model';
+import { AccountsApiService } from '../../../services/api/accounts-api.service';
 import { RegisterValidateRequest } from './register-validate-request.model';
 
 @Component({

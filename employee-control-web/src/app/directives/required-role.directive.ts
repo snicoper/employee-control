@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, OnInit, inject } from '@angular/core';
-import { Roles } from '../core/types/_index';
-import { JwtService } from '../services/_index';
+import { Roles } from '../core/types/roles';
+import { JwtService } from '../services/jwt.service';
 
 @Directive({
   selector: '[awRequiredRole]',

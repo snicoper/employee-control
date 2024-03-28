@@ -15,19 +15,24 @@ import { TableInputSearchComponent } from '../../../components/tables/table-inpu
 import { TableComponent } from '../../../components/tables/table/table.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
-import { logError } from '../../../core/errors/_index';
-import { ApiResult, LogicalOperators, OrderTypes, RelationalOperators } from '../../../core/features/api-result/_index';
-import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
-import { urlReplaceParams } from '../../../core/utils/_index';
+import { logError } from '../../../core/errors/log-messages';
+import { ApiResult } from '../../../core/features/api-result/api-result';
+import { LogicalOperators } from '../../../core/features/api-result/types/logical-operator';
+import { OrderTypes } from '../../../core/features/api-result/types/order-type';
+import { RelationalOperators } from '../../../core/features/api-result/types/relational-operator';
+import { ApiUrls } from '../../../core/urls/api-urls';
+import { SiteUrls } from '../../../core/urls/site-urls';
+import { urlReplaceParams } from '../../../core/utils/common-utils';
 import { TooltipDirective } from '../../../directives/tooltip.directive';
-import { ResultResponse } from '../../../models/_index';
-import { ClosedBy, TimeState } from '../../../models/entities/types/_index';
+import { ClosedBy } from '../../../models/entities/types/closed-by.model';
+import { TimeState } from '../../../models/entities/types/time-state.model';
+import { ResultResponse } from '../../../models/result-response.model';
 import { ClosedByPipe } from '../../../pipes/closed-by.pipe';
 import { DatetimePipe } from '../../../pipes/datetime.pipe';
 import { DeviceTypePipe } from '../../../pipes/device-type.pipe';
 import { DurationToTimePipe } from '../../../pipes/duration-to-time.pipe';
-import { JwtService } from '../../../services/_index';
-import { TimeControlApiService } from '../../../services/api/_index';
+import { TimeControlApiService } from '../../../services/api/time-control-api.service';
+import { JwtService } from '../../../services/jwt.service';
 import { SimpleGeolocationService } from '../../../services/simple-geolocation.service';
 import { TimeControlRecordResponse } from './time-contol-record-response.model';
 import { timeControlRecordListTableHeaders } from './time-control-record-list-table-header';
@@ -129,7 +134,7 @@ export class TimeControlRecordListComponent {
     const data = { timeControlId: timeControl.id };
 
     this.timeControlApiService
-      .post<typeof data, ResultResponse>(data, ApiUrls.timeControl.finishTimeControlByStaff)
+      .put<typeof data, ResultResponse>(data, ApiUrls.timeControl.finishTimeControlByStaff)
       .pipe(finalize(() => (this.loadingTimeState = false)))
       .subscribe({
         next: (result: ResultResponse) => {

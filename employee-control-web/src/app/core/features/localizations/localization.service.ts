@@ -1,8 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { DateTime, Settings } from 'luxon';
 import { defineLocale, esLocale } from 'ngx-bootstrap/chronos';
-import { LocalStorageService } from '../../../services/_index';
-import { LocalStorageKeys } from '../../types/_index';
+import { LocalStorageService } from '../../../services/local-storage.service';
+import { LocalStorageKeys } from '../../types/local-storage-keys';
 import { LocalesSupported } from './locales-supported';
 import { LocalizationUtils } from './localization-utils';
 

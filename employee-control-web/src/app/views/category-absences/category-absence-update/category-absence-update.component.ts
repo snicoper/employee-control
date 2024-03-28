@@ -14,11 +14,13 @@ import { FormColorComponent } from '../../../components/forms/inputs/form-color/
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
-import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
-import { urlReplaceParams } from '../../../core/utils/_index';
-import { BadRequest, ResultResponse } from '../../../models/_index';
-import { CategoryAbsence } from '../../../models/entities/_index';
-import { CategoryAbsencesApiService } from '../../../services/api/_index';
+import { ApiUrls } from '../../../core/urls/api-urls';
+import { SiteUrls } from '../../../core/urls/site-urls';
+import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { BadRequest } from '../../../models/bad-request';
+import { CategoryAbsence } from '../../../models/entities/category-absence.model';
+import { ResultResponse } from '../../../models/result-response.model';
+import { CategoryAbsencesApiService } from '../../../services/api/category-absences-api.service';
 
 @Component({
   selector: 'aw-category-absence-update',

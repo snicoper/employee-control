@@ -1,9 +1,9 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
-import { ApiUrls } from '../../../core/urls/_index';
-import { urlReplaceParams } from '../../../core/utils/_index';
-import { CompanyTask } from '../../../models/entities/_index';
-import { CompanyTaskApiService } from '../../../services/api/_index';
+import { ApiUrls } from '../../../core/urls/api-urls';
+import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CompanyTask } from '../../../models/entities/company-task.model';
+import { CompanyTaskApiService } from '../../../services/api/company-task-api.service';
 
 /** Tarea seleccionada desde la lista (company-task-list). */
 @Injectable({ providedIn: 'root' })

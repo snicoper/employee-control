@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ClosedBy } from '../models/entities/types/_index';
+import { ClosedBy } from '../models/entities/types/closed-by.model';
 
 @Pipe({
   name: 'closedBy',

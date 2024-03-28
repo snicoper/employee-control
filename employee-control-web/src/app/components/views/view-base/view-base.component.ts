@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnInit, computed, inject } from '@angular/core';
-import { LayoutService } from '../../../services/_index';
+import { LayoutService } from '../../../services/layout.service';
 import { FooterComponent } from '../../footer/footer.component';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { SidebarComponent } from '../../sidebars/sidebar-menu/sidebar.component';

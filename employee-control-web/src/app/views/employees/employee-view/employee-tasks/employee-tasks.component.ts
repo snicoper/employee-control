@@ -7,12 +7,13 @@ import { TableHeaderComponent } from '../../../../components/tables/table-header
 import { TableHeaderConfig } from '../../../../components/tables/table-header/table-header.config';
 import { TableInputSearchComponent } from '../../../../components/tables/table-input-search/table-input-search.component';
 import { TableComponent } from '../../../../components/tables/table/table.component';
-import { ApiResult } from '../../../../core/features/api-result/_index';
-import { ApiUrls, SiteUrls } from '../../../../core/urls/_index';
-import { urlReplaceParams } from '../../../../core/utils/_index';
-import { CompanyTask } from '../../../../models/entities/_index';
+import { ApiResult } from '../../../../core/features/api-result/api-result';
+import { ApiUrls } from '../../../../core/urls/api-urls';
+import { SiteUrls } from '../../../../core/urls/site-urls';
+import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { CompanyTask } from '../../../../models/entities/company-task.model';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
-import { CompanyTaskApiService } from '../../../../services/api/_index';
+import { CompanyTaskApiService } from '../../../../services/api/company-task-api.service';
 import { EmployeeSelectedService } from '../employee-selected.service';
 import { employeeTasksTableHeaders } from './employee-tasks-table-headers';
 

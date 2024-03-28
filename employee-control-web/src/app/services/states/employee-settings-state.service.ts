@@ -1,8 +1,8 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
-import { LocalizationService } from '../../core/features/localizations/_index';
-import { ApiUrls } from '../../core/urls/_index';
-import { EmployeeSettings } from '../../models/entities/_index';
+import { LocalizationService } from '../../core/features/localizations/localization.service';
+import { ApiUrls } from '../../core/urls/api-urls';
+import { EmployeeSettings } from '../../models/entities/employee-settings.model';
 import { EmployeesApiService } from '../api/employees-api.service';
 import { StateService } from './state.service';
 

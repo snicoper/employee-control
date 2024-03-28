@@ -8,8 +8,8 @@ import { TableLoadingComponent } from '../../../../components/tables/table-loadi
 import { TooltipInfoComponent } from '../../../../components/tooltips/tooltip-info/tooltip-info.component';
 import { ViewBaseComponent } from '../../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../../components/views/view-header/view-header.component';
-import { SiteUrls } from '../../../../core/urls/_index';
-import { EmployeeSettingsStateService } from '../../../../services/states/_index';
+import { SiteUrls } from '../../../../core/urls/site-urls';
+import { EmployeeSettingsStateService } from '../../../../services/states/employee-settings-state.service';
 
 @Component({
   selector: 'aw-employee-settings-details',

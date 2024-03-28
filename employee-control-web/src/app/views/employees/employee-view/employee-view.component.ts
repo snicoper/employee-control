@@ -8,8 +8,8 @@ import { DotDangerComponent } from '../../../components/colors/dot-danger/dot-da
 import { DotSuccessComponent } from '../../../components/colors/dot-success/dot-success.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
-import { SiteUrls } from '../../../core/urls/_index';
-import { TimeState } from '../../../models/entities/types/_index';
+import { SiteUrls } from '../../../core/urls/site-urls';
+import { TimeState } from '../../../models/entities/types/time-state.model';
 import { EmployeeDepartmentsComponent } from './employee-departments/employee-departments.component';
 import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
 import { EmployeeSelectedService } from './employee-selected.service';

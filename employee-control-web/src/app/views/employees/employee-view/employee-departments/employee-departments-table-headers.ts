@@ -1,5 +1,5 @@
 import { TableHeaderField } from '../../../../components/tables/table-header/table-header-field.interface';
-import { OrderTypes } from '../../../../core/features/api-result/_index';
+import { OrderTypes } from '../../../../core/features/api-result/types/order-type';
 
 export const employeeDepartmentsTableHeaders: TableHeaderField[] = [
   {

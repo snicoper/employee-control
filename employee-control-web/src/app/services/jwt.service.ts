@@ -3,10 +3,12 @@ import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { Observable, tap } from 'rxjs';
-import { LocalStorageKeys } from '../core/types/_index';
-import { ApiUrls, SiteUrls } from '../core/urls/_index';
-import { RefreshTokenRequest, RefreshTokenResponse } from '../models/_index';
-import { AuthApiService } from './api/_index';
+import { LocalStorageKeys } from '../core/types/local-storage-keys';
+import { ApiUrls } from '../core/urls/api-urls';
+import { SiteUrls } from '../core/urls/site-urls';
+import { RefreshTokenRequest } from '../models/refresh-token-request.model';
+import { RefreshTokenResponse } from '../models/refresh-token-response.model';
+import { AuthApiService } from './api/auth-api.service';
 import { AuthService } from './auth.service';
 import { LocalStorageService } from './local-storage.service';
 

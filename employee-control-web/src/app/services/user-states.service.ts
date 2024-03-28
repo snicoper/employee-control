@@ -1,10 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import {
-  CurrentCompanyEmployeeStateService,
-  CurrentCompanySettingsStateService,
-  CurrentTimeControlStateService,
-  EmployeeSettingsStateService
-} from './states/_index';
+import { CurrentCompanyEmployeeStateService } from './states/current-company-employee-state.service';
+import { CurrentCompanySettingsStateService } from './states/current-company-settings-state.service';
+import { CurrentTimeControlStateService } from './states/current-time-control-state.service';
+import { EmployeeSettingsStateService } from './states/employee-settings-state.service';
 
 /** Maneja estados de un usuario al hacer login o logout. */
 @Injectable({ providedIn: 'root' })

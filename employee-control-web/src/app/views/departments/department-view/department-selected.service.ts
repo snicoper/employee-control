@@ -1,9 +1,9 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
-import { ApiUrls } from '../../../core/urls/_index';
-import { urlReplaceParams } from '../../../core/utils/_index';
-import { Department } from '../../../models/entities/_index';
-import { DepartmentApiService } from '../../../services/api/_index';
+import { ApiUrls } from '../../../core/urls/api-urls';
+import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { Department } from '../../../models/entities/department.model';
+import { DepartmentApiService } from '../../../services/api/department-api.service';
 
 @Injectable({ providedIn: 'root' })
 export class DepartmentSelectedService {

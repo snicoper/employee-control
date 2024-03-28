@@ -1,10 +1,11 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, forwardRef, inject } from '@angular/core';
-import { ControlValueAccessor, FormGroup, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, FormGroup, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BsDatepickerConfig, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-import { LocalizationService, LocalizationUtils } from '../../../../core/features/localizations/_index';
-import { BadRequest } from '../../../../models/_index';
+import { LocalizationUtils } from '../../../../core/features/localizations/localization-utils';
+import { LocalizationService } from '../../../../core/features/localizations/localization.service';
+import { BadRequest } from '../../../../models/bad-request';
 import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
@@ -38,7 +39,7 @@ export class FormTimePickerComponent implements ControlValueAccessor {
   @Input() label = '';
   @Input() extraCss = '';
 
-  value: Date = new Date();
+  value!: Date;
   isDisabled = false;
 
   constructor() {
@@ -61,7 +62,7 @@ export class FormTimePickerComponent implements ControlValueAccessor {
 
   writeValue(value: Date): void {
     if (value !== undefined && value !== this.value) {
-      this.value = value || new Date();
+      this.value = value;
       this.onChange(this.value);
     } else {
       this.value = new Date();
@@ -85,7 +86,7 @@ export class FormTimePickerComponent implements ControlValueAccessor {
   }
 
   isInvalid(): boolean {
-    const control = this.form?.get(this.fieldName) as FormGroup;
+    const control = this.form?.get(this.fieldName) as AbstractControl;
 
     return !!((this.submitted && control.invalid) || this.badRequest?.errors[this.fieldName]);
   }

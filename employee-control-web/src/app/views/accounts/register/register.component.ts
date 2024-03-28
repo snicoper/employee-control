@@ -10,11 +10,12 @@ import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-fi
 import { FormFloatingComponent } from '../../../components/forms/inputs/form-floating/form-floating.component';
 import { FormTimezoneComponent } from '../../../components/forms/inputs/form-timezone/form-timezone.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
-import { FormInputTypes } from '../../../core/types/_index';
-import { ApiUrls, SiteUrls } from '../../../core/urls/_index';
-import { BadRequest } from '../../../models/_index';
-import { AccountsApiService } from '../../../services/api/_index';
-import { CurrentCompanySettingsStateService } from '../../../services/states/_index';
+import { FormInputTypes } from '../../../core/types/form-input-types';
+import { ApiUrls } from '../../../core/urls/api-urls';
+import { SiteUrls } from '../../../core/urls/site-urls';
+import { BadRequest } from '../../../models/bad-request';
+import { AccountsApiService } from '../../../services/api/accounts-api.service';
+import { CurrentCompanySettingsStateService } from '../../../services/states/current-company-settings-state.service';
 import { RegisterRequest } from './register-request.model';
 
 @Component({

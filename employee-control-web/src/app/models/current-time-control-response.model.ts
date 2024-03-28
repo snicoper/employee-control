@@ -1,4 +1,4 @@
-import { TimeState } from './entities/types/_index';
+import { TimeState } from './entities/types/time-state.model';
 
 export interface CurrentTimeControlResponse {
   start: Date;

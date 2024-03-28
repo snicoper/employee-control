@@ -14,18 +14,20 @@ import { TimeControlProgressComponent } from '../../components/progress/time-con
 import { MonthSelectorComponent } from '../../components/selectors/month-selector/month-selector.component';
 import { ViewBaseComponent } from '../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../components/views/view-header/view-header.component';
-import { logError } from '../../core/errors/_index';
-import { TimeControlGroupResponse } from '../../core/features/times-control/_index';
+import { logError } from '../../core/errors/log-messages';
 import { TimeControlProgressStacked } from '../../core/features/times-control/time-control-group';
-import { ApiUrls } from '../../core/urls/_index';
-import { DatetimeUtils, urlReplaceParams } from '../../core/utils/_index';
-import { ResultResponse } from '../../models/_index';
-import { DeviceType, TimeState, deviceToDeviceType } from '../../models/entities/types/_index';
+import { TimeControlGroupResponse } from '../../core/features/times-control/times-control-response.model';
+import { ApiUrls } from '../../core/urls/api-urls';
+import { urlReplaceParams } from '../../core/utils/common-utils';
+import { DatetimeUtils } from '../../core/utils/datetime-utils';
+import { DeviceType, deviceToDeviceType } from '../../models/entities/types/device-type.model';
+import { TimeState } from '../../models/entities/types/time-state.model';
+import { ResultResponse } from '../../models/result-response.model';
 import { DatetimeFormatPipe } from '../../pipes/datetime-format.pipe';
-import { JwtService } from '../../services/_index';
-import { TimeControlApiService } from '../../services/api/_index';
+import { TimeControlApiService } from '../../services/api/time-control-api.service';
+import { JwtService } from '../../services/jwt.service';
 import { SimpleGeolocationService } from '../../services/simple-geolocation.service';
-import { CurrentTimeControlStateService } from '../../services/states/_index';
+import { CurrentTimeControlStateService } from '../../services/states/current-time-control-state.service';
 import { TimeControlIncidenceCreateComponent } from './time-control-incidence-create/time-control-incidence-create.component';
 import { TimeControlProgressChangeStateRequest } from './time-control-progress-change-state.request.model';
 
@@ -127,7 +129,7 @@ export class TimesControlProgressComponent {
     };
 
     this.timeControlApiService
-      .post<TimeControlProgressChangeStateRequest, ResultResponse>(data, ApiUrls.timeControl.finishTimeControl)
+      .put<TimeControlProgressChangeStateRequest, ResultResponse>(data, ApiUrls.timeControl.finishTimeControl)
       .pipe(finalize(() => (this.loadingTimeState = false)))
       .subscribe({
         next: (result: ResultResponse) => {

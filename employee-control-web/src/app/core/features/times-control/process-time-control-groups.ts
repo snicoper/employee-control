@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
-import { PeriodDatetime } from '../../models/_index';
-import { DatetimeUtils, calculatePercent } from '../../utils/_index';
+import { PeriodDatetime } from '../../models/preriod-datetime';
+import { calculatePercent } from '../../utils/common-utils';
+import { DatetimeUtils } from '../../utils/datetime-utils';
 import { TimeControlGroupResponse, TimeResponse } from './times-control-response.model';
 
 /**

@@ -1,6 +1,8 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ApiResult, ApiResultItemOrderBy, OrderTypes } from '../../../core/features/api-result/_index';
+import { ApiResult } from '../../../core/features/api-result/api-result';
+import { ApiResultItemOrderBy } from '../../../core/features/api-result/api-result-item-order-by';
+import { OrderTypes } from '../../../core/features/api-result/types/order-type';
 import { TableHeaderField } from './table-header-field.interface';
 import { TableHeaderConfig } from './table-header.config';
 

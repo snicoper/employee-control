@@ -19,7 +19,7 @@ export class FieldErrorComponent implements OnInit {
   control: AbstractControl | undefined;
 
   ngOnInit(): void {
-    this.control = this.form?.get(this.fieldName) as FormGroup;
+    this.control = this.form?.get(this.fieldName) as AbstractControl;
   }
 
   formHasErrors(): boolean | ValidationErrors | null | undefined {
@@ -42,7 +42,7 @@ export class FieldErrorComponent implements OnInit {
     return undefined;
   }
 
-  getControlErrorByErrorName(errorName: string): ValidationErrors | null {
-    return this.control?.errors && errorName in this.control.errors ? this.control.errors[errorName] : null;
+  getControlErrorByErrorName(errorName: string): boolean | null {
+    return this.control?.hasError(errorName) ?? null;
   }
 }

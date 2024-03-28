@@ -14,5 +14,11 @@ public class CreateTimeControlValidator : AbstractValidator<CreateTimeControlCom
 
         RuleFor(r => r.Finish)
             .NotEmpty();
+
+        RuleFor(r => r.DeviceType)
+            .NotEmpty();
+
+        RuleFor(r => r.TimeState)
+            .NotEmpty();
     }
 }

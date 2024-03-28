@@ -1,6 +1,6 @@
-import { AppEnvironments } from '../config/_index';
-
 /* eslint-disable  no-console */
+
+import { AppEnvironments } from '../config/app-environments';
 
 interface LogSettings {
   key: string;

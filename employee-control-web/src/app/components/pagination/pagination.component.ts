@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { ApiResult } from '../../core/features/api-result/_index';
+import { ApiResult } from '../../core/features/api-result/api-result';
 
 @Component({
   selector: 'aw-pagination',

@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { ApiUrls } from '../../core/urls/_index';
-import { CurrentCompanyEmployeeResponse } from '../../models/_index';
+import { ApiUrls } from '../../core/urls/api-urls';
+import { CurrentCompanyEmployeeResponse } from '../../models/current-company-employee-response.model';
 import { CompaniesApiService } from '../api/companies-api.service';
 import { JwtService } from '../jwt.service';
 import { StateService } from './state.service';
