@@ -1,9 +1,0 @@
-Project:
-  ☐ Solucionar en los detalles de tarea, al asignar empleados cuando no hay (tema de ngx-bootstrap tabs),
-  ☐ Sidebar mobile siempre se muestra.
-  ☐ Sidebar recordar estado.
-  ☐ Las confirmaciones expiran en 1 día, implementar el generar otra confirmación.
-  ☐ En asignaciones como tareas y departamentos, no es posible eliminar (o desactivar) de la tarea o departamento.
-  ✔ Solucionar los filtros con los paginados. @done (10/30/2023, 7:13:19 PM)
-  ✔ Solucionar el tema del footer. @done (10/30/2023, 7:22:58 PM)
-  ✔ Revisar Timezone de la empresa al registro de usuario/compañía. @done (11/5/2023, 7:02:17 AM)

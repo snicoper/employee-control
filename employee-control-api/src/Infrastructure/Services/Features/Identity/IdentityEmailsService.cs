@@ -12,32 +12,13 @@ using Microsoft.Extensions.Options;
 namespace EmployeeControl.Infrastructure.Services.Features.Identity;
 
 public class IdentityEmailsService(
-        IEmailService emailService,
-        ILinkGeneratorService linkGeneratorService,
-        IStringLocalizer<SharedLocalizer> localizer,
-        IOptions<WebApiSettings> webApiSettings)
+    IEmailService emailService,
+    ILinkGeneratorService linkGeneratorService,
+    IStringLocalizer<SharedLocalizer> localizer,
+    IOptions<WebApiSettings> webApiSettings)
     : IIdentityEmailsService
 {
-    public async Task SendValidateEmailAsync(ApplicationUser user, Domain.Entities.Company company, string code)
-    {
-        // Url validación.
-        var queryParams = new Dictionary<string, string> { ["userId"] = user.Id, ["code"] = code };
-        var callback = linkGeneratorService.GenerateWebApp(UrlsWebApp.EmailRegisterValidate, queryParams);
-
-        // View model.
-        var model = new ValidateEmailRegistrationViewModel(company.Name, user.Email, callback, webApiSettings.Value.SiteName);
-
-        // Send email.
-        emailService.Subject = localizer[
-            "Confirmación de correo electrónico en {0}.",
-            webApiSettings.Value.SiteName ?? string.Empty];
-
-        emailService.To.Add(model.Email ?? string.Empty);
-
-        await emailService.SendMailWithViewAsync(EmailViews.ValidateEmailRegistration, model);
-    }
-
-    public async Task SendInviteEmployeeAsync(ApplicationUser user, Domain.Entities.Company company, string code)
+    public async Task SendInviteEmployeeAsync(ApplicationUser user, Company company, string code)
     {
         // Url validación.
         var queryParams = new Dictionary<string, string> { ["userId"] = user.Id, ["code"] = code };

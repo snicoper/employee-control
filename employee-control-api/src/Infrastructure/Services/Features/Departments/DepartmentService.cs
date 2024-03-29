@@ -20,7 +20,7 @@ public class DepartmentService(
         return departments;
     }
 
-    public IQueryable<Department> GetAllByEmployeeId(string employeeId)
+    public IQueryable<Department> GetAllByEmployeeIdQueryable(string employeeId)
     {
         var departments = context
             .EmployeeDepartments

@@ -1,4 +1,4 @@
-<button (click)="handleClick()" [class]="btnClass" [disabled]="loading" [type]="btnType">
+<button (click)="handleClick()" [class]="btnClass" [disabled]="disabled || loading" [type]="btnType">
   @if (!loading) {
     <span>
       <ng-content />

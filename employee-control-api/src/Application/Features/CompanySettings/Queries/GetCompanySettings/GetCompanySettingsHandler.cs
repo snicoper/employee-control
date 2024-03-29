@@ -11,7 +11,7 @@ internal class GetCompanySettingsHandler(ICompanySettingsService companySettings
         GetCompanySettingsQuery request,
         CancellationToken cancellationToken)
     {
-        var companySettings = await companySettingsService.GetByCompanySettingsAsync(cancellationToken);
+        var companySettings = await companySettingsService.GetCompanySettingsAsync(cancellationToken);
         var responseResult = mapper.Map<GetCompanySettingsResponse>(companySettings);
 
         return responseResult;

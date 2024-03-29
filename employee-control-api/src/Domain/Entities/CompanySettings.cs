@@ -12,7 +12,9 @@ public class CompanySettings : BaseAuditableEntity, ICompany
 
     public int MaximumDailyWorkHours { get; set; } = 24;
 
-    public bool GeolocationRequired { get; set; } = false;
+    public int WeeklyWorkingHours { get; set; } = 40;
+
+    public bool GeolocationRequired { get; set; }
 
     public string CompanyId { get; set; } = default!;
 

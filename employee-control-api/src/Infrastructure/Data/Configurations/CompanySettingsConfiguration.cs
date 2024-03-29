@@ -28,6 +28,9 @@ public class CompanySettingsConfiguration : IEntityTypeConfiguration<CompanySett
         builder.Property(cs => cs.MaximumDailyWorkHours)
             .IsRequired();
 
+        builder.Property(cs => cs.WeeklyWorkingHours)
+            .IsRequired();
+
         builder.Property(cs => cs.GeolocationRequired);
 
         builder.Property(cs => cs.CompanyId)

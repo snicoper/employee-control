@@ -12,7 +12,7 @@ public class GetDepartmentsByEmployeeIdPaginatedHandler(IDepartmentService depar
         GetDepartmentsByEmployeeIdPaginatedQuery request,
         CancellationToken cancellationToken)
     {
-        var departments = departmentService.GetAllByEmployeeId(request.EmployeeId);
+        var departments = departmentService.GetAllByEmployeeIdQueryable(request.EmployeeId);
 
         var resultResponse = await ResponseData<GetDepartmentsByEmployeeIdPaginatedResponse>.CreateAsync(
             departments,

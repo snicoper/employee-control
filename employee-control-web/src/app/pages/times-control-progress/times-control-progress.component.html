@@ -1,0 +1,67 @@
+<aw-view-base>
+  <aw-view-header>Control de tiempos</aw-view-header>
+
+  <aw-card>
+    @if (companyGeolocationRequired && !geolocationIsAvailable()) {
+      <div class="alert alert-danger">La empresa requiere que acepte permisos de ubicación desde el navegador</div>
+    }
+
+    <aw-month-selector (changeMonthSelected)="handleDateSelected($event)" [dateSelected]="dateSelected" />
+
+    <div class="d-flex justify-content-between mt-4">
+      <!-- state -->
+      <div>
+        @if (currentTimeControl()?.timeState === timeStates.open) {
+          <aw-dot-success />
+
+          <span class="small text-muted">
+            Tiempo iniciado: <strong>{{ currentTimeControl()?.start | datetimeFormat: "cccc t" }}</strong>
+          </span>
+        }
+
+        @if (currentTimeControl()?.timeState === timeStates.close) {
+          <aw-dot-danger />
+          <span class="small text-muted">El tiempo esta finalizado</span>
+        }
+      </div>
+      <!-- end state -->
+
+      <div class="small text-muted">Tiempo total: {{ timeTotalInMonth }}</div>
+
+      <!-- button state -->
+      @if (!companyGeolocationRequired || (companyGeolocationRequired && geolocationIsAvailable())) {
+        <div>
+          @if (currentTimeControl()?.timeState === timeStates.open) {
+            <aw-btn-loading
+              (eventClick)="handleTimeFinished()"
+              [loading]="loadingTimeState"
+              btnClass="btn btn-outline-warning"
+              btnIcon="fa-solid fa-flag-checkered"
+              btnText="Finalizar" />
+          }
+
+          @if (currentTimeControl()?.timeState === timeStates.close) {
+            <aw-btn-loading
+              (eventClick)="handleTimeStart()"
+              [loading]="loadingTimeState"
+              btnClass="btn btn-success"
+              btnIcon="fa-solid fa-hourglass-start"
+              btnText="Iniciar" />
+          }
+        </div>
+      }
+      <!-- end button state -->
+    </div>
+  </aw-card>
+
+  <div class="mt-2"></div>
+
+  <!-- times -->
+  <aw-card>
+    <aw-time-control-progress
+      (clickProgress)="handleClickProgress($event)"
+      [loading]="loadingTimeControls"
+      [progressStackedCollection]="progressStackedCollection" />
+  </aw-card>
+  <!-- end times -->
+</aw-view-base>

@@ -27,6 +27,14 @@ public interface ITimesControlService
     Task<TimeControl> GetWithEmployeeInfoByIdAsync(string id, CancellationToken cancellationToken);
 
     /// <summary>
+    /// Obtener un <see cref="TimeControl" /> con estado <see cref="TimeState.Open" /> de un empleado.
+    /// </summary>
+    /// <param name="employeeId">Id del empleado.</param>
+    /// <param name="cancellationToken"><see cref="CancellationToken" />.</param>
+    /// <returns><see cref="TimeControl" />.</returns>
+    Task<TimeControl?> GetTimeStateOpenByEmployeeIdAsync(string employeeId, CancellationToken cancellationToken);
+
+    /// <summary>
     /// Obtener un grupos por días de <see cref="TimeControl" /> en un rango de fechas de un
     /// empleado concreto por su Id.
     /// </summary>
@@ -46,7 +54,7 @@ public interface ITimesControlService
     /// <para>Incluye los <see cref="ApplicationUser" />.</para>
     /// </summary>
     /// <returns><see cref="IQueryable{T}" /> con los <see cref="TimeControl" />.</returns>
-    IQueryable<TimeControl> GetWithUser();
+    IQueryable<TimeControl> GetWithUserQueryable();
 
     /// <summary>
     /// Obtener los <see cref="TimeControl" /> por el Id de <see cref="ApplicationUser" />.
@@ -54,7 +62,7 @@ public interface ITimesControlService
     /// </summary>
     /// <param name="employeeId">Id <see cref="ApplicationUser" />.</param>
     /// <returns><see cref="IQueryable{T}" /> con los <see cref="TimeControl" />.</returns>
-    IQueryable<TimeControl> GetWithUserByEmployeeId(string employeeId);
+    IQueryable<TimeControl> GetWithUserByEmployeeIdQueryable(string employeeId);
 
     /// <summary>
     /// Obtener si el empleado tiene algún <see cref="TimeControl" /> inicializado.
@@ -124,10 +132,4 @@ public interface ITimesControlService
     /// <param name="cancellationToken"><see cref="CancellationToken" />.</param>
     /// <returns><see cref="TimeControl" /> actualizado.</returns>
     Task<TimeControl> UpdateAsync(TimeControl timeControl, CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Cerrar tareas que excedan el tiempo máximo de las compañías.
-    /// </summary>
-    /// <returns><see cref="TimeControl" />.</returns>
-    Task CloseTimeControlJobAsync();
 }

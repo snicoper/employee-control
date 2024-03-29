@@ -44,11 +44,11 @@ public class ApplicationDbContextInitialize(
 
     private async Task TrySeedAsync()
     {
-        await CreateCompaniesAsync();
+        await CreateCompanyAsync();
         await CreateRolesAsync();
         await CreateUsersAsync();
         await CreateCompanyTasksAsync();
-        await CreateDepartementsAsync();
+        await CreateDepartmentsAsync();
         await CreateCategoryAbsencesAsync();
     }
 
@@ -59,7 +59,7 @@ public class ApplicationDbContextInitialize(
             return;
         }
 
-        var company = await context.Companies.FirstOrDefaultAsync(c => c.Name == "Test Company");
+        var company = await context.Companies.FirstOrDefaultAsync();
 
         if (company is null)
         {
@@ -91,14 +91,14 @@ public class ApplicationDbContextInitialize(
         await context.SaveChangesAsync(CancellationToken.None);
     }
 
-    private async Task CreateDepartementsAsync()
+    private async Task CreateDepartmentsAsync()
     {
         if (await context.Departments.AnyAsync())
         {
             return;
         }
 
-        var company = await context.Companies.FirstOrDefaultAsync(c => c.Name == "Test Company");
+        var company = await context.Companies.FirstOrDefaultAsync();
 
         if (company is null)
         {
@@ -125,7 +125,7 @@ public class ApplicationDbContextInitialize(
             return;
         }
 
-        var company = await context.Companies.FirstOrDefaultAsync(c => c.Name == "Test Company");
+        var company = await context.Companies.FirstOrDefaultAsync();
 
         if (company is null)
         {
@@ -145,7 +145,7 @@ public class ApplicationDbContextInitialize(
         await context.SaveChangesAsync(CancellationToken.None);
     }
 
-    private async Task CreateCompaniesAsync()
+    private async Task CreateCompanyAsync()
     {
         var companies = new List<Company> { new() { Name = "Company test" } };
 
@@ -178,7 +178,7 @@ public class ApplicationDbContextInitialize(
             return;
         }
 
-        // Administrator user.
+        // EnterpriseAdmin user.
         var user = new ApplicationUser
         {
             CompanyId = company.Id,
@@ -205,7 +205,7 @@ public class ApplicationDbContextInitialize(
             context.EmployeeSettings.Add(settings);
         }
 
-        // EnterpriseAdministrator user.
+        // EnterpriseStaff user.
         user = new ApplicationUser
         {
             CompanyId = company.Id,
@@ -223,7 +223,34 @@ public class ApplicationDbContextInitialize(
             await userManager.CreateAsync(user, "Password4!");
 
             // Roles de usuario.
-            var rolesToAdd = new[] { Roles.EnterpriseAdmin, Roles.EnterpriseStaff, Roles.HumanResources, Roles.Employee };
+            var rolesToAdd = new[] { Roles.EnterpriseStaff, Roles.HumanResources, Roles.Employee };
+
+            await userManager.AddToRolesAsync(user, rolesToAdd);
+
+            // Settings.
+            var settings = new EmployeeSettings { UserId = user.Id, Timezone = "Europe/Madrid" };
+            context.EmployeeSettings.Add(settings);
+        }
+
+        // HumanResources user.
+        user = new ApplicationUser
+        {
+            CompanyId = company.Id,
+            UserName = "alice@example.com",
+            FirstName = "Alice",
+            LastName = "Smith",
+            Email = "alice@example.com",
+            EntryDate = dateTimeService.UtcNow,
+            Active = true,
+            EmailConfirmed = true
+        };
+
+        if (!await userManager.Users.AnyAsync(u => u.Email == user.Email))
+        {
+            await userManager.CreateAsync(user, "Password4!");
+
+            // Roles de usuario.
+            var rolesToAdd = new[] { Roles.HumanResources, Roles.Employee };
 
             await userManager.AddToRolesAsync(user, rolesToAdd);
 
@@ -236,10 +263,10 @@ public class ApplicationDbContextInitialize(
         user = new ApplicationUser
         {
             CompanyId = company.Id,
-            UserName = "alice@example.com",
-            FirstName = "Alice",
-            LastName = "Smith",
-            Email = "alice@example.com",
+            UserName = "bob@example.com",
+            FirstName = "Bob",
+            LastName = "Garcia",
+            Email = "bob@example.com",
             EntryDate = dateTimeService.UtcNow,
             Active = true,
             EmailConfirmed = true

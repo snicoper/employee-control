@@ -22,12 +22,12 @@ public class CompanyTasksController : ApiControllerBase
     /// </summary>
     /// <param name="request">RequestData.</param>
     /// <returns>Lista de tareas paginádas.</returns>
-    [HttpGet("companies/{companyId}/paginated")]
+    [HttpGet("paginated")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<ResponseData<GetCompanyTasksByCompanyIdPaginatedResponse>>>
+    public async Task<ActionResult<ResponseData<GetCompanyTasksPaginatedResponse>>>
         GetCompanyTasksPaginated([FromQuery] RequestData request)
     {
-        var result = await Sender.Send(new GetCompanyTasksByCompanyIdPaginatedQuery(request));
+        var result = await Sender.Send(new GetCompanyTasksPaginatedQuery(request));
 
         return result;
     }

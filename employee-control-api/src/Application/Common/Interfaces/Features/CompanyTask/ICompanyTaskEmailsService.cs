@@ -6,6 +6,6 @@ public interface ICompanyTaskEmailsService
 {
     Task SendEmployeeAssignTaskAsync(
         Domain.Entities.CompanyTask companyTask,
-        Domain.Entities.Company company,
+        Company company,
         List<ApplicationUser> users);
 }

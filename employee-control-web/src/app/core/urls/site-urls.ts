@@ -57,18 +57,14 @@ export const SiteUrls = {
     notFound: '/errors/404'
   },
 
-  tests: {
-    homeTests: '/tests'
-  },
-
   timeControlRecords: {
-    home: '/time-control-records',
+    list: '/time-control-records',
     details: '/time-control-records/{id}/details',
     create: '/time-control-records/create',
     update: '/time-control-records/{id}/update'
   },
 
   timesControlProgress: {
-    home: '/times-control-progress'
+    list: '/times-control-progress'
   }
 };

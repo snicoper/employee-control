@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, ElementRef, Input, Renderer2, forwardRef, inject } from '@angular/core';
 import { ControlValueAccessor, FormGroup, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BadRequest } from '../../../../models/bad-request';
 import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
@@ -22,6 +22,9 @@ import { FieldErrorComponent } from '../../errors/field-error/field-error.compon
   imports: [FormsModule, NgClass, FieldErrorComponent]
 })
 export class FormSwitchComponent implements ControlValueAccessor {
+  private readonly renderer = inject(Renderer2);
+  private readonly elementRef = inject(ElementRef);
+
   @Input({ required: true }) badRequest: BadRequest | undefined;
   @Input({ required: true }) form: FormGroup | undefined;
   @Input({ required: true }) submitted = false;
@@ -29,9 +32,9 @@ export class FormSwitchComponent implements ControlValueAccessor {
   @Input() id: string;
   @Input() label = '';
   @Input() extraCss = '';
+  @Input() isDisabled = false;
 
   value = false;
-  isDisabled = false;
 
   constructor() {
     this.id = Math.random().toString();
@@ -59,7 +62,7 @@ export class FormSwitchComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
+    this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', isDisabled);
   }
 
   onChangeValue(value: boolean): void {

@@ -5,6 +5,7 @@ export interface CompanySettings {
   companyId: string;
   timezone: string;
   maximumDailyWorkHours: number;
+  weeklyWorkingHours: number;
   geolocationRequired: boolean;
   company: Company;
 }

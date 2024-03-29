@@ -16,7 +16,7 @@ public interface IDepartmentService
     /// </summary>
     /// <param name="employeeId">Id empleado.</param>
     /// <returns><see cref="IQueryable{T}" /> de la consulta.</returns>
-    IQueryable<Department> GetAllByEmployeeId(string employeeId);
+    IQueryable<Department> GetAllByEmployeeIdQueryable(string employeeId);
 
     /// <summary>
     /// Obtener un <see cref="Department" /> por su Id.

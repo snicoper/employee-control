@@ -24,7 +24,7 @@ public class CompanySettingsService(
         return result;
     }
 
-    public async Task<CompanySettings> GetByCompanySettingsAsync(CancellationToken cancellationToken)
+    public async Task<CompanySettings> GetCompanySettingsAsync(CancellationToken cancellationToken)
     {
         var result = await context
                          .CompanySettings
@@ -62,7 +62,7 @@ public class CompanySettingsService(
 
     public async Task<string> GetIanaTimezoneCompanyAsync(string companyId, CancellationToken cancellationToken)
     {
-        var companySettings = await GetByCompanySettingsAsync(cancellationToken);
+        var companySettings = await GetCompanySettingsAsync(cancellationToken);
         var timezoneId = !string.IsNullOrEmpty(companySettings.Timezone) ? companySettings.Timezone : TimeZoneInfo.Local.Id;
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

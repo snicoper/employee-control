@@ -1,0 +1,81 @@
+<div class="modal-content">
+  <!-- header -->
+  <div class="modal-header">
+    <h5 class="modal-title">
+      Roles - <small class="text-mutted">{{ fullName }}</small>
+    </h5>
+    <button (click)="handleClose()" aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+  </div>
+  <!-- end header -->
+
+  <!-- body -->
+  <div class="modal-body">
+    <div class="alert alert-info"><span class="fa-solid fa-circle-info"></span> Los roles son jerárquicos</div>
+
+    <div class="form-check form-switch">
+      <input
+        (ngModelChange)="handChangeValue(roles.enterpriseAdmin, $event)"
+        [(ngModel)]="isEnterpriseAdmin"
+        [checked]="isEnterpriseAdmin"
+        [disabled]="true"
+        class="form-check-input"
+        id="role-admin"
+        role="switch"
+        type="checkbox" />
+      <label class="form-check-label" for="role-admin">Administrador</label>
+    </div>
+
+    <div class="form-check form-switch">
+      <input
+        (ngModelChange)="handChangeValue(roles.enterpriseStaff, $event)"
+        [(ngModel)]="isEnterpriseStaff"
+        [checked]="isEnterpriseStaff"
+        [disabled]="isEnterpriseAdmin"
+        class="form-check-input"
+        id="role-staff"
+        role="switch"
+        type="checkbox" />
+      <label class="form-check-label" for="role-staff">Staff</label>
+    </div>
+
+    <div class="form-check form-switch">
+      <input
+        (ngModelChange)="handChangeValue(roles.humanResources, $event)"
+        [(ngModel)]="isHumanResources"
+        [checked]="isHumanResources"
+        [disabled]="isEnterpriseAdmin"
+        class="form-check-input"
+        id="role-rrhh"
+        role="switch"
+        type="checkbox" />
+      <label class="form-check-label" for="role-rrhh">Recursos Humanos</label>
+    </div>
+
+    <div class="form-check form-switch">
+      <input
+        (ngModelChange)="handChangeValue(roles.employee, $event)"
+        [(ngModel)]="isEmployee"
+        [checked]="isEmployee"
+        [disabled]="true"
+        class="form-check-input"
+        id="role-employee"
+        role="switch"
+        type="checkbox" />
+      <label class="form-check-label" for="role-employee">Empleado</label>
+    </div>
+  </div>
+  <!-- end body -->
+
+  <!-- footer -->
+  <div class="modal-footer">
+    <button (click)="handleClose()" class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cerrar</button>
+    <aw-btn-loading
+      (eventClick)="handleSaveChanges()"
+      [loading]="loading"
+      btnClass="btn btn-success ms-2"
+      btnIcon="fa-regular fa-floppy-disk"
+      btnText="Guardar cambios"
+      spinnerLoadingText="Guardando" />
+  </div>
+  <!-- end footer -->
+</div>

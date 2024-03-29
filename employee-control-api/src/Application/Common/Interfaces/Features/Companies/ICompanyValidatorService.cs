@@ -2,5 +2,5 @@
 
 public interface ICompanyValidatorService
 {
-    Task UniqueNameValidationAsync(string company, CancellationToken cancellationToken);
+    Task UniqueNameValidationAsync(string companyName, CancellationToken cancellationToken);
 }

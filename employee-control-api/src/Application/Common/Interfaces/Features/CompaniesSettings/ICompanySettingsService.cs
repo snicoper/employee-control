@@ -15,12 +15,12 @@ public interface ICompanySettingsService
     Task<CompanySettings> GatByIdAsync(string companySettingsId, CancellationToken cancellationToken);
 
     /// <summary>
-    /// Obtener <see cref="CompanySettings" /> por el Id de compañía.
+    /// Obtener <see cref="CompanySettings" />.
     /// </summary>
     /// <param name="cancellationToken"><see cref="CancellationToken" />.</param>
     /// <exception cref="NotFoundException">Si no encuentra la <see cref="CompanySettings" />.</exception>
     /// <returns><see cref="CompanySettings" /> object.</returns>
-    Task<CompanySettings> GetByCompanySettingsAsync(CancellationToken cancellationToken);
+    Task<CompanySettings> GetCompanySettingsAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// Obtener el timezone de una compañía.

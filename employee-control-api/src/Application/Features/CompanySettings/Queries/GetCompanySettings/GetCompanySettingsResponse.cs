@@ -6,6 +6,7 @@ public record GetCompanySettingsResponse(
     string Id,
     string Timezone,
     int MaximumDailyWorkHours,
+    int WeeklyWorkingHours,
     bool GeolocationRequired)
 {
     internal class Mapping : Profile

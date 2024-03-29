@@ -15,11 +15,6 @@ export const sidebarMenu: SidebarMenu[] = [
         link: SiteUrls.dashboard.dashboard,
         icon: 'fas fa-user-shield',
         active: false
-      },
-      {
-        title: 'Tests',
-        link: SiteUrls.tests.homeTests,
-        active: false
       }
     ]
   },
@@ -54,13 +49,13 @@ export const sidebarMenu: SidebarMenu[] = [
         title: 'Ausencias',
         link: SiteUrls.categoryAbsences.list,
         active: false,
-        requiredRole: Roles.enterpriseStaff
+        requiredRole: Roles.humanResources
       },
       {
         title: 'Registro de tiempos',
-        link: SiteUrls.timeControlRecords.home,
+        link: SiteUrls.timeControlRecords.list,
         active: false,
-        requiredRole: Roles.enterpriseStaff
+        requiredRole: Roles.humanResources
       }
     ]
   },
@@ -77,7 +72,7 @@ export const sidebarMenu: SidebarMenu[] = [
       },
       {
         title: 'Control de tiempo',
-        link: SiteUrls.timesControlProgress.home,
+        link: SiteUrls.timesControlProgress.list,
         active: false
       }
     ]

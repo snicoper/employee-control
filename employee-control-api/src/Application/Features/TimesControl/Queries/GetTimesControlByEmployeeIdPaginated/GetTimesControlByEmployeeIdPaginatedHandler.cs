@@ -12,7 +12,7 @@ public class GetTimesControlByEmployeeIdPaginatedHandler(ITimesControlService ti
         GetTimesControlByEmployeeIdPaginatedQuery request,
         CancellationToken cancellationToken)
     {
-        var timeControls = timesControlService.GetWithUserByEmployeeId(request.EmployeeId);
+        var timeControls = timesControlService.GetWithUserByEmployeeIdQueryable(request.EmployeeId);
 
         // Si existe From y To filtra en rango, si solo existe From filtra en ese día.
         if (request.From != DateTimeOffset.MinValue && request.To != DateTimeOffset.MinValue)

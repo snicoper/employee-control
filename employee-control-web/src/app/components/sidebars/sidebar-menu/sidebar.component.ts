@@ -6,8 +6,8 @@ import { NgScrollbar } from 'ngx-scrollbar';
 import { RequiredRoleDirective } from '../../../directives/required-role.directive';
 import { TimeState } from '../../../models/entities/types/time-state.model';
 import { JwtService } from '../../../services/jwt.service';
-import { CurrentCompanyEmployeeStateService } from '../../../services/states/current-company-employee-state.service';
-import { CurrentTimeControlStateService } from '../../../services/states/current-time-control-state.service';
+import { CurrentCompanyEmployeeStateService } from '../../../states/services/current-company-employee-state.service';
+import { CurrentTimeControlStateService } from '../../../states/services/current-time-control-state.service';
 import { SidebarMenu, SidebarMenuTypes } from './sidebar-menu-types.model';
 import { SidebarService } from './sidebar.service';
 

@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, forwardRef, inject, Input } from '@angular/core';
+import { Component, ElementRef, forwardRef, inject, Input, Renderer2 } from '@angular/core';
 import { FormGroup, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BsDatepickerConfig, BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { LocalizationUtils } from '../../../../core/features/localizations/localization-utils';
@@ -28,6 +28,8 @@ import { FieldErrorComponent } from '../../errors/field-error/field-error.compon
 export class FormDatepickerComponent {
   private readonly bsLocaleService = inject(BsLocaleService);
   private readonly localizationService = inject(LocalizationService);
+  private readonly renderer = inject(Renderer2);
+  private readonly elementRef = inject(ElementRef);
 
   @Input({ required: true }) badRequest: BadRequest | undefined;
   @Input({ required: true }) form: FormGroup | undefined;
@@ -39,9 +41,9 @@ export class FormDatepickerComponent {
   @Input() label = '';
   @Input() extraCss = '';
   @Input() placeholder = '';
+  @Input() isDisabled = false;
 
   value?: Date;
-  isDisabled = false;
 
   constructor() {
     this.id = Math.random().toString();
@@ -81,7 +83,7 @@ export class FormDatepickerComponent {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
+    this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', isDisabled);
   }
 
   onChangeValue(value: Date): void {
