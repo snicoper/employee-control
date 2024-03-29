@@ -32,7 +32,6 @@ import { DatetimePipe } from '../../../pipes/datetime.pipe';
 import { DeviceTypePipe } from '../../../pipes/device-type.pipe';
 import { DurationToTimePipe } from '../../../pipes/duration-to-time.pipe';
 import { TimeControlApiService } from '../../../services/api/time-control-api.service';
-import { JwtService } from '../../../services/jwt.service';
 import { SimpleGeolocationService } from '../../../services/simple-geolocation.service';
 import { TimeControlRecordResponse } from './time-contol-record-response.model';
 import { timeControlRecordListTableHeaders } from './time-control-record-list-table-header';
@@ -62,7 +61,6 @@ import { timeControlRecordListTableHeaders } from './time-control-record-list-ta
 })
 export class TimeControlRecordListComponent {
   private readonly timeControlApiService = inject(TimeControlApiService);
-  private readonly jwtService = inject(JwtService);
   private readonly simpleGeolocationService = inject(SimpleGeolocationService);
   private readonly toastrService = inject(ToastrService);
   private readonly router = inject(Router);
@@ -180,8 +178,7 @@ export class TimeControlRecordListComponent {
 
   private loadTimeControlRecords(): void {
     this.loading = false;
-    const url = urlReplaceParams(ApiUrls.timeControl.getTimesControlByCompanyIdPaginated, {
-      companyId: this.jwtService.getCompanyId(),
+    const url = urlReplaceParams(ApiUrls.timeControl.getTimesControlByRangePaginated, {
       from: this.from as string,
       to: this.to as string
     });

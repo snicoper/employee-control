@@ -5,8 +5,8 @@ using EmployeeControl.Application.Features.Departments.Commands.CreateDepartment
 using EmployeeControl.Application.Features.Departments.Commands.DeactivateDepartment;
 using EmployeeControl.Application.Features.Departments.Commands.UpdateDepartment;
 using EmployeeControl.Application.Features.Departments.Queries.GetDepartmentById;
-using EmployeeControl.Application.Features.Departments.Queries.GetDepartmentsByCompanyIdPaginated;
 using EmployeeControl.Application.Features.Departments.Queries.GetDepartmentsByEmployeeIdPaginated;
+using EmployeeControl.Application.Features.Departments.Queries.GetDepartmentsPaginated;
 using EmployeeControl.Application.Features.Departments.Queries.GetEmployeesByDepartmentIdPaginated;
 using EmployeeControl.Application.Features.Departments.Queries.GetEmployeesUnassignedDepartmentByDepartmentId;
 using EmployeeControl.Domain.Entities;
@@ -21,16 +21,14 @@ public class DepartmentsController : ApiControllerBase
     /// <summary>
     /// Obtener lista de departamentos paginados.
     /// </summary>
-    /// <param name="companyId">Id compañía.</param>
     /// <param name="request">RequestData.</param>
     /// <returns>Lista de departamentos paginádos.</returns>
-    [HttpGet("companies/{companyId}/paginated")]
+    [HttpGet("paginated")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<ResponseData<GetDepartmentsByCompanyIdPaginatedResponse>>> GetDepartmentsByCompanyIdPaginated(
-        string companyId,
+    public async Task<ActionResult<ResponseData<GetDepartmentsPaginatedResponse>>> GetDepartmentsPaginated(
         [FromQuery] RequestData request)
     {
-        var result = await Sender.Send(new GetDepartmentsByCompanyIdPaginatedQuery(companyId, request));
+        var result = await Sender.Send(new GetDepartmentsPaginatedQuery(request));
 
         return result;
     }

@@ -1,8 +1,8 @@
 ﻿using EmployeeControl.Application.Common.Models;
 using EmployeeControl.Application.Features.CategoryAbsences.Commands.CreateCategoryAbsence;
 using EmployeeControl.Application.Features.CategoryAbsences.Commands.UpdateCategoryAbsence;
-using EmployeeControl.Application.Features.CategoryAbsences.Queries.GetCategoryAbsenceByCompanyIdPaginated;
 using EmployeeControl.Application.Features.CategoryAbsences.Queries.GetCategoryAbsenceById;
+using EmployeeControl.Application.Features.CategoryAbsences.Queries.GetCategoryAbsencePaginated;
 using EmployeeControl.Domain.Entities;
 using EmployeeControl.WebApi.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -13,17 +13,16 @@ namespace EmployeeControl.WebApi.Controllers;
 public class CategoryAbsenceController : ApiControllerBase
 {
     /// <summary>
-    /// Obtener lista paginada de categorías de ausencias por el Id de la compañía.
+    /// Obtener lista paginada de categorías de ausencias.
     /// </summary>
     /// <param name="request">RequestData.</param>
-    /// <param name="companyId">Id compañía.</param>
     /// <returns>Lista de las categorías de ausencias de la compañía paginádos.</returns>
-    [HttpGet("companies/{companyId}/paginated")]
+    [HttpGet("paginated")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<ResponseData<GetCategoryAbsenceByCompanyIdPaginatedResponse>>>
-        GetCategoryAbsenceByCompanyIdPaginated([FromQuery] RequestData request, string companyId)
+    public async Task<ActionResult<ResponseData<GetCategoryAbsencePaginatedResponse>>>
+        GetCategoryAbsencePaginated([FromQuery] RequestData request)
     {
-        var result = await Sender.Send(new GetCategoryAbsenceByCompanyIdPaginatedQuery(request, companyId));
+        var result = await Sender.Send(new GetCategoryAbsencePaginatedQuery(request));
 
         return result;
     }

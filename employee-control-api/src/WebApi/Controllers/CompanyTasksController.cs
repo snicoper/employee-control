@@ -4,9 +4,9 @@ using EmployeeControl.Application.Features.CompanyTasks.Commands.AssignEmployees
 using EmployeeControl.Application.Features.CompanyTasks.Commands.CreateCompanyTask;
 using EmployeeControl.Application.Features.CompanyTasks.Commands.DeactivateCompanyTask;
 using EmployeeControl.Application.Features.CompanyTasks.Commands.UpdateCompanyTask;
-using EmployeeControl.Application.Features.CompanyTasks.Queries.GetCompanyTasksByCompanyIdPaginated;
 using EmployeeControl.Application.Features.CompanyTasks.Queries.GetCompanyTasksByEmployeeIdPaginated;
 using EmployeeControl.Application.Features.CompanyTasks.Queries.GetCompanyTasksById;
+using EmployeeControl.Application.Features.CompanyTasks.Queries.GetCompanyTasksPaginated;
 using EmployeeControl.Application.Features.CompanyTasks.Queries.GetEmployeesByCompanyTaskIdPaginated;
 using EmployeeControl.Application.Features.CompanyTasks.Queries.GetEmployeesUnassignedTaskByCompanyTaskId;
 using EmployeeControl.WebApi.Infrastructure;
@@ -18,17 +18,16 @@ namespace EmployeeControl.WebApi.Controllers;
 public class CompanyTasksController : ApiControllerBase
 {
     /// <summary>
-    /// Obtener lista paginada de tareas por el Id de la compañía.
+    /// Obtener lista paginada de tareas.
     /// </summary>
     /// <param name="request">RequestData.</param>
-    /// <param name="companyId">Id compañía.</param>
-    /// <returns>Lista de tareas de la compañía paginádos.</returns>
+    /// <returns>Lista de tareas paginádas.</returns>
     [HttpGet("companies/{companyId}/paginated")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ResponseData<GetCompanyTasksByCompanyIdPaginatedResponse>>>
-        GetCompanyTasksByCompanyIdPaginated([FromQuery] RequestData request, string companyId)
+        GetCompanyTasksPaginated([FromQuery] RequestData request)
     {
-        var result = await Sender.Send(new GetCompanyTasksByCompanyIdPaginatedQuery(request, companyId));
+        var result = await Sender.Send(new GetCompanyTasksByCompanyIdPaginatedQuery(request));
 
         return result;
     }

@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -15,7 +16,7 @@ import { TimeControlIncidenceCreateRequest } from './time-control-incidence-crea
 @Component({
   selector: 'aw-time-control-incidence-create',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, FormTextareaComponent, BtnLoadingComponent],
+  imports: [NgClass, FormsModule, ReactiveFormsModule, FormTextareaComponent, BtnLoadingComponent],
   templateUrl: './time-control-incidence-create.component.html'
 })
 export class TimeControlIncidenceCreateComponent implements OnInit {
@@ -33,6 +34,8 @@ export class TimeControlIncidenceCreateComponent implements OnInit {
   badRequest: BadRequest | undefined;
   loadingForm = false;
   submitted = false;
+  incidenceMaxCharacters = 256;
+  incidenceCharacters = 0;
 
   ngOnInit(): void {
     this.buildForm();
@@ -40,6 +43,15 @@ export class TimeControlIncidenceCreateComponent implements OnInit {
 
   handleClose(): void {
     this.bsModalRef.hide();
+  }
+
+  handleIncidenceCharacters(): void {
+    const incidenceCharacters = this.form.get('incidenceDescription')?.value.length;
+    this.incidenceCharacters = incidenceCharacters;
+
+    if (incidenceCharacters === 0 || this.incidenceCharacters === this.incidenceMaxCharacters) {
+      return;
+    }
   }
 
   handleSubmit(): void {
@@ -65,7 +77,7 @@ export class TimeControlIncidenceCreateComponent implements OnInit {
 
   private buildForm(): void {
     this.form = this.fb.group({
-      incidenceDescription: ['', [Validators.required]]
+      incidenceDescription: ['', [Validators.required, Validators.maxLength(this.incidenceMaxCharacters)]]
     });
   }
 }

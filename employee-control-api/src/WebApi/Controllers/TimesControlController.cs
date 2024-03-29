@@ -9,8 +9,8 @@ using EmployeeControl.Application.Features.TimesControl.Commands.UpdateTimeContr
 using EmployeeControl.Application.Features.TimesControl.Queries.GetTimeControlById;
 using EmployeeControl.Application.Features.TimesControl.Queries.GetTimeControlRangeByEmployeeId;
 using EmployeeControl.Application.Features.TimesControl.Queries.GetTimeControlWithEmployeeById;
-using EmployeeControl.Application.Features.TimesControl.Queries.GetTimesControlByCompanyIdPaginated;
 using EmployeeControl.Application.Features.TimesControl.Queries.GetTimesControlByEmployeeIdPaginated;
+using EmployeeControl.Application.Features.TimesControl.Queries.GetTimesControlByRangePaginated;
 using EmployeeControl.Application.Features.TimesControl.Queries.GetTimeStateByEmployeeId;
 using EmployeeControl.Application.Features.TimesControl.Queries.GetTimeStateOpenByEmployeeId;
 using EmployeeControl.Domain.Constants;
@@ -25,25 +25,20 @@ namespace EmployeeControl.WebApi.Controllers;
 public class TimesControlController : ApiControllerBase
 {
     /// <summary>
-    /// Obtener registros de <see cref="TimeControl" /> por el Id de una <see cref="Company" />.
+    /// Obtener registros de <see cref="TimeControl" /> paginados en un rango de tiempo.
     /// <para>El <see cref="TimeControl" /> se obtiene con información del empleado.</para>
     /// </summary>
-    /// <param name="companyId">Id compañía.</param>
-    /// <param name="from">Filtro: inicio del rango.</param>
-    /// <param name="to">Filtro: final del rango.</param>
+    /// <param name="from">Inicio del rango.</param>
+    /// <param name="to">Final del rango.</param>
     /// <param name="requestData"><see cref="ResponseData{TResponse}" />.</param>
     /// <returns><see cref="ResponseData{TResponse}" /> con los filtros aplicados.</returns>
-    [HttpGet("companies/{companyId}/from/{from}/to/{to}/paginated")]
+    [HttpGet("from/{from}/to/{to}/paginated")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ResponseData<GetTimesControlByCompanyIdPaginatedResponse>>>
-        GetTimesControlByCompanyIdPaginated(
-            string companyId,
-            DateTimeOffset from,
-            DateTimeOffset to,
-            [FromQuery] RequestData requestData)
+    public async Task<ActionResult<ResponseData<GetTimesControlByRangePaginatedResponse>>>
+        GetTimesControlByRangePaginated(DateTimeOffset from, DateTimeOffset to, [FromQuery] RequestData requestData)
     {
-        var result = await Sender.Send(new GetTimesControlByCompanyIdPaginatedQuery(companyId, from, to, requestData));
+        var result = await Sender.Send(new GetTimesControlByRangePaginatedQuery(from, to, requestData));
 
         return result;
     }

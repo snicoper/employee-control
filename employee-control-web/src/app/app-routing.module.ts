@@ -57,7 +57,7 @@ const routes: Routes = [
   },
   {
     path: 'tests',
-    data: { roles: [Roles.siteAdmin] },
+    data: { roles: [Roles.enterpriseAdmin] },
     canActivate: [AuthGuard],
     loadChildren: () => import('./views/tests/tests-routing.module').then((m) => m.routes)
   },

@@ -8,8 +8,5 @@ public class UpdateWorkingDaysWeekValidator : AbstractValidator<UpdateWorkingDay
     {
         RuleFor(r => r.Id)
             .NotEmpty();
-
-        RuleFor(r => r.CompanyId)
-            .NotEmpty();
     }
 }

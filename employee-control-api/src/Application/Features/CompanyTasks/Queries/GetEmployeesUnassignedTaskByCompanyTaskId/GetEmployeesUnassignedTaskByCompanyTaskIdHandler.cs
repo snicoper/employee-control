@@ -1,6 +1,5 @@
 ﻿using EmployeeControl.Application.Common.Exceptions;
 using EmployeeControl.Application.Common.Interfaces.Data;
-using EmployeeControl.Application.Common.Security;
 using EmployeeControl.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -10,8 +9,7 @@ namespace EmployeeControl.Application.Features.CompanyTasks.Queries.GetEmployees
 
 internal class GetEmployeesUnassignedTaskByCompanyTaskIdHandler(
     IApplicationDbContext context,
-    UserManager<ApplicationUser> userManager,
-    IPermissionsValidationService permissionsValidationService)
+    UserManager<ApplicationUser> userManager)
     : IRequestHandler<
         GetEmployeesUnassignedTaskByCompanyTaskIdQuery,
         ICollection<GetEmployeesUnassignedTaskByCompanyTaskIdResponse>>
@@ -38,9 +36,10 @@ internal class GetEmployeesUnassignedTaskByCompanyTaskIdHandler(
         // Obtener los empleados de la empresa excluyendo los empleados que ya tienen la tarea asignada.
         var users = userManager
             .Users
-            .Include(au => au
-                .UserCompanyTasks
-                .Where(uct => uct.CompanyTaskId == request.Id && uct.CompanyTaskId == companyTask.Id))
+            .Include(
+                au => au
+                    .UserCompanyTasks
+                    .Where(uct => uct.CompanyTaskId == request.Id && uct.CompanyTaskId == companyTask.Id))
             .Where(au => !userIdsInTask.Contains(au.Id) && au.CompanyId == companyTask.CompanyId);
 
         if (!users.Any())
@@ -48,13 +47,12 @@ internal class GetEmployeesUnassignedTaskByCompanyTaskIdHandler(
             return new List<GetEmployeesUnassignedTaskByCompanyTaskIdResponse>();
         }
 
-        await permissionsValidationService.CheckEntityCompanyIsOwnerAsync(users.First());
-
         // Preparar la respuesta.
         var resultResponse = users
-            .Select(uct => new GetEmployeesUnassignedTaskByCompanyTaskIdResponse(
-                uct!.Id,
-                $"{uct.FirstName} {uct.LastName} <{uct.Email}>"))
+            .Select(
+                uct => new GetEmployeesUnassignedTaskByCompanyTaskIdResponse(
+                    uct!.Id,
+                    $"{uct.FirstName} {uct.LastName} <{uct.Email}>"))
             .ToList();
 
         return resultResponse;

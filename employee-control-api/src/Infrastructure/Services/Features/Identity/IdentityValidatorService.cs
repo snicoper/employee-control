@@ -1,7 +1,6 @@
 using EmployeeControl.Application.Common.Constants;
 using EmployeeControl.Application.Common.Interfaces.Common;
 using EmployeeControl.Application.Common.Interfaces.Features.Identity;
-using EmployeeControl.Domain.Constants;
 using EmployeeControl.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -59,21 +58,12 @@ public class IdentityValidatorService(
 
     public void ValidateUpdateEmployeeRoles(ApplicationUser user, IEnumerable<string> userRoles)
     {
-        string errorMessage;
-
-        // Roles.SiteAdmin o Roles.EnterpriseAdmin no son editables.
-        if (userRoles.Any(r => r.Equals(Roles.SiteAdmin) || r.Equals(Roles.EnterpriseAdmin)))
-        {
-            errorMessage = localizer["Roles de empleado no editables."];
-            validationFailureService.AddAndRaiseException(ValidationErrorsKeys.NotificationErrors, errorMessage);
-        }
-
         if (currentUserService.Id != user.Id)
         {
             return;
         }
 
-        errorMessage = localizer["Un usuario no puede editar sus propios Roles."];
+        var errorMessage = localizer["Un usuario no puede editar sus propios Roles."];
         logger.LogWarning("{message}", errorMessage);
         validationFailureService.Add(ValidationErrorsKeys.NotificationErrors, errorMessage);
     }

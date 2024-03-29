@@ -7,7 +7,8 @@ using MediatR;
 namespace EmployeeControl.Application.Features.CompanySettings.Commands.UpdateCompanySettings;
 
 [Authorize(Roles = Roles.EnterpriseStaff)]
-public record UpdateCompanySettingsCommand(string Id, string Timezone) : IRequest<Result>
+public record UpdateCompanySettingsCommand(string Id, string Timezone, int MaximumDailyWorkHours, bool GeolocationRequired)
+    : IRequest<Result>
 {
     internal class Mapping : Profile
     {

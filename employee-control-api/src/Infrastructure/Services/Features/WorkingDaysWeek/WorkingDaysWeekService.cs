@@ -7,9 +7,9 @@ namespace EmployeeControl.Infrastructure.Services.Features.WorkingDaysWeek;
 
 public class WorkingDaysWeekService(IApplicationDbContext context) : IWorkingDaysWeekService
 {
-    public async Task<Domain.Entities.WorkingDaysWeek> GetByCompanyIdAsync(string companyId, CancellationToken cancellationToken)
+    public async Task<Domain.Entities.WorkingDaysWeek> GetWorkingDaysWeekAsync(CancellationToken cancellationToken)
     {
-        var workDays = await context.WorkingDaysWeek.SingleOrDefaultAsync(wd => wd.CompanyId == companyId, cancellationToken)
+        var workDays = await context.WorkingDaysWeek.FirstOrDefaultAsync(cancellationToken)
                        ?? throw new NotFoundException(
                            nameof(Domain.Entities.WorkingDaysWeek),
                            nameof(Domain.Entities.WorkingDaysWeek.CompanyId));
@@ -17,7 +17,9 @@ public class WorkingDaysWeekService(IApplicationDbContext context) : IWorkingDay
         return workDays;
     }
 
-    public async Task<Domain.Entities.WorkingDaysWeek> UpdateAsync(Domain.Entities.WorkingDaysWeek workingDaysWeek, CancellationToken cancellationToken)
+    public async Task<Domain.Entities.WorkingDaysWeek> UpdateAsync(
+        Domain.Entities.WorkingDaysWeek workingDaysWeek,
+        CancellationToken cancellationToken)
     {
         context.WorkingDaysWeek.Update(workingDaysWeek);
         await context.SaveChangesAsync(cancellationToken);

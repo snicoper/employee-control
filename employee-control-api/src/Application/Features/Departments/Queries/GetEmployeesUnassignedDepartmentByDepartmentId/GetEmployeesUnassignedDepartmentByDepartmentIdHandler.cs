@@ -1,6 +1,5 @@
 ﻿using EmployeeControl.Application.Common.Exceptions;
 using EmployeeControl.Application.Common.Interfaces.Data;
-using EmployeeControl.Application.Common.Security;
 using EmployeeControl.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -10,8 +9,7 @@ namespace EmployeeControl.Application.Features.Departments.Queries.GetEmployeesU
 
 internal class GetEmployeesUnassignedDepartmentByDepartmentIdHandler(
     IApplicationDbContext context,
-    UserManager<ApplicationUser> userManager,
-    IPermissionsValidationService permissionsValidationService)
+    UserManager<ApplicationUser> userManager)
     : IRequestHandler<
         GetEmployeesUnassignedDepartmentByDepartmentIdQuery,
         ICollection<GetEmployeesUnassignedDepartmentByDepartmentIdResponse>>
@@ -38,9 +36,10 @@ internal class GetEmployeesUnassignedDepartmentByDepartmentIdHandler(
         // Obtener los empleados de la empresa excluyendo los empleados que ya tienen el departamento asignada.
         var users = userManager
             .Users
-            .Include(au => au
-                .UserCompanyTasks
-                .Where(uct => uct.CompanyTaskId == request.Id && uct.CompanyTaskId == department.Id))
+            .Include(
+                au => au
+                    .UserCompanyTasks
+                    .Where(uct => uct.CompanyTaskId == request.Id && uct.CompanyTaskId == department.Id))
             .Where(au => !userIdsInDepartment.Contains(au.Id) && au.CompanyId == department.CompanyId);
 
         if (!users.Any())
@@ -48,13 +47,12 @@ internal class GetEmployeesUnassignedDepartmentByDepartmentIdHandler(
             return new List<GetEmployeesUnassignedDepartmentByDepartmentIdResponse>();
         }
 
-        await permissionsValidationService.CheckEntityCompanyIsOwnerAsync(users.First());
-
         // Preparar la respuesta.
         var resultResponse = users
-            .Select(uct => new GetEmployeesUnassignedDepartmentByDepartmentIdResponse(
-                uct!.Id,
-                $"{uct.FirstName} {uct.LastName} <{uct.Email}>"))
+            .Select(
+                uct => new GetEmployeesUnassignedDepartmentByDepartmentIdResponse(
+                    uct!.Id,
+                    $"{uct.FirstName} {uct.LastName} <{uct.Email}>"))
             .ToList();
 
         return resultResponse;

@@ -7,13 +7,11 @@ import { urlReplaceParams } from '../../core/utils/common-utils';
 import { WorkingDaysWeek } from '../../models/entities/working-days-week.model';
 import { ResultResponse } from '../../models/result-response.model';
 import { WorkingDaysWeekApiService } from '../api/working-days-week-api.service';
-import { CurrentCompanyEmployeeStateService } from './current-company-employee-state.service';
 import { StateService } from './state.service';
 
 @Injectable({ providedIn: 'root' })
 export class WorkingDaysWeekStateService implements StateService<WorkingDaysWeek | null> {
   private readonly workingDaysWeekApiService = inject(WorkingDaysWeekApiService);
-  private readonly currentCompanyEmployeeStateService = inject(CurrentCompanyEmployeeStateService);
   private readonly toastrService = inject(ToastrService);
 
   private readonly workingDaysWeek$ = signal<WorkingDaysWeek | null>(null);
@@ -90,20 +88,10 @@ export class WorkingDaysWeekStateService implements StateService<WorkingDaysWeek
   }
 
   private loadWorkingDaysWeek(): void {
-    const companyId = this.currentCompanyEmployeeStateService.get()?.id as string;
-
-    if (!companyId) {
-      return;
-    }
-
     this.loadingWorkingDaysWeek$.set(true);
 
-    const url = urlReplaceParams(ApiUrls.workingDaysWeek.getWorkingDaysWeekByCompanyId, {
-      companyId: companyId
-    });
-
     this.workingDaysWeekApiService
-      .get<WorkingDaysWeek>(url)
+      .get<WorkingDaysWeek>(ApiUrls.workingDaysWeek.getWorkingDaysWeek)
       .pipe(finalize(() => this.loadingWorkingDaysWeek$.set(false)))
       .subscribe({
         next: (result: WorkingDaysWeek) => {

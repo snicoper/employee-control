@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { HttpStatusCode } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
@@ -6,7 +7,8 @@ import { BadRequest } from '../../../../models/bad-request';
 @Component({
   selector: 'aw-field-error',
   templateUrl: './field-error.component.html',
-  standalone: true
+  standalone: true,
+  imports: [CommonModule]
 })
 export class FieldErrorComponent implements OnInit {
   @Input({ required: true }) badRequest: BadRequest | undefined;
@@ -42,7 +44,29 @@ export class FieldErrorComponent implements OnInit {
     return undefined;
   }
 
-  getControlErrorByErrorName(errorName: string): boolean | null {
-    return this.control?.hasError(errorName) ?? null;
+  getControlErrorByErrorName(errorName: string): ValidationErrors | null {
+    return this.control?.hasError(errorName) ? this.control.errors : null;
+  }
+
+  /** Maneja un error "Validator.max(x)" de Angular. */
+  getValidationErrorMax(): { max: number; actual: number } | void {
+    const validationError = this.getControlErrorByErrorName('max');
+
+    if (validationError) {
+      const data = validationError['max'];
+
+      return data;
+    }
+  }
+
+  /** Maneja un error "Validator.min(x)" de Angular. */
+  getValidationErrorMin(): { min: number; actual: number } | void {
+    const validationError = this.getControlErrorByErrorName('min');
+
+    if (validationError) {
+      const data = validationError['min'];
+
+      return data;
+    }
   }
 }

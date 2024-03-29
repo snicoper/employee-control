@@ -42,12 +42,11 @@ public interface ITimesControlService
         CancellationToken cancellationToken);
 
     /// <summary>
-    /// Obtener los <see cref="TimeControl" /> por el Id de <see cref="Company" />.
+    /// Obtener los <see cref="TimeControl" />.
     /// <para>Incluye los <see cref="ApplicationUser" />.</para>
     /// </summary>
-    /// <param name="companyId">Id <see cref="Company" />.</param>
     /// <returns><see cref="IQueryable{T}" /> con los <see cref="TimeControl" />.</returns>
-    IQueryable<TimeControl> GetWithUserByCompanyId(string companyId);
+    IQueryable<TimeControl> GetWithUser();
 
     /// <summary>
     /// Obtener los <see cref="TimeControl" /> por el Id de <see cref="ApplicationUser" />.
@@ -125,4 +124,10 @@ public interface ITimesControlService
     /// <param name="cancellationToken"><see cref="CancellationToken" />.</param>
     /// <returns><see cref="TimeControl" /> actualizado.</returns>
     Task<TimeControl> UpdateAsync(TimeControl timeControl, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Cerrar tareas que excedan el tiempo máximo de las compañías.
+    /// </summary>
+    /// <returns><see cref="TimeControl" />.</returns>
+    Task CloseTimeControlJobAsync();
 }

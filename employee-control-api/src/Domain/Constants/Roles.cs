@@ -6,16 +6,6 @@
 public abstract class Roles
 {
     /// <summary>
-    /// Administrador del sitio.
-    /// </summary>
-    public const string SiteAdmin = nameof(SiteAdmin);
-
-    /// <summary>
-    /// Staff del sitio.
-    /// </summary>
-    public const string SiteStaff = nameof(SiteStaff);
-
-    /// <summary>
     /// Administrador de empresa.
     /// </summary>
     public const string EnterpriseAdmin = nameof(EnterpriseAdmin);

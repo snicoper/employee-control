@@ -21,6 +21,20 @@
       @if (getControlErrorByErrorName("noFutureDate")) {
         <div>La fecha ha de ser menor o igual a hoy.</div>
       }
+
+      @if (getControlErrorByErrorName("max")) {
+        <div>
+          Valor <span class="text-success">{{ getValidationErrorMax()?.actual }}</span> es superior al permitido
+          <span class="text-success">{{ getValidationErrorMax()?.max }}</span>
+        </div>
+      }
+
+      @if (getControlErrorByErrorName("min")) {
+        <div>
+          Valor <span class="text-success">{{ getValidationErrorMin()?.actual }}</span> es menor al mínimo necesario
+          <span class="text-success">{{ getValidationErrorMin()?.min }}</span>
+        </div>
+      }
     </span>
 
     <!-- errores obtenidos del backend. -->

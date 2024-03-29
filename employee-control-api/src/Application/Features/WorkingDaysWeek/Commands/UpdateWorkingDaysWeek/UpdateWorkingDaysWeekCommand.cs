@@ -12,8 +12,7 @@ public record UpdateWorkingDaysWeekCommand(
     bool Thursday,
     bool Friday,
     bool Saturday,
-    bool Sunday,
-    string CompanyId)
+    bool Sunday)
     : IRequest<Result>
 {
     internal class Mapping : Profile

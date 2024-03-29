@@ -5,9 +5,7 @@
     <aw-card>
       <h4>Incidencia</h4>
 
-      <div class="alert alert-danger">
-        {{ timeControl?.incidenceDescription }}
-      </div>
+      <div class="alert alert-warning nl2br">{{ timeControl?.incidenceDescription }}</div>
     </aw-card>
     <div class="mt-4"></div>
   }
@@ -18,7 +16,11 @@
         @if (timeControl && !loadingTimeControl) {
           <tr>
             <td>Empleado</td>
-            <td>{{ timeControl.firstName }} {{ timeControl.lastName }}</td>
+            <td>
+              <span (click)="handleNavigateToEmployee(timeControl.userId)" class="navigate-employee">
+                {{ timeControl.firstName }} {{ timeControl.lastName }}
+              </span>
+            </td>
           </tr>
           <tr>
             <td>Hora de inicio</td>
@@ -97,6 +99,10 @@
     </table>
 
     <div class="mt-4">
+      @if (timeControl?.timeState === timeState.open) {
+        <div class="text-danger mb-4">*Para editar o eliminar es necesario finalizar el tiempo.</div>
+      }
+
       <aw-btn-back />
 
       @if (timeControl) {

@@ -1,15 +1,11 @@
 ﻿using AutoMapper;
 using EmployeeControl.Application.Common.Interfaces.Features.TimesControl;
 using EmployeeControl.Application.Common.Models;
-using EmployeeControl.Application.Common.Security;
 using MediatR;
 
 namespace EmployeeControl.Application.Features.TimesControl.Queries.GetTimesControlByEmployeeIdPaginated;
 
-public class GetTimesControlByEmployeeIdPaginatedHandler(
-    IPermissionsValidationService permissionsValidationService,
-    ITimesControlService timesControlService,
-    IMapper mapper)
+public class GetTimesControlByEmployeeIdPaginatedHandler(ITimesControlService timesControlService, IMapper mapper)
     : IRequestHandler<GetTimesControlByEmployeeIdPaginatedQuery, ResponseData<GetTimesControlByEmployeeIdPaginatedResponse>>
 {
     public async Task<ResponseData<GetTimesControlByEmployeeIdPaginatedResponse>> Handle(
@@ -17,12 +13,6 @@ public class GetTimesControlByEmployeeIdPaginatedHandler(
         CancellationToken cancellationToken)
     {
         var timeControls = timesControlService.GetWithUserByEmployeeId(request.EmployeeId);
-
-        if (timeControls.Any())
-        {
-            var firstTimeControl = timeControls.First();
-            await permissionsValidationService.CheckEntityCompanyIsOwnerAsync(firstTimeControl);
-        }
 
         // Si existe From y To filtra en rango, si solo existe From filtra en ese día.
         if (request.From != DateTimeOffset.MinValue && request.To != DateTimeOffset.MinValue)

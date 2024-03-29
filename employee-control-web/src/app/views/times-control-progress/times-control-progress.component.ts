@@ -27,6 +27,7 @@ import { DatetimeFormatPipe } from '../../pipes/datetime-format.pipe';
 import { TimeControlApiService } from '../../services/api/time-control-api.service';
 import { JwtService } from '../../services/jwt.service';
 import { SimpleGeolocationService } from '../../services/simple-geolocation.service';
+import { CurrentCompanySettingsStateService } from '../../services/states/current-company-settings-state.service';
 import { CurrentTimeControlStateService } from '../../services/states/current-time-control-state.service';
 import { TimeControlIncidenceCreateComponent } from './time-control-incidence-create/time-control-incidence-create.component';
 import { TimeControlProgressChangeStateRequest } from './time-control-progress-change-state.request.model';
@@ -53,11 +54,13 @@ export class TimesControlProgressComponent {
   private readonly jwtService = inject(JwtService);
   private readonly toastrService = inject(ToastrService);
   private readonly currentTimeControlStateService = inject(CurrentTimeControlStateService);
+  private readonly currentCompanySettingsStateService = inject(CurrentCompanySettingsStateService);
   private readonly deviceDetectorService = inject(DeviceDetectorService);
   private readonly simpleGeolocationService = inject(SimpleGeolocationService);
   private readonly bsModalService = inject(BsModalService);
 
   readonly currentTimeControl = computed(() => this.currentTimeControlStateService.currentTimeControl());
+  readonly geolocationIsAvailable = computed(() => this.simpleGeolocationService.geolocationIsAvailable());
 
   private readonly employeeDeviceType: DeviceType;
 
@@ -70,8 +73,12 @@ export class TimesControlProgressComponent {
   latitude: number | undefined;
   longitude: number | undefined;
   bsModalRef?: BsModalRef;
+  companyGeolocationRequired = false;
 
   constructor() {
+    this.companyGeolocationRequired = this.currentCompanySettingsStateService.companySettings()
+      ?.geolocationRequired as boolean;
+
     this.loadTimesControlRange();
 
     this.simpleGeolocationService

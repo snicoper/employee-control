@@ -37,11 +37,10 @@ public interface IIdentityService
     Task<bool> AuthorizeAsync(string userId, string policyName);
 
     /// <summary>
-    /// Obtener un <see cref="IQueryable" /> de <see cref="ApplicationUser" /> por el Id de compañía.
+    /// Obtener un <see cref="IQueryable" /> de <see cref="ApplicationUser" />.
     /// </summary>
-    /// <param name="companyId">Id compañía.</param>
     /// <returns><see cref="IQueryable" /> de <see cref="ApplicationUser" />.</returns>
-    IQueryable<ApplicationUser> GetByCompanyId(string companyId);
+    IQueryable<ApplicationUser> GetAllQueryable();
 
     /// <summary>
     /// Crear un usuario.

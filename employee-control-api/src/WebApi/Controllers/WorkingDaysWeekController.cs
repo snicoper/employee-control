@@ -1,6 +1,6 @@
 ﻿using EmployeeControl.Application.Common.Models;
 using EmployeeControl.Application.Features.WorkingDaysWeek.Commands.UpdateWorkingDaysWeek;
-using EmployeeControl.Application.Features.WorkingDaysWeek.Queries.GetWorkingDaysWeekByCompanyId;
+using EmployeeControl.Application.Features.WorkingDaysWeek.Queries.GetWorkingDaysWeek;
 using EmployeeControl.Domain.Entities;
 using EmployeeControl.WebApi.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +11,15 @@ namespace EmployeeControl.WebApi.Controllers;
 public class WorkingDaysWeekController : ApiControllerBase
 {
     /// <summary>
-    /// Obtener un <see cref="WorkingDaysWeek" /> por su Id.
+    /// Obtener el <see cref="WorkingDaysWeek" /> de la compañía.
     /// </summary>
-    /// <param name="companyId">Id del <see cref="WorkingDaysWeek" /> a obtener.</param>
     /// <returns><see cref="WorkingDaysWeek" />.</returns>
-    [HttpGet("company/{companyId}")]
+    [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<GetWorkingDaysWeekByCompanyIdResponse>> GetWorkingDaysWeekByCompanyId(string companyId)
+    public async Task<ActionResult<GetWorkingDaysWeekResponse>> GetWorkingDaysWeek()
     {
-        var result = await Sender.Send(new GetWorkingDaysWeekByCompanyIdQuery(companyId));
+        var result = await Sender.Send(new GetWorkingDaysWeekQuery());
 
         return result;
     }

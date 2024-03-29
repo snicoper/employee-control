@@ -17,11 +17,10 @@ public interface ICompanySettingsService
     /// <summary>
     /// Obtener <see cref="CompanySettings" /> por el Id de compañía.
     /// </summary>
-    /// <param name="companyId">Id compañía.</param>
     /// <param name="cancellationToken"><see cref="CancellationToken" />.</param>
     /// <exception cref="NotFoundException">Si no encuentra la <see cref="CompanySettings" />.</exception>
     /// <returns><see cref="CompanySettings" /> object.</returns>
-    Task<CompanySettings> GetByCompanyIdAsync(string companyId, CancellationToken cancellationToken);
+    Task<CompanySettings> GetByCompanySettingsAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// Obtener el timezone de una compañía.

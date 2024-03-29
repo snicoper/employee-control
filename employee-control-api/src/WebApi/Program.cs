@@ -1,7 +1,9 @@
 using EmployeeControl.Application;
+using EmployeeControl.Application.Common.Interfaces.BackgroundJobs;
 using EmployeeControl.Infrastructure;
 using EmployeeControl.Infrastructure.Data.Seeds;
 using EmployeeControl.WebApi;
+using Hangfire;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
@@ -66,6 +68,10 @@ app.UseCors("DefaultCors");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Hangfire.
+app.UseHangfireDashboard();
+RecurringJob.AddOrUpdate<ICloseTimeControlJob>("close-time-control-job", service => service.Process(), "*/30 * * * *");
 
 app.MapControllers();
 

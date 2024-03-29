@@ -12,6 +12,9 @@
 
 <!-- times -->
 <div>
-  <aw-time-control-progress [loading]="loadingTimeControls" [progressStackedCollection]="progressStackedCollection" />
+  <aw-time-control-progress
+    (clickProgress)="handleClickProgress($event)"
+    [loading]="loadingTimeControls"
+    [progressStackedCollection]="progressStackedCollection" />
   <!-- end times -->
 </div>

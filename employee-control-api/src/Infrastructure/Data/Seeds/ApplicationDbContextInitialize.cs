@@ -147,7 +147,7 @@ public class ApplicationDbContextInitialize(
 
     private async Task CreateCompaniesAsync()
     {
-        var companies = new List<Company> { new() { Name = "Company test" }, new() { Name = "Test Company" } };
+        var companies = new List<Company> { new() { Name = "Company test" } };
 
         foreach (var company in companies.Where(company => !context.Companies.Any(c => c.Name == company.Name)))
         {
@@ -160,12 +160,7 @@ public class ApplicationDbContextInitialize(
         // Default roles.
         var createRole = new List<ApplicationRole>
         {
-            new(Roles.SiteAdmin),
-            new(Roles.SiteStaff),
-            new(Roles.EnterpriseAdmin),
-            new(Roles.EnterpriseStaff),
-            new(Roles.HumanResources),
-            new(Roles.Employee)
+            new(Roles.EnterpriseAdmin), new(Roles.EnterpriseStaff), new(Roles.HumanResources), new(Roles.Employee)
         };
 
         foreach (var identityRole in createRole.Where(identityRole => roleManager.Roles.All(r => r.Name != identityRole.Name)))
@@ -176,12 +171,17 @@ public class ApplicationDbContextInitialize(
 
     private async Task CreateUsersAsync()
     {
-        var companies = context.Companies.ToList();
+        var company = context.Companies.FirstOrDefault();
+
+        if (company is null)
+        {
+            return;
+        }
 
         // Administrator user.
         var user = new ApplicationUser
         {
-            CompanyId = companies[0].Id,
+            CompanyId = company.Id,
             UserName = "admin@localhost",
             FirstName = "Admin",
             LastName = "Admin1",
@@ -196,11 +196,7 @@ public class ApplicationDbContextInitialize(
             await userManager.CreateAsync(user, "Password4!");
 
             // Roles.
-            var rolesToAdd = new[]
-            {
-                Roles.SiteAdmin, Roles.SiteStaff, Roles.EnterpriseAdmin, Roles.EnterpriseStaff, Roles.HumanResources,
-                Roles.Employee
-            };
+            var rolesToAdd = new[] { Roles.EnterpriseAdmin, Roles.EnterpriseStaff, Roles.HumanResources, Roles.Employee };
 
             await userManager.AddToRolesAsync(user, rolesToAdd);
 
@@ -212,7 +208,7 @@ public class ApplicationDbContextInitialize(
         // EnterpriseAdministrator user.
         user = new ApplicationUser
         {
-            CompanyId = companies[1].Id,
+            CompanyId = company.Id,
             UserName = "snicoper@gmail.com",
             FirstName = "Salvador",
             LastName = "Nicolas",
@@ -239,7 +235,7 @@ public class ApplicationDbContextInitialize(
         // Employee user.
         user = new ApplicationUser
         {
-            CompanyId = companies[1].Id,
+            CompanyId = company.Id,
             UserName = "alice@example.com",
             FirstName = "Alice",
             LastName = "Smith",

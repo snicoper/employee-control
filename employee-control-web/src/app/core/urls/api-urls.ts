@@ -24,14 +24,14 @@ export const ApiUrls = {
   },
 
   categoryAbsences: {
-    getCategoryAbsenceByCompanyIdPaginated: '/category-absence/companies/{companyId}/paginated',
+    getCategoryAbsencePaginated: '/category-absence/paginated',
     getCategoryAbsenceById: '/category-absence/{id}',
     createCompanyAbsence: '/category-absence',
     updateCategoryAbsence: '/category-absence/{id}'
   },
 
   companyTasks: {
-    getCompanyTasksByCompanyIdPaginated: '/tasks/companies/{companyId}/paginated',
+    getCompanyTasksPaginated: '/tasks/paginated',
     getEmployeesByCompanyTaskIdPaginated: '/tasks/{id}/employees/paginated',
     getCompanyTasksByEmployeeIdPaginated: '/tasks/employees/{employeeId}/paginated',
     getEmployeesUnassignedTaskByCompanyTaskId: '/tasks/{id}/employees/unassigned',
@@ -44,7 +44,7 @@ export const ApiUrls = {
   },
 
   departments: {
-    getDepartmentsByCompanyIdPaginated: '/departments/companies/{companyId}/paginated',
+    getDepartmentsPaginated: '/departments/paginated',
     getEmployeesByCompanyIdPaginated: '/departments/{id}/employees/paginated',
     GetEmployeesByDepartmentIdPaginated: '/departments/{id}/employees/unassigned',
     getDepartmentsByEmployeeIdPaginated: '/departments/employees/{employeeId}/paginated',
@@ -74,7 +74,7 @@ export const ApiUrls = {
   },
 
   companySettings: {
-    getCompanySettingsByCompanyId: '/company-settings/companies/{companyId}',
+    getCompanySettings: '/company-settings',
     updateCompanySettings: '/company-settings'
   },
 
@@ -88,7 +88,7 @@ export const ApiUrls = {
   },
 
   timeControl: {
-    getTimesControlByCompanyIdPaginated: '/times-control/companies/{companyId}/from/{from}/to/{to}/paginated',
+    getTimesControlByRangePaginated: '/times-control/from/{from}/to/{to}/paginated',
     getTimesControlByEmployeeIdPaginated: '/times-control/employees/{employeeId}/from/{from}/to/{to}/paginated',
     getTimeControlById: '/times-control/{id}',
     getTimeControlWithEmployeeById: '/times-control/{id}/employees',
@@ -105,7 +105,7 @@ export const ApiUrls = {
   },
 
   workingDaysWeek: {
-    getWorkingDaysWeekByCompanyId: '/working-days-week/company/{companyId}',
+    getWorkingDaysWeek: '/working-days-week',
     updateWorkingDaysWeek: '/working-days-week/{id}'
   }
 };

@@ -6,9 +6,6 @@ public class CreateCompanyTaskValidator : AbstractValidator<CreateCompanyTaskCom
 {
     public CreateCompanyTaskValidator()
     {
-        RuleFor(r => r.CompanyId)
-            .NotEmpty();
-
         RuleFor(r => r.Name)
             .NotEmpty()
             .MaximumLength(256);

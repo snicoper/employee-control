@@ -287,11 +287,17 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
+                    b.Property<bool>("GeolocationRequired")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTimeOffset>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
+
+                    b.Property<int>("MaximumDailyWorkHours")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Timezone")
                         .IsRequired()

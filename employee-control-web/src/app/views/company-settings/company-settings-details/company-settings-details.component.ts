@@ -9,6 +9,8 @@ import { TooltipInfoComponent } from '../../../components/tooltips/tooltip-info/
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
 import { SiteUrls } from '../../../core/urls/site-urls';
+import { TooltipDirective } from '../../../directives/tooltip.directive';
+import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
 import { CurrentCompanySettingsStateService } from '../../../services/states/current-company-settings-state.service';
 import { WorkingDaysWeekComponent } from './working-days-week/working-days-week.component';
 
@@ -17,13 +19,15 @@ import { WorkingDaysWeekComponent } from './working-days-week/working-days-week.
   templateUrl: './company-settings-details.component.html',
   standalone: true,
   imports: [
+    RouterLink,
     ViewBaseComponent,
     ViewHeaderComponent,
     CardComponent,
-    RouterLink,
     TooltipInfoComponent,
     TableLoadingComponent,
-    WorkingDaysWeekComponent
+    WorkingDaysWeekComponent,
+    BoolToIconPipe,
+    TooltipDirective
   ]
 })
 export class CompanySettingsDetailsComponent {
@@ -41,6 +45,10 @@ export class CompanySettingsDetailsComponent {
     this.setBreadcrumb();
     this.getCurrentTimezoneInfo();
     this.setNowWithOriginalTimezone();
+  }
+
+  get requiredGeolocation(): string {
+    return this.companySettings()?.geolocationRequired ? 'Requerida' : 'No requerida';
   }
 
   getCurrentTimezoneInfo(): void {

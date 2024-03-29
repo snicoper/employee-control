@@ -19,7 +19,6 @@ import { urlReplaceParams } from '../../../core/utils/common-utils';
 import { Department } from '../../../models/entities/department.model';
 import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
 import { DepartmentApiService } from '../../../services/api/department-api.service';
-import { JwtService } from '../../../services/jwt.service';
 import { departmentListTableHeaders } from './department-list-table-heades';
 
 @Component({
@@ -43,7 +42,6 @@ import { departmentListTableHeaders } from './department-list-table-heades';
 export class DepartmentListComponent {
   private readonly departmentApiService = inject(DepartmentApiService);
   private readonly router = inject(Router);
-  private readonly jwtService = inject(JwtService);
 
   readonly breadcrumb = new BreadcrumbCollection();
 
@@ -82,12 +80,9 @@ export class DepartmentListComponent {
 
   private loadDepartments(): void {
     this.loading = true;
-    const url = urlReplaceParams(ApiUrls.departments.getDepartmentsByCompanyIdPaginated, {
-      companyId: this.jwtService.getCompanyId()
-    });
 
     this.departmentApiService
-      .getPaginated<Department>(this.apiResult, url)
+      .getPaginated<Department>(this.apiResult, ApiUrls.departments.getDepartmentsPaginated)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (result) => {

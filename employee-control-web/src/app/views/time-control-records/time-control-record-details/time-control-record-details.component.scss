@@ -1,0 +1,11 @@
+@import "bootstrap/scss/functions";
+@import "variables";
+@import "bootstrap/scss/variables";
+
+.navigate-employee {
+  cursor: pointer;
+
+  &:hover {
+    color: $primary;
+  }
+}

@@ -74,11 +74,9 @@ public class IdentityService(
         return result.Succeeded;
     }
 
-    public IQueryable<ApplicationUser> GetByCompanyId(string companyId)
+    public IQueryable<ApplicationUser> GetAllQueryable()
     {
-        var users = userManager
-            .Users
-            .Where(au => au.CompanyId == companyId);
+        var users = userManager.Users;
 
         return users;
     }

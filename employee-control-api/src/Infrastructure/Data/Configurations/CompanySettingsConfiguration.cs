@@ -25,6 +25,11 @@ public class CompanySettingsConfiguration : IEntityTypeConfiguration<CompanySett
         builder.Property(cs => cs.Timezone)
             .HasMaxLength(50);
 
+        builder.Property(cs => cs.MaximumDailyWorkHours)
+            .IsRequired();
+
+        builder.Property(cs => cs.GeolocationRequired);
+
         builder.Property(cs => cs.CompanyId)
             .IsRequired();
     }

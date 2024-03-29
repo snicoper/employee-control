@@ -21,7 +21,6 @@ import { CompanyTask } from '../../../models/entities/company-task.model';
 import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
 import { DatetimePipe } from '../../../pipes/datetime.pipe';
 import { CompanyTaskApiService } from '../../../services/api/company-task-api.service';
-import { CurrentCompanyEmployeeStateService } from '../../../services/states/current-company-employee-state.service';
 import { companyTaskListTableHeader } from './company-task-list-table-headers';
 
 @Component({
@@ -46,7 +45,6 @@ import { companyTaskListTableHeader } from './company-task-list-table-headers';
 export class CompanyTaskListComponent {
   private readonly companyTaskApiService = inject(CompanyTaskApiService);
   private readonly router = inject(Router);
-  private readonly currentCompanyEmployeeStateService = inject(CurrentCompanyEmployeeStateService);
 
   readonly breadcrumb = new BreadcrumbCollection();
 
@@ -86,12 +84,9 @@ export class CompanyTaskListComponent {
 
   private loadCompanyTasks(): void {
     this.loading = true;
-    const url = urlReplaceParams(ApiUrls.companyTasks.getCompanyTasksByCompanyIdPaginated, {
-      companyId: this.currentCompanyEmployeeStateService.get()?.id.toString() ?? ''
-    });
 
     this.companyTaskApiService
-      .getPaginated<CompanyTask>(this.apiResult, url)
+      .getPaginated<CompanyTask>(this.apiResult, ApiUrls.companyTasks.getCompanyTasksPaginated)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (result: ApiResult<CompanyTask>) => {

@@ -1,12 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, computed, signal } from '@angular/core';
 import { urlReplaceParams } from '../core/utils/common-utils';
 
 @Injectable({ providedIn: 'root' })
 export class SimpleGeolocationService {
+  private readonly isAvailable$ = signal(false);
+
   private readonly urlOpenStreetMap = 'https://www.openstreetmap.org/#map=18/{latitude}/{longitude}';
 
-  get isAvailable(): boolean {
-    return Object.hasOwn(navigator, 'geolocation');
+  geolocationIsAvailable = computed(() => this.isAvailable$());
+
+  constructor() {
+    navigator.permissions.query({ name: 'geolocation' }).then((result) => {
+      if (result.state === 'granted') {
+        this.isAvailable$.set(true);
+      } else if (result.state === 'prompt') {
+        this.isAvailable$.set(false);
+      }
+      // Don't do anything if the permission was denied.
+    });
   }
 
   /** Obtener la posición actual. */
@@ -19,5 +30,9 @@ export class SimpleGeolocationService {
     const url = urlReplaceParams(this.urlOpenStreetMap, { latitude: String(latitude), longitude: String(longitude) });
 
     return url;
+  }
+
+  async pleaseLetMeNotify(): Promise<PermissionStatus> {
+    return await navigator.permissions.query({ name: 'geolocation' });
   }
 }

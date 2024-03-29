@@ -18,12 +18,22 @@
         <div class="col">
           <!-- incidenceDescription -->
           <aw-form-textarea
+            (keyup)="handleIncidenceCharacters()"
             [badRequest]="badRequest"
             [form]="form"
             [submitted]="submitted"
             fieldName="incidenceDescription"
             formControlName="incidenceDescription"
             label="Descripción" />
+
+          <span
+            [ngClass]="{
+              'text-muted': incidenceCharacters <= incidenceMaxCharacters,
+              'text-danger': incidenceCharacters > incidenceMaxCharacters
+            }"
+            class="small">
+            {{ incidenceCharacters }}/{{ incidenceMaxCharacters }}
+          </span>
           <!-- end incidenceDescription -->
         </div>
 

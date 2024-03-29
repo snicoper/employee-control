@@ -2,7 +2,6 @@
 using EmployeeControl.Application.Common.Interfaces.Data;
 using EmployeeControl.Application.Common.Interfaces.Features.Departments;
 using EmployeeControl.Application.Common.Models;
-using EmployeeControl.Application.Common.Security;
 using EmployeeControl.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -13,7 +12,6 @@ namespace EmployeeControl.Application.Features.Departments.Commands.AssignEmploy
 internal class AssignEmployeesToDepartmentHandler(
     IApplicationDbContext context,
     UserManager<ApplicationUser> userManager,
-    IPermissionsValidationService permissionsValidationService,
     IDepartmentEmailsService departmentEmailsService)
     : IRequestHandler<AssignEmployeesToDepartmentCommand, Result>
 {
@@ -28,8 +26,6 @@ internal class AssignEmployeesToDepartmentHandler(
         {
             throw new NotFoundException(nameof(CompanyTask), nameof(CompanyTask.Id));
         }
-
-        await permissionsValidationService.CheckEntityCompanyIsOwnerAsync(department);
 
         var employees = userManager
             .Users

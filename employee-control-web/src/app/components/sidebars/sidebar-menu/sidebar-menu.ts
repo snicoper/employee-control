@@ -8,7 +8,7 @@ export const sidebarMenu: SidebarMenu[] = [
     icon: 'fas fa-user-shield',
     active: false,
     type: SidebarMenuTypes.dropdown,
-    requiredRole: Roles.siteAdmin,
+    requiredRole: Roles.enterpriseAdmin,
     submenus: [
       {
         title: 'Panel',

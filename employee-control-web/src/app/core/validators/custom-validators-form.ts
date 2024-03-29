@@ -61,9 +61,7 @@ export abstract class CustomValidators {
 
   /** Validación de un array con un valor > 0.*/
   static readonly minLengthArray = (control: AbstractControl): ValidationErrors | null => {
-    const values = control?.value;
-
-    if (!values) {
+    if (!control?.value) {
       return { required: true };
     }
 

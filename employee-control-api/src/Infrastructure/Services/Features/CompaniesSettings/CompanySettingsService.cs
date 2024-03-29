@@ -24,11 +24,11 @@ public class CompanySettingsService(
         return result;
     }
 
-    public async Task<CompanySettings> GetByCompanyIdAsync(string companyId, CancellationToken cancellationToken)
+    public async Task<CompanySettings> GetByCompanySettingsAsync(CancellationToken cancellationToken)
     {
         var result = await context
                          .CompanySettings
-                         .SingleOrDefaultAsync(cs => cs.CompanyId == companyId, cancellationToken) ??
+                         .FirstOrDefaultAsync(cancellationToken) ??
                      throw new NotFoundException(nameof(CompanySettings), nameof(CompanySettings.CompanyId));
 
         return result;
@@ -62,7 +62,7 @@ public class CompanySettingsService(
 
     public async Task<string> GetIanaTimezoneCompanyAsync(string companyId, CancellationToken cancellationToken)
     {
-        var companySettings = await GetByCompanyIdAsync(companyId, cancellationToken);
+        var companySettings = await GetByCompanySettingsAsync(cancellationToken);
         var timezoneId = !string.IsNullOrEmpty(companySettings.Timezone) ? companySettings.Timezone : TimeZoneInfo.Local.Id;
 
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

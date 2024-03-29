@@ -1,12 +1,15 @@
 import { Component, computed, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { DateTime } from 'luxon';
 import { finalize } from 'rxjs';
 import { ProgressStackedCollection } from '../../../../components/progress/progress-stacked/progress-stacked-collection';
+import { ProgressStackedItem } from '../../../../components/progress/progress-stacked/progress-stacked-item.model';
 import { TimeControlProgressComponent } from '../../../../components/progress/time-control-progress/time-control-progress.component';
 import { MonthSelectorComponent } from '../../../../components/selectors/month-selector/month-selector.component';
 import { TimeControlProgressStacked } from '../../../../core/features/times-control/time-control-group';
 import { TimeControlGroupResponse } from '../../../../core/features/times-control/times-control-response.model';
 import { ApiUrls } from '../../../../core/urls/api-urls';
+import { SiteUrls } from '../../../../core/urls/site-urls';
 import { urlReplaceParams } from '../../../../core/utils/common-utils';
 import { DatetimeUtils } from '../../../../core/utils/datetime-utils';
 import { TimeControlApiService } from '../../../../services/api/time-control-api.service';
@@ -21,6 +24,7 @@ import { EmployeeSelectedService } from '../employee-selected.service';
 export class EmployeeTimeControlProgressComponent {
   private readonly timeControlApiService = inject(TimeControlApiService);
   private readonly employeeSelectedService = inject(EmployeeSelectedService);
+  private readonly router = inject(Router);
 
   readonly employeeSelected = computed(() => this.employeeSelectedService.employeeSelected());
 
@@ -36,6 +40,11 @@ export class EmployeeTimeControlProgressComponent {
   handleDateSelected(date: Date): void {
     this.dateSelected = date;
     this.loadTimesControlRange();
+  }
+
+  handleClickProgress(progressStackedItem: ProgressStackedItem): void {
+    const url = urlReplaceParams(SiteUrls.timeControlRecords.details, { id: progressStackedItem.id });
+    this.router.navigateByUrl(url);
   }
 
   /** Obtener lista de tiempos en el mes/año seleccionado. */

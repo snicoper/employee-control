@@ -19,7 +19,6 @@ import { urlReplaceParams } from '../../../core/utils/common-utils';
 import { CategoryAbsence } from '../../../models/entities/category-absence.model';
 import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
 import { CategoryAbsencesApiService } from '../../../services/api/category-absences-api.service';
-import { CurrentCompanyEmployeeStateService } from '../../../services/states/current-company-employee-state.service';
 import { categoryAbsenceListTableHeader } from './category-absence-list-table-headers';
 
 @Component({
@@ -42,7 +41,6 @@ import { categoryAbsenceListTableHeader } from './category-absence-list-table-he
 })
 export class CategoryAbsenceListComponent {
   private readonly categoryAbsencesApiService = inject(CategoryAbsencesApiService);
-  private readonly currentCompanyEmployeeStateService = inject(CurrentCompanyEmployeeStateService);
   private readonly router = inject(Router);
 
   readonly breadcrumb = new BreadcrumbCollection();
@@ -82,12 +80,8 @@ export class CategoryAbsenceListComponent {
 
   private loadCompanyTasks(): void {
     this.loading = true;
-    const url = urlReplaceParams(ApiUrls.categoryAbsences.getCategoryAbsenceByCompanyIdPaginated, {
-      companyId: this.currentCompanyEmployeeStateService.get()?.id.toString() ?? ''
-    });
-
     this.categoryAbsencesApiService
-      .getPaginated<CategoryAbsence>(this.apiResult, url)
+      .getPaginated<CategoryAbsence>(this.apiResult, ApiUrls.categoryAbsences.getCategoryAbsencePaginated)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (result: ApiResult<CategoryAbsence>) => {

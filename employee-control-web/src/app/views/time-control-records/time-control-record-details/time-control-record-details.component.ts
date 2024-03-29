@@ -29,6 +29,7 @@ import { TimeControlRecordDetailsResponse } from './time-control-record-details-
 @Component({
   selector: 'aw-time-control-record-details',
   templateUrl: './time-control-record-details.component.html',
+  styleUrl: './time-control-record-details.component.scss',
   standalone: true,
   imports: [
     ViewBaseComponent,
@@ -84,6 +85,11 @@ export class TimeControlRecordDetailsComponent implements OnInit {
     }
 
     return null;
+  }
+
+  handleNavigateToEmployee(employeeId: string): void {
+    const url = urlReplaceParams(SiteUrls.employees.details, { id: employeeId });
+    this.router.navigateByUrl(url);
   }
 
   handleTimeControlUpdate(timeControl: TimeControlRecordDetailsResponse): void {

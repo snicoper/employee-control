@@ -2,6 +2,10 @@
   <aw-view-header>Control de tiempos</aw-view-header>
 
   <aw-card>
+    @if (companyGeolocationRequired && !geolocationIsAvailable()) {
+      <div class="alert alert-danger">La empresa requiere que acepte permisos de ubicación desde el navegador</div>
+    }
+
     <aw-month-selector (changeMonthSelected)="handleDateSelected($event)" [dateSelected]="dateSelected" />
 
     <div class="d-flex justify-content-between mt-4">
@@ -25,25 +29,27 @@
       <div class="small text-muted">Tiempo total: {{ timeTotalInMonth }}</div>
 
       <!-- button state -->
-      <div>
-        @if (currentTimeControl()?.timeState === timeStates.open) {
-          <aw-btn-loading
-            (eventClick)="handleTimeFinished()"
-            [loading]="loadingTimeState"
-            btnClass="btn btn-outline-warning"
-            btnIcon="fa-solid fa-flag-checkered"
-            btnText="Finalizar" />
-        }
+      @if (companyGeolocationRequired && geolocationIsAvailable()) {
+        <div>
+          @if (currentTimeControl()?.timeState === timeStates.open) {
+            <aw-btn-loading
+              (eventClick)="handleTimeFinished()"
+              [loading]="loadingTimeState"
+              btnClass="btn btn-outline-warning"
+              btnIcon="fa-solid fa-flag-checkered"
+              btnText="Finalizar" />
+          }
 
-        @if (currentTimeControl()?.timeState === timeStates.close) {
-          <aw-btn-loading
-            (eventClick)="handleTimeStart()"
-            [loading]="loadingTimeState"
-            btnClass="btn btn-success"
-            btnIcon="fa-solid fa-hourglass-start"
-            btnText="Iniciar" />
-        }
-      </div>
+          @if (currentTimeControl()?.timeState === timeStates.close) {
+            <aw-btn-loading
+              (eventClick)="handleTimeStart()"
+              [loading]="loadingTimeState"
+              btnClass="btn btn-success"
+              btnIcon="fa-solid fa-hourglass-start"
+              btnText="Iniciar" />
+          }
+        </div>
+      }
       <!-- end button state -->
     </div>
   </aw-card>

@@ -13,11 +13,9 @@ public class DepartmentService(
     IValidationFailureService validationFailureService)
     : IDepartmentService
 {
-    public IQueryable<Department> GetAllByCompanyId(string companyId)
+    public IQueryable<Department> GetAllQueryable()
     {
-        var departments = context
-            .Departments
-            .Where(d => d.CompanyId == companyId);
+        var departments = context.Departments;
 
         return departments;
     }

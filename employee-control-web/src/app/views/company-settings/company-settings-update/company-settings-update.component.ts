@@ -9,9 +9,12 @@ import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
 import { CardComponent } from '../../../components/cards/card/card.component';
+import { FormCheckboxComponent } from '../../../components/forms/inputs/form-checkbox/form-checkbox.component';
+import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { FormTimezoneComponent } from '../../../components/forms/inputs/form-timezone/form-timezone.component';
 import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
 import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { FormInputTypes } from '../../../core/types/form-input-types';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
 import { BadRequest } from '../../../models/bad-request';
@@ -31,6 +34,8 @@ import { CurrentCompanySettingsStateService } from '../../../services/states/cur
     FormsModule,
     ReactiveFormsModule,
     FormTimezoneComponent,
+    FormInputComponent,
+    FormCheckboxComponent,
     BtnBackComponent,
     BtnLoadingComponent
   ]
@@ -53,6 +58,7 @@ export class CompanySettingsUpdateComponent {
   nowWithOriginalTimezone = '';
   nowWithTimezoneSelected = '';
   siteUrls = SiteUrls;
+  formInputTypes = FormInputTypes;
 
   constructor() {
     this.setBreadcrumb();
@@ -102,7 +108,12 @@ export class CompanySettingsUpdateComponent {
 
   private buildForm(): void {
     this.form = this.fb.group({
-      timezone: [this.companySettings()?.timezone, [Validators.required]]
+      timezone: [this.companySettings()?.timezone, [Validators.required]],
+      maximumDailyWorkHours: [
+        this.companySettings()?.maximumDailyWorkHours,
+        [Validators.required, Validators.max(24), Validators.min(1)]
+      ],
+      geolocationRequired: [this.companySettings()?.geolocationRequired]
     });
   }
 
