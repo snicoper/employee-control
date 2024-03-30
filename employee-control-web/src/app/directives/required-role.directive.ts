@@ -20,12 +20,12 @@ export class RequiredRoleDirective implements OnInit {
   checkRole(): void {
     // Si awRequiredRole es nulo, mostrar siempre.
     if (!this.awRequiredRole) {
-      this.elementRef.nativeElement.style.display = 'block';
+      this.elementRef.nativeElement.style.display = 'initial';
 
       return;
     }
 
-    const isInRole = this.jwtService.isInRole(this.awRequiredRole as string);
-    this.elementRef.nativeElement.style.display = isInRole ? 'block' : 'none';
+    const isInRole = this.jwtService.isInRole(this.awRequiredRole as Roles);
+    this.elementRef.nativeElement.style.display = isInRole ? 'initial' : 'none';
   }
 }

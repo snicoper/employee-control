@@ -73,6 +73,34 @@ public interface ITimesControlService
     Task<TimeState> GetTimeStateByEmployeeAsync(ApplicationUser user, CancellationToken cancellationToken);
 
     /// <summary>
+    /// Obtener los <see cref="TimeControl" /> con incidencias.
+    /// </summary>
+    /// <returns>Lista de <see cref="TimeControl" /> con incidencias.</returns>
+    IQueryable<TimeControl> GetTimesControlIncidencesQueryable();
+
+    /// <summary>
+    /// Obtener cantidad de incidencias.
+    /// </summary>
+    /// <returns>Total de <see cref="TimeControl" /> con incidencias.</returns>
+    int CountIncidences();
+
+    /// <summary>
+    /// Cerrar una incidencia por el Id de <see cref="TimeControl" />.
+    /// </summary>
+    /// <param name="id">Id del <see cref="TimeControl" />.</param>
+    /// <param name="cancellationToken"><see cref="CancellationToken" />.</param>
+    /// <returns><see cref="TimeControl" />.</returns>
+    Task<TimeControl> CloseIncidenceByTimeControlIdAsync(string id, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Cerrar una incidencia.
+    /// </summary>
+    /// <param name="timeControl"><see cref="TimeControl" /> a cerrar incidencia.</param>
+    /// <param name="cancellationToken"><see cref="CancellationToken" />.</param>
+    /// <returns><see cref="TimeControl" />.</returns>
+    Task<TimeControl> CloseIncidenceByTimeControlAsync(TimeControl timeControl, CancellationToken cancellationToken);
+
+    /// <summary>
     /// Crea un <see cref="TimeControl" /> sin hora final.
     /// </summary>
     /// <param name="timeControl"><see cref="TimeControl" /> a crear.</param>

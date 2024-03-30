@@ -1,6 +1,6 @@
-<aw-view-base>
+<aw-page-base>
   <!-- header -->
-  <aw-view-header [breadcrumb]="breadcrumb">
+  <aw-page-header [breadcrumb]="breadcrumb">
     @if (employeeTimeControlState()?.timeState === timeStates.open) {
       <aw-dot-success />
     }
@@ -10,7 +10,7 @@
     }
 
     Empleado - <span awHeaderSubtitle>{{ employeeSelected()?.firstName }} {{ employeeSelected()?.lastName }}</span>
-  </aw-view-header>
+  </aw-page-header>
   <!-- end header -->
 
   @if (employeeSelected()) {
@@ -40,4 +40,4 @@
     </div>
     <!-- end tabs -->
   }
-</aw-view-base>
+</aw-page-base>

@@ -11,9 +11,9 @@ import { CardComponent } from '../../../components/cards/card/card.component';
 import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
 import { FormDatepickerComponent } from '../../../components/forms/inputs/form-datepicker/form-datepicker.component';
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
+import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
+import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
 import { SpinnerComponent } from '../../../components/spinner/spinner.component';
-import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
 import { FormInputTypes } from '../../../core/types/form-input-types';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
@@ -28,8 +28,8 @@ import { EmployeesApiService } from '../../../services/api/employees-api.service
   templateUrl: './employee-update.component.html',
   standalone: true,
   imports: [
-    ViewBaseComponent,
-    ViewHeaderComponent,
+    PageBaseComponent,
+    PageHeaderComponent,
     CardComponent,
     FormsModule,
     ReactiveFormsModule,

@@ -8,12 +8,12 @@ import { BtnLoadingComponent } from '../../components/buttons/btn-loading/btn-lo
 import { CardComponent } from '../../components/cards/card/card.component';
 import { DotDangerComponent } from '../../components/colors/dot-danger/dot-danger.component';
 import { DotSuccessComponent } from '../../components/colors/dot-success/dot-success.component';
+import { PageBaseComponent } from '../../components/pages/page-base/page-base.component';
+import { PageHeaderComponent } from '../../components/pages/page-header/page-header.component';
 import { ProgressStackedCollection } from '../../components/progress/progress-stacked/progress-stacked-collection';
 import { ProgressStackedItem } from '../../components/progress/progress-stacked/progress-stacked-item.model';
 import { TimeControlProgressComponent } from '../../components/progress/time-control-progress/time-control-progress.component';
 import { MonthSelectorComponent } from '../../components/selectors/month-selector/month-selector.component';
-import { ViewBaseComponent } from '../../components/views/view-base/view-base.component';
-import { ViewHeaderComponent } from '../../components/views/view-header/view-header.component';
 import { logError } from '../../core/errors/log-messages';
 import { TimeControlProgressStacked } from '../../core/features/times-control/time-control-group';
 import { TimeControlGroupResponse } from '../../core/features/times-control/times-control-response.model';
@@ -27,8 +27,8 @@ import { DatetimeFormatPipe } from '../../pipes/datetime-format.pipe';
 import { TimeControlApiService } from '../../services/api/time-control-api.service';
 import { JwtService } from '../../services/jwt.service';
 import { SimpleGeolocationService } from '../../services/simple-geolocation.service';
-import { CurrentCompanySettingsStateService } from '../../states/services/current-company-settings-state.service';
-import { CurrentTimeControlStateService } from '../../states/services/current-time-control-state.service';
+import { CompanySettingsStateService } from '../../services/states/company-settings-state.service';
+import { UserTimeControlStateService } from '../../services/states/user-time-control-state.service';
 import { TimeControlIncidenceCreateComponent } from './time-control-incidence-create/time-control-incidence-create.component';
 import { TimeControlProgressChangeStateRequest } from './time-control-progress-change-state.request.model';
 
@@ -37,8 +37,8 @@ import { TimeControlProgressChangeStateRequest } from './time-control-progress-c
   templateUrl: './times-control-progress.component.html',
   standalone: true,
   imports: [
-    ViewBaseComponent,
-    ViewHeaderComponent,
+    PageBaseComponent,
+    PageHeaderComponent,
     CardComponent,
     MonthSelectorComponent,
     DotSuccessComponent,
@@ -53,13 +53,13 @@ export class TimesControlProgressComponent {
   private readonly timeControlApiService = inject(TimeControlApiService);
   private readonly jwtService = inject(JwtService);
   private readonly toastrService = inject(ToastrService);
-  private readonly currentTimeControlStateService = inject(CurrentTimeControlStateService);
-  private readonly currentCompanySettingsStateService = inject(CurrentCompanySettingsStateService);
+  private readonly userTimeControlStateService = inject(UserTimeControlStateService);
+  private readonly companySettingsStateService = inject(CompanySettingsStateService);
   private readonly deviceDetectorService = inject(DeviceDetectorService);
   private readonly simpleGeolocationService = inject(SimpleGeolocationService);
   private readonly bsModalService = inject(BsModalService);
 
-  readonly currentTimeControl = computed(() => this.currentTimeControlStateService.currentTimeControl());
+  readonly currentTimeControl = computed(() => this.userTimeControlStateService.timeControl());
   readonly geolocationIsAvailable = computed(() => this.simpleGeolocationService.geolocationIsAvailable());
 
   private readonly employeeDeviceType: DeviceType;
@@ -76,7 +76,7 @@ export class TimesControlProgressComponent {
   companyGeolocationRequired = false;
 
   constructor() {
-    this.companyGeolocationRequired = this.currentCompanySettingsStateService.companySettings()
+    this.companyGeolocationRequired = this.companySettingsStateService.companySettings()
       ?.geolocationRequired as boolean;
 
     this.loadTimesControlRange();
@@ -114,7 +114,7 @@ export class TimesControlProgressComponent {
       .subscribe({
         next: (result: ResultResponse) => {
           if (result.succeeded && this.currentTimeControl !== undefined) {
-            this.currentTimeControlStateService.refresh();
+            this.userTimeControlStateService.refresh();
             this.loadTimesControlRange();
             this.toastrService.success('Tiempo iniciado con éxito.');
           } else {
@@ -141,7 +141,7 @@ export class TimesControlProgressComponent {
       .subscribe({
         next: (result: ResultResponse) => {
           if (result.succeeded && this.currentTimeControl !== undefined) {
-            this.currentTimeControlStateService.refresh();
+            this.userTimeControlStateService.refresh();
             this.loadTimesControlRange();
             this.toastrService.success('Tiempo finalizado con éxito.');
           } else {

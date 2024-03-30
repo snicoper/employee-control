@@ -6,6 +6,7 @@ export const AppEnvironments = {
   apiUrl: environment.apiUrl,
   apiSegment: environment.apiSegment,
   baseApiUrl: `${environment.apiUrl}/${environment.apiSegment}`,
+  baseHubUrl: `${environment.apiUrl}/${environment.hubSegment}`,
   siteUrl: environment.siteUrl,
   isDebug: !environment.production
 };

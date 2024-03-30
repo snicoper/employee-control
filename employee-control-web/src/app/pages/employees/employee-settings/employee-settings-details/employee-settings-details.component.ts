@@ -4,20 +4,20 @@ import { TimeZone, getTimeZones } from '@vvo/tzdb';
 import { DateTime } from 'luxon';
 import { BreadcrumbCollection } from '../../../../components/breadcrumb/breadcrumb-collection';
 import { CardComponent } from '../../../../components/cards/card/card.component';
+import { PageBaseComponent } from '../../../../components/pages/page-base/page-base.component';
+import { PageHeaderComponent } from '../../../../components/pages/page-header/page-header.component';
 import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
 import { TooltipInfoComponent } from '../../../../components/tooltips/tooltip-info/tooltip-info.component';
-import { ViewBaseComponent } from '../../../../components/views/view-base/view-base.component';
-import { ViewHeaderComponent } from '../../../../components/views/view-header/view-header.component';
 import { SiteUrls } from '../../../../core/urls/site-urls';
-import { EmployeeSettingsStateService } from '../../../../states/services/employee-settings-state.service';
+import { EmployeeSettingsStateService } from '../../../../services/states/employee-settings-state.service';
 
 @Component({
   selector: 'aw-employee-settings-details',
   templateUrl: './employee-settings-details.component.html',
   standalone: true,
   imports: [
-    ViewBaseComponent,
-    ViewHeaderComponent,
+    PageBaseComponent,
+    PageHeaderComponent,
     CardComponent,
     RouterLink,
     TooltipInfoComponent,

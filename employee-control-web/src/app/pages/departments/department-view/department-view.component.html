@@ -1,8 +1,8 @@
-<aw-view-base>
+<aw-page-base>
   <!-- header -->
-  <aw-view-header [breadcrumb]="breadcrumb">
+  <aw-page-header [breadcrumb]="breadcrumb">
     Departamento - <span awHeaderSubtitle>{{ departmentSelected()?.name }}</span>
-  </aw-view-header>
+  </aw-page-header>
   <!-- end header -->
 
   <!-- department details -->
@@ -19,16 +19,10 @@
           <tabset>
             <tab #tabUsers="tab" heading="Empleados">
               @if (tabUsers.active && employeeComponent === employeeLoadComponent.employees) {
-                <aw-department-users
-                  (changeComponent)="handleChangeComponent()"
-                  >
-                </aw-department-users>
+                <aw-department-users (changeComponent)="handleChangeComponent()"> </aw-department-users>
               }
               @if (tabUsers.active && employeeComponent === employeeLoadComponent.addEmployees) {
-                <aw-department-add-users
-                  (changeComponent)="handleChangeComponent()"
-                  >
-                </aw-department-add-users>
+                <aw-department-add-users (changeComponent)="handleChangeComponent()"> </aw-department-add-users>
               }
             </tab>
             <tab #tabTimeControl="tab" heading="Otra pestaña..."></tab>
@@ -38,5 +32,5 @@
       </aw-card>
     </div>
   }
-</aw-view-base>
+</aw-page-base>
 <!-- end tabs -->

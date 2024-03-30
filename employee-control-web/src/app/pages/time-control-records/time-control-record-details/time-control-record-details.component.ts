@@ -7,9 +7,9 @@ import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.
 import { CardComponent } from '../../../components/cards/card/card.component';
 import { DotDangerComponent } from '../../../components/colors/dot-danger/dot-danger.component';
 import { DotSuccessComponent } from '../../../components/colors/dot-success/dot-success.component';
+import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
+import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
 import { SpinnerComponent } from '../../../components/spinner/spinner.component';
-import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
 import { logError } from '../../../core/errors/log-messages';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
@@ -32,8 +32,8 @@ import { TimeControlRecordDetailsResponse } from './time-control-record-details-
   styleUrl: './time-control-record-details.component.scss',
   standalone: true,
   imports: [
-    ViewBaseComponent,
-    ViewHeaderComponent,
+    PageBaseComponent,
+    PageHeaderComponent,
     CardComponent,
     SpinnerComponent,
     DotDangerComponent,
@@ -131,6 +131,20 @@ export class TimeControlRecordDetailsComponent implements OnInit {
           }
         }
       });
+  }
+
+  handleCloseIncidence(): void {
+    const url = urlReplaceParams(ApiUrls.timeControl.closeIncidence, { id: this.timeControlId });
+    const data = { id: this.timeControlId };
+
+    this.timeControlApiService.put<typeof data, ResultResponse>(data, url).subscribe({
+      next: (result: ResultResponse) => {
+        if (result.succeeded) {
+          this.toastrService.success('Incidencia cerrada con éxito.');
+          this.loadTimeControl();
+        }
+      }
+    });
   }
 
   private setBreadcrumb(): void {

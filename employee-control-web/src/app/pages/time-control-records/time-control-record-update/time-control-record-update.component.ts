@@ -13,8 +13,8 @@ import { CardComponent } from '../../../components/cards/card/card.component';
 import { FormCheckboxComponent } from '../../../components/forms/inputs/form-checkbox/form-checkbox.component';
 import { FormDatepickerComponent } from '../../../components/forms/inputs/form-datepicker/form-datepicker.component';
 import { FormTimePickerComponent } from '../../../components/forms/inputs/form-timepicker/form-timepicker.component';
-import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
+import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
 import { urlReplaceParams } from '../../../core/utils/common-utils';
@@ -30,8 +30,8 @@ import { TimeControlRecordRequest } from './time-control-record-request';
   templateUrl: './time-control-record-update.component.html',
   standalone: true,
   imports: [
-    ViewBaseComponent,
-    ViewHeaderComponent,
+    PageBaseComponent,
+    PageHeaderComponent,
     CardComponent,
     FormsModule,
     ReactiveFormsModule,

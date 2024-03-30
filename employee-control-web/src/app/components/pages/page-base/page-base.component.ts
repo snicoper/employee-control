@@ -4,16 +4,16 @@ import { LayoutService } from '../../../services/layout.service';
 import { FooterComponent } from '../../footer/footer.component';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { SidebarComponent } from '../../sidebars/sidebar-menu/sidebar.component';
-import { ViewTitleComponent } from '../view-title/view-title.component';
+import { PageTitleComponent } from '../page-title/view-title.component';
 
 @Component({
-  selector: 'aw-view-base',
-  templateUrl: './view-base.component.html',
-  styleUrls: ['./view-base.component.scss'],
+  selector: 'aw-page-base',
+  templateUrl: './page-base.component.html',
+  styleUrls: ['./page-base.component.scss'],
   standalone: true,
-  imports: [ViewTitleComponent, NgClass, SidebarComponent, NavbarComponent, FooterComponent]
+  imports: [PageTitleComponent, NgClass, SidebarComponent, NavbarComponent, FooterComponent]
 })
-export class ViewBaseComponent implements OnInit {
+export class PageBaseComponent implements OnInit {
   private readonly layoutService = inject(LayoutService);
 
   @Input() cssContent = 'container-fluid';

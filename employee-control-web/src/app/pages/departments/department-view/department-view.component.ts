@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { CardComponent } from '../../../components/cards/card/card.component';
-import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
+import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
 import { SiteUrls } from '../../../core/urls/site-urls';
 import { DepartmentAddUsersComponent } from './department-add-users/department-add-users.component';
 import { DepartmentDetailsComponent } from './department-details/department-details.component';
@@ -17,8 +17,8 @@ import { EmployeeLoadComponent } from './employee-load-component.model';
   templateUrl: './department-view.component.html',
   standalone: true,
   imports: [
-    ViewBaseComponent,
-    ViewHeaderComponent,
+    PageBaseComponent,
+    PageHeaderComponent,
     DepartmentDetailsComponent,
     CardComponent,
     TabsModule,

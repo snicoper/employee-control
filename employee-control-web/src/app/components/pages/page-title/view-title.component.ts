@@ -5,11 +5,11 @@ import { AppEnvironments } from '../../../core/config/app-environments';
 
 /** Establece el titulo de la pagina (pestaña del navegador). */
 @Component({
-  selector: 'aw-view-title',
+  selector: 'aw-page-title',
   template: '',
   standalone: true
 })
-export class ViewTitleComponent implements OnInit {
+export class PageTitleComponent implements OnInit {
   @Input({ required: true }) pageTitle = AppEnvironments.siteName;
 
   constructor(

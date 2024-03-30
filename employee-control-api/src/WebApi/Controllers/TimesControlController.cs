@@ -1,4 +1,5 @@
 ﻿using EmployeeControl.Application.Common.Models;
+using EmployeeControl.Application.Features.TimesControl.Commands.CloseIncidence;
 using EmployeeControl.Application.Features.TimesControl.Commands.CreateIncidence;
 using EmployeeControl.Application.Features.TimesControl.Commands.CreateTimeControl;
 using EmployeeControl.Application.Features.TimesControl.Commands.DeleteTimeControl;
@@ -7,6 +8,7 @@ using EmployeeControl.Application.Features.TimesControl.Commands.FinishTimeContr
 using EmployeeControl.Application.Features.TimesControl.Commands.StartTimeControl;
 using EmployeeControl.Application.Features.TimesControl.Commands.UpdateTimeControl;
 using EmployeeControl.Application.Features.TimesControl.Queries.GetTimeControlById;
+using EmployeeControl.Application.Features.TimesControl.Queries.GetTimeControlIncidencesCount;
 using EmployeeControl.Application.Features.TimesControl.Queries.GetTimeControlRangeByEmployeeId;
 using EmployeeControl.Application.Features.TimesControl.Queries.GetTimeControlWithEmployeeById;
 using EmployeeControl.Application.Features.TimesControl.Queries.GetTimesControlByEmployeeIdPaginated;
@@ -157,6 +159,19 @@ public class TimesControlController : ApiControllerBase
     }
 
     /// <summary>
+    /// Obtener numero de incidencias de en los <see cref="TimeControl" />.
+    /// </summary>
+    /// <returns>Numero total de incidencias.</returns>
+    [HttpGet("incidences-count")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<GetTimeControlIncidencesCountResponse>> GetTimeControlIncidencesCount()
+    {
+        var result = await Sender.Send(new GetTimeControlIncidencesCountQuery());
+
+        return result;
+    }
+
+    /// <summary>
     /// Crear un <see cref="TimeControl" /> con hora de inicio y final de un empleado concreto.
     /// </summary>
     /// <returns>Id del <see cref="TimeControl" /> creado.</returns>
@@ -197,6 +212,22 @@ public class TimesControlController : ApiControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Result>> UpdateTimeControl(UpdateTimeControlCommand command)
+    {
+        var result = await Sender.Send(command);
+
+        return result;
+    }
+
+    /// <summary>
+    /// Cierra una incidencia de <see cref="TimeControl" />.
+    /// </summary>
+    /// <param name="command">Datos del Id <see cref="TimeControl" />.</param>
+    /// <returns>Result con el estado del proceso.</returns>
+    [HttpPut("{id}/close-incidence")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<Result>> CloseIncidence(CloseIncidenceCommand command)
     {
         var result = await Sender.Send(command);
 

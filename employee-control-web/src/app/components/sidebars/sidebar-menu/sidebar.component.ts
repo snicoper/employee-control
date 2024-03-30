@@ -6,8 +6,8 @@ import { NgScrollbar } from 'ngx-scrollbar';
 import { RequiredRoleDirective } from '../../../directives/required-role.directive';
 import { TimeState } from '../../../models/entities/types/time-state.model';
 import { JwtService } from '../../../services/jwt.service';
-import { CurrentCompanyEmployeeStateService } from '../../../states/services/current-company-employee-state.service';
-import { CurrentTimeControlStateService } from '../../../states/services/current-time-control-state.service';
+import { CompanyEmployeeStateService } from '../../../services/states/company-employee-state.service';
+import { UserTimeControlStateService } from '../../../services/states/user-time-control-state.service';
 import { SidebarMenu, SidebarMenuTypes } from './sidebar-menu-types.model';
 import { SidebarService } from './sidebar.service';
 
@@ -28,10 +28,10 @@ import { SidebarService } from './sidebar.service';
 export class SidebarComponent {
   private readonly jwtService = inject(JwtService);
   private readonly sidebarService = inject(SidebarService);
-  private readonly currentCompanyEmployeeStateService = inject(CurrentCompanyEmployeeStateService);
-  private readonly currentTimeControlStateService = inject(CurrentTimeControlStateService);
+  private readonly companyEmployeeStateService = inject(CompanyEmployeeStateService);
+  private readonly userTimeControlStateService = inject(UserTimeControlStateService);
 
-  readonly currentTimeControl = computed(() => this.currentTimeControlStateService.currentTimeControl());
+  readonly currentTimeControl = computed(() => this.userTimeControlStateService.timeControl());
 
   readonly sidebarMenus: SidebarMenu[];
   readonly sidebarMenuTypes = SidebarMenuTypes;
@@ -46,7 +46,7 @@ export class SidebarComponent {
   }
 
   get companyName(): string {
-    return this.currentCompanyEmployeeStateService.get()?.name as string;
+    return this.companyEmployeeStateService.get()?.name as string;
   }
 
   toggle(currentMenu: SidebarMenu): void {

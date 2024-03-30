@@ -4,7 +4,7 @@ export enum Roles {
   enterpriseStaff = 'EnterpriseStaff',
   humanResources = 'HumanResources',
   employee = 'Employee',
-  anonymous = 'anonymous'
+  anonymous = 'Anonymous'
 }
 
 /** Obtener un Role a texto mas legible. */

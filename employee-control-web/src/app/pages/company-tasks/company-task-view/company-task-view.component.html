@@ -1,7 +1,7 @@
-<aw-view-base>
-  <aw-view-header [breadcrumb]="breadcrumb">
+<aw-page-base>
+  <aw-page-header [breadcrumb]="breadcrumb">
     Tarea - <span awHeaderSubtitle>{{ companyTask()?.name }}</span>
-  </aw-view-header>
+  </aw-page-header>
 
   <aw-company-task-details [companyTaskId]="companyTaskId" />
 
@@ -13,14 +13,10 @@
           <tabset>
             <tab #tabUsers="tab" heading="Empleados">
               @if (tabUsers.active && employeeComponent === employeeLoadComponent.employees) {
-                <aw-company-task-users
-                  (changeComponent)="handleChangeComponent()"
-                  />
+                <aw-company-task-users (changeComponent)="handleChangeComponent()" />
               }
               @if (tabUsers.active && employeeComponent === employeeLoadComponent.addEmployees) {
-                <aw-company-task-add-users
-                  (changeComponent)="handleChangeComponent()"
-                  />
+                <aw-company-task-add-users (changeComponent)="handleChangeComponent()" />
               }
             </tab>
             <tab #tabB="tab" heading="Basic Title 1">
@@ -35,4 +31,4 @@
     </div>
   }
   <!-- end tabs -->
-</aw-view-base>
+</aw-page-base>

@@ -1,5 +1,6 @@
 using EmployeeControl.Application;
 using EmployeeControl.Application.Common.Interfaces.BackgroundJobs;
+using EmployeeControl.Application.Common.Services.Hubs;
 using EmployeeControl.Infrastructure;
 using EmployeeControl.Infrastructure.Data.Seeds;
 using EmployeeControl.WebApi;
@@ -58,7 +59,7 @@ if (app.Environment.IsDevelopment())
 {
     // NSwag.
     app.UseOpenApi();
-    app.UseSwaggerUi3(settings => { settings.Path = string.Empty; });
+    app.UseSwaggerUi(settings => { settings.Path = string.Empty; });
     app.UseReDoc(settings => { settings.Path = "/docs"; });
 }
 
@@ -74,5 +75,8 @@ app.UseHangfireDashboard();
 RecurringJob.AddOrUpdate<ICloseTimeControlJob>("close-time-control-job", service => service.Process(), "*/30 * * * *");
 
 app.MapControllers();
+
+// Configure our SignalR hub
+app.MapHub<NotificationTimeControlIncidenceHub>("hub");
 
 app.Run();

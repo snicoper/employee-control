@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { Observable, tap } from 'rxjs';
 import { LocalStorageKeys } from '../core/types/local-storage-keys';
+import { Roles } from '../core/types/roles';
 import { ApiUrls } from '../core/urls/api-urls';
 import { SiteUrls } from '../core/urls/site-urls';
 import { RefreshTokenRequest } from '../models/refresh-token-request.model';
@@ -96,7 +97,7 @@ export class JwtService {
     return !!(this.accessToken && this.refreshToken);
   }
 
-  isInRole(role: string): boolean {
+  isInRole(role: Roles): boolean {
     return this.getRoles().includes(role);
   }
 

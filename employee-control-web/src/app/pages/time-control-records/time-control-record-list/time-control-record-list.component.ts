@@ -8,13 +8,13 @@ import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-
 import { CardComponent } from '../../../components/cards/card/card.component';
 import { DotDangerComponent } from '../../../components/colors/dot-danger/dot-danger.component';
 import { DotSuccessComponent } from '../../../components/colors/dot-success/dot-success.component';
+import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
+import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
 import { PaginationComponent } from '../../../components/pagination/pagination.component';
 import { TableHeaderComponent } from '../../../components/tables/table-header/table-header.component';
 import { TableHeaderConfig } from '../../../components/tables/table-header/table-header.config';
 import { TableInputSearchComponent } from '../../../components/tables/table-input-search/table-input-search.component';
 import { TableComponent } from '../../../components/tables/table/table.component';
-import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
 import { logError } from '../../../core/errors/log-messages';
 import { ApiResult } from '../../../core/features/api-result/api-result';
 import { LogicalOperators } from '../../../core/features/api-result/types/logical-operator';
@@ -41,8 +41,8 @@ import { timeControlRecordListTableHeaders } from './time-control-record-list-ta
   templateUrl: './time-control-record-list.component.html',
   standalone: true,
   imports: [
-    ViewBaseComponent,
-    ViewHeaderComponent,
+    PageBaseComponent,
+    PageHeaderComponent,
     CardComponent,
     RouterLink,
     NgClass,

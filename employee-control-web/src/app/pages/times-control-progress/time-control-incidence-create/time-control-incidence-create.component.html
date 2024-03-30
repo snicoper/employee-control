@@ -18,18 +18,18 @@
               [badRequest]="badRequest"
               [form]="form"
               [submitted]="submitted"
-              [isDisabled]="incidenceDescriptionDisabled"
+              [isDisabled]="timeControl.incidence"
               fieldName="incidenceDescription"
               formControlName="incidenceDescription"
               label="Descripción" />
 
             <span
               [ngClass]="{
-                'text-muted': incidenceCharacters <= incidenceMaxCharacters,
-                'text-danger': incidenceCharacters > incidenceMaxCharacters
+                'text-muted': incidenceLength <= incidenceMaxCharacters,
+                'text-danger': incidenceLength > incidenceMaxCharacters
               }"
               class="small">
-              {{ incidenceCharacters }}/{{ incidenceMaxCharacters }}
+              {{ incidenceLength }}/{{ incidenceMaxCharacters }}
             </span>
             <!-- end incidenceDescription -->
           </div>
@@ -41,7 +41,7 @@
 
             <aw-btn-loading
               [loading]="loadingForm"
-              [disabled]="incidenceDescriptionDisabled"
+              [disabled]="timeControl.incidence"
               btnClass="btn btn-success ms-2"
               btnIcon="fa-regular fa-floppy-disk"
               btnText="Crear incidencia"

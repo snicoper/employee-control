@@ -1,0 +1,3 @@
+﻿namespace EmployeeControl.Application.Features.TimesControl.Queries.GetTimeControlIncidencesCount;
+
+public record GetTimeControlIncidencesCountResponse(int Incidences);

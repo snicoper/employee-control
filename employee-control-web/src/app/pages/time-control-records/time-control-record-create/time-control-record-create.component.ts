@@ -1,8 +1,8 @@
 import { Component, OnDestroy, computed, inject } from '@angular/core';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { CardComponent } from '../../../components/cards/card/card.component';
-import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
+import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
 import { SiteUrls } from '../../../core/urls/site-urls';
 import { TimeControlRecordCreateFormComponent } from './time-control-record-create-form/time-control-record-create-form.component';
 import { TimeControlRecordCreateService } from './time-control-record-create.service';
@@ -13,8 +13,8 @@ import { TimeControlSelectEmployeeComponent } from './time-control-select-employ
   templateUrl: './time-control-record-create.component.html',
   standalone: true,
   imports: [
-    ViewBaseComponent,
-    ViewHeaderComponent,
+    PageBaseComponent,
+    PageHeaderComponent,
     CardComponent,
     TimeControlSelectEmployeeComponent,
     TimeControlRecordCreateFormComponent

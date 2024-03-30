@@ -1,12 +1,14 @@
-<aw-view-base>
-  <aw-view-header [breadcrumb]="breadcrumb">Detalles de tiempo</aw-view-header>
+<aw-page-base>
+  <aw-page-header [breadcrumb]="breadcrumb">Detalles de tiempo</aw-page-header>
 
   @if (timeControl?.incidence) {
     <aw-card>
       <h4>Incidencia</h4>
 
       <div class="alert alert-warning nl2br">{{ timeControl?.incidenceDescription }}</div>
+      <button (click)="handleCloseIncidence()" class="btn btn-sm btn-outline-success">Cerrar incidencia</button>
     </aw-card>
+
     <div class="mt-4"></div>
   }
 
@@ -122,4 +124,13 @@
       }
     </div>
   </aw-card>
-</aw-view-base>
+
+  @if (!timeControl?.incidence && timeControl?.incidenceDescription) {
+    <div class="mt-2"></div>
+    <aw-card>
+      <h5>Incidencia cerrada</h5>
+
+      <div class="alert alert-success nl2br">{{ timeControl?.incidenceDescription }}</div>
+    </aw-card>
+  }
+</aw-page-base>

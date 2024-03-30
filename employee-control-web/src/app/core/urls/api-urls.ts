@@ -1,11 +1,5 @@
 /** URLs en la API. */
 export const ApiUrls = {
-  admin: {
-    accounts: {
-      getAdminAccountsPaginated: '/admin/accounts/paginated'
-    }
-  },
-
   auth: {
     login: '/auth/login',
     refreshToken: '/auth/refresh-token'
@@ -95,9 +89,11 @@ export const ApiUrls = {
     getCurrentStateTimeControl: '/times-control/employees/{employeeId}/time-state',
     getTimeControlRangeByEmployeeId: '/times-control/employees/{employeeId}/from/{from}/to/{to}',
     getTimeStateOpenByEmployeeId: '/times-control/employees/{employeeId}/time-state-open',
+    getTimeControlIncidencesCount: '/times-control/incidences-count',
     createTimeControl: '/times-control',
     startTimeControl: '/times-control/start',
     updateTimeControl: '/times-control/{id}',
+    closeIncidence: '/times-control/{id}/close-incidence',
     finishTimeControl: '/times-control/finish',
     finishTimeControlByStaff: '/times-control/finish/staff',
     createIncidence: '/times-control/{id}/create-incidence',

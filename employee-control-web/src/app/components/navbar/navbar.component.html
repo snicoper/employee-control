@@ -50,6 +50,18 @@
         </li>
       </ul>
       <div>
+        <!-- incidences -->
+        <span [awRequiredRole]="roles.enterpriseStaff" class="me-3">
+          Incidencias
+          @if (timeControlIncidencesCount()) {
+            <span class="badge text-bg-danger">{{ timeControlIncidencesCount() }}</span>
+          } @else {
+            <span class="badge text-bg-secondary">0</span>
+          }
+        </span>
+        <!-- end incidences -->
+
+        <!-- theme selector -->
         <span
           (click)="handleChangeTheme()"
           [ngClass]="{
@@ -57,9 +69,13 @@
             'fa-regular fa-sun': theme() === themeColors.dark
           }"
           class="me-2 cursor-pointer"></span>
+        <!-- end theme selector -->
+
+        <!-- user information-->
         @if (authState$()) {
           {{ userName }}
         }
+        <!-- user information -->
       </div>
     </div>
   </div>

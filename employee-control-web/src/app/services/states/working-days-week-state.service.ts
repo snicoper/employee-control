@@ -6,7 +6,7 @@ import { ApiUrls } from '../../core/urls/api-urls';
 import { urlReplaceParams } from '../../core/utils/common-utils';
 import { WorkingDaysWeek } from '../../models/entities/working-days-week.model';
 import { ResultResponse } from '../../models/result-response.model';
-import { WorkingDaysWeekApiService } from '../../services/api/working-days-week-api.service';
+import { WorkingDaysWeekApiService } from '../api/working-days-week-api.service';
 import { StateService } from './state.service';
 
 @Injectable({ providedIn: 'root' })

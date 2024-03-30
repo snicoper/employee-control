@@ -5,9 +5,11 @@ using EmployeeControl.Application.Common.Interfaces.Data;
 using EmployeeControl.Application.Common.Interfaces.Features.CompaniesSettings;
 using EmployeeControl.Application.Common.Interfaces.Features.TimesControl;
 using EmployeeControl.Application.Common.Models;
+using EmployeeControl.Application.Common.Services.Hubs;
 using EmployeeControl.Application.Localizations;
 using EmployeeControl.Domain.Entities;
 using EmployeeControl.Domain.Enums;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
@@ -19,6 +21,7 @@ public class TimesControlService(
     IValidationFailureService validationFailureService,
     IApplicationDbContext context,
     ICompanySettingsService companySettingsService,
+    IHubContext<NotificationTimeControlIncidenceHub> hubContext,
     IStringLocalizer<TimeControlLocalizer> localizer)
     : ITimesControlService
 {
@@ -109,6 +112,41 @@ public class TimesControlService(
         }
 
         return timeControl.TimeState;
+    }
+
+    public IQueryable<TimeControl> GetTimesControlIncidencesQueryable()
+    {
+        var timesControl = context.TimeControls.Where(tc => tc.Incidence);
+
+        return timesControl;
+    }
+
+    public int CountIncidences()
+    {
+        var incidences = GetTimesControlIncidencesQueryable().Count();
+
+        return incidences;
+    }
+
+    public async Task<TimeControl> CloseIncidenceByTimeControlIdAsync(string id, CancellationToken cancellationToken)
+    {
+        var timeControl = await GetByIdAsync(id, cancellationToken);
+        await CloseIncidenceByTimeControlAsync(timeControl, cancellationToken);
+
+        return timeControl;
+    }
+
+    public async Task<TimeControl> CloseIncidenceByTimeControlAsync(TimeControl timeControl, CancellationToken cancellationToken)
+    {
+        timeControl.Incidence = false;
+
+        context.TimeControls.Update(timeControl);
+        await context.SaveChangesAsync(cancellationToken);
+
+        // Notificar SignalR de una nueva incidencia.
+        await hubContext.Clients.All.SendAsync(HubNames.TimeControlIncidences, cancellationToken);
+
+        return timeControl;
     }
 
     public async Task<TimeControl> CreateWithOutFinishAsync(TimeControl timeControl, CancellationToken cancellationToken)

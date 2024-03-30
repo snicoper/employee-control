@@ -24,4 +24,9 @@ public abstract class Roles
     /// Empleado de empresa.
     /// </summary>
     public const string Employee = nameof(Employee);
+
+    /// <summary>
+    /// Anónimo.
+    /// </summary>
+    public const string Anonymous = nameof(Anonymous);
 }

@@ -1,4 +1,4 @@
-﻿using EmployeeControl.Application.Common.Security;
+using EmployeeControl.Application.Common.Security;
 using EmployeeControl.Domain.Constants;
 using MediatR;
 

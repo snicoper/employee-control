@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { ViewBaseComponent } from '../../components/views/view-base/view-base.component';
+import { PageBaseComponent } from '../../components/pages/page-base/page-base.component';
 
 @Component({
   selector: 'aw-dashboard',
   templateUrl: './dashboard.component.html',
   standalone: true,
-  imports: [ViewBaseComponent]
+  imports: [PageBaseComponent]
 })
 export class DashboardComponent {}

@@ -5,9 +5,9 @@ import { ApiUrls } from '../../../core/urls/api-urls';
 import { urlReplaceParams } from '../../../core/utils/common-utils';
 import { UserRole } from '../../../models/entities/user-role.model';
 import { User } from '../../../models/entities/user.model';
+import { TimeControlStateResponse } from '../../../models/states/time-control-state-response.model';
 import { EmployeesApiService } from '../../../services/api/employees-api.service';
 import { TimeControlApiService } from '../../../services/api/time-control-api.service';
-import { CurrentTimeControlResponse } from '../../../states/models/current-time-control-response.model';
 
 /**
  * Empleado seleccionado desde la lista (employee-list).
@@ -22,7 +22,7 @@ export class EmployeeSelectedService {
 
   private readonly employeeSelected$ = signal<User | null>(null);
   private readonly employeeSelectedRoles$ = signal<UserRole[]>([]);
-  private readonly employeeTimeControlState$ = signal<CurrentTimeControlResponse | null>(null);
+  private readonly timeControlStateResponse$ = signal<TimeControlStateResponse | null>(null);
 
   private readonly loadingEmployee$ = signal(false);
   private readonly loadingEmployeeRoles$ = signal(false);
@@ -34,7 +34,7 @@ export class EmployeeSelectedService {
   readonly loadingEmployee = computed(() => this.loadingEmployee$());
   readonly loadingEmployeeRoles = computed(() => this.loadingEmployeeRoles$());
 
-  readonly employeeTimeControlState = computed(() => this.employeeTimeControlState$());
+  readonly employeeTimeControlState = computed(() => this.timeControlStateResponse$());
   readonly loadingEmployeeTimeControlState = computed(() => this.loadingEmployeeTimeControlState$());
 
   isInRole(role: Roles): boolean {
@@ -46,7 +46,7 @@ export class EmployeeSelectedService {
   cleanData(): void {
     this.employeeSelected$.set(null);
     this.employeeSelectedRoles$.set([]);
-    this.employeeTimeControlState$.set(null);
+    this.timeControlStateResponse$.set(null);
   }
 
   loadData(employeeId: string): void {
@@ -59,10 +59,10 @@ export class EmployeeSelectedService {
     const urlTimeState = urlReplaceParams(ApiUrls.timeControl.getTimeStateOpenByEmployeeId, { employeeId: employeeId });
 
     this.timeControlApiService
-      .get<CurrentTimeControlResponse>(urlTimeState)
+      .get<TimeControlStateResponse>(urlTimeState)
       .pipe(finalize(() => this.loadingEmployeeTimeControlState$.set(false)))
       .subscribe({
-        next: (result) => this.employeeTimeControlState$.set(result)
+        next: (result) => this.timeControlStateResponse$.set(result)
       });
 
     this.employeesApiService

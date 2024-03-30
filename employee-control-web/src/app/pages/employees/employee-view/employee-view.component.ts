@@ -6,8 +6,8 @@ import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-
 import { CardComponent } from '../../../components/cards/card/card.component';
 import { DotDangerComponent } from '../../../components/colors/dot-danger/dot-danger.component';
 import { DotSuccessComponent } from '../../../components/colors/dot-success/dot-success.component';
-import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
+import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
 import { SiteUrls } from '../../../core/urls/site-urls';
 import { TimeState } from '../../../models/entities/types/time-state.model';
 import { EmployeeDepartmentsComponent } from './employee-departments/employee-departments.component';
@@ -21,8 +21,8 @@ import { EmployeeTimeControlProgressComponent } from './employee-time-control-pr
   templateUrl: './employee-view.component.html',
   standalone: true,
   imports: [
-    ViewBaseComponent,
-    ViewHeaderComponent,
+    PageBaseComponent,
+    PageHeaderComponent,
     DotSuccessComponent,
     DotDangerComponent,
     EmployeeDetailsComponent,

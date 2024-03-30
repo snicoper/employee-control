@@ -8,5 +8,6 @@ export const environment = {
   apiUrl: window.env?.apiUrl || 'https://localhost:7000',
   siteUrl: window.env?.siteUrl || 'http://localhost:4200',
   apiSegment: window.env?.apiSegment || 'api/v1',
+  hubSegment: window.env?.hubSegment || 'hub',
   culture: window.env?.culture || 'es'
 };

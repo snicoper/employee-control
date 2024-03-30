@@ -1,9 +1,12 @@
-﻿using EmployeeControl.Application.Common.Interfaces.BackgroundJobs;
+﻿using EmployeeControl.Application.Common.Constants;
+using EmployeeControl.Application.Common.Interfaces.BackgroundJobs;
 using EmployeeControl.Application.Common.Interfaces.Common;
 using EmployeeControl.Application.Common.Interfaces.Data;
 using EmployeeControl.Application.Common.Interfaces.Features.CompaniesSettings;
+using EmployeeControl.Application.Common.Services.Hubs;
 using EmployeeControl.Application.Localizations;
 using EmployeeControl.Domain.Enums;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
@@ -14,6 +17,7 @@ public class CloseTimeControlJob(
     IApplicationDbContext context,
     IStringLocalizer<TimeControlLocalizer> localizer,
     IDateTimeService dateTimeService,
+    IHubContext<NotificationTimeControlIncidenceHub> hubContext,
     ILogger<CloseTimeControlJob> logger)
     : ICloseTimeControlJob
 {
@@ -40,6 +44,9 @@ public class CloseTimeControlJob(
 
         context.TimeControls.UpdateRange(timesControl);
         await context.SaveChangesAsync(CancellationToken.None);
+
+        // Notificar SignalR de cierre de una incidencia.
+        await hubContext.Clients.All.SendAsync(HubNames.TimeControlIncidences, CancellationToken.None);
 
         logger.LogInformation($"Procesado ${nameof(CloseTimeControlJob)} con éxito.");
     }

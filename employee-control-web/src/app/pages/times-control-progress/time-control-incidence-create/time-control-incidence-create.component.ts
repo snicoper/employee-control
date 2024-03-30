@@ -37,9 +37,8 @@ export class TimeControlIncidenceCreateComponent implements OnInit {
   badRequest: BadRequest | undefined;
   loadingForm = false;
   submitted = false;
-  incidenceDescriptionDisabled = false;
   incidenceMaxCharacters = 256;
-  incidenceCharacters = 0;
+  incidenceLength = 0;
   timeControl!: TimeControl;
   loadingTimeControl = false;
 
@@ -53,9 +52,9 @@ export class TimeControlIncidenceCreateComponent implements OnInit {
 
   handleIncidenceCharacters(): void {
     const incidenceCharacters = this.form.get('incidenceDescription')?.value.length;
-    this.incidenceCharacters = incidenceCharacters;
+    this.incidenceLength = incidenceCharacters;
 
-    if (incidenceCharacters === 0 || this.incidenceCharacters === this.incidenceMaxCharacters) {
+    if (incidenceCharacters === 0 || this.incidenceLength === this.incidenceMaxCharacters) {
       return;
     }
   }
@@ -100,8 +99,12 @@ export class TimeControlIncidenceCreateComponent implements OnInit {
       .subscribe({
         next: (result: TimeControl) => {
           this.timeControl = result;
-          this.incidenceCharacters = result.incidenceDescription?.length ?? 0;
-          this.incidenceDescriptionDisabled = this.timeControl.incidence;
+
+          if (!this.timeControl.incidence) {
+            this.timeControl.incidenceDescription = '';
+          }
+
+          this.incidenceLength = result.incidenceDescription?.length ?? 0;
 
           this.buildForm();
         }

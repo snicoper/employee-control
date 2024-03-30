@@ -29,10 +29,12 @@ public static class DependencyInjection
         IConfiguration configuration,
         IWebHostEnvironment environment)
     {
+        // DI.
         services.Scan(
             scan =>
                 scan.FromCallingAssembly()
-                    .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Service") || type.Name.EndsWith("Job")))
+                    .AddClasses(classes => classes.Where(type =>
+                        type.Name.EndsWith("Service") || type.Name.EndsWith("Job") || type.Name.EndsWith("Hub")))
                     .AsImplementedInterfaces()
                     .WithTransientLifetime());
 
@@ -40,6 +42,10 @@ public static class DependencyInjection
         services.AddScoped<IValidationFailureService, ValidationFailureService>();
         services.AddScoped<IDateTimeService, DateTimeService>();
 
+        // SignalR.
+        services.AddSignalR();
+
+        // Database.
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         // Interceptors EntityFramework.
@@ -86,9 +92,9 @@ public static class DependencyInjection
 
         services.AddHangfireServer();
 
+        // Identity.
         services.AddAuthorizationBuilder();
 
-        // Identity.
         services
             .AddIdentityCore<ApplicationUser>()
             .AddRoles<ApplicationRole>()

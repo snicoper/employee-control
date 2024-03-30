@@ -11,8 +11,8 @@ import { CardComponent } from '../../../components/cards/card/card.component';
 import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { FormTimezoneComponent } from '../../../components/forms/inputs/form-timezone/form-timezone.component';
-import { ViewBaseComponent } from '../../../components/views/view-base/view-base.component';
-import { ViewHeaderComponent } from '../../../components/views/view-header/view-header.component';
+import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
+import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
 import { FormInputTypes } from '../../../core/types/form-input-types';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
@@ -20,7 +20,7 @@ import { urlReplaceParams } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { EmployeesApiService } from '../../../services/api/employees-api.service';
 import { JwtService } from '../../../services/jwt.service';
-import { CurrentCompanySettingsStateService } from '../../../states/services/current-company-settings-state.service';
+import { CompanySettingsStateService } from '../../../services/states/company-settings-state.service';
 import { InviteEmployeeRequest } from './employee-invite-request.model';
 
 @Component({
@@ -28,8 +28,8 @@ import { InviteEmployeeRequest } from './employee-invite-request.model';
   templateUrl: './employee-invite.component.html',
   standalone: true,
   imports: [
-    ViewBaseComponent,
-    ViewHeaderComponent,
+    PageBaseComponent,
+    PageHeaderComponent,
     CardComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -46,7 +46,7 @@ export class EmployeeInviteComponent {
   private readonly jwtService = inject(JwtService);
   private readonly toastrService = inject(ToastrService);
   private readonly router = inject(Router);
-  private readonly currentCompanySettingsStateService = inject(CurrentCompanySettingsStateService);
+  private readonly companySettingsStateService = inject(CompanySettingsStateService);
 
   readonly breadcrumb = new BreadcrumbCollection();
 
@@ -97,7 +97,7 @@ export class EmployeeInviteComponent {
   }
 
   private buildForm(): void {
-    const companySettings = this.currentCompanySettingsStateService.get();
+    const companySettings = this.companySettingsStateService.get();
 
     this.form = this.formBuilder.group({
       firstName: ['', [Validators.required]],

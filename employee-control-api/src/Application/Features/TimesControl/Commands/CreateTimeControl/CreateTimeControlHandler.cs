@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EmployeeControl.Application.Common.Constants;
 using EmployeeControl.Application.Common.Interfaces.Common;
 using EmployeeControl.Application.Common.Interfaces.Features.TimesControl;

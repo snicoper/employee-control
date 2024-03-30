@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EmployeeControl.Application.Common.Security;
 using EmployeeControl.Domain.Constants;
 using EmployeeControl.Domain.Entities;
