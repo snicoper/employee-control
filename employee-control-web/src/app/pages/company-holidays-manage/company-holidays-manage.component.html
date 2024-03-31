@@ -1,0 +1,11 @@
+<aw-page-base>
+  <aw-year-calendar
+    (calendarDayClick)="handleCalendarDayClick($event)"
+    [year]="year"
+    [calendarDayEvents]="calendarDayEvents" />
+
+  <ng-template #popTemplate let-message="message"> </ng-template>
+  <button type="button" class="btn btn-primary" [popover]="popTemplate" [popoverContext]="">
+    Open popover with custom context
+  </button>
+</aw-page-base>

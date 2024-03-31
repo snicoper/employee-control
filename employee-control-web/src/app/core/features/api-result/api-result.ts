@@ -74,7 +74,10 @@ export class ApiResult<T> {
    */
   removeFilter(filter: ApiResultItemFilter): this {
     const index = this.filters.findIndex((item) => item.propertyName === filter.propertyName);
-    this.filters.splice(index, 1);
+
+    if (index >= 0) {
+      this.filters.splice(index, 1);
+    }
 
     return this;
   }
@@ -87,9 +90,24 @@ export class ApiResult<T> {
    */
   removeFilterByPropertyName(propertyName: string): this {
     const index = this.filters.findIndex((item) => item.propertyName === propertyName);
-    this.filters.splice(index, 1);
+
+    if (index >= 0) {
+      this.filters.splice(index, 1);
+    }
 
     return this;
+  }
+
+  /**
+   * Comprueba si hay algún filtro por el nombre de la propiedad.
+   *
+   * @param propertyName Nombre de la propiedad a comprobar.
+   * @returns true si existe, false en caso contrario.
+   */
+  hasFilterByPropertyName(propertyName: string): boolean {
+    const index = this.filters.findIndex((item) => item.propertyName === propertyName);
+
+    return index >= 0;
   }
 
   /** Limpiar filtros. */

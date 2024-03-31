@@ -20,6 +20,10 @@ export const SiteUrls = {
     update: '/category-absences/{id}/update'
   },
 
+  companyHolidaysManage: {
+    manage: '/company-holidays-manage'
+  },
+
   companySettings: {
     details: '/company-settings',
     update: '/company-settings/update'

@@ -1,4 +1,5 @@
 import { DateTime, Interval } from 'luxon';
+import { WeekDays } from '../types/week-days';
 
 export abstract class DatetimeUtils {
   /**
@@ -50,22 +51,28 @@ export abstract class DatetimeUtils {
     return `${minutes}m`;
   }
 
-  static getWeekDaysFromYear(year: number, weekDay: number): Date[] {
+  /**
+   * Obtener las fechas del año de un día concreto de la semana.
+   *
+   * @param year Año al que obtener el día de la semana.
+   * @param weekDay Numero del día de la semana a obtener (1-7).
+   * @returns Array<Date> con los fechas del día de la semana del año concreto.
+   */
+  static getWeekDaysFromYear(year: number, weekDay: WeekDays): Date[] {
     const result: Date[] = [];
     const start = DateTime.fromObject({ year: year, month: 1, day: 1 });
     const end = DateTime.fromObject({ year: year, month: 12, day: 31 });
 
     const interval = Interval.fromDateTimes(start, end);
     const subIntervals = interval.splitBy({ days: 1 });
-    subIntervals.reduce((days, subInt) => {
-      const d = subInt.start;
 
-      if (d && d?.weekday === weekDay) {
-        result.push(d.toJSDate());
+    for (const sub of subIntervals) {
+      const day = sub.start;
+
+      if (day?.weekday === weekDay) {
+        result.push(day.toJSDate());
       }
-
-      return d?.weekday === weekDay ? days + 1 : days;
-    }, 0);
+    }
 
     return result;
   }

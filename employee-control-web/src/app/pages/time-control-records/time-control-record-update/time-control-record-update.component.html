@@ -1,17 +1,33 @@
 <aw-page-base>
   <aw-page-header [breadcrumb]="breadcrumb">Actualizar tiempo</aw-page-header>
 
-  <aw-card>
-    @if (timeControl) {
+  @if (timeControl && !loadingForm) {
+    <form (ngSubmit)="handleSubmit()" [formGroup]="form">
       @if (timeControl.incidence) {
-        <div>
-          <h6>Tiempo con incidencia</h6>
-          <div class="alert alert-warning nl2br">{{ timeControl.incidenceDescription }}</div>
-        </div>
+        <!-- closeIncidence -->
+        <aw-card extraCss="mb-2">
+          <div class="row">
+            <div class="col-12">
+              <h6>Incidencia</h6>
+              <div class="alert alert-warning nl2br">{{ timeControl.incidenceDescription }}</div>
+            </div>
+
+            <div class="col-12">
+              <aw-form-checkbox
+                [badRequest]="badRequest"
+                [form]="form"
+                [submitted]="submitted"
+                fieldName="closeIncidence"
+                formControlName="closeIncidence"
+                label="Cerrar incidencia" />
+            </div>
+          </div>
+        </aw-card>
+        <!-- end closeIncidence -->
       }
 
-      <form (ngSubmit)="handleSubmit()" [formGroup]="form">
-        <div class="mb-2 row">
+      <aw-card>
+        <div class="row">
           <!-- timeStart -->
           <div class="col-6">
             <aw-form-datepicker
@@ -56,22 +72,6 @@
           </div>
           <!-- end timeFinish -->
 
-          <!-- closeIncidence -->
-          @if (timeControl.incidence) {
-            <div class="row mt-2">
-              <div class="col">
-                <aw-form-checkbox
-                  [badRequest]="badRequest"
-                  [form]="form"
-                  [submitted]="submitted"
-                  fieldName="closeIncidence"
-                  formControlName="closeIncidence"
-                  label="Cerrar incidencia" />
-              </div>
-            </div>
-          }
-          <!-- end closeIncidence -->
-
           <div class="mt-3 col-12">
             <aw-btn-back />
 
@@ -84,7 +84,9 @@
               spinnerLoadingText="Guardando" />
           </div>
         </div>
-      </form>
-    }
-  </aw-card>
+      </aw-card>
+    </form>
+  } @else {
+    <aw-spinner [loading]="loadingForm" />
+  }
 </aw-page-base>

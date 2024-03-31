@@ -1,5 +1,5 @@
 import { NgClass, NgStyle } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CardComponent } from '../../cards/card/card.component';
 import { CalendarDay } from './calendar-day.model';
 
@@ -14,12 +14,14 @@ export class MonthCalendarComponent implements OnInit {
   @Input({ required: true }) date = new Date();
   @Input() calendarDayEvents: CalendarDay[] = [];
 
+  @Output() calendarDayClick = new EventEmitter<CalendarDay>();
+
   private currentYear = this.date.getFullYear();
   private currentMonth = this.date.getMonth();
 
   calendarDays: CalendarDay[] = [];
   currentDate = '';
-  weeks = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  weeks = ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'];
   months = [
     'January',
     'February',
@@ -40,53 +42,60 @@ export class MonthCalendarComponent implements OnInit {
     this.currentMonth = this.date.getMonth();
     this.currentDate = `${this.months[this.currentMonth]} ${this.currentYear}`;
 
-    this.composeCalendarDays();
+    this.renderCalendar();
   }
 
-  handleClick(calendarDay: CalendarDay): void {
-    if (calendarDay.date?.getMonth() !== this.currentMonth) {
+  handleCalendarDayClick(calendarDay: CalendarDay): void {
+    if (calendarDay.inactive) {
       return;
     }
+
+    this.calendarDayClick.emit(calendarDay);
   }
 
-  private composeCalendarDays(): void {
-    // Obtener el primer día del mes.
+  private renderCalendar(): void {
+    // Obtener el día de la semana del primer día del mes actual.
     const dayOne = new Date(this.currentYear, this.currentMonth, 1).getDay();
 
-    // Obtener la última fecha del mes.
+    // Obtener la última fecha del mes actual.
     const lastDate = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
 
-    // Get the day of the last date of the month.
+    // Obtener el día de semana del último día del mes anterior.
     const dayEnd = new Date(this.currentYear, this.currentMonth, lastDate).getDay();
 
-    // Get the last date of the previous month.
+    // Obtener la fecha del último día del mes.
     const monthLastDate = new Date(this.currentYear, this.currentMonth, 0).getDate();
 
     // Fecha de hoy.
     const today = new Date();
 
+    // Si tiene 0 días dayOne, rompe el calendario cuando el 1 es Domingo.
+    const prevDaysWeek = dayOne === 0 ? 7 : dayOne;
+
     // Bucle para agregar las últimas fechas del mes anterior.
-    for (let i = dayOne; i > 1; i--) {
-      this.calendarDays.push({ day: monthLastDate - i + 1, inactive: true, isToday: false });
+    for (let i = prevDaysWeek; i > 1; i--) {
+      this.calendarDays.push({ day: monthLastDate - i + 2, inactive: true, isToday: false });
     }
 
     // Bucle para agregar las fechas del mes actual.
     for (let i = 1; i <= lastDate; i++) {
       const date = new Date(this.currentYear, this.currentMonth, i);
+      const event = this.calendarDayEvents.find((d) => d.date?.getTime() === date.getTime());
+
+      if (event) {
+        this.calendarDays.push(event);
+        continue;
+      }
+
       const isToday = date.getTime() === new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
       const backgroundToday = isToday ? '#6332c5' : '';
 
       this.calendarDays.push({ date: date, day: i, isToday: isToday, inactive: false, background: backgroundToday });
     }
 
-    // Bucle para agregar las primeras fechas del próximo mes.
-    if (dayEnd === 0) {
-      return;
-    }
-
-    for (let i = dayEnd; i < 7; i++) {
-      // Mostrar max. 5 filas x 7 días.
-      if (this.calendarDays.length >= 35) {
+    for (let i = dayEnd; i < 14; i++) {
+      // Mostrar max. 6 filas x 7 días.
+      if (this.calendarDays.length >= 42) {
         break;
       }
 

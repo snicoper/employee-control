@@ -1,0 +1,19 @@
+<div class="d-flex">
+  <input
+    (bsValueChange)="handleChangeValue($event)"
+    [(ngModel)]="rangeValue"
+    [bsConfig]="bsConfig"
+    [maxDate]="maxDate"
+    [isDisabled]="isDisabled"
+    [disabled]="isDisabled"
+    bsDaterangepicker
+    class="form-control" />
+  <span
+    [ngClass]="{
+      'text-success': isDisabled && enableClickIcon,
+      'text-danger': !isDisabled && enableClickIcon,
+      'cursor-pointer': enableClickIcon
+    }"
+    (click)="handleClickIcon()"
+    class="fa-regular fa-calendar ms-2"></span>
+</div>

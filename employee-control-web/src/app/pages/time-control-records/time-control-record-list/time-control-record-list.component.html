@@ -4,30 +4,51 @@
   <aw-card>
     <!-- toolbar -->
     <div class="d-flex mb-2 justify-content-between">
+      <!-- button add time -->
       <div>
         <a [routerLink]="siteUrls.timeControlRecords.create" class="btn btn-sm btn-outline-success">
           <span class="fa-regular fa-clock"></span> Añadir tiempo
         </a>
       </div>
+      <!-- end button add time -->
 
-      <button
-        (click)="handleFilterOpenTimesChange()"
-        [ngClass]="{ 'btn-primary': filterOpenTimesValue, 'btn-outline-primary': !filterOpenTimesValue }"
-        type="button"
-        class="btn btn-sm">
-        @if (filterOpenTimesValue) {
-          <span class="fa-regular fa-hourglass-half"></span> Todos los tiempos
-        } @else {
+      <div class="btn-group">
+        <!-- filter open times -->
+        <button
+          (click)="handleFilterOpenTimesChange()"
+          [ngClass]="{ 'btn-primary': filterOpenTimesValue, 'btn-outline-primary': !filterOpenTimesValue }"
+          type="button"
+          class="btn btn-sm">
           <span class="fa-regular fa-hourglass-half"></span> Tiempos abiertos
-        }
-      </button>
+        </button>
+        <!-- filter open times -->
 
+        <!-- filter incidences -->
+        <button
+          (click)="handleFilterIncidencesChange()"
+          [ngClass]="{ 'btn-primary': filterIncidences, 'btn-outline-primary': !filterIncidences }"
+          type="button"
+          class="btn btn-sm">
+          <i class="fa-solid fa-triangle-exclamation"></i> Incidencias
+        </button>
+        <!-- end filter incidences -->
+
+        <!-- date range filter -->
+        <aw-date-range-selector
+          (dateRangeValueChange)="handleDateRangeValueChange($event)"
+          (clickIcon)="handleClickIconDateRange()"
+          [isDisabled]="!filterDateRange" />
+      </div>
+      <!-- date range filter -->
+
+      <!-- input filter -->
       <div>
         <aw-table-input-search
           (clickClean)="handleClickClean($event)"
           [apiResult]="apiResult"
           [tableHeaderConfig]="tableHeaderConfig" />
       </div>
+      <!-- input filter -->
     </div>
     <!-- end toolbar -->
 
@@ -45,8 +66,12 @@
         <tbody awTbody>
           @for (timeControl of apiResult.items; track timeControl) {
             <tr>
-              <td>{{ timeControl.firstName }}</td>
-              <td>{{ timeControl.lastName }}</td>
+              <td (click)="handleNavigateEmployeeDetails(timeControl)" class="cursor-pointer">
+                {{ timeControl.firstName }}
+              </td>
+              <td (click)="handleNavigateEmployeeDetails(timeControl)" class="cursor-pointer">
+                {{ timeControl.lastName }}
+              </td>
               <td>
                 <span [innerHTML]="timeControl.deviceTypeStart | deviceType"></span>
                 {{ timeControl.start | datetime }}

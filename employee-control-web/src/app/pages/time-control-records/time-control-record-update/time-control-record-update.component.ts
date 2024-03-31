@@ -15,6 +15,7 @@ import { FormDatepickerComponent } from '../../../components/forms/inputs/form-d
 import { FormTimePickerComponent } from '../../../components/forms/inputs/form-timepicker/form-timepicker.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
+import { SpinnerComponent } from '../../../components/spinner/spinner.component';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
 import { urlReplaceParams } from '../../../core/utils/common-utils';
@@ -30,16 +31,17 @@ import { TimeControlRecordRequest } from './time-control-record-request';
   templateUrl: './time-control-record-update.component.html',
   standalone: true,
   imports: [
+    FormsModule,
     PageBaseComponent,
     PageHeaderComponent,
     CardComponent,
-    FormsModule,
     ReactiveFormsModule,
     FormDatepickerComponent,
     FormTimePickerComponent,
     BtnBackComponent,
     BtnLoadingComponent,
-    FormCheckboxComponent
+    FormCheckboxComponent,
+    SpinnerComponent
   ]
 })
 export class TimeControlRecordUpdateComponent implements OnInit {
