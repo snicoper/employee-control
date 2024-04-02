@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { Period } from './period';
+import { DatetimeUtils } from '../utils/datetime-utils';
 
 export class PeriodDatetime {
   start: DateTime;
@@ -12,12 +12,6 @@ export class PeriodDatetime {
 
   /** Obtener la duración del periodo en minutos. */
   duration(): number {
-    const result = this.start.diff(this.end, ['minutes']).minutes;
-
-    return Math.abs(Math.round(result));
-  }
-
-  toJsDate(): Period {
-    return new Period(this.start.toJSDate(), this.end.toJSDate());
+    return DatetimeUtils.duration(this.start, this.end);
   }
 }

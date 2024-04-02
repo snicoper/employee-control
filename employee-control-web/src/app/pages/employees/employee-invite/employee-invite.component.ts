@@ -16,7 +16,7 @@ import { PageHeaderComponent } from '../../../components/pages/page-header/page-
 import { FormInputTypes } from '../../../core/types/form-input-types';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { EmployeesApiService } from '../../../services/api/employees-api.service';
 import { JwtService } from '../../../services/jwt.service';
@@ -80,7 +80,7 @@ export class EmployeeInviteComponent {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (result: string) => {
-          const url = urlReplaceParams(SiteUrls.employees.details, { id: result });
+          const url = CommonUtils.urlReplaceParams(SiteUrls.employees.details, { id: result });
           this.toastrService.success('Invitación enviada con éxito.');
           this.router.navigateByUrl(url);
         },

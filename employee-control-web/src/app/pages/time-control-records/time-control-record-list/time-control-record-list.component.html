@@ -32,12 +32,15 @@
           <i class="fa-solid fa-triangle-exclamation"></i> Incidencias
         </button>
         <!-- end filter incidences -->
+      </div>
 
+      <div>
         <!-- date range filter -->
         <aw-date-range-selector
           (dateRangeValueChange)="handleDateRangeValueChange($event)"
-          (clickIcon)="handleClickIconDateRange()"
-          [isDisabled]="!filterDateRange" />
+          (changeState)="handleState()"
+          [rangeValue]="[from, to]"
+          [isDisabled]="!filterStateDateRange" />
       </div>
       <!-- date range filter -->
 

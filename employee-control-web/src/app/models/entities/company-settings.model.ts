@@ -4,7 +4,7 @@ export interface CompanySettings {
   id: string;
   companyId: string;
   timezone: string;
-  maximumDailyWorkHours: number;
+  periodTimeControlMax: number;
   weeklyWorkingHours: number;
   geolocationRequired: boolean;
   company: Company;

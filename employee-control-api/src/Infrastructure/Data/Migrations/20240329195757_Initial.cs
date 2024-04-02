@@ -156,7 +156,7 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     Timezone = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    MaximumDailyWorkHours = table.Column<int>(type: "integer", nullable: false),
+                    PeriodTimeControlMax = table.Column<int>(type: "integer", nullable: false),
                     WeeklyWorkingHours = table.Column<int>(type: "integer", nullable: false),
                     GeolocationRequired = table.Column<bool>(type: "boolean", nullable: false),
                     CompanyId = table.Column<string>(type: "text", nullable: false),

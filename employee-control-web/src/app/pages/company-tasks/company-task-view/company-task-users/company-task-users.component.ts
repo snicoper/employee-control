@@ -9,7 +9,7 @@ import { TableComponent } from '../../../../components/tables/table/table.compon
 import { ApiResult } from '../../../../core/features/api-result/api-result';
 import { ApiUrls } from '../../../../core/urls/api-urls';
 import { SiteUrls } from '../../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { CommonUtils } from '../../../../core/utils/common-utils';
 import { CompanyTaskApiService } from '../../../../services/api/company-task-api.service';
 import { CompanyTaskSelectedService } from '../company-task-selected.service';
 import { CompanyTaskUserResponse } from './company-task-users-response.model';
@@ -53,7 +53,7 @@ export class CompanyTaskUsersComponent {
   }
 
   handleSelectItem(companyTaskUser: CompanyTaskUserResponse): void {
-    const url = urlReplaceParams(SiteUrls.employees.details, { id: companyTaskUser.id });
+    const url = CommonUtils.urlReplaceParams(SiteUrls.employees.details, { id: companyTaskUser.id });
     this.router.navigateByUrl(url);
   }
 
@@ -63,7 +63,7 @@ export class CompanyTaskUsersComponent {
 
   private loadCompanyTaskUsers(): void {
     this.loading = true;
-    const url = urlReplaceParams(ApiUrls.companyTasks.getEmployeesByCompanyTaskIdPaginated, {
+    const url = CommonUtils.urlReplaceParams(ApiUrls.companyTasks.getEmployeesByCompanyTaskIdPaginated, {
       id: this.companyTaskSelectedService.companyTaskSelected()?.id ?? ''
     });
 

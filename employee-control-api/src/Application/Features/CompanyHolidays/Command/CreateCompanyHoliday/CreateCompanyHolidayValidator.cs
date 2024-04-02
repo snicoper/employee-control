@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace EmployeeControl.Application;
+namespace EmployeeControl.Application.Features.CompanyHolidays.Command.CreateCompanyHoliday;
 
 public class CreateCompanyHolidayValidator : AbstractValidator<CreateCompanyHolidayCommand>
 {

@@ -1,11 +1,12 @@
-﻿using EmployeeControl.Application;
-using EmployeeControl.Application.Common.Interfaces.Common;
+﻿using EmployeeControl.Application.Common.Interfaces.Common;
 using EmployeeControl.Application.Common.Interfaces.Data;
+using EmployeeControl.Application.Common.Interfaces.Features.CompanyHolidays;
+using EmployeeControl.Application.Localizations;
 using EmployeeControl.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
-namespace EmployeeControl.Infrastructure;
+namespace EmployeeControl.Infrastructure.Services.CompanyHolidays;
 
 public class CompanyHolidaysValidatorService(
     IApplicationDbContext context,

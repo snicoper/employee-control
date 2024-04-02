@@ -18,12 +18,14 @@ public class GetTimesControlByRangePaginatedHandler(ITimesControlService timesCo
         if (request.From != DateTimeOffset.MinValue && request.To != DateTimeOffset.MinValue)
         {
             timeControls = timeControls
-                .Where(tc => tc.Start >= request.From && tc.Finish <= request.To);
+                .Where(
+                    tc => (tc.Start >= request.From && tc.Start <= request.To) ||
+                          (tc.Finish <= request.To && tc.Finish >= request.From));
         }
         else if (request.To == DateTimeOffset.MinValue && request.From != DateTimeOffset.MinValue)
         {
             timeControls = timeControls
-                .Where(tc => tc.Start == request.From);
+                .Where(tc => tc.Start == request.From || tc.Finish == request.From);
         }
 
         var resultResponse = await ResponseData<GetTimesControlByRangePaginatedResponse>.CreateAsync(

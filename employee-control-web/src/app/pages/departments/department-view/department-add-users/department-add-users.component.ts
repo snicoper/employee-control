@@ -5,7 +5,7 @@ import { DualListBoxComponent } from '../../../../components/dual-list-box/dual-
 import { DualListBox } from '../../../../components/dual-list-box/dual-list-box.model';
 import { HtmlItemSelector } from '../../../../core/models/html-item-selector.model';
 import { ApiUrls } from '../../../../core/urls/api-urls';
-import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { CommonUtils } from '../../../../core/utils/common-utils';
 import { ResultResponse } from '../../../../models/result-response.model';
 import { DepartmentApiService } from '../../../../services/api/department-api.service';
 import { DepartmentSelectedService } from '../department-selected.service';
@@ -47,7 +47,7 @@ export class DepartmentAddUsersComponent {
     const departmentId = this.departmentSelected()?.id as string;
     const employeeIds = dualListBox.itemsToAdd.map((item) => item.id);
     const data = { id: departmentId, employeeIds: employeeIds };
-    const url = urlReplaceParams(ApiUrls.departments.assignEmployeesToDepartment, {
+    const url = CommonUtils.urlReplaceParams(ApiUrls.departments.assignEmployeesToDepartment, {
       id: departmentId
     });
 
@@ -66,7 +66,7 @@ export class DepartmentAddUsersComponent {
 
   private loadEmployees(): void {
     this.loading = true;
-    const url = urlReplaceParams(ApiUrls.departments.GetEmployeesByDepartmentIdPaginated, {
+    const url = CommonUtils.urlReplaceParams(ApiUrls.departments.GetEmployeesByDepartmentIdPaginated, {
       id: this.departmentSelected()?.id as string
     });
 

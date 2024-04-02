@@ -14,7 +14,7 @@ import { TableLoadingComponent } from '../../../../components/tables/table-loadi
 import { Roles, roleToHumanReadable } from '../../../../core/types/roles';
 import { ApiUrls } from '../../../../core/urls/api-urls';
 import { SiteUrls } from '../../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { CommonUtils } from '../../../../core/utils/common-utils';
 import { RequiredRoleDirective } from '../../../../directives/required-role.directive';
 import { TimeState } from '../../../../models/entities/types/time-state.model';
 import { ResultResponse } from '../../../../models/result-response.model';
@@ -75,7 +75,7 @@ export class EmployeeDetailsComponent implements OnDestroy {
 
   /** Url para editar empleado. */
   get urlToEdit(): string {
-    return urlReplaceParams(SiteUrls.employees.update, { id: this.employeeSelected()?.id as string });
+    return CommonUtils.urlReplaceParams(SiteUrls.employees.update, { id: this.employeeSelected()?.id as string });
   }
 
   /** Limpiar el empleado seleccionado. */
@@ -127,6 +127,6 @@ export class EmployeeDetailsComponent implements OnDestroy {
 
   /** Wrapper para generar URLs ,de edición de estados. */
   private generateApiUrl(partialUrl: string): string {
-    return urlReplaceParams(partialUrl, { id: this.employeeSelected()?.id ?? '' });
+    return CommonUtils.urlReplaceParams(partialUrl, { id: this.employeeSelected()?.id ?? '' });
   }
 }

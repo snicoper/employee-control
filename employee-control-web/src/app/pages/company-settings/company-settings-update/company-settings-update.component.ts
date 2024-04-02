@@ -109,8 +109,8 @@ export class CompanySettingsUpdateComponent {
   private buildForm(): void {
     this.form = this.formBuilder.group({
       timezone: [this.companySettings()?.timezone, [Validators.required]],
-      maximumDailyWorkHours: [
-        this.companySettings()?.maximumDailyWorkHours,
+      periodTimeControlMax: [
+        this.companySettings()?.periodTimeControlMax,
         [Validators.required, Validators.max(24), Validators.min(1)]
       ],
       weeklyWorkingHours: [this.companySettings()?.weeklyWorkingHours, [Validators.required, Validators.min(1)]],

@@ -10,7 +10,7 @@ import { TableComponent } from '../../../../components/tables/table/table.compon
 import { ApiResult } from '../../../../core/features/api-result/api-result';
 import { ApiUrls } from '../../../../core/urls/api-urls';
 import { SiteUrls } from '../../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { CommonUtils } from '../../../../core/utils/common-utils';
 import { Department } from '../../../../models/entities/department.model';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
 import { DepartmentApiService } from './../../../../services/api/department-api.service';
@@ -56,7 +56,7 @@ export class EmployeeDepartmentsComponent {
   }
 
   handleSelectItem(department: Department): void {
-    const url = urlReplaceParams(SiteUrls.departments.details, { id: department.id });
+    const url = CommonUtils.urlReplaceParams(SiteUrls.departments.details, { id: department.id });
     this.router.navigateByUrl(url);
   }
 
@@ -67,7 +67,7 @@ export class EmployeeDepartmentsComponent {
   private loadCompanyTasks(): void {
     this.loading = true;
 
-    const url = urlReplaceParams(ApiUrls.departments.getDepartmentsByEmployeeIdPaginated, {
+    const url = CommonUtils.urlReplaceParams(ApiUrls.departments.getDepartmentsByEmployeeIdPaginated, {
       employeeId: this.employeeSelected()?.id ?? ''
     });
 

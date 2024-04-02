@@ -1,9 +1,9 @@
-﻿using EmployeeControl.Application;
-using EmployeeControl.Application.Common.Interfaces.Common;
+﻿using EmployeeControl.Application.Common.Interfaces.Common;
 using EmployeeControl.Application.Common.Interfaces.Data;
+using EmployeeControl.Application.Common.Interfaces.Features.CompanyHolidays;
 using EmployeeControl.Domain.Entities;
 
-namespace EmployeeControl.Infrastructure;
+namespace EmployeeControl.Infrastructure.Services.CompanyHolidays;
 
 public class CompanyHolidaysService(
     IApplicationDbContext context,

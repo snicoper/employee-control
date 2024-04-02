@@ -14,7 +14,7 @@ import { PageBaseComponent } from '../../../../components/pages/page-base/page-b
 import { PageHeaderComponent } from '../../../../components/pages/page-header/page-header.component';
 import { ApiUrls } from '../../../../core/urls/api-urls';
 import { SiteUrls } from '../../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { CommonUtils } from '../../../../core/utils/common-utils';
 import { BadRequest } from '../../../../models/bad-request';
 import { EmployeeSettings } from '../../../../models/entities/employee-settings.model';
 import { EmployeesApiService } from '../../../../services/api/employees-api.service';
@@ -72,7 +72,7 @@ export class EmployeeSettingsUpdateComponent {
     this.loadingForm = true;
 
     const employeeSettings = Object.assign({} as EmployeeSettings, this.employeeSettings());
-    const url = urlReplaceParams(ApiUrls.employees.updateEmployeeSettings, { id: employeeSettings.userId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.employees.updateEmployeeSettings, { id: employeeSettings.userId });
 
     employeeSettings.timezone = this.form.get('timezone')?.value;
 

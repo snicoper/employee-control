@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DateTime } from 'luxon';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
@@ -18,7 +17,8 @@ import { PageHeaderComponent } from '../../../components/pages/page-header/page-
 import { SpinnerComponent } from '../../../components/spinner/spinner.component';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CommonUtils } from '../../../core/utils/common-utils';
+import { DateUtils } from '../../../core/utils/date-utils';
 import { CustomValidators } from '../../../core/validators/custom-validators-form';
 import { BadRequest } from '../../../models/bad-request';
 import { TimeControl } from '../../../models/entities/time-control.model';
@@ -70,11 +70,11 @@ export class TimeControlRecordUpdateComponent implements OnInit {
   handleSubmit(): void {
     this.submitted = true;
 
+    const timeControl = this.getFomData();
+
     if (this.form.invalid) {
       return;
     }
-
-    const timeControl = this.getFomData();
 
     // No permitir fecha/hora mayor a la actual.
     if (new Date() < new Date(timeControl.finish)) {
@@ -84,22 +84,11 @@ export class TimeControlRecordUpdateComponent implements OnInit {
     }
 
     // Actualizar tiempo.
-    this.loadingForm = true;
-    const url = urlReplaceParams(ApiUrls.timeControl.updateTimeControl, { id: this.timeControlId });
-
-    this.timeControlApiService
-      .put<TimeControlRecordRequest, ResultResponse>(timeControl, url)
-      .pipe(finalize(() => (this.loadingForm = false)))
-      .subscribe({
-        next: () => {
-          this.toastrService.success('Tiempo actualizado con éxito.');
-          this.router.navigateByUrl(SiteUrls.timeControlRecords.list);
-        }
-      });
+    this.updateTimeControl(timeControl);
   }
 
   private setBreadcrumb(): void {
-    const urlDetails = urlReplaceParams(SiteUrls.timeControlRecords.details, { id: this.timeControlId });
+    const urlDetails = CommonUtils.urlReplaceParams(SiteUrls.timeControlRecords.details, { id: this.timeControlId });
 
     this.breadcrumb
       .add('Registro de tiempos', SiteUrls.timeControlRecords.list)
@@ -116,27 +105,8 @@ export class TimeControlRecordUpdateComponent implements OnInit {
     const timeFinish = new Date(this.form.get('timeFinish')?.value);
 
     // Resta offset respecto a la zona horaria del usuario.
-    const offset = dateStart.getTimezoneOffset();
-    const dtOffset = DateTime.local().offset;
-    const offsetDiff = offset + dtOffset;
-
-    const start = new Date(
-      dateStart.getFullYear(),
-      dateStart.getMonth(),
-      dateStart.getDate(),
-      timeStart.getHours(),
-      timeStart.getMinutes() - offsetDiff,
-      0
-    );
-
-    const end = new Date(
-      dateFinish.getFullYear(),
-      dateFinish.getMonth(),
-      dateFinish.getDate(),
-      timeFinish.getHours(),
-      timeFinish.getMinutes() - offsetDiff,
-      0
-    );
+    const start = DateUtils.dateDecrementOffset(dateStart, timeStart);
+    const end = DateUtils.dateDecrementOffset(dateFinish, timeFinish);
 
     // Comprobar si start es menor a end.
     if (start > end) {
@@ -146,8 +116,8 @@ export class TimeControlRecordUpdateComponent implements OnInit {
     }
 
     timeControl.id = this.timeControlId;
-    timeControl.start = start.toISOString();
-    timeControl.finish = end.toISOString();
+    timeControl.start = DateUtils.toISOString(start);
+    timeControl.finish = DateUtils.toISOString(end);
     timeControl.closeIncidence = this.form.get('closeIncidence')?.value as boolean;
 
     return timeControl;
@@ -166,34 +136,15 @@ export class TimeControlRecordUpdateComponent implements OnInit {
     }
 
     // Añade offset respecto a la zona horaria del usuario.
-    const offset = start.getTimezoneOffset();
-    const dtOffset = DateTime.local().offset;
-    const offsetDiff = offset + dtOffset;
-
-    const startWithOffset = new Date(
-      start.getFullYear(),
-      start.getMonth(),
-      start.getDate(),
-      start.getHours(),
-      start.getMinutes() + offsetDiff,
-      0
-    );
-
-    const endWithOffset = new Date(
-      finish.getFullYear(),
-      finish.getMonth(),
-      finish.getDate(),
-      finish.getHours(),
-      finish.getMinutes() + offsetDiff,
-      0
-    );
+    const startWithOffset = DateUtils.dateIncrementOffset(start);
+    const endWithOffset = DateUtils.dateIncrementOffset(finish);
 
     this.form = this.formBuilder.group(
       {
-        dateStart: [startWithOffset, [Validators.required, CustomValidators.noFutureDate]],
-        dateFinish: [endWithOffset, [Validators.required, CustomValidators.noFutureDate]],
+        dateStart: [DateUtils.dateStartOfDay(startWithOffset), [Validators.required, CustomValidators.noFutureDate]],
+        dateFinish: [DateUtils.dateStartOfDay(endWithOffset), [Validators.required, CustomValidators.noFutureDate]],
         timeStart: [startWithOffset, [Validators.required]],
-        timeFinish: [endWithOffset, []],
+        timeFinish: [endWithOffset],
         closeIncidence: [false]
       },
       {
@@ -204,7 +155,7 @@ export class TimeControlRecordUpdateComponent implements OnInit {
 
   private loadTimeControl(): void {
     this.loadingForm = true;
-    const url = urlReplaceParams(ApiUrls.timeControl.getTimeControlById, { id: this.timeControlId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.getTimeControlById, { id: this.timeControlId });
 
     this.timeControlApiService
       .get<TimeControl>(url)
@@ -215,6 +166,22 @@ export class TimeControlRecordUpdateComponent implements OnInit {
           this.buildForm();
         },
         error: (error: HttpErrorResponse) => (this.badRequest = error.error)
+      });
+  }
+
+  private updateTimeControl(timeControl: TimeControlRecordRequest): void {
+    // Actualizar tiempo.
+    this.loadingForm = true;
+    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.updateTimeControl, { id: this.timeControlId });
+
+    this.timeControlApiService
+      .put<TimeControlRecordRequest, ResultResponse>(timeControl, url)
+      .pipe(finalize(() => (this.loadingForm = false)))
+      .subscribe({
+        next: () => {
+          this.toastrService.success('Tiempo actualizado con éxito.');
+          this.router.navigateByUrl(SiteUrls.timeControlRecords.list);
+        }
       });
   }
 }

@@ -16,7 +16,7 @@ import { PageBaseComponent } from '../../../components/pages/page-base/page-base
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { CompanyTask } from '../../../models/entities/company-task.model';
 import { CompanyTaskApiService } from '../../../services/api/company-task-api.service';
@@ -60,7 +60,9 @@ export class CompanyTaskUpdateComponent {
 
   constructor() {
     this.companyTaskId = this.route.snapshot.paramMap.get('id') as string;
-    this.urlCompanyTaskDetails = urlReplaceParams(SiteUrls.companyTasks.details, { id: this.companyTaskId });
+    this.urlCompanyTaskDetails = CommonUtils.urlReplaceParams(SiteUrls.companyTasks.details, {
+      id: this.companyTaskId
+    });
     this.loadCompanyTask();
     this.setBreadcrumb();
   }
@@ -77,7 +79,7 @@ export class CompanyTaskUpdateComponent {
     const companyTask = this.form.value as CompanyTask;
     companyTask.id = this.companyTaskId;
 
-    const url = urlReplaceParams(ApiUrls.companyTasks.updateCompanyTask, { id: this.companyTaskId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.companyTasks.updateCompanyTask, { id: this.companyTaskId });
 
     this.companyTaskApiService
       .put<CompanyTask, undefined>(companyTask, url)
@@ -108,7 +110,7 @@ export class CompanyTaskUpdateComponent {
 
   private loadCompanyTask(): void {
     this.loadingCompanyTask = true;
-    const url = urlReplaceParams(ApiUrls.companyTasks.updateCompanyTask, { id: this.companyTaskId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.companyTasks.updateCompanyTask, { id: this.companyTaskId });
 
     this.companyTaskApiService
       .get<CompanyTask>(url)

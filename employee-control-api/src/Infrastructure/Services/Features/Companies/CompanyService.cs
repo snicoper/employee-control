@@ -36,7 +36,7 @@ public class CompanyService(
         validationFailureService.RaiseExceptionIfExistsErrors();
 
         // Crear Company y establecer valores de CompanySettings.
-        company.CompanySettings = new CompanySettings { CompanyId = company.Id, Timezone = timezone, MaximumDailyWorkHours = 10 };
+        company.CompanySettings = new CompanySettings { CompanyId = company.Id, Timezone = timezone, PeriodTimeControlMax = 10 };
 
         // Crear los días de trabajo para la compañía, por defecto días laborables de lunes a viernes.
         company.WorkingDaysWeek = new Domain.Entities.WorkingDaysWeek

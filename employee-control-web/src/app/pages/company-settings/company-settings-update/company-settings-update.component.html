@@ -4,18 +4,20 @@
   <aw-card>
     <form (ngSubmit)="handleSubmit()" [formGroup]="form">
       <div class="mb-2">
-        <!-- maximumDailyWorkHours -->
+        <!-- periodTimeControlMax -->
         <aw-form-input
           [badRequest]="badRequest"
           [form]="form"
           [submitted]="submitted"
           [inputType]="formInputTypes.integer"
-          fieldName="maximumDailyWorkHours"
-          formControlName="maximumDailyWorkHours"
-          label="Horas diarias de trabajo" />
+          fieldName="periodTimeControlMax"
+          formControlName="periodTimeControlMax"
+          label="Periodo máx de un control de tiempo" />
 
-        <span class="small text-muted">Horas máximas al día continuadas por los empleados</span>
-        <!-- end maximumDailyWorkHours -->
+        <span class="small text-muted">
+          Horas máximas de un control de tiempo, si se excede se cierran automáticamente
+        </span>
+        <!-- end periodTimeControlMax -->
 
         <div class="mt-4">
           <!-- weeklyWorkingHours -->

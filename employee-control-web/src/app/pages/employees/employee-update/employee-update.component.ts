@@ -17,7 +17,7 @@ import { SpinnerComponent } from '../../../components/spinner/spinner.component'
 import { FormInputTypes } from '../../../core/types/form-input-types';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { User } from '../../../models/entities/user.model';
 import { ResultResponse } from '../../../models/result-response.model';
@@ -63,7 +63,7 @@ export class EmployeeUpdateComponent {
 
   constructor() {
     this.employeeId = this.route.snapshot.paramMap.get('id') as string;
-    this.urlEmployeeDetails = urlReplaceParams(SiteUrls.employees.details, { id: this.employeeId });
+    this.urlEmployeeDetails = CommonUtils.urlReplaceParams(SiteUrls.employees.details, { id: this.employeeId });
     this.loadEmployee();
     this.setBreadcrumb();
   }
@@ -91,7 +91,7 @@ export class EmployeeUpdateComponent {
             return;
           }
 
-          const url = urlReplaceParams(SiteUrls.employees.details, { id: this.employeeId });
+          const url = CommonUtils.urlReplaceParams(SiteUrls.employees.details, { id: this.employeeId });
           this.toastrService.success('Datos de empleado actualizados con éxito.');
           this.router.navigateByUrl(url);
         },
@@ -120,7 +120,7 @@ export class EmployeeUpdateComponent {
 
   private loadEmployee(): void {
     this.loadingEmployee = true;
-    const url = urlReplaceParams(ApiUrls.employees.getEmployeeById, { id: this.employeeId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.employees.getEmployeeById, { id: this.employeeId });
 
     this.employeesApiService
       .get<User>(url)

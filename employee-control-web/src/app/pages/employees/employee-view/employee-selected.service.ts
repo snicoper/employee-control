@@ -2,7 +2,7 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 import { Roles } from '../../../core/types/roles';
 import { ApiUrls } from '../../../core/urls/api-urls';
-import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CommonUtils } from '../../../core/utils/common-utils';
 import { UserRole } from '../../../models/entities/user-role.model';
 import { User } from '../../../models/entities/user.model';
 import { TimeControlStateResponse } from '../../../models/states/time-control-state-response.model';
@@ -54,9 +54,11 @@ export class EmployeeSelectedService {
     this.loadingEmployeeRoles$.set(true);
     this.loadingEmployeeTimeControlState$.set(true);
 
-    const urlEmployee = urlReplaceParams(ApiUrls.employees.getEmployeeById, { id: employeeId });
+    const urlEmployee = CommonUtils.urlReplaceParams(ApiUrls.employees.getEmployeeById, { id: employeeId });
     const urlEmployeeRoles = `${urlEmployee}/roles`;
-    const urlTimeState = urlReplaceParams(ApiUrls.timeControl.getTimeStateOpenByEmployeeId, { employeeId: employeeId });
+    const urlTimeState = CommonUtils.urlReplaceParams(ApiUrls.timeControl.getTimeStateOpenByEmployeeId, {
+      employeeId: employeeId
+    });
 
     this.timeControlApiService
       .get<TimeControlStateResponse>(urlTimeState)

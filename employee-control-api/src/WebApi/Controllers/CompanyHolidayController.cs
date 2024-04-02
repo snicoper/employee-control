@@ -1,4 +1,4 @@
-﻿using EmployeeControl.Application;
+﻿using EmployeeControl.Application.Features.CompanyHolidays.Command.CreateCompanyHoliday;
 using EmployeeControl.Domain.Entities;
 using EmployeeControl.WebApi.Infrastructure;
 using Microsoft.AspNetCore.Mvc;

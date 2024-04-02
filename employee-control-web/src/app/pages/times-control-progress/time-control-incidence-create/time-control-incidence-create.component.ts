@@ -9,7 +9,7 @@ import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn
 import { FormTextareaComponent } from '../../../components/forms/inputs/form-textarea/form-textarea.component';
 import { SpinnerComponent } from '../../../components/spinner/spinner.component';
 import { ApiUrls } from '../../../core/urls/api-urls';
-import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { TimeControl } from '../../../models/entities/time-control.model';
 import { ResultResponse } from '../../../models/result-response.model';
@@ -60,7 +60,7 @@ export class TimeControlIncidenceCreateComponent implements OnInit {
   }
 
   handleSubmit(): void {
-    const url = urlReplaceParams(ApiUrls.timeControl.createIncidence, { id: this.timeControlId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.createIncidence, { id: this.timeControlId });
     const timeControlIncidenceCreateRequest = this.form.value as TimeControlIncidenceCreateRequest;
     timeControlIncidenceCreateRequest.timeControlId = this.timeControlId;
 
@@ -91,7 +91,7 @@ export class TimeControlIncidenceCreateComponent implements OnInit {
 
   private loadTimeControl(): void {
     this.loadingTimeControl = true;
-    const url = urlReplaceParams(ApiUrls.timeControl.getTimeControlById, { id: this.timeControlId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.getTimeControlById, { id: this.timeControlId });
 
     this.timeControlApiService
       .get<TimeControl>(url)

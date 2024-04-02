@@ -16,7 +16,7 @@ import { PageBaseComponent } from '../../../components/pages/page-base/page-base
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
-import { getRandomColorHexadecimal, urlReplaceParams } from '../../../core/utils/common-utils';
+import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { Department } from '../../../models/entities/department.model';
 import { JwtService } from '../../../services/jwt.service';
@@ -78,7 +78,7 @@ export class DepartmentCreateComponent {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (result: DepartmentCreateResponse) => {
-          const url = urlReplaceParams(SiteUrls.departments.details, { id: result.departmentId });
+          const url = CommonUtils.urlReplaceParams(SiteUrls.departments.details, { id: result.departmentId });
           this.toastrService.success('Departamento creado con éxito.');
           this.router.navigateByUrl(url);
         },
@@ -95,8 +95,8 @@ export class DepartmentCreateComponent {
   private buildForm(): void {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
-      background: [getRandomColorHexadecimal(), Validators.required],
-      color: [getRandomColorHexadecimal(), Validators.required]
+      background: [CommonUtils.getRandomColorHexadecimal(), Validators.required],
+      color: [CommonUtils.getRandomColorHexadecimal(), Validators.required]
     });
   }
 }

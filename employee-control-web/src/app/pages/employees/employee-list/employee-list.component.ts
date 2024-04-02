@@ -13,7 +13,7 @@ import { TableComponent } from '../../../components/tables/table/table.component
 import { ApiResult } from '../../../core/features/api-result/api-result';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CommonUtils } from '../../../core/utils/common-utils';
 import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
 import { EmployeesApiService } from '../../../services/api/employees-api.service';
 import { EmployeeListResponse } from './employee-list-response.model';
@@ -62,7 +62,7 @@ export class EmployeeListComponent {
   }
 
   handleSelectItem(employee: EmployeeListResponse): void {
-    const url = urlReplaceParams(SiteUrls.employees.details, { id: employee.id });
+    const url = CommonUtils.urlReplaceParams(SiteUrls.employees.details, { id: employee.id });
     this.router.navigateByUrl(url);
   }
 

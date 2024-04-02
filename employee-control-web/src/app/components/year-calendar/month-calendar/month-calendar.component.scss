@@ -1,12 +1,12 @@
 .card-container {
   margin: 1px;
   max-width: 350px;
+  padding: 0%;
 }
 
 :host ::ng-deep .calendar-header {
   .calendar-current-date {
     font-weight: 500;
-    font-size: 1.1rem;
     display: flex;
     justify-content: center;
   }
@@ -25,16 +25,17 @@
       margin-top: 17px;
       position: relative;
       z-index: 1;
+      font-size: 0.9rem;
 
       .calendar-day {
         border-radius: 15px;
-        padding: 6px;
+        padding: 5px;
 
         &:hover {
           cursor: pointer;
           background-color: cadetblue;
 
-          &.day-event {
+          &.not-editable {
             background-color: transparent;
             cursor: default;
           }

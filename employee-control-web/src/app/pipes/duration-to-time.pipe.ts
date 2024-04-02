@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DatetimeUtils } from '../core/utils/datetime-utils';
+import { DateUtils } from '../core/utils/date-utils';
 
 @Pipe({
   name: 'durationToTime',
@@ -7,7 +7,7 @@ import { DatetimeUtils } from '../core/utils/datetime-utils';
 })
 export class DurationToTimePipe implements PipeTransform {
   transform(value: number): string {
-    const result = DatetimeUtils.formatMinutesToTime(value);
+    const result = DateUtils.formatMinutesToTime(value);
 
     return result;
   }

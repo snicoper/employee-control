@@ -5,7 +5,7 @@ import { DualListBoxComponent } from '../../../../components/dual-list-box/dual-
 import { DualListBox } from '../../../../components/dual-list-box/dual-list-box.model';
 import { HtmlItemSelector } from '../../../../core/models/html-item-selector.model';
 import { ApiUrls } from '../../../../core/urls/api-urls';
-import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { CommonUtils } from '../../../../core/utils/common-utils';
 import { ResultResponse } from '../../../../models/result-response.model';
 import { CompanyTaskApiService } from '../../../../services/api/company-task-api.service';
 import { CompanyTaskSelectedService } from '../company-task-selected.service';
@@ -47,7 +47,7 @@ export class CompanyTaskAddUsersComponent {
     const companyTaskId = this.companyTaskSelected()?.id as string;
     const employeeIds = dualListBox.itemsToAdd.map((item) => item.id);
     const data = { id: companyTaskId, employeeIds: employeeIds };
-    const url = urlReplaceParams(ApiUrls.companyTasks.assignEmployeesToTask, {
+    const url = CommonUtils.urlReplaceParams(ApiUrls.companyTasks.assignEmployeesToTask, {
       id: companyTaskId
     });
 
@@ -66,7 +66,7 @@ export class CompanyTaskAddUsersComponent {
 
   private loadEmployees(): void {
     this.loading = true;
-    const url = urlReplaceParams(ApiUrls.companyTasks.getEmployeesUnassignedTaskByCompanyTaskId, {
+    const url = CommonUtils.urlReplaceParams(ApiUrls.companyTasks.getEmployeesUnassignedTaskByCompanyTaskId, {
       id: this.companyTaskSelected()?.id as string
     });
 

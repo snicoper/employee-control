@@ -5,7 +5,7 @@ namespace EmployeeControl.Application.Features.CompanySettings.Queries.GetCompan
 public record GetCompanySettingsResponse(
     string Id,
     string Timezone,
-    int MaximumDailyWorkHours,
+    int PeriodTimeControlMax,
     int WeeklyWorkingHours,
     bool GeolocationRequired)
 {

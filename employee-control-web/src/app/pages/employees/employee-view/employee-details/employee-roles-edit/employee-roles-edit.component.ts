@@ -6,7 +6,7 @@ import { finalize } from 'rxjs';
 import { BtnLoadingComponent } from '../../../../../components/buttons/btn-loading/btn-loading.component';
 import { Roles } from '../../../../../core/types/roles';
 import { ApiUrls } from '../../../../../core/urls/api-urls';
-import { urlReplaceParams } from '../../../../../core/utils/common-utils';
+import { CommonUtils } from '../../../../../core/utils/common-utils';
 import { ResultResponse } from '../../../../../models/result-response.model';
 import { EmployeesApiService } from '../../../../../services/api/employees-api.service';
 import { EmployeeSelectedService } from '../../employee-selected.service';
@@ -65,7 +65,7 @@ export class EmployeeRolesEditComponent {
   handleSaveChanges(): void {
     this.loading = true;
     const employeeId = this.employeeSelected()?.id as string;
-    const url = urlReplaceParams(ApiUrls.employees.updateEmployeeRoles, { id: employeeId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.employees.updateEmployeeRoles, { id: employeeId });
     const rolesToAdd: EmployeeRolesRequest = { employeeId: employeeId, rolesToAdd: [] };
 
     if (this.isEnterpriseAdmin) {

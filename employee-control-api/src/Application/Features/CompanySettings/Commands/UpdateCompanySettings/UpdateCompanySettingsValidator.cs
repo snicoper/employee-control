@@ -12,7 +12,7 @@ public class UpdateCompanySettingsValidator : AbstractValidator<UpdateCompanySet
         RuleFor(r => r.Timezone)
             .NotEmpty();
 
-        RuleFor(r => r.MaximumDailyWorkHours)
+        RuleFor(r => r.PeriodTimeControlMax)
             .NotEmpty();
 
         RuleFor(r => r.WeeklyWorkingHours)

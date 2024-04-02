@@ -8,7 +8,7 @@ import { TableInputSearchComponent } from '../../../../components/tables/table-i
 import { TableComponent } from '../../../../components/tables/table/table.component';
 import { ApiResult } from '../../../../core/features/api-result/api-result';
 import { ApiUrls } from '../../../../core/urls/api-urls';
-import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { CommonUtils } from '../../../../core/utils/common-utils';
 import { TimeControlApiService } from '../../../../services/api/time-control-api.service';
 import { TimeControlRecordCreateService } from '../time-control-record-create.service';
 import { TimeControlRecordEmployeeResponse } from '../time-control-record-employee-response.model';
@@ -54,7 +54,7 @@ export class TimeControlSelectEmployeeComponent {
 
   private loadEmployees(): void {
     this.loading = true;
-    const url = urlReplaceParams(ApiUrls.employees.getEmployeesPaginated, {
+    const url = CommonUtils.urlReplaceParams(ApiUrls.employees.getEmployeesPaginated, {
       id: this.timeControlRecordCreateService.employeeSelected()?.id ?? ''
     });
 

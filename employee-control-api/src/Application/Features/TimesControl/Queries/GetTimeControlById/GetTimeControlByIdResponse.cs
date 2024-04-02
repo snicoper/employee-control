@@ -46,7 +46,7 @@ public record GetTimeControlByIdResponse
 
         private double CalculateDuration(TimeControl timeControl)
         {
-            var finish = timeControl.TimeState == TimeState.Close ? timeControl.Finish : DateTimeOffset.Now;
+            var finish = timeControl.TimeState == TimeState.Close ? timeControl.Finish : DateTimeOffset.UtcNow;
             var duration = (finish - timeControl.Start).TotalMinutes;
 
             return duration;

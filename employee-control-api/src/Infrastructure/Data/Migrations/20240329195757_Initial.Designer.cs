@@ -295,7 +295,7 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.Property<string>("LastModifiedBy")
                         .HasColumnType("text");
 
-                    b.Property<int>("MaximumDailyWorkHours")
+                    b.Property<int>("PeriodTimeControlMax")
                         .HasColumnType("integer");
 
                     b.Property<string>("Timezone")

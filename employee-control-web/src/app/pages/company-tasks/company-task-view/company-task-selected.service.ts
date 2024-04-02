@@ -1,7 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 import { ApiUrls } from '../../../core/urls/api-urls';
-import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CommonUtils } from '../../../core/utils/common-utils';
 import { CompanyTask } from '../../../models/entities/company-task.model';
 import { CompanyTaskApiService } from '../../../services/api/company-task-api.service';
 
@@ -22,7 +22,7 @@ export class CompanyTaskSelectedService {
 
   loadData(companyTaskId: string): void {
     this.companyTaskLoading$.set(true);
-    const url = urlReplaceParams(ApiUrls.companyTasks.getCompanyTasksById, { id: companyTaskId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.companyTasks.getCompanyTasksById, { id: companyTaskId });
 
     this.companyTaskApiService
       .get<CompanyTask>(url)

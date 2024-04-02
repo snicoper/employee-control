@@ -1,32 +1,30 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { DateTime } from 'luxon';
 import { BsDatepickerConfig, BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { LocalizationUtils } from '../../../core/features/localizations/localization-utils';
 import { LocalizationService } from '../../../core/features/localizations/localization.service';
+import { DateUtils } from '../../../core/utils/date-utils';
+import { TooltipDirective } from '../../../directives/tooltip.directive';
 
 @Component({
   selector: 'aw-date-range-selector',
   standalone: true,
-  imports: [FormsModule, NgClass, BsDatepickerModule],
-  templateUrl: './date-range-selector.component.html',
-  styleUrl: './date-range-selector.component.scss'
+  imports: [FormsModule, NgClass, BsDatepickerModule, TooltipDirective],
+  templateUrl: './date-range-selector.component.html'
 })
 export class DateRangeSelectorComponent {
   private readonly bsLocaleService = inject(BsLocaleService);
   private readonly localizationService = inject(LocalizationService);
 
-  @Input() enableClickIcon = true;
-  @Input() rangeValue = [new Date(), new Date()];
+  @Input({ required: true }) rangeValue = [new Date(), new Date()];
   @Input() maxDate = new Date();
   @Input() isDisabled = false;
   @Input() bsConfig: Partial<BsDatepickerConfig>;
 
   @Output() dateRangeValueChange = new EventEmitter<(Date | undefined)[] | undefined>();
-  @Output() clickIcon = new EventEmitter<void>();
-
-  /** Evitar el primer emit en handleChangeValue().  */
-  private firstChange = true;
+  @Output() changeState = new EventEmitter<void>();
 
   constructor() {
     // Locale BsDatepicker.
@@ -43,14 +41,38 @@ export class DateRangeSelectorComponent {
   }
 
   handleChangeValue(value: (Date | undefined)[] | undefined): void {
-    if (this.firstChange) {
-      this.firstChange = false;
-    } else {
-      this.dateRangeValueChange.emit(value);
-    }
+    this.dateRangeValueChange.emit(value);
   }
 
-  handleClickIcon(): void {
-    this.clickIcon.emit();
+  handleToggleState(): void {
+    this.changeState.emit();
+  }
+
+  handleNextRange(): void {
+    if (this.isDisabled) {
+      return;
+    }
+
+    const intervalDays = DateUtils.getIntervalDays(this.rangeValue[0], this.rangeValue[1]);
+    const start = DateTime.fromJSDate(this.rangeValue[0]).startOf('day');
+    const finish = DateTime.fromJSDate(this.rangeValue[1]).endOf('day');
+    const newStart = start.plus({ days: intervalDays });
+    const newFinish = finish.plus({ days: intervalDays });
+
+    this.rangeValue = [newStart.toJSDate(), newFinish.toJSDate()];
+  }
+
+  handlePreviousRange(): void {
+    if (this.isDisabled) {
+      return;
+    }
+
+    const intervalDays = DateUtils.getIntervalDays(this.rangeValue[0], this.rangeValue[1]);
+    const start = DateTime.fromJSDate(this.rangeValue[0]).startOf('day');
+    const finish = DateTime.fromJSDate(this.rangeValue[1]).endOf('day');
+    const newStart = start.minus({ days: intervalDays });
+    const newFinish = finish.minus({ days: intervalDays });
+
+    this.rangeValue = [newStart.toJSDate(), newFinish.toJSDate()];
   }
 }

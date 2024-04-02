@@ -1,4 +1,13 @@
-<div class="d-flex">
+<div class="d-flex align-items-center">
+  <!-- previous -->
+  @if (!isDisabled) {
+    <button (click)="handlePreviousRange()" class="btn btn-sm">
+      <span class="fa-solid fa-left-long"></span>
+    </button>
+  }
+  <!-- end previous -->
+
+  <!-- input form -->
   <input
     (bsValueChange)="handleChangeValue($event)"
     [(ngModel)]="rangeValue"
@@ -8,12 +17,23 @@
     [disabled]="isDisabled"
     bsDaterangepicker
     class="form-control" />
-  <span
-    [ngClass]="{
-      'text-success': isDisabled && enableClickIcon,
-      'text-danger': !isDisabled && enableClickIcon,
-      'cursor-pointer': enableClickIcon
-    }"
-    (click)="handleClickIcon()"
-    class="fa-regular fa-calendar ms-2"></span>
+  <!-- end input form -->
+
+  <!-- next -->
+  @if (!isDisabled) {
+    <button (click)="handleNextRange()" class="btn btn-sm">
+      <span class="fa-solid fa-right-long"></span>
+    </button>
+  }
+  <!-- end next -->
+
+  <!-- state -->
+  <button (click)="handleToggleState()" class="btn btn-sm">
+    @if (isDisabled) {
+      <span awTooltip title="Activar filtro de rango" class="fa-regular fa-calendar text-success"></span>
+    } @else {
+      <span awTooltip title="Desactivar filtro de rango" class="fa-regular fa-calendar text-danger"></span>
+    }
+  </button>
+  <!-- end state -->
 </div>

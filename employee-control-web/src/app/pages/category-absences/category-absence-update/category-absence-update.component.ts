@@ -16,7 +16,7 @@ import { PageBaseComponent } from '../../../components/pages/page-base/page-base
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { CategoryAbsence } from '../../../models/entities/category-absence.model';
 import { ResultResponse } from '../../../models/result-response.model';
@@ -76,7 +76,9 @@ export class CategoryAbsenceUpdateComponent {
     const categoryAbsence = this.form.value as CategoryAbsence;
     categoryAbsence.id = this.categoryAbsenceId;
 
-    const url = urlReplaceParams(ApiUrls.categoryAbsences.updateCategoryAbsence, { id: this.categoryAbsenceId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.categoryAbsences.updateCategoryAbsence, {
+      id: this.categoryAbsenceId
+    });
 
     this.categoryAbsencesApiService
       .put<CategoryAbsence, ResultResponse>(categoryAbsence, url)
@@ -109,7 +111,7 @@ export class CategoryAbsenceUpdateComponent {
 
   private loadCategoryAbsence(): void {
     this.loadingCategoryAbsence = true;
-    const url = urlReplaceParams(ApiUrls.categoryAbsences.getCategoryAbsenceById, {
+    const url = CommonUtils.urlReplaceParams(ApiUrls.categoryAbsences.getCategoryAbsenceById, {
       id: this.categoryAbsenceId
     });
 

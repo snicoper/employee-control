@@ -1,9 +1,19 @@
 <!-- times -->
-@if (!loading) {
+@if (!loading && progressStackedCollection.length) {
   @for (progressStacked of progressStackedCollection; track progressStacked) {
     <aw-progress-stacked [progressStackedCollection]="progressStacked" (clickProgress)="handleClickProgress($event)" />
   }
-} @else {
-  <aw-spinner [loading]="loading" [size]="100" />
 }
 <!-- end times -->
+
+<!-- no data -->
+@if (!loading && !progressStackedCollection.length) {
+  <p>No hay datos a mostrar</p>
+}
+<!-- end no data -->
+
+<!-- loading -->
+@if (loading) {
+  <aw-spinner [loading]="loading" [size]="200" />
+}
+<!-- end loading -->

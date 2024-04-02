@@ -1,5 +1,5 @@
 import { Injectable, computed, signal } from '@angular/core';
-import { urlReplaceParams } from '../core/utils/common-utils';
+import { CommonUtils } from '../core/utils/common-utils';
 
 @Injectable({ providedIn: 'root' })
 export class SimpleGeolocationService {
@@ -27,7 +27,10 @@ export class SimpleGeolocationService {
 
   /** Genera link a Open Street Map. */
   getOpenStreetMapLink(latitude: number, longitude: number): string {
-    const url = urlReplaceParams(this.urlOpenStreetMap, { latitude: String(latitude), longitude: String(longitude) });
+    const url = CommonUtils.urlReplaceParams(this.urlOpenStreetMap, {
+      latitude: String(latitude),
+      longitude: String(longitude)
+    });
 
     return url;
   }

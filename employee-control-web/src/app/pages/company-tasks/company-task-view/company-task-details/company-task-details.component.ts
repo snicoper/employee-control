@@ -10,7 +10,7 @@ import { CardComponent } from '../../../../components/cards/card/card.component'
 import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
 import { ApiUrls } from '../../../../core/urls/api-urls';
 import { SiteUrls } from '../../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { CommonUtils } from '../../../../core/utils/common-utils';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
 import { DatetimePipe } from '../../../../pipes/datetime.pipe';
 import { CompanyTaskApiService } from '../../../../services/api/company-task-api.service';
@@ -47,7 +47,7 @@ export class CompanyTaskDetailsComponent implements OnDestroy {
   siteUrls = SiteUrls;
 
   get urlToEdit(): string {
-    return urlReplaceParams(SiteUrls.companyTasks.update, { id: this.companyTaskId });
+    return CommonUtils.urlReplaceParams(SiteUrls.companyTasks.update, { id: this.companyTaskId });
   }
 
   ngOnDestroy(): void {
@@ -56,7 +56,7 @@ export class CompanyTaskDetailsComponent implements OnDestroy {
 
   handleActivateTask(): void {
     this.loadingStateTask = true;
-    const url = urlReplaceParams(ApiUrls.companyTasks.activateCompanyTask, { id: this.companyTaskId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.companyTasks.activateCompanyTask, { id: this.companyTaskId });
     const data = { companyTaskId: this.companyTaskId };
 
     this.companyTaskApiService
@@ -72,7 +72,7 @@ export class CompanyTaskDetailsComponent implements OnDestroy {
 
   handleDeactivateTask(): void {
     this.loadingStateTask = true;
-    const url = urlReplaceParams(ApiUrls.companyTasks.deactivateCompanyTask, { id: this.companyTaskId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.companyTasks.deactivateCompanyTask, { id: this.companyTaskId });
     const data = { companyTaskId: this.companyTaskId };
 
     this.companyTaskApiService

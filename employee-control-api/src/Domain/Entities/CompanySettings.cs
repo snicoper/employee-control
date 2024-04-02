@@ -10,7 +10,7 @@ public class CompanySettings : BaseAuditableEntity, ICompany
 {
     public string Timezone { get; set; } = default!;
 
-    public int MaximumDailyWorkHours { get; set; } = 24;
+    public int PeriodTimeControlMax { get; set; } = 24;
 
     public int WeeklyWorkingHours { get; set; } = 40;
 

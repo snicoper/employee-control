@@ -10,7 +10,8 @@ import { TimeControlProgressStacked } from '../../../../core/features/times-cont
 import { TimeControlGroupResponse } from '../../../../core/features/times-control/times-control-response.model';
 import { ApiUrls } from '../../../../core/urls/api-urls';
 import { SiteUrls } from '../../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { CommonUtils } from '../../../../core/utils/common-utils';
+import { DateUtils } from '../../../../core/utils/date-utils';
 import { DatetimeUtils } from '../../../../core/utils/datetime-utils';
 import { TimeControlApiService } from '../../../../services/api/time-control-api.service';
 import { EmployeeSelectedService } from '../employee-selected.service';
@@ -43,7 +44,7 @@ export class EmployeeTimeControlProgressComponent {
   }
 
   handleClickProgress(progressStackedItem: ProgressStackedItem): void {
-    const url = urlReplaceParams(SiteUrls.timeControlRecords.details, { id: progressStackedItem.id });
+    const url = CommonUtils.urlReplaceParams(SiteUrls.timeControlRecords.details, { id: progressStackedItem.id });
     this.router.navigateByUrl(url);
   }
 
@@ -55,10 +56,11 @@ export class EmployeeTimeControlProgressComponent {
     const dateSelected = DateTime.fromJSDate(this.dateSelected);
     const startDate = dateSelected.startOf('month');
     const endDate = dateSelected.endOf('month');
-    const url = urlReplaceParams(ApiUrls.timeControl.getTimeControlRangeByEmployeeId, {
+
+    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.getTimeControlRangeByEmployeeId, {
       employeeId: this.employeeSelected()?.id.toString() as string,
-      from: startDate.toUTC().toString(),
-      to: endDate.toUTC().toString()
+      from: DatetimeUtils.toISOString(startDate),
+      to: DatetimeUtils.toISOString(endDate)
     });
 
     this.timeControlApiService
@@ -73,7 +75,7 @@ export class EmployeeTimeControlProgressComponent {
             .filter((group) => group.totalMinutes > 0)
             .reduce((current, next) => current + next.totalMinutes, 0);
 
-          this.timeTotalInMonth = DatetimeUtils.formatMinutesToTime(timeTotal);
+          this.timeTotalInMonth = DateUtils.formatMinutesToTime(timeTotal);
         }
       });
   }

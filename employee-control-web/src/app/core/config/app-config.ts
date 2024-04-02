@@ -14,12 +14,12 @@ export class AppConfig {
 
   load(): Promise<boolean> {
     return new Promise((resolve) => {
+      this.themeColorService.initialize();
+      this.localizationService.initialize();
+
       if (this.authService.authValue$()) {
         this.userStatesService.load();
       }
-
-      this.themeColorService.initialize();
-      this.localizationService.initialize();
 
       resolve(true);
     });

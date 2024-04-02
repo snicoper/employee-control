@@ -13,7 +13,6 @@ internal class GetTimeControlRangeByEmployeeIdHandler(IDateTimeService dateTimeS
         GetTimeControlRangeByEmployeeIdQuery request,
         CancellationToken cancellationToken)
     {
-        // Si algún tiempo Finish no esta cerrado, pone el tiempo actual y lo suma al total.
         var timesControlGroup = await timesControlService.GetRangeByEmployeeIdAsync(
             request.EmployeeId,
             request.From,
@@ -36,6 +35,7 @@ internal class GetTimeControlRangeByEmployeeIdHandler(IDateTimeService dateTimeS
 
         foreach (var control in timesControlGroup)
         {
+            // Si algún tiempo Finish no esta cerrado, pone el tiempo actual y lo suma al total.
             var timeFinish = control.ClosedBy == ClosedBy.Unclosed ? dateTimeService.UtcNow : control.Finish;
             var diff = timeFinish - control.Start;
             var percent = Math.Round(diff.TotalMinutes / minutesInDay * 100, 2);

@@ -1,21 +1,25 @@
 import { DateTime } from 'luxon';
 import { ProgressStackedCollection } from '../../../components/progress/progress-stacked/progress-stacked-collection';
 import { ClosedBy } from '../../../models/entities/types/closed-by.model';
-import { calculatePercent } from '../../utils/common-utils';
-import { DatetimeUtils } from '../../utils/datetime-utils';
+import { CommonUtils } from '../../utils/common-utils';
+import { DateUtils } from '../../utils/date-utils';
 import { ProcessTimeControlGroups } from './process-time-control-groups';
 import { TimeControlGroupResponse, TimeResponse } from './times-control-response.model';
 
+/**
+ * Genera una lista de ProgressStackedCollection a partir de una lista de TimeControlGroupResponse.
+ */
 export class TimeControlProgressStacked {
   private readonly timeControlGroups: TimeControlGroupResponse[];
   private readonly progressStackedCollections: ProgressStackedCollection[];
-  private readonly minutesInDay = 60 * 24;
+  private readonly minutesInDay: number;
 
   constructor(timeControlGroups: TimeControlGroupResponse[], date: Date) {
-    const processTimeControlGroups = new ProcessTimeControlGroups(timeControlGroups, date);
-
-    this.timeControlGroups = processTimeControlGroups.process();
+    this.minutesInDay = 60 * 24;
     this.progressStackedCollections = [];
+
+    const processTimeControlGroups = new ProcessTimeControlGroups(timeControlGroups, date);
+    this.timeControlGroups = processTimeControlGroups.process();
   }
 
   /** Compone una lista de TimeControlGroupResponse[] a ProgressStackedCollection[]. */
@@ -28,7 +32,7 @@ export class TimeControlProgressStacked {
   }
 
   /**
-   * Componer rango de tiempos para su representación
+   * Componer rango de tiempos para su representación.
    *
    * @param timeControlGroups Grupo de timeControl.
    * @returns ProgressStackedCollection[].
@@ -37,7 +41,6 @@ export class TimeControlProgressStacked {
     const progressStackedCollections: ProgressStackedCollection[] = [];
 
     timeControlGroups.forEach((timeControlGroup: TimeControlGroupResponse) => {
-      // Obtener el siguiente timeControlGroup para insertar tiempos superiores a 23:59:59.
       const progressStackedCollection = this.composeTimeControlGroup(timeControlGroup);
 
       progressStackedCollections.push(progressStackedCollection);
@@ -73,28 +76,46 @@ export class TimeControlProgressStacked {
 
       // Calcular posición del día.
       const diffDateTime = dateTimeStart.diff(lastTimeCalculate, ['minutes']);
-      const diffPercent = calculatePercent(this.minutesInDay, diffDateTime.minutes);
+      const diffPercent = CommonUtils.calculatePercent(this.minutesInDay, diffDateTime.minutes);
 
       // Insertar tiempo de inactividad (progressStackedItem).
-      progressStacked.addItem(time.id, currentPercent, 0, 100, diffPercent, '', '', 'bg-transparent');
+      progressStacked.addItem({
+        id: time.id,
+        valueNow: currentPercent,
+        valueMin: 0,
+        valueMax: 100,
+        percent: diffPercent,
+        content: '',
+        tooltip: '',
+        background: 'bg-transparent'
+      });
       currentPercent += diffPercent;
 
       // Insertar tiempo de actividad (progressStackedItem).
       const background = this.getCssClassByTimeState(time);
-      const timeDuration = DatetimeUtils.formatMinutesToTime(time.minutes);
+      const timeDuration = DateUtils.formatMinutesToTime(time.minutes);
       let tooltip = `${dateTimeStart.toLocaleString(DateTime.TIME_SIMPLE)} - `;
       tooltip += `${dateTimeEnd.toLocaleString(DateTime.TIME_SIMPLE)} `;
       tooltip += `(${timeDuration})`;
 
       // Añadir item al grupo.
-      progressStacked.addItem(time.id, currentPercent, 0, 100, time.dayPercent, timeDuration, tooltip, background);
-      currentPercent += time.dayPercent;
+      progressStacked.addItem({
+        id: time.id,
+        valueNow: currentPercent,
+        valueMin: 0,
+        valueMax: 100,
+        percent: time.dayPercent,
+        content: timeDuration,
+        tooltip: tooltip,
+        background: background
+      });
 
+      currentPercent += time.dayPercent;
       lastTimeCalculate = DateTime.fromJSDate(new Date(time.finish));
     });
 
     // Componer el title del ProgressStackedCollection.
-    const totalGroupTime = DatetimeUtils.formatMinutesToTime(totalMinutesInGroup);
+    const totalGroupTime = DateUtils.formatMinutesToTime(totalMinutesInGroup);
     progressStacked.title = DateTime.fromISO(timeControlGroup.dayTitle).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
     progressStacked.title += ` - ${totalGroupTime}`;
 

@@ -63,7 +63,9 @@ public class TimesControlService(
     {
         var timeControlGroups = await context
             .TimeControls
-            .Where(tc => tc.UserId == employeeId && tc.Start >= from && tc.Finish <= to)
+            .Where(
+                tc => (tc.UserId == employeeId && tc.Start >= from && tc.Start <= to)
+                      || (tc.UserId == employeeId && tc.Finish >= from && tc.Finish <= to))
             .GroupBy(tc => tc.Start.Day)
             .ToListAsync(cancellationToken);
 

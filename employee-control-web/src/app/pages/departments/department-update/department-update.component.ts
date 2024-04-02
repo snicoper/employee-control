@@ -16,7 +16,7 @@ import { PageBaseComponent } from '../../../components/pages/page-base/page-base
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { Department } from '../../../models/entities/department.model';
 import { DepartmentApiService } from '../../../services/api/department-api.service';
@@ -60,7 +60,7 @@ export class DepartmentUpdateComponent {
 
   constructor() {
     this.departmentId = this.route.snapshot.paramMap.get('id') as string;
-    this.urlDepartmentDetails = urlReplaceParams(SiteUrls.departments.details, { id: this.departmentId });
+    this.urlDepartmentDetails = CommonUtils.urlReplaceParams(SiteUrls.departments.details, { id: this.departmentId });
     this.loadDepartment();
     this.setBreadcrumb();
   }
@@ -77,7 +77,7 @@ export class DepartmentUpdateComponent {
     const department = this.form.value as Department;
     department.id = this.departmentId;
 
-    const url = urlReplaceParams(ApiUrls.departments.updateDepartment, { id: this.departmentId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.departments.updateDepartment, { id: this.departmentId });
 
     this.departmentApiService
       .put<Department, undefined>(department, url)
@@ -108,7 +108,7 @@ export class DepartmentUpdateComponent {
 
   private loadDepartment(): void {
     this.loadingDepartment = true;
-    const url = urlReplaceParams(ApiUrls.departments.getDepartmentById, { id: this.departmentId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.departments.getDepartmentById, { id: this.departmentId });
 
     this.departmentApiService
       .get<Department>(url)

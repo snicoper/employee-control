@@ -25,16 +25,16 @@ public class CloseTimeControlJob(
     {
         logger.LogInformation($"Procesando ${nameof(CloseTimeControlJob)}.");
         var companySettings = await companySettingsService.GetCompanySettingsAsync(CancellationToken.None);
-        var maxDuration = companySettings.MaximumDailyWorkHours;
+        var periodTimeControlMax = companySettings.PeriodTimeControlMax;
 
         var timesControl = context
             .TimeControls
-            .Where(tc => tc.TimeState == TimeState.Open && (dateTimeService.UtcNow - tc.Start).Hours >= maxDuration)
+            .Where(tc => tc.TimeState == TimeState.Open && (dateTimeService.UtcNow - tc.Start).Hours >= periodTimeControlMax)
             .ToList();
 
         foreach (var timeControl in timesControl)
         {
-            timeControl.Finish = timeControl.Start.AddHours(maxDuration);
+            timeControl.Finish = timeControl.Start.AddHours(periodTimeControlMax);
             timeControl.ClosedBy = ClosedBy.System;
             timeControl.TimeState = TimeState.Close;
             timeControl.DeviceTypeFinish = DeviceType.System;

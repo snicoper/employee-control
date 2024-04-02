@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject } from '@angular/core';
 import { DateTime } from 'luxon';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
@@ -18,7 +19,8 @@ import { logError } from '../../core/errors/log-messages';
 import { TimeControlProgressStacked } from '../../core/features/times-control/time-control-group';
 import { TimeControlGroupResponse } from '../../core/features/times-control/times-control-response.model';
 import { ApiUrls } from '../../core/urls/api-urls';
-import { urlReplaceParams } from '../../core/utils/common-utils';
+import { CommonUtils } from '../../core/utils/common-utils';
+import { DateUtils } from '../../core/utils/date-utils';
 import { DatetimeUtils } from '../../core/utils/datetime-utils';
 import { DeviceType, deviceToDeviceType } from '../../models/entities/types/device-type.model';
 import { TimeState } from '../../models/entities/types/time-state.model';
@@ -101,6 +103,7 @@ export class TimesControlProgressComponent {
   /** Abrir tiempo de actividad. */
   handleTimeStart(): void {
     this.loadingTimeState = true;
+
     const data: TimeControlProgressChangeStateRequest = {
       employeeId: this.jwtService.getSid(),
       deviceType: this.employeeDeviceType,
@@ -177,26 +180,28 @@ export class TimesControlProgressComponent {
     const startDate = dateSelected.startOf('month');
     const endDate = dateSelected.endOf('month');
 
-    const url = urlReplaceParams(ApiUrls.timeControl.getTimeControlRangeByEmployeeId, {
+    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.getTimeControlRangeByEmployeeId, {
       employeeId: this.jwtService.getSid(),
-      from: startDate.toUTC().toString(),
-      to: endDate.toUTC().toString()
+      from: DatetimeUtils.toISOString(startDate),
+      to: DatetimeUtils.toISOString(endDate)
     });
 
-    this.timeControlApiService
-      .get<TimeControlGroupResponse[]>(url)
-      .pipe(finalize(() => (this.loadingTimeControls = false)))
-      .subscribe({
-        next: (result: TimeControlGroupResponse[]) => {
-          const timeControlProgressStacked = new TimeControlProgressStacked(result, this.dateSelected);
-          this.progressStackedCollection = timeControlProgressStacked.compose();
+    this.timeControlApiService.get<TimeControlGroupResponse[]>(url).subscribe({
+      next: (result: TimeControlGroupResponse[]) => {
+        const timeControlProgressStacked = new TimeControlProgressStacked(result, this.dateSelected);
+        this.progressStackedCollection = timeControlProgressStacked.compose();
 
-          const timeTotal = result
-            .filter((group) => group.totalMinutes > 0)
-            .reduce((current, next) => current + next.totalMinutes, 0);
+        const timeTotal = result
+          .filter((group) => group.totalMinutes > 0)
+          .reduce((current, next) => current + next.totalMinutes, 0);
 
-          this.timeTotalInMonth = DatetimeUtils.formatMinutesToTime(timeTotal);
-        }
-      });
+        this.timeTotalInMonth = DateUtils.formatMinutesToTime(timeTotal);
+        this.loadingTimeControls = false;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loadingTimeControls = false;
+        logError(error.error);
+      }
+    });
   }
 }

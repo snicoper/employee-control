@@ -13,7 +13,7 @@ import { SpinnerComponent } from '../../../components/spinner/spinner.component'
 import { logError } from '../../../core/errors/log-messages';
 import { ApiUrls } from '../../../core/urls/api-urls';
 import { SiteUrls } from '../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../core/utils/common-utils';
+import { CommonUtils } from '../../../core/utils/common-utils';
 import { TooltipDirective } from '../../../directives/tooltip.directive';
 import { ClosedBy } from '../../../models/entities/types/closed-by.model';
 import { TimeState } from '../../../models/entities/types/time-state.model';
@@ -88,17 +88,17 @@ export class TimeControlRecordDetailsComponent implements OnInit {
   }
 
   handleNavigateToEmployee(employeeId: string): void {
-    const url = urlReplaceParams(SiteUrls.employees.details, { id: employeeId });
+    const url = CommonUtils.urlReplaceParams(SiteUrls.employees.details, { id: employeeId });
     this.router.navigateByUrl(url);
   }
 
   handleTimeControlUpdate(timeControl: TimeControlRecordDetailsResponse): void {
-    const url = urlReplaceParams(SiteUrls.timeControlRecords.update, { id: timeControl.id });
+    const url = CommonUtils.urlReplaceParams(SiteUrls.timeControlRecords.update, { id: timeControl.id });
     this.router.navigateByUrl(url);
   }
 
   handleTimeControlDelete(timeControl: TimeControlRecordDetailsResponse): void {
-    const url = urlReplaceParams(ApiUrls.timeControl.deleteTimeControl, { id: timeControl.id });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.deleteTimeControl, { id: timeControl.id });
 
     this.timeControlApiService.delete<ResultResponse>(url).subscribe({
       next: (result: ResultResponse) => {
@@ -134,7 +134,7 @@ export class TimeControlRecordDetailsComponent implements OnInit {
   }
 
   handleCloseIncidence(): void {
-    const url = urlReplaceParams(ApiUrls.timeControl.closeIncidence, { id: this.timeControlId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.closeIncidence, { id: this.timeControlId });
     const data = { id: this.timeControlId };
 
     this.timeControlApiService.put<typeof data, ResultResponse>(data, url).subscribe({
@@ -148,7 +148,7 @@ export class TimeControlRecordDetailsComponent implements OnInit {
   }
 
   private setBreadcrumb(): void {
-    const urlDetails = urlReplaceParams(SiteUrls.timeControlRecords.details, { id: this.timeControlId });
+    const urlDetails = CommonUtils.urlReplaceParams(SiteUrls.timeControlRecords.details, { id: this.timeControlId });
 
     this.breadcrumb
       .add('Registro de tiempos', SiteUrls.timeControlRecords.list, '')
@@ -156,7 +156,9 @@ export class TimeControlRecordDetailsComponent implements OnInit {
   }
 
   private loadTimeControl(): void {
-    const url = urlReplaceParams(ApiUrls.timeControl.getTimeControlWithEmployeeById, { id: this.timeControlId });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.getTimeControlWithEmployeeById, {
+      id: this.timeControlId
+    });
     this.loadingTimeControl = true;
 
     this.timeControlApiService

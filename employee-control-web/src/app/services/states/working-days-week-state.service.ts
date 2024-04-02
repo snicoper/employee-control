@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { WeekDays } from '../../core/types/week-days';
 import { ApiUrls } from '../../core/urls/api-urls';
-import { urlReplaceParams } from '../../core/utils/common-utils';
+import { CommonUtils } from '../../core/utils/common-utils';
 import { WorkingDaysWeek } from '../../models/entities/working-days-week.model';
 import { ResultResponse } from '../../models/result-response.model';
 import { WorkingDaysWeekApiService } from '../api/working-days-week-api.service';
@@ -19,10 +19,6 @@ export class WorkingDaysWeekStateService implements StateService<WorkingDaysWeek
 
   readonly workingDaysWeek = computed(() => this.workingDaysWeek$());
   readonly loadingWorkingDaysWeek = computed(() => this.loadingWorkingDaysWeek$());
-
-  constructor() {
-    this.refresh();
-  }
 
   refresh(): void {
     this.loadWorkingDaysWeek();
@@ -68,7 +64,9 @@ export class WorkingDaysWeekStateService implements StateService<WorkingDaysWeek
 
   private updateWorkingDaysWeek(workingDaysWeek: WorkingDaysWeek): void {
     this.loadingWorkingDaysWeek$.set(true);
-    const url = urlReplaceParams(ApiUrls.workingDaysWeek.updateWorkingDaysWeek, { id: this.get()?.id as string });
+    const url = CommonUtils.urlReplaceParams(ApiUrls.workingDaysWeek.updateWorkingDaysWeek, {
+      id: this.get()?.id as string
+    });
 
     this.workingDaysWeekApiService
       .put<WorkingDaysWeek, ResultResponse>(workingDaysWeek, url)

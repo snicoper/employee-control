@@ -4,7 +4,7 @@ import { PageBaseComponent } from '../../components/pages/page-base/page-base.co
 import { CalendarDay } from '../../components/year-calendar/month-calendar/calendar-day.model';
 import { YearCalendarComponent } from '../../components/year-calendar/year-calendar.component';
 import { WeekDays } from '../../core/types/week-days';
-import { DatetimeUtils } from '../../core/utils/datetime-utils';
+import { DateUtils } from '../../core/utils/date-utils';
 import { CompanyHoliday } from '../../models/entities/company-holiday.model';
 import { CompanyHolidaysApiService } from '../../services/api/company-holidays-api.service';
 import { WorkingDaysWeekStateService } from '../../services/states/working-days-week-state.service';
@@ -29,6 +29,7 @@ export class CompanyHolidaysManageComponent {
     this.getNonWorkingDays();
   }
 
+  // eslint-disable-next-line
   handleCalendarDayClick(calendarDay: CalendarDay): void {}
 
   /** Obtener días no laborables de la empresa de año actual. */
@@ -37,37 +38,37 @@ export class CompanyHolidaysManageComponent {
     const daysResult: Date[] = [];
 
     if (!workingDaysWeek?.monday) {
-      const monday = DatetimeUtils.getWeekDaysFromYear(this.year, WeekDays.monday);
+      const monday = DateUtils.getWeekDaysFromYear(this.year, WeekDays.monday);
       daysResult.push(...monday);
     }
 
     if (!workingDaysWeek?.tuesday) {
-      const tuesday = DatetimeUtils.getWeekDaysFromYear(this.year, WeekDays.tuesday);
+      const tuesday = DateUtils.getWeekDaysFromYear(this.year, WeekDays.tuesday);
       daysResult.push(...tuesday);
     }
 
     if (!workingDaysWeek?.wednesday) {
-      const wednesday = DatetimeUtils.getWeekDaysFromYear(this.year, WeekDays.wednesday);
+      const wednesday = DateUtils.getWeekDaysFromYear(this.year, WeekDays.wednesday);
       daysResult.push(...wednesday);
     }
 
     if (!workingDaysWeek?.thursday) {
-      const thursday = DatetimeUtils.getWeekDaysFromYear(this.year, WeekDays.thursday);
+      const thursday = DateUtils.getWeekDaysFromYear(this.year, WeekDays.thursday);
       daysResult.push(...thursday);
     }
 
     if (!workingDaysWeek?.friday) {
-      const friday = DatetimeUtils.getWeekDaysFromYear(this.year, WeekDays.friday);
+      const friday = DateUtils.getWeekDaysFromYear(this.year, WeekDays.friday);
       daysResult.push(...friday);
     }
 
     if (!workingDaysWeek?.saturday) {
-      const saturday = DatetimeUtils.getWeekDaysFromYear(this.year, WeekDays.saturday);
+      const saturday = DateUtils.getWeekDaysFromYear(this.year, WeekDays.saturday);
       daysResult.push(...saturday);
     }
 
     if (!workingDaysWeek?.sunday) {
-      const sunday = DatetimeUtils.getWeekDaysFromYear(this.year, WeekDays.sunday);
+      const sunday = DateUtils.getWeekDaysFromYear(this.year, WeekDays.sunday);
       daysResult.push(...sunday);
     }
 
@@ -79,7 +80,10 @@ export class CompanyHolidaysManageComponent {
         isToday: false,
         description: 'Día no laborable',
         background: '#581845',
-        color: '#ffffff'
+        color: '#ffffff',
+        editable: false,
+        removable: false,
+        canAddEvent: false
       } as CalendarDay;
 
       this.calendarDayEvents.push(calendarDayEvent);

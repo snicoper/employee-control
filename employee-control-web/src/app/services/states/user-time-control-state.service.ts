@@ -1,7 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
 import { ApiUrls } from '../../core/urls/api-urls';
-import { urlReplaceParams } from '../../core/utils/common-utils';
+import { CommonUtils } from '../../core/utils/common-utils';
 import { TimeControlStateResponse } from '../../models/states/time-control-state-response.model';
 import { TimeControlApiService } from '../api/time-control-api.service';
 import { JwtService } from '../jwt.service';
@@ -35,7 +35,7 @@ export class UserTimeControlStateService implements StateService<TimeControlStat
   private loadCurrentTimeControl(): void {
     this.loadingTimeControlState$.set(true);
 
-    const url = urlReplaceParams(ApiUrls.timeControl.getTimeStateOpenByEmployeeId, {
+    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.getTimeStateOpenByEmployeeId, {
       employeeId: this.jwtService.getSid()
     });
 

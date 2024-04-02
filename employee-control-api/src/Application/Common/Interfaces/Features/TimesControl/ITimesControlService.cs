@@ -37,6 +37,7 @@ public interface ITimesControlService
     /// <summary>
     /// Obtener un grupos por días de <see cref="TimeControl" /> en un rango de fechas de un
     /// empleado concreto por su Id.
+    /// <para>El rango se busca tanto en Start como Finish del <see cref="TimeControl" />.</para>
     /// </summary>
     /// <param name="employeeId">Id empleado.</param>
     /// <param name="from">Fecha de inicio.</param>

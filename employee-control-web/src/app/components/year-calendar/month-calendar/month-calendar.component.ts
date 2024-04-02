@@ -74,7 +74,14 @@ export class MonthCalendarComponent implements OnInit {
 
     // Bucle para agregar las últimas fechas del mes anterior.
     for (let i = prevDaysWeek; i > 1; i--) {
-      this.calendarDays.push({ day: monthLastDate - i + 2, inactive: true, isToday: false });
+      this.calendarDays.push({
+        day: monthLastDate - i + 2,
+        inactive: true,
+        isToday: false,
+        editable: false,
+        removable: false,
+        canAddEvent: false
+      });
     }
 
     // Bucle para agregar las fechas del mes actual.
@@ -90,7 +97,16 @@ export class MonthCalendarComponent implements OnInit {
       const isToday = date.getTime() === new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
       const backgroundToday = isToday ? '#6332c5' : '';
 
-      this.calendarDays.push({ date: date, day: i, isToday: isToday, inactive: false, background: backgroundToday });
+      this.calendarDays.push({
+        date: date,
+        day: i,
+        isToday: isToday,
+        inactive: false,
+        background: backgroundToday,
+        editable: false,
+        removable: false,
+        canAddEvent: true
+      });
     }
 
     for (let i = dayEnd; i < 14; i++) {
@@ -99,7 +115,14 @@ export class MonthCalendarComponent implements OnInit {
         break;
       }
 
-      this.calendarDays.push({ day: i - dayEnd + 1, isToday: false, inactive: true });
+      this.calendarDays.push({
+        day: i - dayEnd + 1,
+        isToday: false,
+        inactive: true,
+        editable: false,
+        removable: false,
+        canAddEvent: false
+      });
     }
   }
 }

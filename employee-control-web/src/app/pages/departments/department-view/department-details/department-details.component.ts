@@ -9,7 +9,7 @@ import { CardComponent } from '../../../../components/cards/card/card.component'
 import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
 import { ApiUrls } from '../../../../core/urls/api-urls';
 import { SiteUrls } from '../../../../core/urls/site-urls';
-import { urlReplaceParams } from '../../../../core/utils/common-utils';
+import { CommonUtils } from '../../../../core/utils/common-utils';
 import { ResultResponse } from '../../../../models/result-response.model';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
 import { DepartmentApiService } from '../../../../services/api/department-api.service';
@@ -43,7 +43,7 @@ export class DepartmentDetailsComponent implements OnDestroy {
   siteUrls = SiteUrls;
 
   get urlToEdit(): string {
-    return urlReplaceParams(SiteUrls.departments.update, { id: this.departmentId });
+    return CommonUtils.urlReplaceParams(SiteUrls.departments.update, { id: this.departmentId });
   }
 
   ngOnDestroy(): void {

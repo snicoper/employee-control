@@ -10,7 +10,7 @@ namespace EmployeeControl.Application.Features.CompanySettings.Commands.UpdateCo
 public record UpdateCompanySettingsCommand(
     string Id,
     string Timezone,
-    int MaximumDailyWorkHours,
+    int PeriodTimeControlMax,
     int WeeklyWorkingHours,
     bool GeolocationRequired)
     : IRequest<Result>

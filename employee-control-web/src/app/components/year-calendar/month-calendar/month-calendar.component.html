@@ -18,7 +18,7 @@
               (click)="handleCalendarDayClick(calendarDay)"
               [ngClass]="{ inactive: calendarDay.inactive, active: calendarDay.isToday }">
               <span
-                [ngClass]="{ 'day-event': calendarDay.background || calendarDay.inactive }"
+                [ngClass]="{ 'not-editable': !calendarDay.canAddEvent }"
                 [ngStyle]="{ background: calendarDay.background, color: calendarDay.color }"
                 class="calendar-day">
                 @if (calendarDay.day < 10) {
