@@ -1,4 +1,5 @@
 import { DateTime, Interval } from 'luxon';
+import { WeekDays } from '../types/week-days';
 
 export abstract class DatetimeUtils {
   /**
@@ -35,5 +36,24 @@ export abstract class DatetimeUtils {
    */
   static toISOString(dateTime: DateTime): string {
     return dateTime.toUTC().toString();
+  }
+
+  static getWeekDaysFromYear(date: DateTime, weekDay: WeekDays): DateTime[] {
+    const result: DateTime[] = [];
+    const start = date.startOf('year');
+    const end = date.endOf('year');
+
+    const interval = Interval.fromDateTimes(start, end);
+    const subIntervals = interval.splitBy({ days: 1 });
+
+    subIntervals.forEach((subInt) => {
+      const d = subInt.start;
+
+      if (d?.weekday === weekDay) {
+        result.push(d);
+      }
+    });
+
+    return result;
   }
 }

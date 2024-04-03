@@ -105,8 +105,8 @@ export class TimeControlRecordUpdateComponent implements OnInit {
     const timeFinish = new Date(this.form.get('timeFinish')?.value);
 
     // Resta offset respecto a la zona horaria del usuario.
-    const start = DateUtils.dateDecrementOffset(dateStart, timeStart);
-    const end = DateUtils.dateDecrementOffset(dateFinish, timeFinish);
+    const start = DateUtils.decrementOffset(dateStart, timeStart);
+    const end = DateUtils.decrementOffset(dateFinish, timeFinish);
 
     // Comprobar si start es menor a end.
     if (start > end) {
@@ -136,8 +136,8 @@ export class TimeControlRecordUpdateComponent implements OnInit {
     }
 
     // Añade offset respecto a la zona horaria del usuario.
-    const startWithOffset = DateUtils.dateIncrementOffset(start);
-    const endWithOffset = DateUtils.dateIncrementOffset(finish);
+    const startWithOffset = DateUtils.incrementOffset(start);
+    const endWithOffset = DateUtils.incrementOffset(finish);
 
     this.form = this.formBuilder.group(
       {

@@ -5,19 +5,19 @@ import { AfterViewInit, Directive, ElementRef, OnDestroy, inject } from '@angula
 declare let bootstrap: any;
 
 @Directive({
-  selector: '[awTooltip]',
+  selector: '[awPopover]',
   standalone: true
 })
-export class TooltipDirective implements AfterViewInit, OnDestroy {
+export class PopoverDirective implements AfterViewInit, OnDestroy {
   private elementRef = inject(ElementRef);
-  private tooltip: any;
+  private popover: any;
 
   ngAfterViewInit(): void {
     const domElement: HTMLElement = this.elementRef.nativeElement;
-    this.tooltip = new bootstrap.Tooltip(domElement);
+    this.popover = new bootstrap.Popover(domElement);
   }
 
   ngOnDestroy(): void {
-    this.tooltip.dispose();
+    this.popover.dispose();
   }
 }

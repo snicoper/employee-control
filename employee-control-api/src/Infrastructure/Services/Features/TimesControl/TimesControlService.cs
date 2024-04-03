@@ -65,7 +65,7 @@ public class TimesControlService(
             .TimeControls
             .Where(
                 tc => (tc.UserId == employeeId && tc.Start >= from && tc.Start <= to)
-                      || (tc.UserId == employeeId && tc.Finish >= from && tc.Finish <= to))
+                      || (tc.UserId == employeeId && tc.Finish <= to && tc.Finish >= from))
             .GroupBy(tc => tc.Start.Day)
             .ToListAsync(cancellationToken);
 

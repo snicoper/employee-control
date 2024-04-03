@@ -7,4 +7,5 @@ export interface ProgressStackedItem {
   content: string;
   tooltip: string;
   background: string;
+  selectable: boolean;
 }

@@ -1,6 +1,9 @@
 import { NgClass, NgStyle } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DateTime, Info } from 'luxon';
+import { TooltipDirective } from '../../../directives/tooltip.directive';
 import { CardComponent } from '../../cards/card/card.component';
+import { SpinnerComponent } from '../../spinner/spinner.component';
 import { CalendarDay } from './calendar-day.model';
 
 @Component({
@@ -8,39 +11,21 @@ import { CalendarDay } from './calendar-day.model';
   templateUrl: './month-calendar.component.html',
   styleUrl: './month-calendar.component.scss',
   standalone: true,
-  imports: [CardComponent, NgClass, NgStyle]
+  imports: [NgClass, NgStyle, CardComponent, SpinnerComponent, TooltipDirective]
 })
 export class MonthCalendarComponent implements OnInit {
-  @Input({ required: true }) date = new Date();
+  @Input({ required: true }) date!: DateTime;
   @Input() calendarDayEvents: CalendarDay[] = [];
+  @Input({ required: true }) loading = true;
 
   @Output() calendarDayClick = new EventEmitter<CalendarDay>();
 
-  private currentYear = this.date.getFullYear();
-  private currentMonth = this.date.getMonth();
-
   calendarDays: CalendarDay[] = [];
   currentDate = '';
-  weeks = ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'];
-  months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-  ];
+  weeks = Info.weekdays('short');
 
   ngOnInit(): void {
-    this.currentYear = this.date.getFullYear();
-    this.currentMonth = this.date.getMonth();
-    this.currentDate = `${this.months[this.currentMonth]} ${this.currentYear}`;
+    this.currentDate = `${this.date.monthLong} ${this.date.year}`;
 
     this.renderCalendar();
   }
@@ -54,47 +39,45 @@ export class MonthCalendarComponent implements OnInit {
   }
 
   private renderCalendar(): void {
-    // Obtener el día de la semana del primer día del mes actual.
-    const dayOne = new Date(this.currentYear, this.currentMonth, 1).getDay();
+    // Obtener el día de la semana del primer día del mes.
+    const dayOne = DateTime.local(this.date.year, this.date.month).startOf('month').weekday;
 
-    // Obtener la última fecha del mes actual.
-    const lastDate = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+    // Obtener el último día del mes.
+    const lastDate = DateTime.local(this.date.year, this.date.month).endOf('month').day;
 
     // Obtener el día de semana del último día del mes anterior.
-    const dayEnd = new Date(this.currentYear, this.currentMonth, lastDate).getDay();
+    const dayEnd = DateTime.local(this.date.year, this.date.month).minus({ month: 1 }).endOf('month').weekday;
 
-    // Obtener la fecha del último día del mes.
-    const monthLastDate = new Date(this.currentYear, this.currentMonth, 0).getDate();
+    // Obtener el último día del mes.
+    const monthLastDate = DateTime.local(this.date.year, this.date.month).endOf('month').day;
 
     // Fecha de hoy.
-    const today = new Date();
+    const today = DateTime.local().startOf('day');
 
-    // Si tiene 0 días dayOne, rompe el calendario cuando el 1 es Domingo.
-    const prevDaysWeek = dayOne === 0 ? 7 : dayOne;
+    // Si tiene 0 días dayOne, rompe el calendario cuando el día 1 es Domingo.
+    const prevDaysWeek = dayOne === 1 ? 8 : dayOne;
 
     // Bucle para agregar las últimas fechas del mes anterior.
     for (let i = prevDaysWeek; i > 1; i--) {
       this.calendarDays.push({
-        day: monthLastDate - i + 2,
+        day: monthLastDate - i,
         inactive: true,
         isToday: false,
-        editable: false,
-        removable: false,
         canAddEvent: false
       });
     }
 
     // Bucle para agregar las fechas del mes actual.
     for (let i = 1; i <= lastDate; i++) {
-      const date = new Date(this.currentYear, this.currentMonth, i);
-      const event = this.calendarDayEvents.find((d) => d.date?.getTime() === date.getTime());
+      const date = DateTime.local(this.date.year, this.date.month, i);
+      const event = this.calendarDayEvents.find((d) => d.date?.valueOf() === date.valueOf());
 
       if (event) {
         this.calendarDays.push(event);
         continue;
       }
 
-      const isToday = date.getTime() === new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+      const isToday = date.startOf('day').valueOf() === today.valueOf();
       const backgroundToday = isToday ? '#6332c5' : '';
 
       this.calendarDays.push({
@@ -103,14 +86,13 @@ export class MonthCalendarComponent implements OnInit {
         isToday: isToday,
         inactive: false,
         background: backgroundToday,
-        editable: false,
-        removable: false,
         canAddEvent: true
       });
     }
 
+    // Bucle para agregar las primeras fechas del mes siguiente.
+    // Mostrar 6 filas x 7 días, 42 días al mes..
     for (let i = dayEnd; i < 14; i++) {
-      // Mostrar max. 6 filas x 7 días.
       if (this.calendarDays.length >= 42) {
         break;
       }
@@ -119,8 +101,6 @@ export class MonthCalendarComponent implements OnInit {
         day: i - dayEnd + 1,
         isToday: false,
         inactive: true,
-        editable: false,
-        removable: false,
         canAddEvent: false
       });
     }

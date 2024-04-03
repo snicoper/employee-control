@@ -10,8 +10,9 @@
       [attr.aria-valuemin]="item.valueMin"
       [attr.aria-valuenow]="item.valueNow"
       [ngStyle]="{ width: item.percent + '%' }"
+      [ngClass]="{ 'cursor-pointer': item.selectable }"
       aria-label="Time control"
-      class="progress cursor-pointer"
+      class="progress"
       role="progressbar">
       <div [ngClass]="item.background" [title]="item.tooltip" awTooltip class="progress-bar">
         {{ item.content }}

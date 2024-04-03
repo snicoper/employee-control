@@ -109,8 +109,8 @@ export class TimeControlRecordCreateFormComponent implements OnInit {
     const timeFinish = new Date(this.form.get('timeFinish')?.value);
 
     // Resta offset respecto a la zona horaria del usuario.
-    const start = DateUtils.dateDecrementOffset(dateStart, timeStart);
-    const end = DateUtils.dateDecrementOffset(dateFinish, timeFinish);
+    const start = DateUtils.decrementOffset(dateStart, timeStart);
+    const end = DateUtils.decrementOffset(dateFinish, timeFinish);
 
     // Comprobar si start es menor a end si se inserta tiempos de finalización.
     if (this.formAddFinishTimes && start > end) {
@@ -130,7 +130,7 @@ export class TimeControlRecordCreateFormComponent implements OnInit {
     const start = new Date();
 
     // Añade offset respecto a la zona horaria del usuario.
-    const nowWithOffsets = DateUtils.dateIncrementOffset(start);
+    const nowWithOffsets = DateUtils.incrementOffset(start);
 
     // Las validaciones de tiempos de cierre son dinámicos.
     // @see: this.handleToggleFinishDateAndTime().

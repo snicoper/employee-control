@@ -21,6 +21,10 @@ export class ProgressStackedComponent {
   }
 
   handleClickProgress(progressStackedItem: ProgressStackedItem): void {
+    if (!progressStackedItem.selectable) {
+      return;
+    }
+
     this.clickProgress.emit(progressStackedItem);
   }
 }

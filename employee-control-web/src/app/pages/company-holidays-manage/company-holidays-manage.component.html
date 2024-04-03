@@ -1,11 +1,17 @@
 <aw-page-base>
-  <aw-year-calendar
-    (calendarDayClick)="handleCalendarDayClick($event)"
-    [year]="year"
-    [calendarDayEvents]="calendarDayEvents" />
+  @if (!loading) {
+    <aw-year-calendar
+      (calendarDayClick)="handleCalendarDayClick($event)"
+      [date]="date"
+      [calendarDayEvents]="calendarDayEvents"
+      [loading]="loading" />
+  }
 
-  <ng-template #popTemplate let-message="message"> </ng-template>
-  <button type="button" class="btn btn-primary" [popover]="popTemplate" [popoverContext]="">
+  <button triggers="mouseenter:mouseleave" type="button" class="btn btn-primary" [popover]="popTemplate">
     Open popover with custom context
   </button>
+
+  <ng-template #popTemplate let-message="message">
+    <h1>Hello qorld</h1>
+  </ng-template>
 </aw-page-base>

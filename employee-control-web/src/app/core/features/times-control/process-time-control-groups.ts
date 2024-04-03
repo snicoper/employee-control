@@ -1,13 +1,12 @@
 import { DateTime } from 'luxon';
-import { logError } from '../../errors/log-messages';
+import { logDebug } from '../../errors/log-messages';
 import { PeriodDatetime } from '../../models/preriod-datetime';
 import { CommonUtils } from '../../utils/common-utils';
 import { DatetimeUtils } from '../../utils/datetime-utils';
 import { TimeControlGroupResponse, TimeResponse } from './times-control-response.model';
 
 /**
- * Procesa una respuesta y re-calcula los times según el
- * timezone del usuario.
+ * Procesa una respuesta y re-calcula los times según el timezone del usuario.
  */
 export class ProcessTimeControlGroups {
   private readonly timeControlGroups: TimeControlGroupResponse[];
@@ -18,7 +17,7 @@ export class ProcessTimeControlGroups {
   constructor(timeControlGroups: TimeControlGroupResponse[], date: Date) {
     this.date = DateTime.fromJSDate(date);
     this.minutesInDay = 60 * 24;
-    this.timeControlGroups = timeControlGroups;
+    this.timeControlGroups = this.initialAndFinishMonth(timeControlGroups);
   }
 
   /**
@@ -37,6 +36,38 @@ export class ProcessTimeControlGroups {
   /** Procesa cada TimeControlGroupResponse. */
   private processTimeControlGroup(timeControlGroup: TimeControlGroupResponse): void {
     this.processTimesInTimeControl(timeControlGroup.times, timeControlGroup.day);
+  }
+
+  /**
+   * Comprueba el primer y último tiempo del mes siguiente y anterior al actual para mover las partes al mes actual.
+   */
+  private initialAndFinishMonth(timeControlGroups: TimeControlGroupResponse[]): TimeControlGroupResponse[] {
+    timeControlGroups.forEach((timeControlGroup) => {
+      const endOfMonth = DateTime.fromISO(timeControlGroup.dayTitle).startOf('month');
+      const startOfMonth = this.date.startOf('month');
+
+      // Último TimeControl del mes anterior al mes actual.
+      if (endOfMonth < startOfMonth) {
+        const lastTimeOfGroup = timeControlGroup.times[timeControlGroup.times.length - 1];
+        const nextGroup = timeControlGroups.find((tcg) => tcg.day === this.date.startOf('month').day);
+        nextGroup?.times.unshift(lastTimeOfGroup);
+
+        const index = timeControlGroup.times.findIndex((t) => t.id === lastTimeOfGroup.id);
+        timeControlGroup.times.splice(index, 1);
+      }
+
+      // Primer TimeControl del mes siguiente al mes actual.
+      if (endOfMonth > startOfMonth) {
+        const firstTimeOfGroup = timeControlGroup.times[0];
+        const prevGroup = timeControlGroups.find((tcg) => tcg.day === this.date.endOf('month').day);
+        prevGroup?.times.push(firstTimeOfGroup);
+
+        const index = timeControlGroup.times.findIndex((t) => t.id === firstTimeOfGroup.id);
+        timeControlGroup.times.splice(index, 1);
+      }
+    });
+
+    return timeControlGroups;
   }
 
   /** Procesa una lista de TimeResponse[]. */
@@ -58,7 +89,7 @@ export class ProcessTimeControlGroups {
       // Comprobar los tiempos anteriores a las 00:00:00.
       //      |----------------| Current day.
       // |--------| Time.
-      if (period.start.day < day && period.end.day === day) {
+      if (period.start.day !== day && period.end.day === day) {
         this.processUnderTime(time, period, day);
 
         return;
@@ -67,7 +98,7 @@ export class ProcessTimeControlGroups {
       // Tiempos que al menos el final supera al día actual.
       // |----------------| Current day.
       //             |--------| Time.
-      if (period.end.day > day && period.start.day === day) {
+      if (period.end.day !== day && period.start.day === day) {
         this.processOverTime(time, period, day);
       }
     });
@@ -102,42 +133,42 @@ export class ProcessTimeControlGroups {
   private processOverTime(time: TimeResponse, period: PeriodDatetime, day: number): void {
     const nextTimeControl = this.nextTimeControlGroup(day);
     const currentItemControl = this.getTimeControlGroupByDay(day);
+    const diffMidnight = Math.round(period.start.endOf('day').diff(period.start, ['minutes']).minutes);
+    const duration = Math.abs(Math.round(period.duration() - diffMidnight));
 
-    if (!nextTimeControl || !currentItemControl) {
-      return;
-    }
-
-    // Comprobar si el inicio también supera el día actual.
+    // Inicio y final del día siguiente.
     // |---------------| Current day.
     //                    |--------| Time.
-    if (period.start.day > day) {
+    if (nextTimeControl && period.start.day > day) {
       const newOverTime1 = this.createTimeResponse(time, period.start, period.end, period.duration());
-
       nextTimeControl.totalMinutes += period.duration();
       nextTimeControl.times.push(newOverTime1);
 
       return;
     }
 
-    // Este caso solo puede haber uno por TimeControlGroupResponse.
-    // El inicio comienza el día actual y el final el día siguiente.
-    // |---------------------| Current day.
-    //                   |--------| Time.
-    const diffMidnight = Math.round(period.start.endOf('day').diff(period.start, ['minutes']).minutes);
-    const duration = Math.abs(Math.round(period.duration() - diffMidnight));
-
     // Día siguiente desde las 00:00.00.
-    const newOverTime2 = this.createTimeResponse(
-      time,
-      period.end.startOf('day'),
-      period.end.startOf('day').plus({ minutes: duration }),
-      duration
-    );
+    // |---------------------| Current day.
+    //                       |----| Time.
+    if (nextTimeControl) {
+      const newOverTime2 = this.createTimeResponse(
+        time,
+        period.end.startOf('day'),
+        period.end.startOf('day').plus({ minutes: duration }),
+        duration
+      );
 
-    nextTimeControl.totalMinutes += duration;
-    nextTimeControl.times.unshift(newOverTime2);
+      nextTimeControl.totalMinutes += duration;
+      nextTimeControl.times.unshift(newOverTime2);
+    }
+
+    if (!currentItemControl) {
+      return;
+    }
 
     // Día actual hasta las 23:59:59.
+    // |---------------------| Current day.
+    //                  |----| Time.
     const newTime = this.createTimeResponse(time, period.start, period.start.endOf('day'), diffMidnight);
 
     currentItemControl.totalMinutes += diffMidnight;
@@ -153,46 +184,41 @@ export class ProcessTimeControlGroups {
   private processUnderTime(time: TimeResponse, period: PeriodDatetime, day: number): void {
     const prevTimeControl = this.prevTimeControlGroup(day);
     const currentItemControl = this.getTimeControlGroupByDay(day);
+    const diffMidnight = Math.round(period.end.diff(period.end.startOf('day'), ['minutes']).minutes);
+    const duration = Math.round(period.duration() - diffMidnight);
 
-    if (!prevTimeControl || !currentItemControl) {
-      return;
-    }
-
-    // Comprobar si el final también supera el día actual.
+    // Comprobar si el final también es anterior el día actual.
+    // Lo añade al día anterior.
     //               |---------------------| Current day.
-    // |---------| Time.
-    if (period.end.day < day) {
+    // |-------| Time.
+    if (prevTimeControl && period.end.day < day) {
       const newUnderTime1 = this.createTimeResponse(time, period.start, period.end, period.duration());
-
       prevTimeControl.totalMinutes += period.duration();
       prevTimeControl.times.push(newUnderTime1);
 
       return;
     }
 
-    // Este caso solo puede haber uno por TimeControlGroupResponse.
     // El inicio comienza el día anterior y el final termina el día actual.
-    const diffMidnight = Math.round(period.end.diff(period.end.startOf('day'), ['minutes']).minutes);
-    const duration = Math.round(period.duration() - diffMidnight);
-
+    // Añade la parte del día anterior en el grupo del día anterior.
     // Día anterior hasta las 00:00.00.
     //            |-----------------------| Current day.
-    //        |--------| Time.
-    const newUnderTime = this.createTimeResponse(time, period.start, period.end.endOf('day'), duration);
+    //        |---| Time.
+    if (prevTimeControl) {
+      const newUnderTime = this.createTimeResponse(time, period.start, period.start.endOf('day'), duration);
+      prevTimeControl.totalMinutes += duration;
+      prevTimeControl.times.push(newUnderTime);
+    }
 
-    prevTimeControl.totalMinutes += duration;
-    prevTimeControl.times.push(newUnderTime);
+    if (!currentItemControl) {
+      return;
+    }
 
+    // Añade la parte del día actual.
     // Día actual desde las 00:00:00.
     //      |-----------------------| Current day.
-    // |--------| Time.
-    const newTime = this.createTimeResponse(
-      time,
-      period.start.startOf('day'),
-      period.start.plus(duration),
-      diffMidnight
-    );
-
+    //      |----| Time.
+    const newTime = this.createTimeResponse(time, period.start.startOf('day'), period.end, diffMidnight);
     currentItemControl.totalMinutes += diffMidnight;
     currentItemControl.times.push(newTime);
   }
@@ -219,7 +245,7 @@ export class ProcessTimeControlGroups {
     const currentTimeControlGroup = this.getTimeControlGroupByDay(day);
 
     if (!currentTimeControlGroup) {
-      logError('Error al obtener el currentTimeControlGroup.');
+      logDebug('Error al obtener el nextTimeControlGroup.');
 
       return null;
     }
@@ -239,17 +265,17 @@ export class ProcessTimeControlGroups {
     const currentTimeControlGroup = this.getTimeControlGroupByDay(day);
 
     if (!currentTimeControlGroup) {
-      logError('Error al obtener el currentTimeControlGroup.');
+      logDebug('Error al obtener el prevTimeControlGroup.');
 
       return null;
     }
 
-    const nextDay = DateTime.fromISO(currentTimeControlGroup.dayTitle)
+    const prevDay = DateTime.fromISO(currentTimeControlGroup.dayTitle)
       .set({ day: day })
       .minus({ day: 1 })
       .toFormat('yyyy-LL-dd');
 
-    const item = this.timeControlGroupsResult.find((timeControl) => timeControl.dayTitle === nextDay);
+    const item = this.timeControlGroupsResult.find((timeControl) => timeControl.dayTitle === prevDay);
 
     return item ?? null;
   }

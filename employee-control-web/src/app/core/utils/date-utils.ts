@@ -72,7 +72,7 @@ export abstract class DateUtils {
    * @param time Fecha/hora a incrementar offset.
    * @returns Nueva fecha añadido el offset.
    */
-  static dateIncrementOffset(date: Date, time?: Date): Date {
+  static incrementOffset(date: Date, time?: Date): Date {
     // Lo importante si existe, es el time para obtener los offsets.
     time = time ?? date;
     const offset = new Date(time).getTimezoneOffset();
@@ -98,7 +98,7 @@ export abstract class DateUtils {
    * @param time Fecha/hora a decrementar offset.
    * @returns Nueva fecha el offset decrementado.
    */
-  static dateDecrementOffset(date: Date, time?: Date): Date {
+  static decrementOffset(date: Date, time?: Date): Date {
     // Lo importante si existe, es el time para obtener los offsets.
     time = time ?? date;
     const offset = new Date(time).getTimezoneOffset();

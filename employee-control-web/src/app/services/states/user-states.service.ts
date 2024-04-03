@@ -22,18 +22,22 @@ export class UserStatesService {
   private readonly workingDaysWeekStateService = inject(WorkingDaysWeekStateService);
 
   /** Carga estados del usuario. */
-  load(): void {
-    this.signalRService.start();
+  async load(): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.signalRService.start();
 
-    this.companyEmployeeStateService.refresh();
-    this.employeeSettingsStateService.refresh();
-    this.companySettingsStateService.refresh();
-    this.userTimeControlStateService.refresh();
-    this.workingDaysWeekStateService.refresh();
+      this.companyEmployeeStateService.refresh();
+      this.employeeSettingsStateService.refresh();
+      this.companySettingsStateService.refresh();
+      this.userTimeControlStateService.refresh();
+      this.workingDaysWeekStateService.refresh();
 
-    if (this.jwtService.isInRole(Roles.enterpriseStaff)) {
-      this.timeControlIncidencesCountStateService.refresh();
-    }
+      if (this.jwtService.isInRole(Roles.enterpriseStaff)) {
+        this.timeControlIncidencesCountStateService.refresh();
+      }
+
+      resolve(true);
+    });
   }
 
   /** Elimina estados del usuario. */

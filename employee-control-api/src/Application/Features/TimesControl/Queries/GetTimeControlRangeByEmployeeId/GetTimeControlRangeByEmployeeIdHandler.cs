@@ -63,6 +63,9 @@ internal class GetTimeControlRangeByEmployeeIdHandler(IDateTimeService dateTimeS
             timeControlResponse.DayTitle = timeControlResponse.Times.First().Start.UtcDateTime.ToString("yyyy-MM-dd");
         }
 
+        // Ordenar por fecha de inicio el grupo.
+        timeControlResponse.Times = timeControlResponse.Times.OrderBy(tc => tc.Start).ToList();
+
         return timeControlResponse;
     }
 }

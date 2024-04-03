@@ -1,10 +1,17 @@
-.card-container {
-  margin: 1px;
+$color-inactive: #939393;
+$hover-day-background: cadetblue;
+
+:host ::ng-deep .card-container {
+  margin: 2px;
   max-width: 350px;
-  padding: 0%;
+  padding: 0;
+
+  .card-body {
+    padding: 0.5rem 1rem 0 0;
+  }
 }
 
-:host ::ng-deep .calendar-header {
+.calendar-header {
   .calendar-current-date {
     font-weight: 500;
     display: flex;
@@ -12,7 +19,7 @@
   }
 }
 
-:host ::ng-deep .calendar-body {
+.calendar-body {
   ul {
     display: flex;
     list-style: none;
@@ -23,8 +30,6 @@
   .calendar-dates {
     li {
       margin-top: 17px;
-      position: relative;
-      z-index: 1;
       font-size: 0.9rem;
 
       .calendar-day {
@@ -33,7 +38,7 @@
 
         &:hover {
           cursor: pointer;
-          background-color: cadetblue;
+          background-color: $hover-day-background;
 
           &.not-editable {
             background-color: transparent;
@@ -44,7 +49,7 @@
     }
 
     .inactive {
-      color: #939393;
+      color: $color-inactive;
     }
   }
 

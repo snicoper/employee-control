@@ -13,7 +13,8 @@ export class ProgressStackedCollection {
       percent: progressStackedItem.percent,
       content: progressStackedItem.content,
       tooltip: progressStackedItem.tooltip,
-      background: progressStackedItem.background
+      background: progressStackedItem.background,
+      selectable: progressStackedItem.selectable
     });
 
     return this;

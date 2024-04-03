@@ -12,7 +12,7 @@ export class AppConfig {
   private readonly localizationService = inject(LocalizationService);
   private readonly userStatesService = inject(UserStatesService);
 
-  load(): Promise<boolean> {
+  async load(): Promise<boolean> {
     return new Promise((resolve) => {
       this.themeColorService.initialize();
       this.localizationService.initialize();

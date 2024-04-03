@@ -3,6 +3,7 @@ import { ProgressStackedCollection } from '../../../components/progress/progress
 import { ClosedBy } from '../../../models/entities/types/closed-by.model';
 import { CommonUtils } from '../../utils/common-utils';
 import { DateUtils } from '../../utils/date-utils';
+import { DatetimeUtils } from '../../utils/datetime-utils';
 import { ProcessTimeControlGroups } from './process-time-control-groups';
 import { TimeControlGroupResponse, TimeResponse } from './times-control-response.model';
 
@@ -52,8 +53,7 @@ export class TimeControlProgressStacked {
   /**
    * Componer un grupo (día) de TimeControl[].
    *
-   * @param timeControlGroup Un grupo (día) de TimeControl[].
-   * @param nextTimeControlGroup Siguiente elemento timeControlGroup.
+   * @param timeControlGroup Un grupo TimeControlGroupResponse (día) de TimeControl[].
    * @returns ProgressStackedCollection.
    */
   private composeTimeControlGroup(timeControlGroup: TimeControlGroupResponse): ProgressStackedCollection {
@@ -75,8 +75,8 @@ export class TimeControlProgressStacked {
       const dateTimeEnd = DateTime.fromJSDate(new Date(time.finish));
 
       // Calcular posición del día.
-      const diffDateTime = dateTimeStart.diff(lastTimeCalculate, ['minutes']);
-      const diffPercent = CommonUtils.calculatePercent(this.minutesInDay, diffDateTime.minutes);
+      const diffDateTime = DatetimeUtils.duration(dateTimeStart, lastTimeCalculate);
+      const diffPercent = CommonUtils.calculatePercent(this.minutesInDay, diffDateTime);
 
       // Insertar tiempo de inactividad (progressStackedItem).
       progressStacked.addItem({
@@ -87,7 +87,8 @@ export class TimeControlProgressStacked {
         percent: diffPercent,
         content: '',
         tooltip: '',
-        background: 'bg-transparent'
+        background: 'bg-transparent',
+        selectable: false
       });
       currentPercent += diffPercent;
 
@@ -107,7 +108,8 @@ export class TimeControlProgressStacked {
         percent: time.dayPercent,
         content: timeDuration,
         tooltip: tooltip,
-        background: background
+        background: background,
+        selectable: true
       });
 
       currentPercent += time.dayPercent;
