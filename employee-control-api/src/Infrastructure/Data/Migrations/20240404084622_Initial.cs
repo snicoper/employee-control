@@ -131,7 +131,7 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    Day = table.Column<DateOnly>(type: "date", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
                     Description = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     CompanyId = table.Column<string>(type: "text", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
@@ -601,9 +601,9 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CompanyHolidays_Day_CompanyId",
+                name: "IX_CompanyHolidays_Date_CompanyId",
                 table: "CompanyHolidays",
-                columns: new[] { "Day", "CompanyId" },
+                columns: new[] { "Date", "CompanyId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

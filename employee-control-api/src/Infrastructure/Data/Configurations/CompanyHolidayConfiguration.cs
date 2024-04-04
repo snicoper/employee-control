@@ -16,11 +16,11 @@ public class CompanyHolidayConfiguration : IEntityTypeConfiguration<CompanyHolid
         // Indexes.
         builder.HasIndex(ch => ch.Id);
 
-        builder.HasIndex(ch => new { ch.Day, ch.CompanyId })
+        builder.HasIndex(ch => new { Day = ch.Date, ch.CompanyId })
             .IsUnique();
 
         // Properties.
-        builder.Property(ch => ch.Day)
+        builder.Property(ch => ch.Date)
             .IsRequired();
 
         builder.Property(ch => ch.Description)

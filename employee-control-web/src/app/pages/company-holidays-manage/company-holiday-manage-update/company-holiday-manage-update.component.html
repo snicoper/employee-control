@@ -1,0 +1,61 @@
+<div class="modal-content">
+  <!-- header -->
+  <div class="modal-header">
+    <h5 class="modal-title">Añadir día festivo</h5>
+    <button (click)="handleClose()" aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+  </div>
+  <!-- end header -->
+
+  <!-- body -->
+  <div class="modal-body">
+    <!-- form -->
+    <form [formGroup]="form">
+      <aw-non-field-errors [badRequest]="badRequest"/>
+
+      <!-- day -->
+      <aw-form-datepicker
+        [badRequest]="badRequest"
+        [form]="form"
+        [submitted]="submitted"
+        fieldName="date"
+        formControlName="date"
+        label="Fecha"/>
+      <!-- end day -->
+
+      <!-- description -->
+      <div class="mb-2">
+        <aw-form-input
+          [badRequest]="badRequest"
+          [form]="form"
+          [submitted]="submitted"
+          fieldName="description"
+          formControlName="description"
+          label="Descripción"/>
+      </div>
+      <!-- end description -->
+    </form>
+    <!-- end form -->
+  </div>
+</div>
+<!-- end body -->
+
+<!-- footer -->
+<div class="modal-footer">
+  <button (click)="handleClose()" class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cerrar</button>
+  <aw-btn-loading
+    (eventClick)="handleSubmit()"
+    [loading]="loading"
+    btnClass="btn btn-success ms-2"
+    btnIcon="fa-regular fa-floppy-disk"
+    btnText="Guardar cambios"
+    spinnerLoadingText="Guardando"/>
+
+  <aw-btn-loading
+    (eventClick)="handleDelete()"
+    [loading]="loading"
+    btnClass="btn btn-danger ms-2"
+    btnIcon="fa-solid fa-trash"
+    btnText="Eliminar"
+    spinnerLoadingText="Eliminando"/>
+</div>
+<!-- end footer -->

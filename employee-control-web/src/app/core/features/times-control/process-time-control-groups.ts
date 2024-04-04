@@ -231,7 +231,7 @@ export class ProcessTimeControlGroups {
     DatetimeUtils.dayDateTimeInterval(dateStart, dateEnd).forEach((currentDay) => {
       const timeControlGroupResponse = {
         day: currentDay?.day,
-        dayTitle: currentDay?.toFormat('yyyy-LL-dd'),
+        dayTitle: DatetimeUtils.dateOnly(currentDay),
         totalMinutes: 0,
         times: []
       } as TimeControlGroupResponse;

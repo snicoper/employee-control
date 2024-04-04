@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 
 export interface CalendarDay {
+  companyHolidayId?: string;
   day: number;
   date?: DateTime;
   inactive: boolean;

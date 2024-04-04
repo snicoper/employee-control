@@ -45,7 +45,7 @@ export abstract class DateUtils {
    * @param weekDay Numero del día de la semana a obtener (1-7).
    * @returns Array<Date> con los fechas del día de la semana del año concreto.
    */
-  static getWeekDaysFromYear(year: number, weekDay: WeekDays): Date[] {
+  static weekDaysFromYear(year: number, weekDay: WeekDays): Date[] {
     const result: Date[] = [];
     const start = DateTime.fromObject({ year: year, month: 1, day: 1 });
     const end = DateTime.fromObject({ year: year, month: 12, day: 31 });
@@ -123,7 +123,7 @@ export abstract class DateUtils {
    * @param end Fecha Final.
    * @returns Diferencia entre las 2 fechas en días.
    */
-  static getIntervalDays(start: Date, end: Date): number {
+  static intervalDays(start: Date, end: Date): number {
     const dateStart = DateTime.fromJSDate(start).startOf('day');
     const dateEnd = DateTime.fromJSDate(end).endOf('day');
     const diff = dateEnd.diff(dateStart, ['day']);
@@ -162,5 +162,15 @@ export abstract class DateUtils {
    */
   static toISOString(date: Date): string {
     return date.toISOString();
+  }
+
+  /**
+   * Obtener cantidad de días en un año concreto.
+   *
+   * @param year Año a comprobar.
+   * @returns 365 o 366 según si es bisiesto o no.
+   */
+  static daysInYear(year: number): number {
+    return (year % 4 === 0 && year % 100 > 0) || year % 400 === 0 ? 366 : 365;
   }
 }

@@ -14,11 +14,11 @@ public class CompanyHolidaysValidatorService(
     IStringLocalizer<CompanyHolidayLocalizer> localizer)
     : ICompanyHolidaysValidatorService
 {
-    public async Task ValidateHolidayInDateAsync(CompanyHoliday companyHoliday, CancellationToken cancellationToken)
+    public async Task ValidateCreateHolidayInDateAsync(CompanyHoliday companyHoliday, CancellationToken cancellationToken)
     {
         var dateExists = await context
             .CompanyHolidays
-            .AnyAsync(ch => ch.Day == companyHoliday.Day && ch.CompanyId == companyHoliday.CompanyId, cancellationToken);
+            .AnyAsync(ch => ch.Date == companyHoliday.Date && ch.CompanyId == companyHoliday.CompanyId, cancellationToken);
 
         if (!dateExists)
         {
@@ -26,6 +26,23 @@ public class CompanyHolidaysValidatorService(
         }
 
         var message = localizer["La fecha seleccionada ya tiene asignado un día festivo."];
-        validationFailureService.Add(nameof(CompanyHoliday.Day), message);
+        validationFailureService.Add(nameof(CompanyHoliday.Date), message);
+    }
+
+    public async Task ValidateUpdateHolidayInDateAsync(CompanyHoliday companyHoliday, CancellationToken cancellationToken)
+    {
+        var dateExists = await context
+            .CompanyHolidays
+            .AnyAsync(
+                ch => ch.Id != companyHoliday.Id && ch.Date == companyHoliday.Date && ch.CompanyId == companyHoliday.CompanyId,
+                cancellationToken);
+
+        if (!dateExists)
+        {
+            return;
+        }
+
+        var message = localizer["La fecha seleccionada ya tiene asignado un día festivo."];
+        validationFailureService.Add(nameof(CompanyHoliday.Date), message);
     }
 }

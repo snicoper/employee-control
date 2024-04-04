@@ -28,15 +28,15 @@ import { DepartmentCreateResponse } from './department-create-response.model';
   templateUrl: './department-create.component.html',
   standalone: true,
   imports: [
-    PageBaseComponent,
-    PageHeaderComponent,
-    CardComponent,
     FormsModule,
     ReactiveFormsModule,
+    PageBaseComponent,
+    CardComponent,
+    PageHeaderComponent,
     NonFieldErrorsComponent,
-    BadgeComponent,
     FormInputComponent,
     FormColorComponent,
+    BadgeComponent,
     BtnLoadingComponent,
     BtnBackComponent
   ]

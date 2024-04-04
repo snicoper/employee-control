@@ -1,17 +1,24 @@
 <aw-page-base>
+  <aw-page-header>Días festivos</aw-page-header>
+
+  <aw-card>
+    <div>
+      <aw-dot [color]="calendarColors.today">&nbsp;</aw-dot> Día actual
+      <aw-dot [color]="calendarColors.notWorkingDay">&nbsp;</aw-dot> Día no laborable
+      <aw-dot [color]="calendarColors.holiday">&nbsp;</aw-dot> Día festivo
+      <span class="ms-3">Horas de trabajo anual: {{ workingHoursYear }}</span>
+    </div>
+  </aw-card>
+
+  <div class="mb-2"></div>
+
   @if (!loading) {
     <aw-year-calendar
       (calendarDayClick)="handleCalendarDayClick($event)"
       [date]="date"
       [calendarDayEvents]="calendarDayEvents"
       [loading]="loading" />
+  } @else {
+    <aw-spinner [loading]="loading" [size]="200" />
   }
-
-  <button triggers="mouseenter:mouseleave" type="button" class="btn btn-primary" [popover]="popTemplate">
-    Open popover with custom context
-  </button>
-
-  <ng-template #popTemplate let-message="message">
-    <h1>Hello qorld</h1>
-  </ng-template>
 </aw-page-base>

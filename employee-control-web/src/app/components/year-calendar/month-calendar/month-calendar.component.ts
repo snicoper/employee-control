@@ -67,25 +67,23 @@ export class MonthCalendarComponent implements OnInit {
       });
     }
 
-    // Bucle para agregar las fechas del mes actual.
+    // Bucle para agregar las eventos del mes actual.
     for (let i = 1; i <= lastDate; i++) {
-      const date = DateTime.local(this.date.year, this.date.month, i);
+      const date = DateTime.local(this.date.year, this.date.month, i).startOf('day');
+      const isToday = date.valueOf() === today.valueOf();
       const event = this.calendarDayEvents.find((d) => d.date?.valueOf() === date.valueOf());
 
       if (event) {
+        event.isToday = isToday;
         this.calendarDays.push(event);
         continue;
       }
-
-      const isToday = date.startOf('day').valueOf() === today.valueOf();
-      const backgroundToday = isToday ? '#6332c5' : '';
 
       this.calendarDays.push({
         date: date,
         day: i,
         isToday: isToday,
         inactive: false,
-        background: backgroundToday,
         canAddEvent: true
       });
     }

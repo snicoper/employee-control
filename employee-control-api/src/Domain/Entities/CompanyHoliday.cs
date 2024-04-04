@@ -8,7 +8,7 @@ namespace EmployeeControl.Domain.Entities;
 /// </summary>
 public class CompanyHoliday : BaseAuditableEntity, ICompany
 {
-    public DateOnly Day { get; set; }
+    public DateOnly Date { get; set; }
 
     public string Description { get; set; } = default!;
 

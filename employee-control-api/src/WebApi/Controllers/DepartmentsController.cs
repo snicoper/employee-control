@@ -125,15 +125,14 @@ public class DepartmentsController : ApiControllerBase
     }
 
     /// <summary>
-    /// Actualiza un nuevo <see cref="Department" />.
+    /// Actualiza un <see cref="Department" />.
     /// </summary>
-    /// <param name="id">Id del <see cref="Department" />.</param>
     /// <param name="command">Datos del <see cref="Department" />.</param>
     /// <returns><see cref="Result" />.</returns>
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Result>> UpdateDepartment(string id, UpdateDepartmentCommand command)
+    public async Task<ActionResult<Result>> UpdateDepartment(UpdateDepartmentCommand command)
     {
         var result = await Sender.Send(command);
 

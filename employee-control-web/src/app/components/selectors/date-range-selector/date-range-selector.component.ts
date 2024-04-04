@@ -53,7 +53,7 @@ export class DateRangeSelectorComponent {
       return;
     }
 
-    const intervalDays = DateUtils.getIntervalDays(this.rangeValue[0], this.rangeValue[1]);
+    const intervalDays = DateUtils.intervalDays(this.rangeValue[0], this.rangeValue[1]);
     const start = DateTime.fromJSDate(this.rangeValue[0]).startOf('day');
     const finish = DateTime.fromJSDate(this.rangeValue[1]).endOf('day');
     const newStart = start.plus({ days: intervalDays });
@@ -67,7 +67,7 @@ export class DateRangeSelectorComponent {
       return;
     }
 
-    const intervalDays = DateUtils.getIntervalDays(this.rangeValue[0], this.rangeValue[1]);
+    const intervalDays = DateUtils.intervalDays(this.rangeValue[0], this.rangeValue[1]);
     const start = DateTime.fromJSDate(this.rangeValue[0]).startOf('day');
     const finish = DateTime.fromJSDate(this.rangeValue[1]).endOf('day');
     const newStart = start.minus({ days: intervalDays });

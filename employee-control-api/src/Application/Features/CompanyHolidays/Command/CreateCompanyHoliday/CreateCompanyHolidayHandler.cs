@@ -6,15 +6,15 @@ using MediatR;
 namespace EmployeeControl.Application.Features.CompanyHolidays.Command.CreateCompanyHoliday;
 
 internal class CreateCompanyHolidayHandler(ICompanyHolidaysService companyHolidaysService, IMapper mapper)
-    : IRequestHandler<CreateCompanyHolidayCommand, CreateCompanyHolidayResponse>
+    : IRequestHandler<CreateCompanyHolidayCommand, string>
 {
-    public async Task<CreateCompanyHolidayResponse> Handle(
+    public async Task<string> Handle(
         CreateCompanyHolidayCommand request,
         CancellationToken cancellationToken)
     {
         var companyHoliday = mapper.Map<CompanyHoliday>(request);
         companyHoliday = await companyHolidaysService.CreateAsync(companyHoliday, cancellationToken);
-        var resultResponse = new CreateCompanyHolidayResponse(companyHoliday.Id);
+        var resultResponse = companyHoliday.Id;
 
         return resultResponse;
     }

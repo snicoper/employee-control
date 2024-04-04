@@ -17,6 +17,13 @@ export const ApiUrls = {
     getCompanyByCurrentUser: '/companies/current-user'
   },
 
+  companyHolidays: {
+    getCompanyHolidaysByYear: '/company-holidays/year/{year}',
+    createCompanyHoliday: '/company-holidays',
+    updateCompanyHoliday: '/company-holidays/{id}',
+    deleteCompanyHoliday: '/company-holidays/{id}'
+  },
+
   categoryAbsences: {
     getCategoryAbsencePaginated: '/category-absence/paginated',
     getCategoryAbsenceById: '/category-absence/{id}',

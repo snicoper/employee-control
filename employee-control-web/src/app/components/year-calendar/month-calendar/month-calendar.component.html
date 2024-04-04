@@ -6,22 +6,20 @@
       </div>
 
       <div class="calendar-body">
-        @if (!loading) {
-          <ul class="calendar-weekdays">
-            @for (week of weeks; track week) {
-              <li>{{ week }}</li>
-            }
-          </ul>
+        <ul class="calendar-weekdays">
+          @for (week of weeks; track week) {
+            <li>{{ week }}</li>
+          }
+        </ul>
 
-          <ul class="calendar-dates">
+        <ul class="calendar-dates">
+          @if (!loading) {
             @for (calendarDay of calendarDays; track calendarDay) {
-              <li
-                (click)="handleCalendarDayClick(calendarDay)"
-                [ngClass]="{ inactive: calendarDay.inactive, active: calendarDay.isToday }">
+              <li (click)="handleCalendarDayClick(calendarDay)" [ngClass]="{ inactive: calendarDay.inactive }">
                 <span
                   awTooltip
                   [title]="calendarDay.description ?? ''"
-                  [ngClass]="{ 'not-editable': !calendarDay.canAddEvent }"
+                  [ngClass]="{ 'not-editable': !calendarDay.canAddEvent, today: calendarDay.isToday }"
                   [ngStyle]="{ background: calendarDay.background, color: calendarDay.color }"
                   class="calendar-day">
                   @if (calendarDay.day < 10) {
@@ -32,10 +30,10 @@
                 </span>
               </li>
             }
-          </ul>
-        } @else {
-          <aw-spinner [loading]="loading" [size]="100" />
-        }
+          } @else {
+            <aw-spinner [loading]="loading" [size]="120" />
+          }
+        </ul>
       </div>
     </div>
   </aw-card>
