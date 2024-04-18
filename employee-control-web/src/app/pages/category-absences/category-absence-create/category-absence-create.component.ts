@@ -1,25 +1,28 @@
+import { NgStyle } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { BadgeComponent } from '../../../components/badges/badge/badge.component';
+import { BadgeComponent } from '../../../components/badge/badge.component';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
-import { CardComponent } from '../../../components/cards/card/card.component';
 import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
-import { FormColorComponent } from '../../../components/forms/inputs/form-color/form-color.component';
+import { FormColorPickerComponent } from '../../../components/forms/inputs/form-color-picker/form-color-picker.component';
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
-import { ApiUrls } from '../../../core/urls/api-urls';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { ApiUrl } from '../../../core/urls/api-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
+import { CustomValidators } from '../../../core/validators/custom-validators-form';
 import { BadRequest } from '../../../models/bad-request';
 import { CategoryAbsencesApiService } from '../../../services/api/category-absences-api.service';
 import { JwtService } from '../../../services/jwt.service';
+import { SnackBarService } from '../../../services/snackbar.service';
 import { CategoryAbsenceCreateRequest } from './category-absence-create-request.model';
 
 @Component({
@@ -27,15 +30,16 @@ import { CategoryAbsenceCreateRequest } from './category-absence-create-request.
   templateUrl: './category-absence-create.component.html',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
+    NgStyle,
+    MatCardModule,
+    MatDivider,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
-    FormsModule,
-    ReactiveFormsModule,
+    FormInputComponent,
+    FormColorPickerComponent,
     NonFieldErrorsComponent,
     BadgeComponent,
-    FormInputComponent,
-    FormColorComponent,
     BtnBackComponent,
     BtnLoadingComponent
   ]
@@ -44,7 +48,7 @@ export class CategoryAbsenceCreateComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly categoryAbsencesApiService = inject(CategoryAbsencesApiService);
   private readonly jwtService = inject(JwtService);
-  private readonly toastrService = inject(ToastrService);
+  private readonly snackBarService = inject(SnackBarService);
   private readonly router = inject(Router);
 
   readonly breadcrumb = new BreadcrumbCollection();
@@ -53,7 +57,7 @@ export class CategoryAbsenceCreateComponent {
   badRequest: BadRequest | undefined;
   submitted = false;
   loading = false;
-  siteUrls = SiteUrls;
+  siteUrl = SiteUrl;
 
   constructor() {
     this.setBreadcrumb();
@@ -74,13 +78,13 @@ export class CategoryAbsenceCreateComponent {
     this.categoryAbsencesApiService
       .post<CategoryAbsenceCreateRequest, string>(
         categoryAbsenceCreateRequest,
-        ApiUrls.categoryAbsences.createCompanyAbsence
+        ApiUrl.categoryAbsences.createCompanyAbsence
       )
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: () => {
-          this.toastrService.success('Ausencia creada con éxito');
-          this.router.navigateByUrl(SiteUrls.categoryAbsences.list);
+          this.snackBarService.success('Ausencia creada con éxito');
+          this.router.navigateByUrl(SiteUrl.categoryAbsences.list);
         },
         error: (error: HttpErrorResponse) => {
           this.badRequest = error.error;
@@ -90,15 +94,15 @@ export class CategoryAbsenceCreateComponent {
 
   private setBreadcrumb(): void {
     this.breadcrumb
-      .add('Ausencias', SiteUrls.categoryAbsences.list)
-      .add('Crear ausencia', SiteUrls.categoryAbsences.create, '', false);
+      .add('Ausencias', SiteUrl.categoryAbsences.list)
+      .add('Crear ausencia', SiteUrl.categoryAbsences.create, '', false);
   }
 
   private buildForm(): void {
     this.form = this.formBuilder.group({
-      description: ['', [Validators.required]],
-      background: [CommonUtils.getRandomColorHexadecimal(), [Validators.required]],
-      color: [CommonUtils.getRandomColorHexadecimal(), [Validators.required]]
+      description: ['', [Validators.required, Validators.max(256)]],
+      background: [CommonUtils.getRandomColorHexadecimal(), [Validators.required, CustomValidators.colorHexadecimal]],
+      color: [CommonUtils.getRandomColorHexadecimal(), [Validators.required, CustomValidators.colorHexadecimal]]
     });
   }
 }

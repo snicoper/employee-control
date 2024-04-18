@@ -1,0 +1,20 @@
+<aw-page-base>
+  <h1>Pagina de tests</h1>
+
+  <div class="d-flex justify-between">
+    <form [formGroup]="form">
+      <aw-form-datetime-picker
+        label="Hora de inicio"
+        formControlName="start"
+        fieldName="start"
+        [badRequest]="badRequest"
+        [form]="form"
+        [submitted]="false" />
+
+      {{ form.valid }}<br />
+      {{ form.errors | json }}<br />
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</aw-page-base>

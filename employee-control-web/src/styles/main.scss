@@ -1,0 +1,25 @@
+@use "@angular/material" as mat;
+@use "./material/typography/config";
+
+@include mat.core();
+
+@include mat.typography-hierarchy(config.$my-app-typography);
+
+// Variables.
+@import "variables";
+
+// Material themes.
+@import "./material/themes";
+@import "./material/components/main";
+
+// Bootstrap.
+@import "bootstrap";
+
+// Color picker
+@import "../../node_modules/@thednp/color-picker/src/scss/color-picker";
+
+// Base.
+@import "base";
+
+// Components.
+@import "components/main";

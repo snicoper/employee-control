@@ -1,5 +1,6 @@
 import { NgClass } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { BreadcrumbCollection } from './breadcrumb-collection';
 
@@ -7,8 +8,8 @@ import { BreadcrumbCollection } from './breadcrumb-collection';
   selector: 'aw-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   standalone: true,
-  imports: [NgClass, RouterLink]
+  imports: [NgClass, RouterLink, MatIcon]
 })
 export class BreadcrumbComponent {
-  @Input() breadcrumb = new BreadcrumbCollection();
+  breadcrumb = input(new BreadcrumbCollection());
 }

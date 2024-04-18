@@ -1,91 +1,103 @@
-import { Component, inject } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
-import { BadgeComponent } from '../../../components/badges/badge/badge.component';
+import { BadgeComponent } from '../../../components/badge/badge.component';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
-import { CardComponent } from '../../../components/cards/card/card.component';
 import { DotComponent } from '../../../components/colors/dot/dot.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
-import { PaginationComponent } from '../../../components/pagination/pagination.component';
-import { TableHeaderComponent } from '../../../components/tables/table-header/table-header.component';
-import { TableHeaderConfig } from '../../../components/tables/table-header/table-header.config';
-import { TableInputSearchComponent } from '../../../components/tables/table-input-search/table-input-search.component';
-import { TableComponent } from '../../../components/tables/table/table.component';
+import { TableFilterComponent } from '../../../components/tables/table-filter/table-filter.component';
 import { ApiResult } from '../../../core/features/api-result/api-result';
-import { ApiUrls } from '../../../core/urls/api-urls';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { ApiUrl } from '../../../core/urls/api-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
 import { CategoryAbsence } from '../../../models/entities/category-absence.model';
 import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
 import { CategoryAbsencesApiService } from '../../../services/api/category-absences-api.service';
-import { categoryAbsenceListTableHeader } from './category-absence-list-table-headers';
 
 @Component({
   selector: 'aw-category-absence-list',
   templateUrl: './category-absence-list.component.html',
   standalone: true,
   imports: [
+    RouterLink,
+    MatCardModule,
+    MatTableModule,
+    MatSortModule,
+    MatIcon,
+    MatButton,
+    MatPaginatorModule,
+    MatProgressSpinner,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
-    RouterLink,
-    TableInputSearchComponent,
-    TableComponent,
-    TableHeaderComponent,
     BadgeComponent,
     DotComponent,
-    PaginationComponent,
-    BoolToIconPipe
+    BoolToIconPipe,
+    TableFilterComponent
   ]
 })
 export class CategoryAbsenceListComponent {
   private readonly categoryAbsencesApiService = inject(CategoryAbsencesApiService);
   private readonly router = inject(Router);
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   readonly breadcrumb = new BreadcrumbCollection();
 
+  displayedColumns = ['description', 'active', 'background', 'color', 'actions'];
+  fieldsFilter = ['description'];
+  dataSource!: MatTableDataSource<CategoryAbsence, MatPaginator>;
   apiResult = new ApiResult<CategoryAbsence>();
-  tableHeaderConfig = new TableHeaderConfig();
-  loading = false;
-  siteUrls = SiteUrls;
+  loading = true;
+  siteUrl = SiteUrl;
 
   constructor() {
-    this.configureTableHeaders();
     this.setBreadcrumb();
-    this.loadCompanyTasks();
+    this.loadCategoryAbsences();
   }
 
-  handleReloadData(): void {
-    this.loadCompanyTasks();
-  }
-
-  handleClickClean(event: ApiResult<CategoryAbsence>): void {
-    this.apiResult = event;
-    this.handleReloadData();
-  }
-
-  handleEdit(categoryAbsence: CategoryAbsence): void {
-    const url = CommonUtils.urlReplaceParams(SiteUrls.categoryAbsences.update, { id: categoryAbsence.id });
+  handleButtonUpdate(categoryAbsence: CategoryAbsence): void {
+    const url = CommonUtils.urlReplaceParams(SiteUrl.categoryAbsences.update, { id: categoryAbsence.id });
     this.router.navigateByUrl(url);
   }
 
+  handlePageEvent(pageEvent: PageEvent): void {
+    this.apiResult = this.apiResult.handlePageEvent(pageEvent);
+
+    this.loadCategoryAbsences();
+  }
+
+  handleFilterChange(apiResult: ApiResult<CategoryAbsence>): void {
+    this.apiResult = apiResult;
+    this.loadCategoryAbsences();
+  }
+
+  handleSortChange(sortState: Sort): void {
+    this.apiResult.handleSortChange(sortState);
+    this.loadCategoryAbsences();
+  }
+
   private setBreadcrumb(): void {
-    this.breadcrumb.add('Ausencias', SiteUrls.categoryAbsences.list, '', false);
+    this.breadcrumb.add('Ausencias', SiteUrl.categoryAbsences.list, '', false);
   }
 
-  private configureTableHeaders(): void {
-    this.tableHeaderConfig.addHeaders(categoryAbsenceListTableHeader);
-  }
-
-  private loadCompanyTasks(): void {
-    this.loading = true;
+  private loadCategoryAbsences(): void {
     this.categoryAbsencesApiService
-      .getPaginated<CategoryAbsence>(this.apiResult, ApiUrls.categoryAbsences.getCategoryAbsencePaginated)
+      .getPaginated<CategoryAbsence>(this.apiResult, ApiUrl.categoryAbsences.getCategoryAbsencePaginated)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (result: ApiResult<CategoryAbsence>) => {
-          this.apiResult = result;
+          this.apiResult = ApiResult.clone<CategoryAbsence>(result);
+          this.dataSource = new MatTableDataSource(result.items);
+          this.dataSource.sort = this.sort;
         }
       });
   }

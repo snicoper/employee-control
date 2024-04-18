@@ -1,135 +1,136 @@
-<aw-card>
-  <table class="table table-striped table-borderless">
-    <!-- sonarLint -->
-    <caption></caption>
-    <thead>
-      <th></th>
-    </thead>
-    <!-- end sonarLint -->
-
-    <!-- data employee-->
-    @if (employeeSelected() && !loadingEmployee()) {
-      <tbody>
-        <tr>
-          <td>Nombre</td>
-          <td>{{ employeeSelected()?.firstName }}</td>
-        </tr>
-        <tr>
-          <td>Apellidos</td>
-          <td>{{ employeeSelected()?.lastName }}</td>
-        </tr>
-        <tr>
-          <td>Email</td>
-          <td>{{ employeeSelected()?.email }}</td>
-        </tr>
-        <tr>
-          <td>Teléfono</td>
-          <td>{{ employeeSelected()?.phoneNumber }}</td>
-        </tr>
-        <tr>
-          <td>Cuenta activa</td>
-          <td>
-            <span class="d-flex">
-              <span>
-                <span [innerHTML]="employeeSelected()?.active | boolToIcon"></span>
-              </span>
-              <!-- activar o desactivar cuenta -->
-              @if (canUpdateStates) {
-                <span class="ms-auto">
-                  @if (employeeSelected()?.active) {
-                    <aw-btn-loading
-                      (click)="handleDeactivateEmployee()"
-                      [loading]="loadingUpdateActive"
-                      btnClass="btn btn-sm btn-outline-danger ms-4"
-                      btnText="Desactivar cuenta" />
-                  }
-                  @if (!employeeSelected()?.active) {
-                    <aw-btn-loading
-                      (click)="handleActivateEmployee()"
-                      [loading]="loadingUpdateActive"
-                      btnClass="btn btn-sm btn-outline-success ms-4"
-                      btnText="Activar cuenta" />
-                  }
+<mat-card>
+  <mat-card-content>
+    <table class="table-list">
+      <!-- data employee-->
+      @if (employeeSelected() && !loadingEmployee()) {
+        <tbody>
+          <tr class="table-list-row">
+            <td>Nombre</td>
+            <td>{{ employeeSelected()?.firstName }}</td>
+          </tr>
+          <tr class="table-list-row">
+            <td>Apellidos</td>
+            <td>{{ employeeSelected()?.lastName }}</td>
+          </tr>
+          <tr class="table-list-row">
+            <td>Email</td>
+            <td>{{ employeeSelected()?.email }}</td>
+          </tr>
+          <tr class="table-list-row">
+            <td>Teléfono</td>
+            <td>{{ employeeSelected()?.phoneNumber }}</td>
+          </tr>
+          <tr class="table-list-row">
+            <td>Cuenta activa</td>
+            <td>
+              <span class="d-flex">
+                <span>
+                  <span [innerHTML]="employeeSelected()?.active | boolToIcon"></span>
                 </span>
-              }
-              <!-- end activar o desactivar cuenta -->
-            </span>
-          </td>
-        </tr>
-        <tr>
-          <td>Invitación aceptada</td>
-          <td>
-            <span [innerHTML]="employeeSelected()?.emailConfirmed | boolToIcon"></span>
-          </td>
-        </tr>
-        <tr>
-          <td>Fecha de ingreso</td>
-          <td>{{ employeeSelected()?.entryDate | datetime: dateShort }}</td>
-        </tr>
-        <tr>
-          <td>Roles</td>
-          <td>
-            <span class="d-flex">
-              <span>
-                @if (!loadingEmployeeRoles()) {
-                  @for (role of employeeSelectedRoles(); track role) {
-                    <span class="badge rounded-pill bg-success ms-1">
-                      {{ roleToHumanReadable(role.name) }}
-                    </span>
-                  }
-                }
-                @if (loadingEmployeeRoles()) {
-                  <aw-spinner [loading]="loadingEmployeeRoles()" />
+
+                <!-- activar/desactivar cuenta -->
+                @if (canUpdateStates) {
+                  <span class="ms-auto">
+                    @if (employeeSelected()?.active) {
+                      <aw-btn-loading
+                        color="warn"
+                        icon="close"
+                        btnText="Desactivar"
+                        (click)="handleDeactivateEmployee()"
+                        [loading]="loadingUpdateActive" />
+                    }
+
+                    @if (!employeeSelected()?.active) {
+                      <aw-btn-loading
+                        color="primary"
+                        icon="done"
+                        btnText="Activar"
+                        (click)="handleActivateEmployee()"
+                        [loading]="loadingUpdateActive" />
+                    }
+                  </span>
                 }
               </span>
-              <!-- edit roles -->
-              @if (currentEmployeeId !== employeeSelected()?.id) {
-                <span [awRequiredRole]="roles.enterpriseStaff" class="ms-auto">
-                  <button (click)="handleRolesModalEdit()" class="btn btn-sm btn-outline-warning">Editar roles</button>
+            </td>
+          </tr>
+          <tr class="table-list-row">
+            <td>Invitación aceptada</td>
+            <td>
+              <span [innerHTML]="employeeSelected()?.emailConfirmed | boolToIcon"></span>
+            </td>
+          </tr>
+          <tr class="table-list-row">
+            <td>Fecha de ingreso</td>
+            <td>{{ employeeSelected()?.entryDate | datetime }}</td>
+          </tr>
+          <tr class="table-list-row">
+            <td>Roles</td>
+            <td>
+              <span class="d-flex">
+                <span>
+                  @if (!loadingEmployeeRoles()) {
+                    <mat-chip-set aria-label="Roles empleado">
+                      @for (role of employeeSelectedRoles(); track role) {
+                        <mat-chip>
+                          {{ roleToHumanReadable(role.name) }}
+                        </mat-chip>
+                      }
+                    </mat-chip-set>
+                  } @else {
+                    <mat-progress-spinner color="primary" mode="indeterminate" />
+                  }
                 </span>
+
+                <!-- edit roles -->
+                @if (currentEmployeeId !== employeeSelected()?.id) {
+                  <span [awRequiredRole]="role.Staff" class="ms-auto">
+                    <button mat-button color="primary" (click)="handleEditRolesDialog()">Editar roles</button>
+                  </span>
+                }
+              </span>
+            </td>
+          </tr>
+          <tr class="table-list-row">
+            <td>Estado control de tiempos</td>
+            <td>
+              @if (employeeTimeControlState()?.timeState === timeStates.Open) {
+                <aw-dot-success />
+                {{ employeeTimeControlState()?.start | datetime }}
               }
-              <!-- end edit roles -->
-            </span>
-          </td>
-        </tr>
-        <tr>
-          <td>Estado control de tiempos</td>
-          <td>
-            @if (employeeTimeControlState()?.timeState === timeStates.open) {
-              <aw-dot-success />
-              {{ employeeTimeControlState()?.start | datetime }}
-            }
-            @if (employeeTimeControlState()?.timeState === timeStates.close) {
-              <aw-dot-danger />
-            }
-          </td>
-        </tr>
-      </tbody>
+              @if (employeeTimeControlState()?.timeState === timeStates.Close) {
+                <aw-dot-danger />
+              }
+            </td>
+          </tr>
+        </tbody>
+      } @else if (!employeeSelected() && !loadingEmployee()) {
+        <!-- no data -->
+        <tbody>
+          <tr>
+            <td class="text-center" colspan="100%">
+              <h6>Error al cargar datos de empleado.</h6>
+            </td>
+          </tr>
+        </tbody>
+      } @else {
+        <!-- loading spinner -->
+        <tbody>
+          <tr>
+            <td class="text-center" colspan="100%">
+              <mat-progress-spinner color="primary" mode="indeterminate" />
+            </td>
+          </tr>
+        </tbody>
+      }
+    </table>
+
+    <aw-btn-back />
+
+    <!-- edit button -->
+    @if (canUpdateStates) {
+      <button mat-flat-button color="primary" class="ms-2" [routerLink]="urlToEdit">
+        <mat-icon>edit</mat-icon> Editar
+      </button>
     }
-    <!-- end data employee-->
-
-    <!-- no data -->
-    @if (!employeeSelected() && !loadingEmployee()) {
-      <tbody>
-        <tr>
-          <td class="text-center" colspan="100%">
-            <h6>Error al cargar datos de empleado.</h6>
-          </td>
-        </tr>
-      </tbody>
-    }
-    <!-- end no data -->
-
-    <!-- loading spinner -->
-    <aw-table-loading [loading]="loadingEmployee()" />
-    <!-- end loading spinner -->
-  </table>
-
-  <aw-btn-back cssClass="btn btn-primary" />
-
-  @if (canUpdateStates) {
-    <button [routerLink]="urlToEdit" class="btn btn-success ms-2">
-      <span class="fa-solid fa-pencil"></span> Editar
-    </button>
-  }
-</aw-card>
+  </mat-card-content>
+</mat-card>

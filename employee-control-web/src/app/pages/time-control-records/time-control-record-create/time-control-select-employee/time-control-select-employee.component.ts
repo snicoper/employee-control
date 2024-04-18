@@ -1,60 +1,79 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, ViewChild, computed, inject } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { finalize } from 'rxjs';
 import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-back.component';
-import { PaginationComponent } from '../../../../components/pagination/pagination.component';
-import { TableHeaderComponent } from '../../../../components/tables/table-header/table-header.component';
-import { TableHeaderConfig } from '../../../../components/tables/table-header/table-header.config';
-import { TableInputSearchComponent } from '../../../../components/tables/table-input-search/table-input-search.component';
-import { TableComponent } from '../../../../components/tables/table/table.component';
+import { TableFilterComponent } from '../../../../components/tables/table-filter/table-filter.component';
 import { ApiResult } from '../../../../core/features/api-result/api-result';
-import { ApiUrls } from '../../../../core/urls/api-urls';
+import { ApiUrl } from '../../../../core/urls/api-urls';
 import { CommonUtils } from '../../../../core/utils/common-utils';
 import { TimeControlApiService } from '../../../../services/api/time-control-api.service';
 import { TimeControlRecordCreateService } from '../time-control-record-create.service';
 import { TimeControlRecordEmployeeResponse } from '../time-control-record-employee-response.model';
-import { timeControlRecordEmployeeTableHeaders } from './time-control-record-employee-table-headers';
 
 @Component({
   selector: 'aw-time-control-select-employee',
   templateUrl: './time-control-select-employee.component.html',
+  styleUrl: './time-control-select-employee.component.scss',
   standalone: true,
-  imports: [TableInputSearchComponent, TableComponent, TableHeaderComponent, PaginationComponent, BtnBackComponent]
+  imports: [
+    MatCardModule,
+    MatTableModule,
+    MatSortModule,
+    MatIcon,
+    MatButton,
+    MatPaginatorModule,
+    MatProgressSpinner,
+    BtnBackComponent,
+    TableFilterComponent
+  ]
 })
 export class TimeControlSelectEmployeeComponent {
   private readonly timeControlApiService = inject(TimeControlApiService);
   private readonly timeControlRecordCreateService = inject(TimeControlRecordCreateService);
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   readonly employeeSelected = computed(() => this.timeControlRecordCreateService.employeeSelected());
 
+  displayedColumns = ['firstName', 'lastName', 'email'];
+  fieldsFilter = ['firstName', 'lastName', 'email'];
+  dataSource!: MatTableDataSource<TimeControlRecordEmployeeResponse, MatPaginator>;
   apiResult = new ApiResult<TimeControlRecordEmployeeResponse>();
-  tableHeaderConfig = new TableHeaderConfig();
-  loading = false;
+  loading = true;
 
   constructor() {
-    this.configureTableHeaders();
     this.loadEmployees();
   }
 
-  handleReloadData(): void {
-    this.loadEmployees();
-  }
-
-  handleClickClean(event: ApiResult<TimeControlRecordEmployeeResponse>): void {
-    this.apiResult = event;
-    this.handleReloadData();
-  }
-
-  handleSelectItem(employeeSelected: TimeControlRecordEmployeeResponse): void {
+  handleSelectRow(employeeSelected: TimeControlRecordEmployeeResponse): void {
     this.timeControlRecordCreateService.add(employeeSelected);
   }
 
-  private configureTableHeaders(): void {
-    this.tableHeaderConfig.addHeaders(timeControlRecordEmployeeTableHeaders);
+  handlePageEvent(pageEvent: PageEvent): void {
+    this.apiResult = this.apiResult.handlePageEvent(pageEvent);
+
+    this.loadEmployees();
+  }
+
+  handleFilterChange(apiResult: ApiResult<TimeControlRecordEmployeeResponse>): void {
+    this.apiResult = apiResult;
+    this.loadEmployees();
+  }
+
+  handleSortChange(sortState: Sort): void {
+    this.apiResult.handleSortChange(sortState);
+    this.loadEmployees();
   }
 
   private loadEmployees(): void {
-    this.loading = true;
-    const url = CommonUtils.urlReplaceParams(ApiUrls.employees.getEmployeesPaginated, {
+    const url = CommonUtils.urlReplaceParams(ApiUrl.employees.getEmployeesPaginated, {
       id: this.timeControlRecordCreateService.employeeSelected()?.id ?? ''
     });
 
@@ -63,7 +82,9 @@ export class TimeControlSelectEmployeeComponent {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (result: ApiResult<TimeControlRecordEmployeeResponse>) => {
-          this.apiResult = result;
+          this.apiResult = ApiResult.clone<TimeControlRecordEmployeeResponse>(result);
+          this.dataSource = new MatTableDataSource(result.items);
+          this.dataSource.sort = this.sort;
         }
       });
   }

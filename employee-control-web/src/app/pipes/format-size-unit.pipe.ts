@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { formatSizeUnit } from '../core/utils/common-utils';
+import { CommonUtils } from '../core/utils/common-utils';
 
 /** Pasar bytes a una medida legible según el size. */
 @Pipe({
@@ -8,6 +8,6 @@ import { formatSizeUnit } from '../core/utils/common-utils';
 })
 export class FormatSizeUnitPipe implements PipeTransform {
   transform(size: number): string {
-    return formatSizeUnit(size);
+    return CommonUtils.formatSizeUnit(size);
   }
 }

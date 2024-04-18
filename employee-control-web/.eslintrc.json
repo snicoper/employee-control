@@ -23,7 +23,10 @@
         "no-array-constructor": "error",
         "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/explicit-function-return-type": "error",
-        "@typescript-eslint/member-ordering": ["error", { "classes": ["field", "constructor", "method"] }],
+        "@typescript-eslint/member-ordering": [
+          "error",
+          { "classes": ["field", "constructor", "method"] }
+        ],
         "@angular-eslint/component-selector": [
           "error",
           {
@@ -76,7 +79,9 @@
         "lines-between-class-members": [
           "error",
           {
-            "enforce": [{ "blankLine": "always", "prev": "method", "next": "method" }]
+            "enforce": [
+              { "blankLine": "always", "prev": "method", "next": "method" }
+            ]
           }
         ],
         "padding-line-between-statements": [
@@ -96,7 +101,11 @@
     },
     {
       "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended", "plugin:@angular-eslint/template/accessibility"],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:@angular-eslint/template/accessibility",
+        "prettier"
+      ],
       "rules": {
         "@angular-eslint/template/click-events-have-key-events": "off",
         "@angular-eslint/template/interactive-supports-focus": "off"

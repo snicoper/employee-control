@@ -1,0 +1,11 @@
+@import "variables";
+
+.button-toggle-group {
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 20px;
+
+  .mat-button-toggle {
+    border: none;
+  }
+}

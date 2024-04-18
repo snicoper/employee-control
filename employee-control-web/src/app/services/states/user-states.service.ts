@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Roles } from '../../core/types/roles';
+import { Role } from '../../core/types/role';
 import { JwtService } from '../jwt.service';
 import { SignalRService } from '../signalr.service';
 import { CompanyEmployeeStateService } from './company-employee-state.service';
@@ -32,7 +32,7 @@ export class UserStatesService {
       this.userTimeControlStateService.refresh();
       this.workingDaysWeekStateService.refresh();
 
-      if (this.jwtService.isInRole(Roles.enterpriseStaff)) {
+      if (this.jwtService.isInRole(Role.Staff)) {
         this.timeControlIncidencesCountStateService.refresh();
       }
 
@@ -50,7 +50,7 @@ export class UserStatesService {
     this.userTimeControlStateService.clean();
     this.workingDaysWeekStateService.clean();
 
-    if (this.jwtService.isInRole(Roles.enterpriseStaff)) {
+    if (this.jwtService.isInRole(Role.Staff)) {
       this.timeControlIncidencesCountStateService.clean();
     }
   }

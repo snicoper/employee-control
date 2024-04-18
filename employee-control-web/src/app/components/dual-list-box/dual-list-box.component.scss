@@ -1,9 +1,17 @@
 .dual-list-box {
-  .box-left {
-    width: 50%;
-  }
-
+  .box-left,
   .box-right {
-    width: 50%;
+    width: 100%;
+  }
+}
+
+.box-list-select {
+  background-color: var(--mdc-elevated-card-container-color);
+  color: var(--mat-option-label-text-color);
+  min-height: 250px;
+  overflow: hidden;
+
+  .box-list-select-item {
+    padding: 8px 0 8px 8px;
   }
 }

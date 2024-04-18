@@ -1,9 +1,6 @@
-<input
-  (ngModelChange)="handleChange($event)"
-  (onShown)="handleOpenCalendar($event)"
-  [(ngModel)]="dateSelected"
-  [bsConfig]="bsConfig"
-  autocomplete="off"
-  bsDatepicker
-  class="form-control"
-  name="date" />
+<mat-form-field>
+  <mat-label>Seleccionar mes</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="value" [readonly]="readOnly()" />
+  <mat-datepicker-toggle matIconSuffix [for]="picker" />
+  <mat-datepicker #picker startView="year" (monthSelected)="handleChange($event, picker)" />
+</mat-form-field>

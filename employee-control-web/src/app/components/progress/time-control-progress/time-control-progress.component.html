@@ -1,19 +1,16 @@
 <!-- times -->
-@if (!loading && progressStackedCollection.length) {
-  @for (progressStacked of progressStackedCollection; track progressStacked) {
+@if (!loading() && progressStackedCollection().length) {
+  @for (progressStacked of progressStackedCollection(); track progressStacked) {
     <aw-progress-stacked [progressStackedCollection]="progressStacked" (clickProgress)="handleClickProgress($event)" />
   }
 }
-<!-- end times -->
 
 <!-- no data -->
-@if (!loading && !progressStackedCollection.length) {
+@if (!loading() && !progressStackedCollection().length) {
   <p>No hay datos a mostrar</p>
 }
-<!-- end no data -->
 
 <!-- loading -->
-@if (loading) {
-  <aw-spinner [loading]="loading" [size]="200" />
+@if (loading()) {
+  <mat-progress-spinner color="primary" mode="indeterminate" />
 }
-<!-- end loading -->

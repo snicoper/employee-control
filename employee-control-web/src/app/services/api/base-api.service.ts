@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AppEnvironments } from '../../core/config/app-environments';
+import { AppEnvironment } from '../../core/config/app-environment';
 import { ApiResult } from '../../core/features/api-result/api-result';
 
 export abstract class BaseApiService {
   protected readonly http = inject(HttpClient);
 
-  protected readonly baseUrl = AppEnvironments.baseApiUrl;
+  protected readonly baseUrl = AppEnvironment.baseApiUrl;
 
   /**
    * Obtener una lista paginada.
@@ -82,9 +82,9 @@ export abstract class BaseApiService {
     queryParams += `&totalPages=${apiResult.totalPages}`;
     queryParams += `&pageSize=${apiResult.pageSize}`;
 
-    if (apiResult.orders.length) {
+    if (apiResult.order) {
       queryParams += this.concatQueryParam(queryParams);
-      queryParams += `orders=${JSON.stringify(apiResult.orders)}`;
+      queryParams += `order=${JSON.stringify(apiResult.order)}`;
     }
 
     if (apiResult.filters.length) {

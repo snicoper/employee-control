@@ -1,71 +1,83 @@
 <aw-page-base>
   <aw-page-header [breadcrumb]="breadcrumb">Configuración</aw-page-header>
 
-  <aw-card>
-    <a [routerLink]="[siteUrls.companySettings.update]" class="mb-3 btn btn-sm btn-outline-success">
-      <span class="fa-solid fa-pencil"></span> Editar
-    </a>
+  <mat-card>
+    <mat-card-content>
+      <!-- toolbar-->
+      <button mat-button color="primary" [routerLink]="[siteUrl.companySettings.update]">
+        <mat-icon>edit</mat-icon> Editar
+      </button>
 
-    <table class="table table-striped table-borderless table-hover">
-      <caption></caption>
-      <tbody>
-        <!-- details -->
-        @if (!loadingCompanySettings()) {
-          <tr>
-            <td>
-              Días laborables
-              <aw-tooltip-info
-                content="Días por defecto considerados laborables"
-                cssClass="text-info"></aw-tooltip-info>
-            </td>
-            <td>
-              <aw-working-days-week />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Zona horaria
-              <aw-tooltip-info content="Zona horaria de la compañía" cssClass="text-info"></aw-tooltip-info>
-            </td>
-            <td>{{ companySettings()?.timezone }} - {{ nowWithTimezone }}</td>
-          </tr>
-          <tr>
-            <td>
-              Periodo máx de un control de tiempo
-              <aw-tooltip-info
-                content="Horas máximas de un control de tiempo, si se excede se cierran automáticamente"
-                cssClass="text-info"></aw-tooltip-info>
-            </td>
-            <td>{{ companySettings()?.periodTimeControlMax }} horas</td>
-          </tr>
-          <tr>
-            <td>
-              Horas de trabajo semanal
-              <aw-tooltip-info content="Horas totales de la semana laboral" cssClass="text-info"></aw-tooltip-info>
-            </td>
-            <td>{{ companySettings()?.weeklyWorkingHours }} horas</td>
-          </tr>
-          <tr>
-            <td>
-              Geolocalización requerida
-              <aw-tooltip-info
-                content="Para iniciar un tiempo, requiere por parte del empleado aceptar la geolocalización"
-                cssClass="text-info"></aw-tooltip-info>
-            </td>
-            <td>
-              <span
-                awTooltip
-                [title]="requiredGeolocation"
-                [innerHTML]="companySettings()?.geolocationRequired | boolToIcon"></span>
-            </td>
-          </tr>
-        }
-        <!-- end details -->
+      @if (!loadingCompanySettings()) {
+        <table class="table-list">
+          <tbody>
+            <!-- días laborables -->
+            <tr class="table-list-row">
+              <td>
+                Días laborables
+                <mat-icon matTooltip="Días por defecto considerados laborables" color="primary">info</mat-icon>
+              </td>
+              <td>
+                <aw-working-days-week />
+              </td>
+            </tr>
 
+            <!-- zona horaria-->
+            <tr class="table-list-row">
+              <td>
+                Zona horaria
+                <mat-icon matTooltip="Zona horaria de la compañía" color="primary">info</mat-icon>
+              </td>
+              <td>{{ companySettings()?.timezone }} {{ nowWithTimezone }}</td>
+            </tr>
+
+            <!-- periodo max control. -->
+            <tr class="table-list-row">
+              <td>
+                Periodo máx de un control de tiempo
+                <mat-icon
+                  matTooltip="Horas máximas de un control de tiempo, si se excede se cierran automáticamente"
+                  color="primary">
+                  info
+                </mat-icon>
+              </td>
+              <td>{{ companySettings()?.periodTimeControlMax }} horas</td>
+            </tr>
+
+            <!-- horas de trabajo. -->
+            <tr class="table-list-row">
+              <td>
+                Horas de trabajo semanal
+                <mat-icon matTooltip="Horas totales de la semana laboral" color="primary">info</mat-icon>
+              </td>
+              <td>{{ companySettings()?.weeklyWorkingHours }} horas</td>
+            </tr>
+
+            <!-- geolocalización -->
+            <tr class="table-list-row">
+              <td>
+                Geolocalización requerida
+                <mat-icon
+                  matTooltip="Para iniciar un tiempo, requiere por parte del empleado aceptar la geolocalización"
+                  color="primary">
+                  info
+                </mat-icon>
+              </td>
+              <td>
+                <span
+                  awTooltip
+                  [title]="requiredGeolocation"
+                  [innerHTML]="companySettings()?.geolocationRequired | boolToIcon"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      } @else {
         <!-- spinner -->
-        <aw-table-loading [loading]="loadingCompanySettings()"></aw-table-loading>
-        <!-- end spinner -->
-      </tbody>
-    </table>
-  </aw-card>
+        <div class="d-flex justify-content-center my-5">
+          <mat-progress-spinner color="primary" mode="indeterminate" />
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
 </aw-page-base>

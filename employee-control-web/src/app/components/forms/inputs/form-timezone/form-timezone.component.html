@@ -1,26 +1,27 @@
-<div class="form-group">
-  @if (label) {
-    <label [for]="id" class="form-label">
-      {{ label }}
-    </label>
-  }
+@if (items.length) {
+  <mat-form-field>
+    <mat-label>{{ label() }}</mat-label>
+    <input
+      aria-label="Selección de zona horaria"
+      matInput
+      (ngModelChange)="onChangeValue($event)"
+      [(ngModel)]="value"
+      [matAutocomplete]="timezones"
+      [disabled]="isDisabled"
+      [id]="id()"
+      [placeholder]="placeholder()" />
 
-  <ng-select
-    (ngModelChange)="onChangeValue($event)"
-    [(ngModel)]="value"
-    [disabled]="isDisabled"
-    [id]="id"
-    [items]="items"
-    [ngClass]="{ extraCss: true, 'is-invalid': isInvalid() }"
-    bindLabel="name"
-    bindValue="id" />
+    <mat-autocomplete #timezones="matAutocomplete">
+      @for (item of itemsFiltered; track $index) {
+        <mat-option [value]="item.id">{{ item.name }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
 
-  @if (form) {
-    <aw-field-error
-      [badRequest]="badRequest"
-      [fieldName]="fieldName"
-      [fieldText]="label"
-      [form]="form"
-      [submitted]="submitted" />
-  }
-</div>
+  <aw-field-error
+    [badRequest]="badRequest()"
+    [fieldName]="fieldName()"
+    [fieldText]="label()"
+    [form]="form()"
+    [submitted]="submitted()" />
+}

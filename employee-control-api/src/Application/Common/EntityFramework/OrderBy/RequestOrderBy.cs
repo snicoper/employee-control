@@ -8,6 +8,4 @@ public class RequestOrderBy
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public OrderType Order { get; set; }
-
-    public int Precedence { get; set; }
 }

@@ -8,11 +8,11 @@ import { TimeControlProgressComponent } from '../../../../components/progress/ti
 import { MonthSelectorComponent } from '../../../../components/selectors/month-selector/month-selector.component';
 import { TimeControlProgressStacked } from '../../../../core/features/times-control/time-control-group';
 import { TimeControlGroupResponse } from '../../../../core/features/times-control/times-control-response.model';
-import { ApiUrls } from '../../../../core/urls/api-urls';
-import { SiteUrls } from '../../../../core/urls/site-urls';
+import { ApiUrl } from '../../../../core/urls/api-urls';
+import { SiteUrl } from '../../../../core/urls/site-urls';
 import { CommonUtils } from '../../../../core/utils/common-utils';
 import { DateUtils } from '../../../../core/utils/date-utils';
-import { DatetimeUtils } from '../../../../core/utils/datetime-utils';
+import { DateTimeUtils } from '../../../../core/utils/datetime-utils';
 import { TimeControlApiService } from '../../../../services/api/time-control-api.service';
 import { EmployeeSelectedService } from '../employee-selected.service';
 
@@ -29,8 +29,8 @@ export class EmployeeTimeControlProgressComponent {
 
   readonly employeeSelected = computed(() => this.employeeSelectedService.employeeSelected());
 
-  progressStackedCollection: ProgressStackedCollection[] = [];
-  dateSelected = new Date();
+  progressStackedCollection: Array<ProgressStackedCollection> = [];
+  dateSelected = DateTime.local();
   loadingTimeControls = false;
   timeTotalInMonth = '';
 
@@ -38,13 +38,13 @@ export class EmployeeTimeControlProgressComponent {
     this.loadTimesControlRange();
   }
 
-  handleDateSelected(date: Date): void {
+  handleDateSelected(date: DateTime): void {
     this.dateSelected = date;
     this.loadTimesControlRange();
   }
 
   handleClickProgress(progressStackedItem: ProgressStackedItem): void {
-    const url = CommonUtils.urlReplaceParams(SiteUrls.timeControlRecords.details, { id: progressStackedItem.id });
+    const url = CommonUtils.urlReplaceParams(SiteUrl.timeControlRecords.details, { id: progressStackedItem.id });
     this.router.navigateByUrl(url);
   }
 
@@ -53,14 +53,13 @@ export class EmployeeTimeControlProgressComponent {
     this.loadingTimeControls = true;
     this.progressStackedCollection = [];
 
-    const dateSelected = DateTime.fromJSDate(this.dateSelected);
-    const startDate = dateSelected.startOf('month');
-    const endDate = dateSelected.endOf('month');
+    const startDate = this.dateSelected.startOf('month');
+    const endDate = this.dateSelected.endOf('month');
 
-    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.getTimeControlRangeByEmployeeId, {
+    const url = CommonUtils.urlReplaceParams(ApiUrl.timeControl.getTimeControlRangeByEmployeeId, {
       employeeId: this.employeeSelected()?.id.toString() as string,
-      from: DatetimeUtils.toISOString(startDate),
-      to: DatetimeUtils.toISOString(endDate)
+      from: DateTimeUtils.toISOString(startDate),
+      to: DateTimeUtils.toISOString(endDate)
     });
 
     this.timeControlApiService

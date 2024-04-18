@@ -1,47 +1,48 @@
 <div class="d-flex justify-content-between my-3">
-  <h5>
-    Tareas de <small class="text-muted">{{ employeeSelected()?.firstName }} {{ employeeSelected()?.lastName }}</small>
-  </h5>
+  <h3>Tareas asignadas</h3>
 
-  <span>
-    <aw-table-input-search
-      (clickClean)="handleClickClean($event)"
+  <!-- filter -->
+  <div class="ms-auto">
+    <aw-table-filter
+      (filterChange)="handleFilterChange($event)"
       [apiResult]="apiResult"
-      [tableHeaderConfig]="tableHeaderConfig" />
-  </span>
+      [fieldsFilter]="fieldsFilter" />
+  </div>
 </div>
-<!-- end filter -->
 
 <!-- table -->
-<aw-table [apiResult]="apiResult" [loading]="loading">
-  <thead awThead>
-    <tr
-      (clickOrdering)="handleReloadData()"
-      [apiResult]="apiResult"
-      [tableHeaderConfig]="tableHeaderConfig"
-      awTableHeader></tr>
-  </thead>
-
-  @if (apiResult) {
-    <tbody awTbody>
-      @for (task of apiResult.items; track task) {
-        <tr (click)="handleSelectItem(task)" class="cursor-pointer">
-          <td>
-            <aw-badge [background]="task.background" [color]="task.color" [name]="task.name" />
-          </td>
-          <td [innerHTML]="task.active | boolToIcon"></td>
-        </tr>
-      }
-    </tbody>
-  }
-</aw-table>
-<!-- end table -->
-
-<!-- pagination -->
 @if (apiResult) {
-  <aw-pagination
-    (changePage)="handleReloadData()"
-    (changePageListNumber)="handleReloadData()"
-    [apiResult]="apiResult" />
+  <table mat-table matSort (matSortChange)="handleSortChange($event)" [dataSource]="dataSource">
+    <!-- name -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+      <td mat-cell *matCellDef="let row">
+        <aw-badge [background]="row.background" [color]="row.color">{{ row.name }}</aw-badge>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="handleSelectRow(row)"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell p-4" [attr.colspan]="displayedColumns.length">No hay datos a mostrar</td>
+    </tr>
+  </table>
+
+  <!-- pagination -->
+  @if (dataSource) {
+    <mat-paginator
+      showFirstLastButtons
+      (page)="handlePageEvent($event)"
+      [length]="apiResult.totalItems"
+      [pageSize]="apiResult.pageSize"
+      [pageIndex]="apiResult.pageNumber - 1"
+      [pageSizeOptions]="[25, 50, 100]"
+      aria-label="Selección de pagina" />
+  }
+} @else {
+  <!-- spinner -->
+  <div class="d-flex justify-content-center p-5">
+    <mat-progress-spinner color="primary" mode="indeterminate" />
+  </div>
 }
-<!-- end pagination -->

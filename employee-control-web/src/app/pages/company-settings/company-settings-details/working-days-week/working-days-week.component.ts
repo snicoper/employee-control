@@ -1,27 +1,29 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Output, computed, inject } from '@angular/core';
-import { SpinnerComponent } from '../../../../components/spinner/spinner.component';
-import { WeekDays } from '../../../../core/types/week-days';
+import { Component, computed, inject, output } from '@angular/core';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { WeekDay } from '../../../../core/types/week-day';
 import { WorkingDaysWeek } from '../../../../models/entities/working-days-week.model';
 import { WorkingDaysWeekStateService } from '../../../../services/states/working-days-week-state.service';
 
 @Component({
   selector: 'aw-working-days-week',
-  templateUrl: './working-days-week.component.html',
   standalone: true,
-  imports: [NgClass, SpinnerComponent]
+  imports: [NgClass, MatButtonToggleModule, MatProgressSpinnerModule],
+  templateUrl: './working-days-week.component.html',
+  styleUrl: './working-days-week.component.scss'
 })
 export class WorkingDaysWeekComponent {
   private readonly workingDaysWeekStateService = inject(WorkingDaysWeekStateService);
 
-  @Output() workingDaysWeekEmitter = new EventEmitter<WorkingDaysWeek>();
+  workingDaysWeekEmitter = output<WorkingDaysWeek>();
 
   loadingWorkingDaysWeek = computed(() => this.workingDaysWeekStateService.loadingWorkingDaysWeek());
   workingDaysWeek = computed(() => this.workingDaysWeekStateService.workingDaysWeek());
 
-  weekDays = WeekDays;
+  weekDay = WeekDay;
 
-  handleClickDay(weekDay: WeekDays): void {
+  handleClickDay(weekDay: WeekDay): void {
     if (!this.workingDaysWeek) {
       return;
     }

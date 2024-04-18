@@ -1,44 +1,45 @@
-import { CommonModule } from '@angular/common';
 import { HttpStatusCode } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { MatHint } from '@angular/material/form-field';
 import { BadRequest } from '../../../../models/bad-request';
 
 @Component({
   selector: 'aw-field-error',
-  templateUrl: './field-error.component.html',
   standalone: true,
-  imports: [CommonModule]
+  imports: [MatHint],
+  templateUrl: './field-error.component.html',
+  styleUrl: './field-error.component.scss'
 })
 export class FieldErrorComponent implements OnInit {
-  @Input({ required: true }) badRequest: BadRequest | undefined;
-  @Input({ required: true }) form: FormGroup | undefined;
-  @Input({ required: true }) submitted = false;
-  @Input() fieldText = '';
-  @Input() fieldName = '';
-  @Input() validateOnlyOnSubmit = false;
+  badRequest = input.required<BadRequest | undefined>();
+  form = input.required<FormGroup>();
+  submitted = input(false);
+  fieldText = input<string>('');
+  fieldName = input<string>('');
+  validateOnlyOnSubmit = input(false);
 
   control: AbstractControl | undefined;
 
   ngOnInit(): void {
-    this.control = this.form?.get(this.fieldName) as AbstractControl;
+    this.control = this.form()?.get(this.fieldName()) as AbstractControl;
   }
 
   formHasErrors(): boolean | ValidationErrors | null | undefined {
-    return (this.submitted && this.form?.dirty) || (this.form?.touched && this.control?.errors);
+    return (this.submitted() && this.form()?.dirty) || (this.form()?.touched && this.control?.errors);
   }
 
   controlHasErrors(): boolean {
-    const validateRules = this.validateOnlyOnSubmit
-      ? this.submitted && this.control && this.control.dirty && this.control?.errors
+    const validateRules = this.validateOnlyOnSubmit()
+      ? this.submitted() && this.control && this.control.dirty && this.control?.errors
       : this.control?.dirty && this.control.errors;
 
-    return !!(validateRules || (this.submitted && this.control?.errors));
+    return !!(validateRules || (this.submitted() && this.control?.errors));
   }
 
-  getBadRequestErrors(): string[] | undefined {
-    if (this.badRequest && this.badRequest.status === HttpStatusCode.BadRequest) {
-      return this.badRequest.errors[this.fieldName];
+  getBadRequestErrors(): Array<string> | undefined {
+    if (this.badRequest()?.status === HttpStatusCode.BadRequest) {
+      return this.badRequest()?.errors[this.fieldName()];
     }
 
     return undefined;

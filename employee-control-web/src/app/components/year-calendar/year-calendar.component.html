@@ -1,9 +1,0 @@
-<div class="d-flex flex-wrap justify-content-center">
-  @for (date of monthDatesInYear; track date) {
-    <aw-month-calendar
-      (calendarDayClick)="handleCalendarDayClick($event)"
-      [date]="date"
-      [calendarDayEvents]="calendarDayEvents"
-      [loading]="loading" />
-  }
-</div>

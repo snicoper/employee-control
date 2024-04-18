@@ -1,22 +1,30 @@
-import { Component, Input } from '@angular/core';
-import { ValidationErrors } from '../../../../core/types/validation-errors';
+import { Component, input } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { ValidationError } from '../../../../core/types/validation-error';
 import { BadRequest } from '../../../../models/bad-request';
 
 @Component({
   selector: 'aw-non-field-errors',
-  templateUrl: './non-field-errors.component.html',
-  standalone: true
+  standalone: true,
+  imports: [MatCardModule],
+  templateUrl: './non-field-errors.component.html'
 })
 export class NonFieldErrorsComponent {
-  @Input({ required: true }) badRequest: BadRequest | undefined;
-
-  validationErrors = ValidationErrors;
+  badRequest = input.required<BadRequest | undefined>();
 
   get hasErrors(): boolean {
-    return !!this.badRequest?.errors[ValidationErrors.nonFieldErrors];
+    if (this.badRequest()?.errors) {
+      return !!this.badRequest()?.errors[ValidationError.NonFieldErrors];
+    }
+
+    return false;
   }
 
-  getErrors(): string[] | undefined {
-    return this.badRequest?.errors[ValidationErrors.nonFieldErrors];
+  getErrors(): Array<string> | undefined {
+    if (this.badRequest()?.errors) {
+      return this.badRequest()?.errors[ValidationError.NonFieldErrors];
+    }
+
+    return undefined;
   }
 }

@@ -1,7 +1,7 @@
 import { ProgressStackedItem } from './progress-stacked-item.model';
 
 export class ProgressStackedCollection {
-  progressStackedItems: ProgressStackedItem[] = [];
+  progressStackedItems: Array<ProgressStackedItem> = [];
   title = '';
 
   addItem(progressStackedItem: ProgressStackedItem): this {

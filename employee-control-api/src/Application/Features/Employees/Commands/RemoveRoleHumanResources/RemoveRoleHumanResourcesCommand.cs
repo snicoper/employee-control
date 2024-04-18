@@ -5,5 +5,5 @@ using MediatR;
 
 namespace EmployeeControl.Application.Features.Employees.Commands.RemoveRoleHumanResources;
 
-[Authorize(Roles = Roles.EnterpriseAdmin)]
+[Authorize(Roles = Roles.Admin)]
 public record RemoveRoleHumanResourcesCommand(string EmployeeId) : IRequest<Result>;

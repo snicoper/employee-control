@@ -1,41 +1,42 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { BadgeComponent } from '../../../components/badges/badge/badge.component';
+import { BadgeComponent } from '../../../components/badge/badge.component';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
-import { CardComponent } from '../../../components/cards/card/card.component';
 import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
 import { FormCheckboxComponent } from '../../../components/forms/inputs/form-checkbox/form-checkbox.component';
-import { FormColorComponent } from '../../../components/forms/inputs/form-color/form-color.component';
+import { FormColorPickerComponent } from '../../../components/forms/inputs/form-color-picker/form-color-picker.component';
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
-import { ApiUrls } from '../../../core/urls/api-urls';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { ApiUrl } from '../../../core/urls/api-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { Department } from '../../../models/entities/department.model';
 import { DepartmentApiService } from '../../../services/api/department-api.service';
+import { SnackBarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'aw-department-update',
   templateUrl: './department-update.component.html',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
+    MatCardModule,
+    MatDivider,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
-    FormsModule,
-    ReactiveFormsModule,
     NonFieldErrorsComponent,
     BadgeComponent,
     FormInputComponent,
     FormCheckboxComponent,
-    FormColorComponent,
+    FormColorPickerComponent,
     BtnBackComponent,
     BtnLoadingComponent
   ]
@@ -45,7 +46,7 @@ export class DepartmentUpdateComponent {
   private readonly router = inject(Router);
   private readonly formBuilder = inject(FormBuilder);
   private readonly departmentApiService = inject(DepartmentApiService);
-  private readonly toastrService = inject(ToastrService);
+  private readonly snackBarService = inject(SnackBarService);
 
   readonly breadcrumb = new BreadcrumbCollection();
   readonly departmentId: string;
@@ -60,7 +61,7 @@ export class DepartmentUpdateComponent {
 
   constructor() {
     this.departmentId = this.route.snapshot.paramMap.get('id') as string;
-    this.urlDepartmentDetails = CommonUtils.urlReplaceParams(SiteUrls.departments.details, { id: this.departmentId });
+    this.urlDepartmentDetails = CommonUtils.urlReplaceParams(SiteUrl.departments.details, { id: this.departmentId });
     this.loadDepartment();
     this.setBreadcrumb();
   }
@@ -77,14 +78,14 @@ export class DepartmentUpdateComponent {
     const department = this.form.value as Department;
     department.id = this.departmentId;
 
-    const url = CommonUtils.urlReplaceParams(ApiUrls.departments.updateDepartment, { id: this.departmentId });
+    const url = CommonUtils.urlReplaceParams(ApiUrl.departments.updateDepartment, { id: this.departmentId });
 
     this.departmentApiService
       .put<Department, undefined>(department, url)
       .pipe(finalize(() => (this.loadingForm = false)))
       .subscribe({
         next: () => {
-          this.toastrService.success('Departamento editado con éxito.');
+          this.snackBarService.success('Departamento editado con éxito.');
           this.router.navigateByUrl(this.urlDepartmentDetails);
         }
       });
@@ -92,9 +93,9 @@ export class DepartmentUpdateComponent {
 
   private setBreadcrumb(): void {
     this.breadcrumb
-      .add('Departamentos', SiteUrls.departments.list)
+      .add('Departamentos', SiteUrl.departments.list)
       .add('Detalles', this.urlDepartmentDetails)
-      .add('Editar', SiteUrls.departments.update, '', false);
+      .add('Editar', SiteUrl.departments.update, '', false);
   }
 
   private buildForm(): void {
@@ -108,7 +109,7 @@ export class DepartmentUpdateComponent {
 
   private loadDepartment(): void {
     this.loadingDepartment = true;
-    const url = CommonUtils.urlReplaceParams(ApiUrls.departments.getDepartmentById, { id: this.departmentId });
+    const url = CommonUtils.urlReplaceParams(ApiUrl.departments.getDepartmentById, { id: this.departmentId });
 
     this.departmentApiService
       .get<Department>(url)

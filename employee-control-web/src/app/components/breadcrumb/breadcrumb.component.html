@@ -1,25 +1,25 @@
-@if (breadcrumb.hasItems()) {
+@if (breadcrumb().hasItems()) {
   <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      @for (bread of breadcrumb.getItems(); track bread) {
-        <li [ngClass]="{ active: bread.active }" class="breadcrumb-item small">
-          @if (bread.active) {
-            <a [routerLink]="bread.link">
-              @if (bread.icon) {
-                <span>
-                  <span [ngClass]="bread.icon"></span>
-                </span>
-              }
-              {{ bread.text }}
-            </a>
-          } @else {
-            <span class="text-muted">
-              <span [ngClass]="bread.icon" aria-current="page"></span>
-              {{ bread.text }}
-            </span>
+    <div class="d-flex flex-row">
+      @for (bread of breadcrumb().getItems(); track $index) {
+        @if (bread.active) {
+          <a [routerLink]="bread.link">
+            @if (bread.icon) {
+              <mat-icon>{{ bread.icon }}</mat-icon>
+            }
+            {{ bread.text }}
+          </a>
+        } @else {
+          @if (bread.icon) {
+            <mat-icon>{{ bread.icon }}</mat-icon>
           }
-        </li>
+          {{ bread.text }}
+        }
+
+        @if ($index !== breadcrumb().getItems().length - 1) {
+          <span>&nbsp; / &nbsp;</span>
+        }
       }
-    </ol>
+    </div>
   </nav>
 }

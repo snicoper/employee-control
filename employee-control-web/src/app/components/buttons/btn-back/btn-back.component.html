@@ -1,1 +1,3 @@
-<button (click)="handleClick()" [class]="cssClass" type="button"><span [class]="icon"></span> {{ text }}</button>
+<button mat-flat-button (click)="handleClick()" [color]="color()" type="button">
+  <mat-icon>{{ icon() }}</mat-icon> {{ text() }}
+</button>

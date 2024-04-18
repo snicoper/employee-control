@@ -1,76 +1,21 @@
 {
-  "editor.formatOnSave": true,
-  "editor.rulers": [99, 119],
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.tabSize": 2,
-  "editor.guides.indentation": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
-    "source.fixAll.eslint": "explicit",
-    "source.fixAll.tslint": "explicit",
-    "source.fixAll.stylelint": "explicit",
-    "source.organizeImports": "explicit"
-  },
-  // Prettier.
-  "prettier.singleQuote": true,
-  "prettier.printWidth": 120,
-  "prettier.trailingComma": "none",
-  // Languages.
-  "typescript.preferences.quoteStyle": "single",
-  "javascript.preferences.quoteStyle": "single",
-  "[markdown]": {
-    "editor.tabSize": 4,
-    "editor.wordWrap": "on",
-    "editor.quickSuggestions": {
-      "comments": "on",
-      "strings": "on",
-      "other": "on"
-    },
-    "editor.formatOnSave": false
-  },
-  // Code Spell Checker.
   "cSpell.words": [
-    "apexcharts",
-    "Apexcharts",
-    "datepicker",
-    "Datepicker",
-    "Daterangepicker",
     "datetime",
-    "dayjs",
     "decrementa",
-    "Decrementa",
     "decrementado",
     "decrementar",
     "deserializa",
     "devkit",
-    "fontawesome",
-    "fortawesome",
-    "friday",
+    "dhutaryan",
     "geolocalización",
     "inicialización",
-    "linebreak",
     "luxon",
-    "Millis",
-    "monday",
-    "mondays",
-    "plusplus",
-    "popperjs",
-    "Recalcular",
-    "redirecciona",
-    "Redireccionar",
-    "rrhh",
-    "Rrhh",
-    "RRHH",
-    "saturday",
     "setear",
     "seteo",
-    "signalr",
-    "sunday",
-    "tabset",
-    "thursday",
-    "toastr",
-    "tuesday",
-    "tzdb",
-    "wednesday"
+    "sidenav",
+    "thednp",
+    "theming",
+    "timepicker",
+    "tzdb"
   ]
 }

@@ -1,23 +1,25 @@
 import { Component, computed, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { DateTime } from 'luxon';
-import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { BreadcrumbCollection } from '../../../../components/breadcrumb/breadcrumb-collection';
 import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
-import { CardComponent } from '../../../../components/cards/card/card.component';
 import { FormTimezoneComponent } from '../../../../components/forms/inputs/form-timezone/form-timezone.component';
 import { PageBaseComponent } from '../../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../../components/pages/page-header/page-header.component';
-import { ApiUrls } from '../../../../core/urls/api-urls';
-import { SiteUrls } from '../../../../core/urls/site-urls';
+import { ApiUrl } from '../../../../core/urls/api-urls';
+import { SiteUrl } from '../../../../core/urls/site-urls';
 import { CommonUtils } from '../../../../core/utils/common-utils';
 import { BadRequest } from '../../../../models/bad-request';
 import { EmployeeSettings } from '../../../../models/entities/employee-settings.model';
 import { EmployeesApiService } from '../../../../services/api/employees-api.service';
+import { SnackBarService } from '../../../../services/snackbar.service';
 import { EmployeeSettingsStateService } from '../../../../services/states/employee-settings-state.service';
 
 @Component({
@@ -25,11 +27,13 @@ import { EmployeeSettingsStateService } from '../../../../services/states/employ
   templateUrl: './employee-settings-update.component.html',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
+    MatCardModule,
+    MatIconModule,
+    MatDividerModule,
+    MatDividerModule,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
-    FormsModule,
-    ReactiveFormsModule,
     FormTimezoneComponent,
     BtnBackComponent,
     BtnLoadingComponent
@@ -39,7 +43,7 @@ export class EmployeeSettingsUpdateComponent {
   private readonly employeeSettingsStateService = inject(EmployeeSettingsStateService);
   private readonly employeesApiService = inject(EmployeesApiService);
   private readonly formBuilder = inject(FormBuilder);
-  private readonly toastrService = inject(ToastrService);
+  private readonly snackBarService = inject(SnackBarService);
   private readonly router = inject(Router);
 
   readonly employeeSettings = computed(() => this.employeeSettingsStateService.employeeSettings());
@@ -52,13 +56,12 @@ export class EmployeeSettingsUpdateComponent {
   submitted = false;
   nowWithOriginalTimezone = '';
   nowWithTimezoneSelected = '';
-  siteUrls = SiteUrls;
+  siteUrl = SiteUrl;
 
   constructor() {
     this.setBreadcrumb();
     this.buildForm();
     this.setNowWithOriginalTimezone();
-
     this.eventListener();
   }
 
@@ -72,7 +75,7 @@ export class EmployeeSettingsUpdateComponent {
     this.loadingForm = true;
 
     const employeeSettings = Object.assign({} as EmployeeSettings, this.employeeSettings());
-    const url = CommonUtils.urlReplaceParams(ApiUrls.employees.updateEmployeeSettings, { id: employeeSettings.userId });
+    const url = CommonUtils.urlReplaceParams(ApiUrl.employees.updateEmployeeSettings, { id: employeeSettings.userId });
 
     employeeSettings.timezone = this.form.get('timezone')?.value;
 
@@ -82,8 +85,8 @@ export class EmployeeSettingsUpdateComponent {
       .subscribe({
         next: (result: EmployeeSettings) => {
           if (result) {
-            this.toastrService.success('Configuración actualizada con éxito');
-            this.router.navigateByUrl(SiteUrls.employees.settings);
+            this.snackBarService.success('Configuración actualizada con éxito');
+            this.router.navigateByUrl(SiteUrl.employees.settings);
             this.employeeSettingsStateService.refresh();
           }
         }
@@ -92,8 +95,8 @@ export class EmployeeSettingsUpdateComponent {
 
   private setBreadcrumb(): void {
     this.breadcrumb
-      .add('Configuración de empleado', SiteUrls.employees.settings)
-      .add('Editar', SiteUrls.employees.settingsUpdate, '', false);
+      .add('Configuración de empleado', SiteUrl.employees.settings)
+      .add('Editar', SiteUrl.employees.settingsUpdate, '', false);
   }
 
   private setNowWithOriginalTimezone(): void {

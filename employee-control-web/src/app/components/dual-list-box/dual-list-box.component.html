@@ -1,75 +1,88 @@
 <div class="dual-list-box">
-  @if (!loading) {
+  @if (!loading()) {
     <div class="d-flex">
       <!-- left box -->
-      <div class="flex-fill box-left me-3">
-        <input
-          (input)="handleFilterLeftBox()"
-          [(ngModel)]="termLeftValue"
-          class="form-control mb-2"
-          placeholder="Filtrar..."
-          type="search" />
+      <div class="d-flex flex-column flex-wrap box-left mx-2">
+        <mat-form-field>
+          <mat-label>{{ labelLeftListBox() }}</mat-label>
+          <input
+            matInput
+            (input)="handleFilterLeftBox()"
+            [(ngModel)]="termLeftValue"
+            class="mb-2"
+            placeholder="Filtrar"
+            type="search" />
+          <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+
         <select
+          class="box-list-select"
           [(ngModel)]="itemsLeftSelected"
           [id]="boxLeftId"
           [size]="size"
           aria-label="Items unselected"
-          class="form-select"
           multiple>
-          @for (item of htmlItemSelectorsLeft; track item) {
-            <option [ngValue]="item.id">{{ item.value }}</option>
+          @for (item of dualListBoxItemsLeft; track item) {
+            <option class="box-list-select-item" [ngValue]="item.id">{{ item.value }}</option>
           }
         </select>
+
         <button
+          mat-flat-button
+          color="primary"
           (click)="handleLeftBtnClick()"
           [disabled]="!itemsLeftSelected.length"
-          [ngClass]="{
-            'btn-outline-primary': !itemsLeftSelected.length,
-            'btn-primary': itemsLeftSelected.length
-          }"
-          class="w-100 btn btn-outline-primary mt-1">
-          <span class="fa-solid fa-arrow-right-long"></span>
+          class="mt-1">
+          <mat-icon>arrow_right_alt</mat-icon>
         </button>
       </div>
-      <!-- end left box -->
+
       <!-- right box -->
-      <div class="flex-fill box-right">
-        <input
-          (input)="handleFilterRightBox()"
-          [(ngModel)]="termRightValue"
-          class="form-control mb-2"
-          placeholder="Filtrar..."
-          type="search" />
+      <div class="d-flex flex-column flex-wrap box-right mx-2">
+        <mat-form-field>
+          <mat-label>{{ labelRightListBox() }}</mat-label>
+          <input
+            matInput
+            (input)="handleFilterRightBox()"
+            [(ngModel)]="termRightValue"
+            class="mb-2"
+            placeholder="Filtrar"
+            type="search" />
+          <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+
         <select
+          class="box-list-select"
           [(ngModel)]="itemsRightSelected"
           [id]="boxRightId"
           [size]="size"
           aria-label="Items selected"
-          class="form-select"
           multiple>
-          @for (item of htmlItemSelectorsRight; track item) {
-            <option [ngValue]="item.id">{{ item.value }}</option>
+          @for (item of dualListBoxItemsRight; track item) {
+            <option class="box-list-select-item" [ngValue]="item.id">{{ item.value }}</option>
           }
         </select>
+
         <button
+          mat-flat-button
+          color="primary"
           (click)="handleRightBtnClick()"
           [disabled]="!itemsRightSelected.length"
-          [ngClass]="{ 'btn-outline-primary': !itemsRightSelected.length, 'btn-primary': itemsRightSelected.length }"
-          class="w-100 btn btn-outline-primary mt-1">
-          <span class="fa-solid fa-arrow-left-long"></span>
+          class="mt-1">
+          <mat-icon>west</mat-icon>
         </button>
       </div>
-      <!-- end right box -->
     </div>
+
     <div class="d-flex mt-3">
-      <button (click)="handleSaveChanges()" class="btn btn-outline-success m-auto">
-        <span class="fa-solid fa-floppy-disk"></span> Guardar cambios
+      <button mat-flat-button color="primary" (click)="handleSaveChanges()" class="btn btn-outline-success m-auto">
+        <mat-icon>save</mat-icon> {{ textButtonAction() }}
       </button>
     </div>
   } @else {
     <div class="d-flex">
       <div class="m-auto">
-        <aw-spinner [loading]="loading" [size]="100" />
+        <mat-progress-spinner color="primary" mode="indeterminate" />
       </div>
     </div>
   }

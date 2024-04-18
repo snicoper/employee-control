@@ -1,17 +1,17 @@
-import { LogicalOperators } from './types/logical-operator';
-import { RelationalOperators } from './types/relational-operator';
+import { LogicalOperator } from './types/logical-operator';
+import { RelationalOperator } from './types/relational-operator';
 
 export class ApiResultItemFilter {
   propertyName: string;
-  relationalOperator: RelationalOperators;
+  relationalOperator: RelationalOperator;
   value: string;
-  logicalOperator: LogicalOperators;
+  logicalOperator: LogicalOperator;
 
   constructor(
     propertyName: string,
-    operator: RelationalOperators,
+    operator: RelationalOperator,
     value: string,
-    logicalOperator = LogicalOperators.none
+    logicalOperator = LogicalOperator.None
   ) {
     this.propertyName = propertyName;
     this.relationalOperator = operator;

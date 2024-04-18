@@ -1,32 +1,33 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, ViewChild, computed, inject } from '@angular/core';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { BadgeComponent } from '../../../../components/badges/badge/badge.component';
-import { PaginationComponent } from '../../../../components/pagination/pagination.component';
-import { TableHeaderComponent } from '../../../../components/tables/table-header/table-header.component';
-import { TableHeaderConfig } from '../../../../components/tables/table-header/table-header.config';
-import { TableInputSearchComponent } from '../../../../components/tables/table-input-search/table-input-search.component';
-import { TableComponent } from '../../../../components/tables/table/table.component';
+import { BadgeComponent } from '../../../../components/badge/badge.component';
+import { TableFilterComponent } from '../../../../components/tables/table-filter/table-filter.component';
 import { ApiResult } from '../../../../core/features/api-result/api-result';
-import { ApiUrls } from '../../../../core/urls/api-urls';
-import { SiteUrls } from '../../../../core/urls/site-urls';
+import { ApiUrl } from '../../../../core/urls/api-urls';
+import { SiteUrl } from '../../../../core/urls/site-urls';
 import { CommonUtils } from '../../../../core/utils/common-utils';
 import { CompanyTask } from '../../../../models/entities/company-task.model';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
 import { CompanyTaskApiService } from '../../../../services/api/company-task-api.service';
 import { EmployeeSelectedService } from '../employee-selected.service';
-import { employeeTasksTableHeaders } from './employee-tasks-table-headers';
 
 @Component({
   selector: 'aw-employee-tasks',
   templateUrl: './employee-tasks.component.html',
+  styleUrl: './employee-tasks.component.scss',
   standalone: true,
   imports: [
-    TableInputSearchComponent,
-    TableComponent,
-    TableHeaderComponent,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    TableFilterComponent,
     BadgeComponent,
-    PaginationComponent,
     BoolToIconPipe
   ]
 })
@@ -35,39 +36,44 @@ export class EmployeeTasksComponent {
   private readonly employeeSelectedService = inject(EmployeeSelectedService);
   private readonly router = inject(Router);
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   readonly employeeSelected = computed(() => this.employeeSelectedService.employeeSelected());
 
+  displayedColumns = ['name'];
+  fieldsFilter = ['name'];
+  dataSource!: MatTableDataSource<CompanyTask, MatPaginator>;
   apiResult = new ApiResult<CompanyTask>();
-  tableHeaderConfig = new TableHeaderConfig();
-  loading = false;
+  loading = true;
 
   constructor() {
-    this.configureTableHeaders();
     this.loadCompanyTasks();
   }
 
-  handleReloadData(): void {
-    this.loadCompanyTasks();
-  }
-
-  handleClickClean(event: ApiResult<CompanyTask>): void {
-    this.apiResult = event;
-    this.handleReloadData();
-  }
-
-  handleSelectItem(companyTask: CompanyTask): void {
-    const url = CommonUtils.urlReplaceParams(SiteUrls.companyTasks.details, { id: companyTask.id });
+  handleSelectRow(companyTask: CompanyTask): void {
+    const url = CommonUtils.urlReplaceParams(SiteUrl.companyTasks.details, { id: companyTask.id });
     this.router.navigateByUrl(url);
   }
 
-  private configureTableHeaders(): void {
-    this.tableHeaderConfig.addHeaders(employeeTasksTableHeaders);
+  handlePageEvent(pageEvent: PageEvent): void {
+    this.apiResult = this.apiResult.handlePageEvent(pageEvent);
+
+    this.loadCompanyTasks();
+  }
+
+  handleFilterChange(apiResult: ApiResult<CompanyTask>): void {
+    this.apiResult = apiResult;
+    this.loadCompanyTasks();
+  }
+
+  handleSortChange(sortState: Sort): void {
+    this.apiResult = this.apiResult.handleSortChange(sortState);
+    this.loadCompanyTasks();
   }
 
   private loadCompanyTasks(): void {
-    this.loading = true;
-
-    const url = CommonUtils.urlReplaceParams(ApiUrls.companyTasks.getCompanyTasksByEmployeeIdPaginated, {
+    const url = CommonUtils.urlReplaceParams(ApiUrl.companyTasks.getCompanyTasksByEmployeeIdPaginated, {
       employeeId: this.employeeSelected()?.id ?? ''
     });
 
@@ -76,7 +82,9 @@ export class EmployeeTasksComponent {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (result: ApiResult<CompanyTask>) => {
-          this.apiResult = result;
+          this.apiResult = ApiResult.clone<CompanyTask>(result);
+          this.dataSource = new MatTableDataSource(result.items);
+          this.dataSource.sort = this.sort;
         }
       });
   }

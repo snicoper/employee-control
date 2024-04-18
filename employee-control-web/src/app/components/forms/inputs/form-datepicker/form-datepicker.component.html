@@ -1,29 +1,24 @@
-<div class="form-group">
-  @if (label) {
-    <label [for]="id" class="form-label">
-      {{ label }}
-    </label>
-  }
-
+<mat-form-field>
+  <mat-label>{{ label() }}</mat-label>
   <input
+    matInput
     (ngModelChange)="onChangeValue($event)"
     [(ngModel)]="value"
-    [bsConfig]="bsConfig"
-    [isDisabled]="isDisabled"
     [disabled]="isDisabled"
-    [ngClass]="{ extraCss: true, 'is-invalid': isInvalid() }"
-    [placeholder]="placeholder"
-    [type]="inputType"
-    [id]="id"
-    bsDatepicker
-    class="form-control" />
+    [matDatepicker]="picker"
+    [id]="id()"
+    [placeholder]="placeholder()"
+    [value]="value"
+    [readonly]="readonly()" />
+  <mat-datepicker-toggle matIconSuffix [for]="picker" />
+  <mat-datepicker #picker />
+</mat-form-field>
 
-  @if (form) {
-    <aw-field-error
-      [badRequest]="badRequest"
-      [fieldName]="fieldName"
-      [fieldText]="label"
-      [form]="form"
-      [submitted]="submitted" />
-  }
-</div>
+@if (form()) {
+  <aw-field-error
+    [badRequest]="badRequest()"
+    [fieldName]="fieldName()"
+    [fieldText]="label()"
+    [form]="form()"
+    [submitted]="submitted()" />
+}

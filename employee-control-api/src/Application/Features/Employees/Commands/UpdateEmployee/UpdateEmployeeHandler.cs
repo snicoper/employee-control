@@ -30,7 +30,7 @@ internal class UpdateEmployeeHandler(
         }
 
         // No es posible editar a un usuario con role.
-        if (await identityService.IsInRoleAsync(user.Id, Roles.EnterpriseAdmin))
+        if (await identityService.IsInRoleAsync(user.Id, Roles.Admin))
         {
             var message = localizer["No se puede editar a un administrador."];
             validationFailureService.Add(ValidationErrorsKeys.NonFieldErrors, message);

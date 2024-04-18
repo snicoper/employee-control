@@ -1,7 +1,7 @@
 import { BreadcrumbItem } from './breadcrumbItem';
 
 export class BreadcrumbCollection {
-  private readonly items: BreadcrumbItem[] = [];
+  private readonly items: Array<BreadcrumbItem> = [];
 
   add(text: string, link: string, icon = '', activate = true): this {
     const breadcrumb = new BreadcrumbItem(text, link, icon, activate);
@@ -10,7 +10,7 @@ export class BreadcrumbCollection {
     return this;
   }
 
-  getItems(): BreadcrumbItem[] {
+  getItems(): Array<BreadcrumbItem> {
     return this.items;
   }
 

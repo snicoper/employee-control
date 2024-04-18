@@ -1,29 +1,31 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DateTime } from 'luxon';
 import { finalize } from 'rxjs';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
-import { BtnType } from '../../../components/buttons/btn-loading/btn-loading.type';
-import { CardComponent } from '../../../components/cards/card/card.component';
+import { BtnType } from '../../../components/buttons/btn-loading/btn-type';
 import { FormCheckboxComponent } from '../../../components/forms/inputs/form-checkbox/form-checkbox.component';
-import { FormDatepickerComponent } from '../../../components/forms/inputs/form-datepicker/form-datepicker.component';
-import { FormTimePickerComponent } from '../../../components/forms/inputs/form-timepicker/form-timepicker.component';
+import { FormDatetimePickerComponent } from '../../../components/forms/inputs/form-datetime-picker/form-datetime-picker.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
-import { SpinnerComponent } from '../../../components/spinner/spinner.component';
-import { ApiUrls } from '../../../core/urls/api-urls';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { ApiUrl } from '../../../core/urls/api-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
-import { DateUtils } from '../../../core/utils/date-utils';
+import { DateTimeUtils } from '../../../core/utils/datetime-utils';
 import { CustomValidators } from '../../../core/validators/custom-validators-form';
 import { BadRequest } from '../../../models/bad-request';
 import { TimeControl } from '../../../models/entities/time-control.model';
 import { ResultResponse } from '../../../models/result-response.model';
 import { TimeControlApiService } from '../../../services/api/time-control-api.service';
+import { SnackBarService } from '../../../services/snackbar.service';
 import { TimeControlRecordRequest } from './time-control-record-request';
 
 @Component({
@@ -31,22 +33,22 @@ import { TimeControlRecordRequest } from './time-control-record-request';
   templateUrl: './time-control-record-update.component.html',
   standalone: true,
   imports: [
-    FormsModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatDividerModule,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
-    ReactiveFormsModule,
-    FormDatepickerComponent,
-    FormTimePickerComponent,
+    FormDatetimePickerComponent,
     BtnBackComponent,
     BtnLoadingComponent,
-    FormCheckboxComponent,
-    SpinnerComponent
+    FormCheckboxComponent
   ]
 })
 export class TimeControlRecordUpdateComponent implements OnInit {
   private readonly timeControlApiService = inject(TimeControlApiService);
-  private readonly toastrService = inject(ToastrService);
+  private readonly snackBarService = inject(SnackBarService);
   private readonly formBuilder = inject(FormBuilder);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
@@ -70,16 +72,10 @@ export class TimeControlRecordUpdateComponent implements OnInit {
   handleSubmit(): void {
     this.submitted = true;
 
+    // Obtener datos del form antes de comprobar si el form es valido.
     const timeControl = this.getFomData();
 
     if (this.form.invalid) {
-      return;
-    }
-
-    // No permitir fecha/hora mayor a la actual.
-    if (new Date() < new Date(timeControl.finish)) {
-      this.form.get('timeFinish')?.setErrors({ noFutureDate: true });
-
       return;
     }
 
@@ -88,36 +84,31 @@ export class TimeControlRecordUpdateComponent implements OnInit {
   }
 
   private setBreadcrumb(): void {
-    const urlDetails = CommonUtils.urlReplaceParams(SiteUrls.timeControlRecords.details, { id: this.timeControlId });
+    const urlDetails = CommonUtils.urlReplaceParams(SiteUrl.timeControlRecords.details, { id: this.timeControlId });
 
     this.breadcrumb
-      .add('Registro de tiempos', SiteUrls.timeControlRecords.list)
+      .add('Registro de tiempos', SiteUrl.timeControlRecords.list)
       .add('Detalles de tiempo', urlDetails, '')
-      .add('Actualizar tiempo', SiteUrls.timeControlRecords.update, '', false);
+      .add('Actualizar tiempo', SiteUrl.timeControlRecords.update, '', false);
   }
 
   private getFomData(): TimeControlRecordRequest {
     const timeControl = {} as TimeControlRecordRequest;
 
-    const dateStart = new Date(this.form.get('dateStart')?.value);
-    const dateFinish = new Date(this.form.get('dateFinish')?.value);
-    const timeStart = new Date(this.form.get('timeStart')?.value);
-    const timeFinish = new Date(this.form.get('timeFinish')?.value);
+    const startValue = this.form.get('start')?.value;
+    const finishValue = this.form.get('finish')?.value;
 
-    // Resta offset respecto a la zona horaria del usuario.
-    const start = DateUtils.decrementOffset(dateStart, timeStart);
-    const end = DateUtils.decrementOffset(dateFinish, timeFinish);
+    const start = DateTime.fromISO(startValue);
+    const finish = DateTime.fromISO(finishValue);
 
-    // Comprobar si start es menor a end.
-    if (start > end) {
-      this.form.get('timeFinish')?.setErrors({ noFutureDate: true });
-
-      return timeControl;
+    // No permitir fecha/hora futuras.
+    if (finish > DateTime.local()) {
+      this.form.get('finish')?.setErrors({ noFutureDate: true });
     }
 
     timeControl.id = this.timeControlId;
-    timeControl.start = DateUtils.toISOString(start);
-    timeControl.finish = DateUtils.toISOString(end);
+    timeControl.start = DateTimeUtils.toISOString(start);
+    timeControl.finish = DateTimeUtils.toISOString(finish);
     timeControl.closeIncidence = this.form.get('closeIncidence')?.value as boolean;
 
     return timeControl;
@@ -128,34 +119,24 @@ export class TimeControlRecordUpdateComponent implements OnInit {
       return;
     }
 
-    const start = new Date(this.timeControl.start);
-    let finish = new Date();
-
-    if (this.timeControl.finish) {
-      finish = new Date(this.timeControl.finish);
-    }
-
-    // Añade offset respecto a la zona horaria del usuario.
-    const startWithOffset = DateUtils.incrementOffset(start);
-    const endWithOffset = DateUtils.incrementOffset(finish);
+    const start = DateTime.fromJSDate(new Date(this.timeControl.start));
+    const finish = DateTime.fromJSDate(new Date(this.timeControl.finish as Date));
 
     this.form = this.formBuilder.group(
       {
-        dateStart: [DateUtils.dateStartOfDay(startWithOffset), [Validators.required, CustomValidators.noFutureDate]],
-        dateFinish: [DateUtils.dateStartOfDay(endWithOffset), [Validators.required, CustomValidators.noFutureDate]],
-        timeStart: [startWithOffset, [Validators.required]],
-        timeFinish: [endWithOffset],
+        start: [start, [Validators.required, CustomValidators.noFutureDate]],
+        finish: [finish, [Validators.required, CustomValidators.noFutureDate]],
         closeIncidence: [false]
       },
       {
-        validators: [CustomValidators.dateStartGreaterThanFinish('dateStart', 'dateFinish')]
+        validators: [CustomValidators.dateStartGreaterThanFinish('start', 'finish')]
       }
     );
   }
 
   private loadTimeControl(): void {
     this.loadingForm = true;
-    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.getTimeControlById, { id: this.timeControlId });
+    const url = CommonUtils.urlReplaceParams(ApiUrl.timeControl.getTimeControlById, { id: this.timeControlId });
 
     this.timeControlApiService
       .get<TimeControl>(url)
@@ -170,17 +151,16 @@ export class TimeControlRecordUpdateComponent implements OnInit {
   }
 
   private updateTimeControl(timeControl: TimeControlRecordRequest): void {
-    // Actualizar tiempo.
     this.loadingForm = true;
-    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.updateTimeControl, { id: this.timeControlId });
+    const url = CommonUtils.urlReplaceParams(ApiUrl.timeControl.updateTimeControl, { id: this.timeControlId });
 
     this.timeControlApiService
       .put<TimeControlRecordRequest, ResultResponse>(timeControl, url)
       .pipe(finalize(() => (this.loadingForm = false)))
       .subscribe({
         next: () => {
-          this.toastrService.success('Tiempo actualizado con éxito.');
-          this.router.navigateByUrl(SiteUrls.timeControlRecords.list);
+          this.snackBarService.success('Tiempo actualizado con éxito.');
+          this.router.navigateByUrl(SiteUrl.timeControlRecords.list);
         }
       });
   }

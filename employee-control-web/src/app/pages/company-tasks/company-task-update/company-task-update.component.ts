@@ -1,41 +1,42 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { BadgeComponent } from '../../../components/badges/badge/badge.component';
+import { BadgeComponent } from '../../../components/badge/badge.component';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
-import { CardComponent } from '../../../components/cards/card/card.component';
 import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
 import { FormCheckboxComponent } from '../../../components/forms/inputs/form-checkbox/form-checkbox.component';
-import { FormColorComponent } from '../../../components/forms/inputs/form-color/form-color.component';
+import { FormColorPickerComponent } from '../../../components/forms/inputs/form-color-picker/form-color-picker.component';
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
-import { ApiUrls } from '../../../core/urls/api-urls';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { ApiUrl } from '../../../core/urls/api-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { CompanyTask } from '../../../models/entities/company-task.model';
 import { CompanyTaskApiService } from '../../../services/api/company-task-api.service';
+import { SnackBarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'aw-company-task-update',
   templateUrl: './company-task-update.component.html',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
+    MatCardModule,
+    MatDivider,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
-    FormsModule,
-    ReactiveFormsModule,
     NonFieldErrorsComponent,
     BadgeComponent,
     FormInputComponent,
     FormCheckboxComponent,
-    FormColorComponent,
+    FormColorPickerComponent,
     BtnBackComponent,
     BtnLoadingComponent
   ]
@@ -45,7 +46,7 @@ export class CompanyTaskUpdateComponent {
   private readonly router = inject(Router);
   private readonly formBuilder = inject(FormBuilder);
   private readonly companyTaskApiService = inject(CompanyTaskApiService);
-  private readonly toastrService = inject(ToastrService);
+  private readonly snackBarService = inject(SnackBarService);
 
   readonly breadcrumb = new BreadcrumbCollection();
   readonly companyTaskId: string;
@@ -60,7 +61,7 @@ export class CompanyTaskUpdateComponent {
 
   constructor() {
     this.companyTaskId = this.route.snapshot.paramMap.get('id') as string;
-    this.urlCompanyTaskDetails = CommonUtils.urlReplaceParams(SiteUrls.companyTasks.details, {
+    this.urlCompanyTaskDetails = CommonUtils.urlReplaceParams(SiteUrl.companyTasks.details, {
       id: this.companyTaskId
     });
     this.loadCompanyTask();
@@ -79,14 +80,14 @@ export class CompanyTaskUpdateComponent {
     const companyTask = this.form.value as CompanyTask;
     companyTask.id = this.companyTaskId;
 
-    const url = CommonUtils.urlReplaceParams(ApiUrls.companyTasks.updateCompanyTask, { id: this.companyTaskId });
+    const url = CommonUtils.urlReplaceParams(ApiUrl.companyTasks.updateCompanyTask, { id: this.companyTaskId });
 
     this.companyTaskApiService
       .put<CompanyTask, undefined>(companyTask, url)
       .pipe(finalize(() => (this.loadingForm = false)))
       .subscribe({
         next: () => {
-          this.toastrService.success('Tarea editada con éxito.');
+          this.snackBarService.success('Tarea editada con éxito.');
           this.router.navigateByUrl(this.urlCompanyTaskDetails);
         }
       });
@@ -94,9 +95,9 @@ export class CompanyTaskUpdateComponent {
 
   private setBreadcrumb(): void {
     this.breadcrumb
-      .add('Tareas', SiteUrls.companyTasks.list)
+      .add('Tareas', SiteUrl.companyTasks.list)
       .add('Detalles', this.urlCompanyTaskDetails)
-      .add('Editar', SiteUrls.companyTasks.update, '', false);
+      .add('Editar', SiteUrl.companyTasks.update, '', false);
   }
 
   private buildForm(): void {
@@ -110,7 +111,7 @@ export class CompanyTaskUpdateComponent {
 
   private loadCompanyTask(): void {
     this.loadingCompanyTask = true;
-    const url = CommonUtils.urlReplaceParams(ApiUrls.companyTasks.updateCompanyTask, { id: this.companyTaskId });
+    const url = CommonUtils.urlReplaceParams(ApiUrl.companyTasks.updateCompanyTask, { id: this.companyTaskId });
 
     this.companyTaskApiService
       .get<CompanyTask>(url)

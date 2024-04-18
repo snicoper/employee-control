@@ -1,67 +1,68 @@
 <aw-page-base>
   <aw-page-header>Control de tiempos</aw-page-header>
 
-  <aw-card>
-    @if (companyGeolocationRequired && !geolocationIsAvailable()) {
-      <div class="alert alert-danger">La empresa requiere que acepte permisos de ubicación desde el navegador</div>
-    }
+  <!-- toolbar -->
+  <mat-card>
+    <mat-card-content>
+      @if (companyGeolocationRequired && !geolocationIsAvailable()) {
+        <div class="alert alert-danger">La empresa requiere que acepte permisos de ubicación desde el navegador</div>
+      }
 
-    <aw-month-selector (changeMonthSelected)="handleDateSelected($event)" [dateSelected]="dateSelected" />
-
-    <div class="d-flex justify-content-between mt-4">
-      <!-- state -->
-      <div>
-        @if (currentTimeControl()?.timeState === timeStates.open) {
-          <aw-dot-success />
-
-          <span class="small text-muted">
-            Tiempo iniciado: <strong>{{ currentTimeControl()?.start | datetimeFormat: "cccc t" }}</strong>
-          </span>
-        }
-
-        @if (currentTimeControl()?.timeState === timeStates.close) {
-          <aw-dot-danger />
-          <span class="small text-muted">El tiempo esta finalizado</span>
-        }
+      <div class="d-flex justify-content-center">
+        <aw-month-selector
+          (changeMonthSelected)="handleDateSelected($event)"
+          [dateSelected]="dateSelected"
+          [readOnly]="true" />
       </div>
-      <!-- end state -->
 
-      <div class="small text-muted">Tiempo total: {{ timeTotalInMonth }}</div>
-
-      <!-- button state -->
-      @if (!companyGeolocationRequired || (companyGeolocationRequired && geolocationIsAvailable())) {
+      <div class="d-flex justify-content-between mt-4">
+        <!-- state -->
         <div>
-          @if (currentTimeControl()?.timeState === timeStates.open) {
-            <aw-btn-loading
-              (eventClick)="handleTimeFinished()"
-              [loading]="loadingTimeState"
-              btnClass="btn btn-outline-warning"
-              btnIcon="fa-solid fa-flag-checkered"
-              btnText="Finalizar" />
-          }
+          @if (currentTimeControl()?.timeState === timeStates.Open) {
+            <aw-dot-success class="me-2" />
 
-          @if (currentTimeControl()?.timeState === timeStates.close) {
-            <aw-btn-loading
-              (eventClick)="handleTimeStart()"
-              [loading]="loadingTimeState"
-              btnClass="btn btn-success"
-              btnIcon="fa-solid fa-hourglass-start"
-              btnText="Iniciar" />
+            <span class="small">
+              Tiempo iniciado: <strong>{{ currentTimeControl()?.start | datetimeFormat: "cccc t" }}</strong>
+            </span>
+          } @else {
+            <aw-dot-danger class="me-2" />
+            <span class="small">El tiempo esta finalizado</span>
           }
         </div>
-      }
-      <!-- end button state -->
-    </div>
-  </aw-card>
 
-  <div class="mt-2"></div>
+        <div class="small">Tiempo total: {{ timeTotalInMonth }}</div>
 
-  <!-- times -->
-  <aw-card>
-    <aw-time-control-progress
-      (clickProgress)="handleClickProgress($event)"
-      [loading]="loadingTimeControls"
-      [progressStackedCollection]="progressStackedCollection" />
-  </aw-card>
-  <!-- end times -->
+        <!-- button state -->
+        @if (!companyGeolocationRequired || (companyGeolocationRequired && geolocationIsAvailable())) {
+          <div>
+            @if (currentTimeControl()?.timeState === timeStates.Open) {
+              <aw-btn-loading
+                (eventClick)="handleTimeFinished()"
+                [loading]="loadingTimeState"
+                color="warn"
+                icon="lock"
+                btnText="Finalizar" />
+            } @else {
+              <aw-btn-loading
+                (eventClick)="handleTimeStart()"
+                [loading]="loadingTimeState"
+                color="accent"
+                icon="lock_open"
+                btnText="Iniciar" />
+            }
+          </div>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- times control -->
+  <mat-card class="mt-2">
+    <mat-card-content>
+      <aw-time-control-progress
+        (clickProgress)="handleClickProgress($event)"
+        [loading]="loadingTimeControls"
+        [progressStackedCollection]="progressStackedCollection" />
+    </mat-card-content>
+  </mat-card>
 </aw-page-base>

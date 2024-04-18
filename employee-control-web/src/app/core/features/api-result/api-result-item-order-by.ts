@@ -1,13 +1,11 @@
-import { OrderTypes } from './types/order-type';
+import { OrderType } from './types/order-type';
 
 export class ApiResultItemOrderBy {
   propertyName: string;
-  order: OrderTypes;
-  precedence: number;
+  orderType: OrderType;
 
-  constructor(propertyName: string, order: OrderTypes, precedence: number) {
+  constructor(propertyName: string, orderType: OrderType) {
     this.propertyName = propertyName;
-    this.order = order;
-    this.precedence = precedence;
+    this.orderType = orderType;
   }
 }

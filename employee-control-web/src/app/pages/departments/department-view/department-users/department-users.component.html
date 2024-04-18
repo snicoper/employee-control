@@ -1,53 +1,19 @@
-<div class="d-flex my-3">
-  <h5 class="m-auto">Empleados en el departamento - {{ departmentSelected()?.name }}</h5>
-</div>
+<!-- tab user-list -->
+@if (tabSelected() === "user-list") {
+  <div class="d-flex mt-4">
+    <button mat-button color="primary" (click)="toggleTabSelected()"><mat-icon>add</mat-icon> Asociar empleados</button>
+  </div>
 
-<!-- toolbar -->
-<div class="d-flex justify-content-between mb-2">
-  <span>
-    <button (click)="handleChangeComponent()" class="btn btn-sm btn-outline-success">
-      <span class="fa-solid fa-user-plus"></span> Añadir empleados
-    </button>
-  </span>
-
-  <span>
-    <aw-table-input-search
-      (clickClean)="handleClickClean($event)"
-      [apiResult]="apiResult"
-      [tableHeaderConfig]="tableHeaderConfig" />
-  </span>
-</div>
-<!-- end toolbar -->
-
-<!-- table -->
-<aw-table [apiResult]="apiResult" [loading]="loading">
-  <thead awThead>
-    <tr
-      (clickOrdering)="handleReloadData()"
-      [apiResult]="apiResult"
-      [tableHeaderConfig]="tableHeaderConfig"
-      awTableHeader></tr>
-  </thead>
-
-  @if (apiResult) {
-    <tbody awTbody>
-      @for (user of apiResult.items; track user) {
-        <tr (click)="handleSelectItem(user)" class="cursor-pointer">
-          <td>{{ user.firstName }}</td>
-          <td>{{ user.lastName }}</td>
-          <td>{{ user.email }}</td>
-        </tr>
-      }
-    </tbody>
-  }
-</aw-table>
-<!-- end table -->
-
-<!-- pagination -->
-@if (apiResult) {
-  <aw-pagination
-    (changePage)="handleReloadData()"
-    (changePageListNumber)="handleReloadData()"
-    [apiResult]="apiResult" />
+  <aw-department-user-list />
 }
-<!-- end pagination -->
+
+<!-- tab add-users -->
+@if (tabSelected() === "add-users") {
+  <aw-department-manage-users />
+
+  <div class="d-flex mt-4">
+    <button mat-flat-button color="accent" (click)="toggleTabSelected()">
+      <mat-icon>navigate_before</mat-icon> Volver a empleados
+    </button>
+  </div>
+}

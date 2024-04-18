@@ -1,14 +1,13 @@
 import { Component, computed, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { TabsModule } from 'ngx-bootstrap/tabs';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
-import { CardComponent } from '../../../components/cards/card/card.component';
 import { DotDangerComponent } from '../../../components/colors/dot-danger/dot-danger.component';
 import { DotSuccessComponent } from '../../../components/colors/dot-success/dot-success.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { TimeState } from '../../../models/entities/types/time-state.model';
 import { EmployeeDepartmentsComponent } from './employee-departments/employee-departments.component';
 import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
@@ -19,20 +18,20 @@ import { EmployeeTimeControlProgressComponent } from './employee-time-control-pr
 @Component({
   selector: 'aw-employee-view',
   templateUrl: './employee-view.component.html',
+  styleUrl: './employee-view.component.scss',
   standalone: true,
   imports: [
+    MatCardModule,
+    MatTabsModule,
     PageBaseComponent,
     PageHeaderComponent,
     DotSuccessComponent,
     DotDangerComponent,
     EmployeeDetailsComponent,
-    CardComponent,
-    TabsModule,
     EmployeeDepartmentsComponent,
     EmployeeTasksComponent,
     EmployeeTimeControlProgressComponent
-  ],
-  providers: [BsModalService]
+  ]
 })
 export class EmployeeViewComponent {
   private readonly route = inject(ActivatedRoute);
@@ -43,7 +42,7 @@ export class EmployeeViewComponent {
 
   readonly breadcrumb = new BreadcrumbCollection();
   readonly employeeId: string;
-  readonly timeStates = TimeState;
+  readonly timeState = TimeState;
 
   constructor() {
     this.employeeId = this.route.snapshot.paramMap.get('id') ?? '';
@@ -52,6 +51,6 @@ export class EmployeeViewComponent {
   }
 
   private setBreadcrumb(): void {
-    this.breadcrumb.add('Empleados', SiteUrls.employees.list).add('Detalles', SiteUrls.employees.details, '', false);
+    this.breadcrumb.add('Empleados', SiteUrl.employees.list).add('Detalles', SiteUrl.employees.details, '', false);
   }
 }

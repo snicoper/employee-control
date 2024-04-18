@@ -1,78 +1,46 @@
-import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { DateTime } from 'luxon';
-import { BsDatepickerConfig, BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { LocalizationUtils } from '../../../core/features/localizations/localization-utils';
-import { LocalizationService } from '../../../core/features/localizations/localization.service';
-import { DateUtils } from '../../../core/utils/date-utils';
-import { TooltipDirective } from '../../../directives/tooltip.directive';
+import { PeriodDatetime } from '../../../core/models/period-datetime';
 
 @Component({
   selector: 'aw-date-range-selector',
+  templateUrl: './date-range-selector.component.html',
+  styleUrl: './date-range-selector.component.scss',
   standalone: true,
-  imports: [FormsModule, NgClass, BsDatepickerModule, TooltipDirective],
-  templateUrl: './date-range-selector.component.html'
+  imports: [FormsModule, MatFormFieldModule, MatDatepickerModule]
 })
 export class DateRangeSelectorComponent {
-  private readonly bsLocaleService = inject(BsLocaleService);
-  private readonly localizationService = inject(LocalizationService);
+  label = input('Rango de fechas');
+  rangeValue = input<PeriodDatetime>();
+  disabled = input(false);
+  readonly = input(true);
+  hint = input<string>();
 
-  @Input({ required: true }) rangeValue = [new Date(), new Date()];
-  @Input() maxDate = new Date();
-  @Input() isDisabled = false;
-  @Input() bsConfig: Partial<BsDatepickerConfig>;
+  dateChange = output<PeriodDatetime>();
 
-  @Output() dateRangeValueChange = new EventEmitter<(Date | undefined)[] | undefined>();
-  @Output() changeState = new EventEmitter<void>();
+  dateStart = DateTime.local();
+  dateEnd = DateTime.local();
 
   constructor() {
-    // Locale BsDatepicker.
-    const localeNgxBootstrap = LocalizationUtils.mapLocaleToNgxBootstrap(this.localizationService.getLocaleValue());
-    this.bsLocaleService.use(localeNgxBootstrap);
-
-    // Default BsDatepickerConfig.
-    this.bsConfig = {
-      containerClass: 'theme-default',
-      dateInputFormat: 'LL',
-      adaptivePosition: true,
-      selectWeekDateRange: true
-    };
+    this.loadListeners();
   }
 
-  handleChangeValue(value: (Date | undefined)[] | undefined): void {
-    this.dateRangeValueChange.emit(value);
-  }
-
-  handleToggleState(): void {
-    this.changeState.emit();
-  }
-
-  handleNextRange(): void {
-    if (this.isDisabled) {
+  handleDateChange(): void {
+    if (!this.dateStart || !this.dateEnd) {
       return;
     }
 
-    const intervalDays = DateUtils.intervalDays(this.rangeValue[0], this.rangeValue[1]);
-    const start = DateTime.fromJSDate(this.rangeValue[0]).startOf('day');
-    const finish = DateTime.fromJSDate(this.rangeValue[1]).endOf('day');
-    const newStart = start.plus({ days: intervalDays });
-    const newFinish = finish.plus({ days: intervalDays });
-
-    this.rangeValue = [newStart.toJSDate(), newFinish.toJSDate()];
+    const period = new PeriodDatetime(this.dateStart.startOf('day'), this.dateEnd.endOf('day'));
+    this.dateChange.emit(period);
   }
 
-  handlePreviousRange(): void {
-    if (this.isDisabled) {
-      return;
-    }
-
-    const intervalDays = DateUtils.intervalDays(this.rangeValue[0], this.rangeValue[1]);
-    const start = DateTime.fromJSDate(this.rangeValue[0]).startOf('day');
-    const finish = DateTime.fromJSDate(this.rangeValue[1]).endOf('day');
-    const newStart = start.minus({ days: intervalDays });
-    const newFinish = finish.minus({ days: intervalDays });
-
-    this.rangeValue = [newStart.toJSDate(), newFinish.toJSDate()];
+  private loadListeners(): void {
+    effect(() => {
+      this.dateStart = this.rangeValue()?.start ?? this.dateStart;
+      this.dateEnd = this.rangeValue()?.end ?? this.dateEnd;
+    });
   }
 }

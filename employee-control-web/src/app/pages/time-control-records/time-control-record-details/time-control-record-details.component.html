@@ -2,135 +2,145 @@
   <aw-page-header [breadcrumb]="breadcrumb">Detalles de tiempo</aw-page-header>
 
   @if (timeControl?.incidence) {
-    <aw-card>
-      <h4>Incidencia</h4>
+    <mat-card>
+      <mat-card-content>
+        <h3>Incidencia</h3>
 
-      <div class="alert alert-warning nl2br">{{ timeControl?.incidenceDescription }}</div>
-      <button (click)="handleCloseIncidence()" class="btn btn-sm btn-outline-success">Cerrar incidencia</button>
-    </aw-card>
-
-    <div class="mt-4"></div>
+        <div class="alert alert-warning">
+          {{ timeControl?.incidenceDescription }}
+        </div>
+        <button mat-flat-button color="primary" class="mt-2" (click)="handleCloseIncidence()">
+          <mat-icon>close</mat-icon> Cerrar incidencia
+        </button>
+      </mat-card-content>
+    </mat-card>
   }
 
-  <aw-card>
-    <table class="table table-borderless table-striped table-hover">
-      <tbody>
-        @if (timeControl && !loadingTimeControl) {
-          <tr>
-            <td>Empleado</td>
-            <td>
-              <span (click)="handleNavigateToEmployee(timeControl.userId)" class="navigate-employee">
-                {{ timeControl.firstName }} {{ timeControl.lastName }}
-              </span>
-            </td>
-          </tr>
-          <tr>
-            <td>Hora de inicio</td>
-            <td>
-              <span [innerHTML]="timeControl.deviceTypeStart | deviceType"></span>
-              {{ timeControl.start | datetime }}
+  <mat-card>
+    <mat-card-content>
+      <table class="table-list">
+        <tbody>
+          @if (timeControl && !loadingTimeControl) {
+            <tr class="table-list-row">
+              <td>Empleado</td>
+              <td>
+                <button
+                  mat-button
+                  color="primary"
+                  class="cursor-pointer"
+                  (click)="handleNavigateToEmployee(timeControl.userId)">
+                  {{ timeControl.firstName }} {{ timeControl.lastName }}
+                </button>
+              </td>
+            </tr>
+            <tr class="table-list-row">
+              <td>Hora de inicio</td>
+              <td>
+                <span [innerHTML]="timeControl.deviceTypeStart | deviceType"></span>
+                {{ timeControl.start | datetime: dateTimeShortFormat }}
 
-              @if (getStartOpenStreetMapLink(timeControl)) {
-                <a [href]="getStartOpenStreetMapLink(timeControl)" target="_blank">
-                  <span awTooltip class="fa-solid fa-location-pin text-success" title="Ver en mapa"></span>
-                </a>
-              }
-            </td>
-          </tr>
-          <tr>
-            <td>Hora final</td>
-            <td>
-              <span [innerHTML]="timeControl.deviceTypeFinish | deviceType"></span>
-
-              @if (timeControl.timeState === timeState.close) {
-                {{ timeControl.finish | datetime }}
-                @if (getFinishOpenStreetMapLink(timeControl)) {
-                  <a [href]="getFinishOpenStreetMapLink(timeControl)" target="_blank">
-                    <span awTooltip class="fa-solid fa-location-pin text-success" title="Ver en mapa"></span>
+                @if (getStartOpenStreetMapLink(timeControl)) {
+                  <a matTooltip="Ver en mapa" [href]="getStartOpenStreetMapLink(timeControl)" target="_blank">
+                    <mat-icon>location_on</mat-icon>
                   </a>
                 }
-              }
-            </td>
-          </tr>
-          <tr>
-            <td>Cerrado por</td>
-            <td>
-              @if (timeControl.closedBy === closedBy.staff || timeControl.closedBy === closedBy.system) {
-                <span class="fa-solid fa-exclamation text-danger"></span>
-              }
+              </td>
+            </tr>
+            <tr class="table-list-row">
+              <td>Hora final</td>
+              <td>
+                <span [innerHTML]="timeControl.deviceTypeFinish | deviceType"></span>
 
-              {{ timeControl.closedBy | closedBy }}
-            </td>
-          </tr>
-          <tr>
-            <td>Estado del tiempo</td>
-            <td>
-              @if (timeControl.timeState === timeState.open) {
-                <span awTooltip title="Abierto">
-                  <aw-dot-success />
-                </span>
-              }
+                @if (timeControl.timeState === timeState.Close) {
+                  {{ timeControl.finish | datetime: dateTimeShortFormat }}
+                  @if (getFinishOpenStreetMapLink(timeControl)) {
+                    <a matTooltip="Ver en mapa" [href]="getFinishOpenStreetMapLink(timeControl)" target="_blank">
+                      <mat-icon>location_on</mat-icon>
+                    </a>
+                  }
+                }
+              </td>
+            </tr>
+            <tr class="table-list-row">
+              <td>Cerrado por</td>
+              <td>
+                @if (timeControl.closedBy === closedBy.Staff || timeControl.closedBy === closedBy.System) {
+                  <mat-icon>exclamation</mat-icon>
+                }
 
-              @if (timeControl.timeState === timeState.close) {
-                <span awTooltip title="Cerrado">
-                  <aw-dot-danger />
-                </span>
-              }
-            </td>
-          </tr>
-          <tr>
-            <td>Duración</td>
-            <td>
-              @if (timeControl.duration > 1) {
-                {{ timeControl.duration | durationToTime }}
-              }
+                {{ timeControl.closedBy | closedBy }}
+              </td>
+            </tr>
+            <tr class="table-list-row">
+              <td>Estado del tiempo</td>
+              <td>
+                @if (timeControl.timeState === timeState.Open) {
+                  <span matTooltip="Abierto">
+                    <aw-dot-success />
+                  </span>
+                } @else {
+                  <span matTooltip="Cerrado">
+                    <aw-dot-danger />
+                  </span>
+                }
+              </td>
+            </tr>
+            <tr class="table-list-row">
+              <td>Duración</td>
+              <td>
+                @if (timeControl.duration > 1) {
+                  {{ timeControl.duration | durationToTime }}
+                } @else {
+                  <span>...</span>
+                }
+              </td>
+            </tr>
+          } @else {
+            <tr class="table-list-row">
+              <td colspan="100%">
+                <mat-progress-spinner color="primary" mode="indeterminate" />
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
 
-              @if (timeControl.duration === 0) {
-                <span>...</span>
-              }
-            </td>
-          </tr>
-        } @else {
-          <tr>
-            <td colspan="100%">
-              <aw-spinner [loading]="loadingTimeControl" />
-            </td>
-          </tr>
+      <div class="mt-4">
+        @if (timeControl?.timeState === timeState.Open) {
+          <div class="text-danger mb-4 small">*Para editar o eliminar es necesario finalizar el tiempo.</div>
         }
-      </tbody>
-    </table>
 
-    <div class="mt-4">
-      @if (timeControl?.timeState === timeState.open) {
-        <div class="text-danger mb-4">*Para editar o eliminar es necesario finalizar el tiempo.</div>
-      }
+        <aw-btn-back />
 
-      <aw-btn-back />
+        @if (timeControl) {
+          @if (timeControl.timeState === timeState.Open) {
+            <button mat-flat-button color="primary" class="ms-2" (click)="handleTimeControlClose(timeControl)">
+              <mat-icon>lock</mat-icon> Finalizar
+            </button>
+          } @else {
+            <button mat-flat-button color="primary" class="ms-2" (click)="handleTimeControlUpdate(timeControl)">
+              <mat-icon>edit</mat-icon> Editar
+            </button>
 
-      @if (timeControl) {
-        @if (timeControl.timeState === timeState.open) {
-          <button (click)="handleTimeControlClose(timeControl)" class="btn btn-warning ms-2">
-            <span class="fa-solid fa-lock"></span> Finalizar
-          </button>
-        } @else {
-          <button (click)="handleTimeControlUpdate(timeControl)" class="btn btn-success ms-2">
-            <span class="fa-solid fa-pencil"></span> Editar
-          </button>
-
-          <button (click)="handleTimeControlDelete(timeControl)" class="btn btn-danger ms-2">
-            <span class="fa-solid fa-circle-xmark"></span> Eliminar
-          </button>
+            <button mat-flat-button color="warn" class="ms-2" (click)="handleTimeControlDelete(timeControl)">
+              <mat-icon>delete</mat-icon> Eliminar
+            </button>
+          }
         }
-      }
-    </div>
-  </aw-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
 
   @if (!timeControl?.incidence && timeControl?.incidenceDescription) {
-    <div class="mt-2"></div>
-    <aw-card>
-      <h5>Incidencia cerrada</h5>
+    <mat-card class="mt-2">
+      <mat-card-content>
+        <div class="mt-2"></div>
+        <h3>Incidencia cerrada</h3>
 
-      <div class="alert alert-success nl2br">{{ timeControl?.incidenceDescription }}</div>
-    </aw-card>
+        <div class="alert alert-success">
+          {{ timeControl?.incidenceDescription }}
+        </div>
+      </mat-card-content>
+    </mat-card>
   }
 </aw-page-base>

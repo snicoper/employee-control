@@ -1,43 +1,27 @@
 <aw-page-base>
   <!-- header -->
-  <aw-page-header [breadcrumb]="breadcrumb">
-    @if (employeeTimeControlState()?.timeState === timeStates.open) {
-      <aw-dot-success />
-    }
-
-    @if (employeeTimeControlState()?.timeState === timeStates.close) {
-      <aw-dot-danger />
-    }
-
-    Empleado - <span awHeaderSubtitle>{{ employeeSelected()?.firstName }} {{ employeeSelected()?.lastName }}</span>
-  </aw-page-header>
-  <!-- end header -->
+  <aw-page-header [breadcrumb]="breadcrumb">Detalles de empleado</aw-page-header>
 
   @if (employeeSelected()) {
     <aw-employee-details />
 
     <!-- tabs -->
-    <div class="mt-3">
-      <aw-card>
-        <div>
-          <tabset>
-            <tab #tabDepartments="tab" heading="Departamentos">
-              <aw-employee-departments />
-            </tab>
-            <tab #tabTasks="tab" heading="Tareas">
-              @if (tabTasks.active) {
-                <aw-employee-tasks />
-              }
-            </tab>
-            <tab #tabTimeControl="tab" heading="Control de tiempos">
-              @if (tabTimeControl.active) {
-                <aw-employee-time-control-progress />
-              }
-            </tab>
-          </tabset>
-        </div>
-      </aw-card>
-    </div>
-    <!-- end tabs -->
+    <mat-card class="mt-2">
+      <mat-card-content>
+        <mat-tab-group>
+          <mat-tab label="Departamentos">
+            <aw-employee-departments />
+          </mat-tab>
+
+          <mat-tab label="Tareas">
+            <aw-employee-tasks />
+          </mat-tab>
+
+          <mat-tab label="Control de tiempos">
+            <aw-employee-time-control-progress />
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
   }
 </aw-page-base>

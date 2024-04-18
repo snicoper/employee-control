@@ -1,24 +1,26 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { BadgeComponent } from '../../../components/badges/badge/badge.component';
+import { BadgeComponent } from '../../../components/badge/badge.component';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
-import { CardComponent } from '../../../components/cards/card/card.component';
 import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
-import { FormColorComponent } from '../../../components/forms/inputs/form-color/form-color.component';
+import { FormColorPickerComponent } from '../../../components/forms/inputs/form-color-picker/form-color-picker.component';
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
-import { ApiUrls } from '../../../core/urls/api-urls';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { ApiUrl } from '../../../core/urls/api-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { CompanyTaskApiService } from '../../../services/api/company-task-api.service';
+import { JwtService } from '../../../services/jwt.service';
+import { SnackBarService } from '../../../services/snackbar.service';
 import { CompanyTaskCreateRequest } from './company-task-create-request.model';
 
 @Component({
@@ -26,15 +28,15 @@ import { CompanyTaskCreateRequest } from './company-task-create-request.model';
   templateUrl: './company-task-create.component.html',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
+    MatCardModule,
+    MatDivider,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
-    FormsModule,
-    ReactiveFormsModule,
     NonFieldErrorsComponent,
     BadgeComponent,
     FormInputComponent,
-    FormColorComponent,
+    FormColorPickerComponent,
     BtnBackComponent,
     BtnLoadingComponent
   ]
@@ -42,7 +44,8 @@ import { CompanyTaskCreateRequest } from './company-task-create-request.model';
 export class CompanyTaskCreateComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly companyTaskApiService = inject(CompanyTaskApiService);
-  private readonly toastrService = inject(ToastrService);
+  private readonly jwtService = inject(JwtService);
+  private readonly snackBarService = inject(SnackBarService);
   private readonly router = inject(Router);
 
   readonly breadcrumb = new BreadcrumbCollection();
@@ -51,7 +54,7 @@ export class CompanyTaskCreateComponent {
   badRequest: BadRequest | undefined;
   submitted = false;
   loading = false;
-  siteUrls = SiteUrls;
+  siteUrl = SiteUrl;
 
   constructor() {
     this.setBreadcrumb();
@@ -68,13 +71,15 @@ export class CompanyTaskCreateComponent {
     this.loading = true;
 
     const companyTaskCreateRequest = this.form.value as CompanyTaskCreateRequest;
+    companyTaskCreateRequest.companyId = this.jwtService.getCompanyId();
+
     this.companyTaskApiService
-      .post<CompanyTaskCreateRequest, string>(companyTaskCreateRequest, ApiUrls.companyTasks.createCompanyTask)
+      .post<CompanyTaskCreateRequest, string>(companyTaskCreateRequest, ApiUrl.companyTasks.createCompanyTask)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (result: string) => {
-          const url = CommonUtils.urlReplaceParams(SiteUrls.companyTasks.details, { id: result });
-          this.toastrService.success('Tarea creada con éxito.');
+          const url = CommonUtils.urlReplaceParams(SiteUrl.companyTasks.details, { id: result });
+          this.snackBarService.success('Tarea creada con éxito.');
           this.router.navigateByUrl(url);
         },
         error: (error: HttpErrorResponse) => {
@@ -84,9 +89,7 @@ export class CompanyTaskCreateComponent {
   }
 
   private setBreadcrumb(): void {
-    this.breadcrumb
-      .add('Tareas', SiteUrls.companyTasks.list)
-      .add('Crear tarea', SiteUrls.companyTasks.create, '', false);
+    this.breadcrumb.add('Tareas', SiteUrl.companyTasks.list).add('Crear tarea', SiteUrl.companyTasks.create, '', false);
   }
 
   private buildForm(): void {

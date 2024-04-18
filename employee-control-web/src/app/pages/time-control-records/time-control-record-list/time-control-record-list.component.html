@@ -1,186 +1,200 @@
 <aw-page-base>
   <aw-page-header [breadcrumb]="breadcrumb">Registro de tiempos</aw-page-header>
 
-  <aw-card>
-    <!-- toolbar -->
-    <div class="d-flex mb-2 justify-content-between">
-      <!-- button add time -->
-      <div>
-        <a [routerLink]="siteUrls.timeControlRecords.create" class="btn btn-sm btn-outline-success">
-          <span class="fa-solid fa-plus"></span> Añadir tiempo
-        </a>
-      </div>
-      <!-- end button add time -->
-
-      <div class="btn-group">
-        <!-- filter open times -->
-        <button
-          (click)="handleFilterOpenTimesChange()"
-          [ngClass]="{ 'btn-primary': filterOpenTimesValue, 'btn-outline-primary': !filterOpenTimesValue }"
-          type="button"
-          class="btn btn-sm">
-          <span class="fa-regular fa-hourglass-half"></span> Tiempos abiertos
+  <mat-card>
+    <mat-card-content>
+      <!-- toolbar -->
+      <div class="d-flex justify-content-between mb-2">
+        <!-- button add time -->
+        <button mat-button color="primary" [routerLink]="siteUrl.timeControlRecords.create">
+          <mat-icon>add</mat-icon> Añadir tiempo
         </button>
-        <!-- filter open times -->
 
-        <!-- filter incidences -->
-        <button
-          (click)="handleFilterIncidencesChange()"
-          [ngClass]="{ 'btn-primary': filterIncidences, 'btn-outline-primary': !filterIncidences }"
-          type="button"
-          class="btn btn-sm">
-          <i class="fa-solid fa-triangle-exclamation"></i> Incidencias
-        </button>
-        <!-- end filter incidences -->
-      </div>
+        <div>
+          <mat-button-toggle-group name="customFilter" aria-label="Filtros">
+            <!-- filter open times -->
+            <mat-button-toggle (change)="handleCustomFilters('open-times')" [checked]="filterOpenTimes">
+              Tiempos abiertos
+            </mat-button-toggle>
 
-      <div>
-        <!-- date range filter -->
-        <aw-date-range-selector
-          (dateRangeValueChange)="handleDateRangeValueChange($event)"
-          (changeState)="handleState()"
-          [rangeValue]="[from, to]"
-          [isDisabled]="!filterStateDateRange" />
-      </div>
-      <!-- date range filter -->
+            <!-- filter incidences -->
+            <mat-button-toggle (change)="handleCustomFilters('incidences')" [checked]="filterIncidences">
+              Incidencias
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
 
-      <!-- input filter -->
-      <div>
-        <aw-table-input-search
-          (clickClean)="handleClickClean($event)"
+        <div>
+          <!-- date range filter -->
+          <aw-date-range-selector
+            (dateChange)="handleDateChange($event)"
+            [rangeValue]="filterPeriod"
+            [disabled]="!filterDateRangeState" />
+
+          <button mat-button [color]="filterDateRangeState ? 'warn' : 'primary'" (click)="handleToggleFilterDate()">
+            <mat-icon>event_available</mat-icon>
+          </button>
+        </div>
+
+        <!-- input filter -->
+        <aw-table-filter
+          (filterChange)="handleFilterChange($event)"
           [apiResult]="apiResult"
-          [tableHeaderConfig]="tableHeaderConfig" />
+          [fieldsFilter]="fieldsFilter" />
       </div>
-      <!-- input filter -->
-    </div>
-    <!-- end toolbar -->
 
-    <!-- table -->
-    <aw-table [apiResult]="apiResult" [loading]="loading">
-      <thead awThead>
-        <tr
-          (clickOrdering)="handleReloadData()"
-          [apiResult]="apiResult"
-          [tableHeaderConfig]="tableHeaderConfig"
-          awTableHeader></tr>
-      </thead>
+      <!-- table -->
+      @if (!loading) {
+        <table mat-table matSort (matSortChange)="handleSortChange($event)" [dataSource]="dataSource">
+          <!-- firstName -->
+          <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
+          </ng-container>
 
-      @if (apiResult) {
-        <tbody awTbody>
-          @for (timeControl of apiResult.items; track timeControl) {
-            <tr>
-              <td (click)="handleNavigateEmployeeDetails(timeControl)" class="cursor-pointer">
-                {{ timeControl.firstName }}
-              </td>
-              <td (click)="handleNavigateEmployeeDetails(timeControl)" class="cursor-pointer">
-                {{ timeControl.lastName }}
-              </td>
-              <td>
-                <span [innerHTML]="timeControl.deviceTypeStart | deviceType"></span>
-                {{ timeControl.start | datetime }}
+          <!-- lastName -->
+          <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellidos</th>
+            <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
+          </ng-container>
 
-                @if (getStartOpenStreetMapLink(timeControl)) {
-                  <a [href]="getStartOpenStreetMapLink(timeControl)" target="_blank">
-                    <span awTooltip class="fa-solid fa-location-pin text-success" title="Ver en mapa"></span>
+          <!-- start -->
+          <ng-container matColumnDef="start">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Apertura</th>
+            <td mat-cell *matCellDef="let row">
+              <span [innerHTML]="row.deviceTypeStart | deviceType"></span>
+              {{ row.start | datetime: dateTimeShortFormat }}
+
+              @if (getStartOpenStreetMapLink(row)) {
+                <a matTooltip="Ver en mapa" [href]="getStartOpenStreetMapLink(row)" target="_blank">
+                  <mat-icon>location_on</mat-icon>
+                </a>
+              }
+            </td>
+          </ng-container>
+
+          <!-- finish -->
+          <ng-container matColumnDef="finish">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cierre</th>
+            <td mat-cell *matCellDef="let row">
+              <span [innerHTML]="row.deviceTypeFinish | deviceType"></span>
+
+              @if (row.timeState === timeState.Close) {
+                {{ row.finish | datetime: dateTimeShortFormat }}
+                @if (getFinishOpenStreetMapLink(row)) {
+                  <a matTooltip="Ver en mapa" [href]="getFinishOpenStreetMapLink(row)" target="_blank">
+                    <mat-icon>location_on</mat-icon>
                   </a>
                 }
-              </td>
-              <td>
-                <span [innerHTML]="timeControl.deviceTypeFinish | deviceType"></span>
+              }
+            </td>
+          </ng-container>
 
-                @if (timeControl.timeState === timeState.close) {
-                  {{ timeControl.finish | datetime }}
-                  @if (getFinishOpenStreetMapLink(timeControl)) {
-                    <a [href]="getFinishOpenStreetMapLink(timeControl)" target="_blank">
-                      <span awTooltip class="fa-solid fa-location-pin text-success" title="Ver en mapa"></span>
-                    </a>
-                  }
-                }
-              </td>
-              <td>
-                @if (timeControl.closedBy === closedBy.staff || timeControl.closedBy === closedBy.system) {
-                  <span class="fa-solid fa-exclamation text-danger"></span>
-                }
+          <!-- closedBy -->
+          <ng-container matColumnDef="closedBy">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cerrado por</th>
+            <td mat-cell *matCellDef="let row">
+              @if (row.closedBy === closedBy.Staff || row.closedBy === closedBy.System) {
+                <mat-icon>exclamation</mat-icon>
+              }
 
-                {{ timeControl.closedBy | closedBy }}
-              </td>
-              <td>
-                @if (timeControl.timeState === timeState.open) {
-                  <span awTooltip title="Abierto">
-                    <aw-dot-success />
-                  </span>
-                }
+              {{ row.closedBy | closedBy }}
+            </td>
+          </ng-container>
 
-                @if (timeControl.timeState === timeState.close) {
-                  <span awTooltip title="Cerrado">
-                    <aw-dot-danger />
-                  </span>
-                }
-              </td>
-              <td>
-                @if (timeControl.duration > 1) {
-                  {{ timeControl.duration | durationToTime }}
-                }
-
-                @if (timeControl.duration === 0) {
-                  <span>...</span>
-                }
-              </td>
-              <td>
-                @if (timeControl.incidence) {
-                  <span
-                    awTooltip
-                    [title]="timeControl.incidenceDescription"
-                    class="fa-solid fa-triangle-exclamation text-danger"></span>
-                } @else {
-                  <span>&nbsp;</span>
-                }
-              </td>
-              <td>
-                <span class="d-flex justify-content-end btn-actions">
-                  <span
-                    (click)="handleDetailsTimeControl(timeControl)"
-                    awTooltip
-                    class="fa-solid fa-eye cursor-pointer text-info"
-                    title="Detalles"></span>
-
-                  @if (timeControl.timeState === timeState.close) {
-                    <span
-                      (click)="handleTimeControlUpdate(timeControl)"
-                      awTooltip
-                      class="fa-solid fa-pencil text-success cursor-pointer ms-2"
-                      title="Editar"></span>
-
-                    <span
-                      (click)="handleDeleteTimeControl(timeControl)"
-                      awTooltip
-                      class="fa-solid fa-circle-xmark cursor-pointer text-danger ms-2"
-                      title="Eliminar"></span>
-                  }
-
-                  @if (timeControl.timeState === timeState.open) {
-                    <span
-                      (click)="handleCloseTimeControl(timeControl)"
-                      awTooltip
-                      class="fa-solid fa-lock cursor-pointer text-danger ms-2"
-                      title="Cerrar"></span>
-                  }
+          <!-- timeState -->
+          <ng-container matColumnDef="timeState">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+            <td mat-cell *matCellDef="let row">
+              @if (row.timeState === timeState.Open) {
+                <span matTooltip="Abierto">
+                  <aw-dot-success />
                 </span>
-              </td>
-            </tr>
-          }
-        </tbody>
-      }
-    </aw-table>
-    <!-- end table -->
+              } @else {
+                <span matTooltip="Cerrado">
+                  <aw-dot-danger />
+                </span>
+              }
+            </td>
+          </ng-container>
 
-    <!-- pagination -->
-    @if (apiResult) {
-      <aw-pagination
-        (changePage)="handleReloadData()"
-        (changePageListNumber)="handleReloadData()"
-        [apiResult]="apiResult" />
-    }
-    <!-- end pagination -->
-  </aw-card>
+          <!-- duration -->
+          <ng-container matColumnDef="duration">
+            <th mat-header-cell *matHeaderCellDef>Duración</th>
+            <td mat-cell *matCellDef="let row">
+              @if (row.duration > 1) {
+                {{ row.duration | durationToTime }}
+              } @else {
+                <span>...</span>
+              }
+            </td>
+          </ng-container>
+
+          <!-- incidence -->
+          <ng-container matColumnDef="incidence">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Incidencia</th>
+            <td mat-cell *matCellDef="let row">
+              @if (row.incidence) {
+                <span [matTooltip]="row.incidenceDescription" class="text-danger">
+                  <mat-icon>exclamation</mat-icon>
+                </span>
+              } @else {
+                <span>&nbsp;</span>
+              }
+            </td>
+          </ng-container>
+
+          <!-- actions -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="d-flex justify-content-end"></th>
+            <td mat-cell *matCellDef="let row">
+              <span class="d-flex justify-content-end">
+                <button mat-button color="primary" (click)="handleDetailsTimeControl(row)" matTooltip="Detalles">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+
+                @if (row.timeState === timeState.Close) {
+                  <button mat-button color="accent" (click)="handleTimeControlUpdate(row)" matTooltip="Editar">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+
+                  <button mat-button color="warn" (click)="handleDeleteTimeControl(row)" matTooltip="Eliminar">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                } @else {
+                  <button mat-button color="warn" (click)="handleCloseTimeControl(row)" matTooltip="Cerrar">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                }
+              </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell p-4" [attr.colspan]="displayedColumns.length">No hay datos a mostrar</td>
+          </tr>
+        </table>
+
+        <!-- paginator -->
+        @if (dataSource) {
+          <mat-paginator
+            showFirstLastButtons
+            (page)="handlePageEvent($event)"
+            [length]="apiResult.totalItems"
+            [pageSize]="apiResult.pageSize"
+            [pageIndex]="apiResult.pageNumber - 1"
+            [pageSizeOptions]="[25, 50, 100]"
+            aria-label="Selección de pagina" />
+        }
+      } @else {
+        <!-- spinner -->
+        <div class="d-flex justify-content-center p-5">
+          <mat-progress-spinner color="primary" mode="indeterminate" />
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
 </aw-page-base>

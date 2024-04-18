@@ -1,67 +1,61 @@
 <aw-page-base>
   <aw-page-header [breadcrumb]="breadcrumb">Crear tarea</aw-page-header>
 
-  <aw-card>
-    <!-- form -->
-    <form (ngSubmit)="handleSubmit()" [formGroup]="form">
-      <aw-non-field-errors [badRequest]="badRequest" />
+  <mat-card>
+    <mat-card-content>
+      <form (ngSubmit)="handleSubmit()" [formGroup]="form">
+        <aw-non-field-errors [badRequest]="badRequest" />
 
-      @if (form.get("name")?.value) {
-        <div class="my-3">
-          <aw-badge
-            [background]="form.get('background')?.value"
-            [color]="form.get('color')?.value"
-            [name]="form.get('name')?.value" />
-        </div>
-      }
-
-      <!-- name -->
-      <div class="mb-2">
-        <aw-form-input
-          [badRequest]="badRequest"
-          [form]="form"
-          [submitted]="submitted"
-          fieldName="name"
-          formControlName="name"
-          label="Nombre" />
-      </div>
-      <!-- end name -->
-
-      <div class="d-flex">
-        <!-- background -->
+        <!-- name -->
         <div class="mb-2">
-          <aw-form-color
+          <aw-form-input
             [badRequest]="badRequest"
             [form]="form"
             [submitted]="submitted"
-            fieldName="background"
-            formControlName="background"
-            label="Color de fondo" />
+            fieldName="name"
+            formControlName="name"
+            label="Nombre" />
         </div>
-        <!-- end background -->
 
-        <!-- color -->
-        <div class="mb-2 ms-5">
-          <aw-form-color
-            [badRequest]="badRequest"
-            [form]="form"
-            [submitted]="submitted"
-            fieldName="color"
-            formControlName="color"
-            label="Color de texto" />
+        <!-- show result -->
+        @if (form.get("name")?.value) {
+          <div class="my-3">
+            <aw-badge [background]="form.get('background')?.value" [color]="form.get('color')?.value">
+              {{ form.get("name")?.value }}
+            </aw-badge>
+          </div>
+        }
+
+        <div class="d-flex flex-wrap">
+          <!-- background -->
+          <div class="mb-2">
+            <aw-form-color-picker
+              [badRequest]="badRequest"
+              [form]="form"
+              [submitted]="submitted"
+              fieldName="background"
+              formControlName="background"
+              label="Color de fondo" />
+          </div>
+
+          <!-- color -->
+          <div class="mb-2 ms-5">
+            <aw-form-color-picker
+              [badRequest]="badRequest"
+              [form]="form"
+              [submitted]="submitted"
+              fieldName="color"
+              formControlName="color"
+              label="Color de texto" />
+          </div>
         </div>
-        <!-- end color -->
-      </div>
 
-      <!-- buttons-->
-      <aw-btn-back cssClass="btn btn-primary mt-2 me-2" />
-      <aw-btn-loading
-        [loading]="loading"
-        btnClass="btn btn-success mt-2"
-        btnIcon="fa-solid fa-list-check"
-        btnText="Crear" />
-      <!-- end buttons-->
-    </form>
-    <!-- end form -->
-  </aw-card>
+        <mat-divider class="mt-4" />
+
+        <!-- buttons-->
+        <aw-btn-back class="me-2" />
+        <aw-btn-loading [loading]="loading" icon="add" btnText="Crear" />
+      </form>
+    </mat-card-content>
+  </mat-card>
 </aw-page-base>

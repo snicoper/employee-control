@@ -1,39 +1,43 @@
-@if ((submitted && formHasErrors()) || controlHasErrors() || getBadRequestErrors()) {
-  <div class="small text-danger mt-1 pl-1">
+@if ((submitted() && formHasErrors()) || controlHasErrors() || getBadRequestErrors()) {
+  <div class="text-danger field-error-container">
     <!-- Errores Angular. -->
     <span>
       @if (getControlErrorByErrorName("required")) {
-        <div>Campo requerido.</div>
+        <mat-hint>Campo requerido.</mat-hint>
       }
 
       @if (getControlErrorByErrorName("email")) {
-        <div>Campo email no valido.</div>
+        <mat-hint>Campo email no valido.</mat-hint>
       }
 
       @if (getControlErrorByErrorName("noPasswordMatch")) {
-        <div>Las contraseñas no coinciden.</div>
+        <mat-hint>Las contraseñas no coinciden.</mat-hint>
       }
 
       @if (getControlErrorByErrorName("startGreaterThanFinish")) {
-        <div>La fecha de inicio no puede ser mayor a la fecha final.</div>
+        <mat-hint>La fecha de inicio no puede ser mayor a la fecha final.</mat-hint>
       }
 
       @if (getControlErrorByErrorName("noFutureDate")) {
-        <div>La fecha ha de ser menor o igual a hoy.</div>
+        <mat-hint>La fecha no puede ser futura.</mat-hint>
+      }
+
+      @if (getControlErrorByErrorName("invalidDateTime")) {
+        <mat-hint>La fecha no parece valida.</mat-hint>
       }
 
       @if (getControlErrorByErrorName("max")) {
-        <div>
+        <mat-hint>
           Valor <span class="text-success">{{ getValidationErrorMax()?.actual }}</span> es superior al permitido
           <span class="text-success">{{ getValidationErrorMax()?.max }}</span>
-        </div>
+        </mat-hint>
       }
 
       @if (getControlErrorByErrorName("min")) {
-        <div>
+        <mat-hint>
           Valor <span class="text-success">{{ getValidationErrorMin()?.actual }}</span> es menor al mínimo necesario
           <span class="text-success">{{ getValidationErrorMin()?.min }}</span>
-        </div>
+        </mat-hint>
       }
     </span>
 
@@ -41,10 +45,9 @@
     @if (getBadRequestErrors()) {
       <div>
         @for (error of getBadRequestErrors(); track error) {
-          <div>{{ error }}</div>
+          <mat-hint>{{ error }}</mat-hint>
         }
       </div>
     }
-    <!-- end errores obtenidos del backend. -->
   </div>
 }

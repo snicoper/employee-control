@@ -1,39 +1,25 @@
-<div class="d-flex align-items-center">
-  <!-- previous -->
-  @if (!isDisabled) {
-    <button (click)="handlePreviousRange()" class="btn btn-sm">
-      <span class="fa-solid fa-left-long"></span>
-    </button>
+<mat-form-field>
+  <mat-label>{{ label() }}</mat-label>
+  <mat-date-range-input [rangePicker]="picker">
+    <input
+      matStartDate
+      placeholder="Fecha de inicio"
+      [(ngModel)]="dateStart"
+      [disabled]="disabled()"
+      [readonly]="readonly()" />
+    <input
+      matEndDate
+      placeholder="Fecha final"
+      [(ngModel)]="dateEnd"
+      (dateChange)="handleDateChange()"
+      [disabled]="disabled()"
+      [readonly]="readonly()" />
+  </mat-date-range-input>
+
+  @if (hint()) {
+    <mat-hint>{{ hint() }}</mat-hint>
   }
-  <!-- end previous -->
 
-  <!-- input form -->
-  <input
-    (bsValueChange)="handleChangeValue($event)"
-    [(ngModel)]="rangeValue"
-    [bsConfig]="bsConfig"
-    [maxDate]="maxDate"
-    [isDisabled]="isDisabled"
-    [disabled]="isDisabled"
-    bsDaterangepicker
-    class="form-control" />
-  <!-- end input form -->
-
-  <!-- next -->
-  @if (!isDisabled) {
-    <button (click)="handleNextRange()" class="btn btn-sm">
-      <span class="fa-solid fa-right-long"></span>
-    </button>
-  }
-  <!-- end next -->
-
-  <!-- state -->
-  <button (click)="handleToggleState()" class="btn btn-sm">
-    @if (isDisabled) {
-      <span awTooltip title="Activar filtro de rango" class="fa-regular fa-calendar text-success"></span>
-    } @else {
-      <span awTooltip title="Desactivar filtro de rango" class="fa-regular fa-calendar text-danger"></span>
-    }
-  </button>
-  <!-- end state -->
-</div>
+  <mat-datepicker-toggle matIconSuffix [for]="picker" />
+  <mat-date-range-picker #picker />
+</mat-form-field>

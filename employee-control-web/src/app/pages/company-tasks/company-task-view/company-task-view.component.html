@@ -1,34 +1,21 @@
 <aw-page-base>
-  <aw-page-header [breadcrumb]="breadcrumb">
-    Tarea - <span awHeaderSubtitle>{{ companyTask()?.name }}</span>
-  </aw-page-header>
+  <aw-page-header [breadcrumb]="breadcrumb">Detalles tarea</aw-page-header>
 
+  <!-- task details -->
   <aw-company-task-details [companyTaskId]="companyTaskId" />
 
   <!-- tabs -->
-  @if (companyTaskId && companyTask()) {
-    <div class="mt-3">
-      <aw-card>
-        <div>
-          <tabset>
-            <tab #tabUsers="tab" heading="Empleados">
-              @if (tabUsers.active && employeeComponent === employeeLoadComponent.employees) {
-                <aw-company-task-users (changeComponent)="handleChangeComponent()" />
-              }
-              @if (tabUsers.active && employeeComponent === employeeLoadComponent.addEmployees) {
-                <aw-company-task-add-users (changeComponent)="handleChangeComponent()" />
-              }
-            </tab>
-            <tab #tabB="tab" heading="Basic Title 1">
-              @if (tabB.active) {
-                <aw-company-task-users />
-              }
-            </tab>
-            <tab #tabC="tab" heading="Basic Title 2">Basic content 2</tab>
-          </tabset>
-        </div>
-      </aw-card>
-    </div>
+  @if (companyTaskId && companyTaskSelected()) {
+    <mat-card class="mt-2">
+      <mat-card-content>
+        <mat-tab-group>
+          <mat-tab label="Empleados">
+            <ng-template matTabContent>
+              <aw-company-task-users />
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
   }
-  <!-- end tabs -->
 </aw-page-base>

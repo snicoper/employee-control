@@ -5,7 +5,7 @@ using MediatR;
 
 namespace EmployeeControl.Application.Features.TimesControl.Queries.GetTimesControlByEmployeeIdPaginated;
 
-[Authorize(Roles = Roles.EnterpriseStaff)]
+[Authorize(Roles = Roles.Staff)]
 public record GetTimesControlByEmployeeIdPaginatedQuery(
     string EmployeeId,
     DateTimeOffset? From,

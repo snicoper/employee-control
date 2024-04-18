@@ -1,5 +1,1 @@
-<span [ngClass]="{ 'rounded-pill': rounded }" [ngStyle]="{ 'background-color': color, padding: size }" class="badge">
-  <span #ref>
-    <ng-content />
-  </span>
-</span>
+<span [ngStyle]="{ 'background-color': color(), width: dotSize(), height: dotSize() }" class="badge"></span>

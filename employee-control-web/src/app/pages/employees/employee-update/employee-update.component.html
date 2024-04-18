@@ -1,82 +1,80 @@
 <aw-page-base>
   <aw-page-header [breadcrumb]="breadcrumb">Editar datos de empleado</aw-page-header>
 
-  <aw-card>
-    <!-- form -->
-    @if (employee) {
-      <form (ngSubmit)="handleSubmit()" [formGroup]="form">
-        <aw-non-field-errors [badRequest]="badRequest" />
-        <!-- firstName -->
-        <div class="mb-2">
-          <aw-form-input
-            [badRequest]="badRequest"
-            [form]="form"
-            [submitted]="submitted"
-            fieldName="firstName"
-            formControlName="firstName"
-            label="Nombre" />
-        </div>
-        <!-- end firstName -->
-        <!-- lastName -->
-        <div class="mb-2">
-          <aw-form-input
-            [badRequest]="badRequest"
-            [form]="form"
-            [submitted]="submitted"
-            fieldName="lastName"
-            formControlName="lastName"
-            label="Apellidos" />
-        </div>
-        <!-- end lastName -->
-        <!-- email -->
-        <div class="mb-2">
-          <aw-form-input
-            [badRequest]="badRequest"
-            [form]="form"
-            [inputType]="formTypes.email"
-            [submitted]="submitted"
-            fieldName="email"
-            formControlName="email"
-            label="Correo electrónico" />
-        </div>
-        <!-- end email -->
-        <!-- phoneNumber -->
-        <div class="mb-2">
-          <aw-form-input
-            [badRequest]="badRequest"
-            [form]="form"
-            [submitted]="submitted"
-            fieldName="phoneNumber"
-            formControlName="phoneNumber"
-            label="Teléfono" />
-        </div>
-        <!-- end phoneNumber -->
-        <!-- entryDate -->
-        <div class="mb-2">
-          <aw-form-datepicker
-            [badRequest]="badRequest"
-            [form]="form"
-            [submitted]="submitted"
-            fieldName="entryDate"
-            formControlName="entryDate"
-            label="Fecha de ingreso" />
-        </div>
-        <!-- end entryDate -->
-        <aw-btn-back cssClass="btn btn-primary mt-2"></aw-btn-back>
-        <aw-btn-loading
-          [loading]="loadingForm"
-          btnClass="btn btn-success mt-2 ms-2"
-          btnIcon="fa-regular fa-floppy-disk"
-          btnText="Guardar"
-          spinnerLoadingText="Guardando" />
-      </form>
-    }
-    <!-- form -->
+  <mat-card>
+    <mat-card-content>
+      <!-- form -->
+      @if (employee) {
+        <form (ngSubmit)="handleSubmit()" [formGroup]="form">
+          <aw-non-field-errors [badRequest]="badRequest" />
+          <!-- firstName -->
+          <div class="mb-2">
+            <aw-form-input
+              [badRequest]="badRequest"
+              [form]="form"
+              [submitted]="submitted"
+              fieldName="firstName"
+              formControlName="firstName"
+              label="Nombre" />
+          </div>
 
-    <!-- spinner -->
-    @if (loadingEmployee) {
-      <aw-spinner [loading]="loadingEmployee" [size]="100" />
-    }
-    <!-- end spinner -->
-  </aw-card>
+          <!-- lastName -->
+          <div class="mb-2">
+            <aw-form-input
+              [badRequest]="badRequest"
+              [form]="form"
+              [submitted]="submitted"
+              fieldName="lastName"
+              formControlName="lastName"
+              label="Apellidos" />
+          </div>
+
+          <!-- email -->
+          <div class="mb-2">
+            <aw-form-input
+              [badRequest]="badRequest"
+              [form]="form"
+              [formInputType]="formInputType.Email"
+              [submitted]="submitted"
+              fieldName="email"
+              formControlName="email"
+              label="Correo electrónico" />
+          </div>
+
+          <!-- phoneNumber -->
+          <div class="mb-2">
+            <aw-form-input
+              [badRequest]="badRequest"
+              [form]="form"
+              [submitted]="submitted"
+              fieldName="phoneNumber"
+              formControlName="phoneNumber"
+              label="Teléfono" />
+          </div>
+
+          <!-- entryDate -->
+          <div class="mb-2">
+            <aw-form-datepicker
+              [badRequest]="badRequest"
+              [form]="form"
+              [submitted]="submitted"
+              [readonly]="true"
+              fieldName="entryDate"
+              formControlName="entryDate"
+              label="Fecha de ingreso" />
+          </div>
+
+          <mat-divider class="mb-2" />
+
+          <aw-btn-back class="me-2"></aw-btn-back>
+          <aw-btn-loading icon="save" btnText="Guardar" [loading]="loadingForm" />
+        </form>
+      }
+
+      <!-- spinner -->
+      @if (loadingEmployee) {
+        <mat-progress-spinner color="primary" mode="indeterminate" />
+      }
+    </mat-card-content>
+  </mat-card>
 </aw-page-base>

@@ -1,91 +1,85 @@
 <aw-page-base>
   <aw-page-header [breadcrumb]="breadcrumb">Editar Configuración</aw-page-header>
 
-  <aw-card>
-    <form (ngSubmit)="handleSubmit()" [formGroup]="form">
-      <div class="mb-2">
-        <!-- periodTimeControlMax -->
-        <aw-form-input
-          [badRequest]="badRequest"
-          [form]="form"
-          [submitted]="submitted"
-          [inputType]="formInputTypes.integer"
-          fieldName="periodTimeControlMax"
-          formControlName="periodTimeControlMax"
-          label="Periodo máx de un control de tiempo" />
+  <mat-card>
+    <mat-card-content>
+      @if (!loadingForm) {
+        <form (ngSubmit)="handleSubmit()" [formGroup]="form">
+          <!-- periodTimeControlMax -->
+          <div class="mb-2">
+            <aw-form-input
+              [badRequest]="badRequest"
+              [form]="form"
+              [submitted]="submitted"
+              [formInputType]="formInputTypes.Integer"
+              fieldName="periodTimeControlMax"
+              formControlName="periodTimeControlMax"
+              label="Periodo máx de un control de tiempo" />
+            <span class="small">Horas máximas de un control de tiempo, si se excede se cierran automáticamente</span>
+          </div>
 
-        <span class="small text-muted">
-          Horas máximas de un control de tiempo, si se excede se cierran automáticamente
-        </span>
-        <!-- end periodTimeControlMax -->
-
-        <div class="mt-4">
           <!-- weeklyWorkingHours -->
-          <aw-form-input
-            [badRequest]="badRequest"
-            [form]="form"
-            [submitted]="submitted"
-            [inputType]="formInputTypes.integer"
-            fieldName="weeklyWorkingHours"
-            formControlName="weeklyWorkingHours"
-            label="Horas de trabajo semanal" />
-          <!-- end weeklyWorkingHours -->
-        </div>
+          <div class="mt-4">
+            <aw-form-input
+              [badRequest]="badRequest"
+              [form]="form"
+              [submitted]="submitted"
+              [formInputType]="formInputTypes.Integer"
+              fieldName="weeklyWorkingHours"
+              formControlName="weeklyWorkingHours"
+              label="Horas de trabajo semanal" />
+            <span class="small">Horas laborables de una semana</span>
+          </div>
 
-        <div class="mt-4">
           <!-- timezone -->
-          <aw-form-timezone
-            [badRequest]="badRequest"
-            [form]="form"
-            [submitted]="submitted"
-            fieldName="timezone"
-            formControlName="timezone"
-            label="Zona horaria" />
+          <div class="mt-4">
+            <aw-form-timezone
+              [badRequest]="badRequest"
+              [form]="form"
+              [submitted]="submitted"
+              fieldName="timezone"
+              formControlName="timezone"
+              label="Zona horaria" />
 
-          <!-- comparación de horas. -->
-          @if (nowWithOriginalTimezone) {
-            <span class="text-muted small">
-              Hora actual seleccionada: <strong>{{ nowWithOriginalTimezone }}</strong>
-            </span>
-          }
+            <!-- comparación de horas. -->
+            @if (nowWithOriginalTimezone) {
+              <span class="small">
+                Hora actual seleccionada: <strong>{{ nowWithOriginalTimezone }}</strong>
+              </span>
+            }
 
-          @if (nowWithTimezoneSelected) {
-            <span class="text-muted small">
-              - Nueva hora seleccionada: <strong>{{ nowWithTimezoneSelected }}</strong>
-            </span>
-          }
-          <!-- end comparación de horas. -->
+            @if (nowWithTimezoneSelected) {
+              <span class="small">
+                - Nueva hora seleccionada: <strong>{{ nowWithTimezoneSelected }}</strong>
+              </span>
+            }
+          </div>
           <!-- timezone -->
-        </div>
 
-        <div class="mt-4">
           <!-- geolocationRequired -->
-          <aw-form-checkbox
-            [badRequest]="badRequest"
-            [form]="form"
-            [submitted]="submitted"
-            fieldName="geolocationRequired"
-            formControlName="geolocationRequired"
-            label="Geolocalización requerida" />
+          <div class="d-flex flex-column mt-4">
+            <aw-form-checkbox
+              [badRequest]="badRequest"
+              [form]="form"
+              [submitted]="submitted"
+              fieldName="geolocationRequired"
+              formControlName="geolocationRequired"
+              label="Geolocalización requerida" />
 
-          <span class="small text-muted">
-            El empleado deberá aceptar Geolocalización desde el navegador o no podrá iniciar/finalizar tiempos
-          </span>
-        </div>
-        <!-- end geolocationRequired -->
-      </div>
+            <span class="small">
+              El empleado deberá aceptar Geolocalización desde el navegador o no podrá iniciar/finalizar tiempos
+            </span>
+          </div>
 
-      <!-- buttons-->
-      <div class="mt-4">
-        <aw-btn-back cssClass="me-2 btn btn-primary" />
+          <mat-divider />
 
-        <aw-btn-loading
-          [loading]="loadingForm"
-          btnClass="btn btn-success"
-          btnIcon="fa-solid fa-screwdriver-wrench"
-          btnText="Actualizar" />
-      </div>
-      <!-- end buttons-->
-    </form>
-  </aw-card>
+          <!-- buttons-->
+          <div class="mt-4">
+            <aw-btn-back class="me-2" />
+            <aw-btn-loading [loading]="loadingForm" icon="save" btnText="Actualizar" />
+          </div>
+        </form>
+      }
+    </mat-card-content>
+  </mat-card>
 </aw-page-base>

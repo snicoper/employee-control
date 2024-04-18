@@ -5,6 +5,6 @@ using MediatR;
 
 namespace EmployeeControl.Application.Features.TimesControl.Queries.GetTimesControlByRangePaginated;
 
-[Authorize(Roles = Roles.EnterpriseStaff)]
+[Authorize(Roles = Roles.Staff)]
 public record GetTimesControlByRangePaginatedQuery(DateTimeOffset? From, DateTimeOffset? To, RequestData RequestData)
     : IRequest<ResponseData<GetTimesControlByRangePaginatedResponse>>;

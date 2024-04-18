@@ -1,32 +1,33 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, ViewChild, computed, inject } from '@angular/core';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { BadgeComponent } from '../../../../components/badges/badge/badge.component';
-import { PaginationComponent } from '../../../../components/pagination/pagination.component';
-import { TableHeaderComponent } from '../../../../components/tables/table-header/table-header.component';
-import { TableHeaderConfig } from '../../../../components/tables/table-header/table-header.config';
-import { TableInputSearchComponent } from '../../../../components/tables/table-input-search/table-input-search.component';
-import { TableComponent } from '../../../../components/tables/table/table.component';
+import { BadgeComponent } from '../../../../components/badge/badge.component';
+import { TableFilterComponent } from '../../../../components/tables/table-filter/table-filter.component';
 import { ApiResult } from '../../../../core/features/api-result/api-result';
-import { ApiUrls } from '../../../../core/urls/api-urls';
-import { SiteUrls } from '../../../../core/urls/site-urls';
+import { ApiUrl } from '../../../../core/urls/api-urls';
+import { SiteUrl } from '../../../../core/urls/site-urls';
 import { CommonUtils } from '../../../../core/utils/common-utils';
 import { Department } from '../../../../models/entities/department.model';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
 import { DepartmentApiService } from './../../../../services/api/department-api.service';
 import { EmployeeSelectedService } from './../employee-selected.service';
-import { employeeDepartmentsTableHeaders } from './employee-departments-table-headers';
 
 @Component({
   selector: 'aw-employee-departments',
   templateUrl: './employee-departments.component.html',
+  styleUrl: './employee-departments.component.scss',
   standalone: true,
   imports: [
-    TableInputSearchComponent,
-    TableComponent,
-    TableHeaderComponent,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
     BadgeComponent,
-    PaginationComponent,
+    TableFilterComponent,
     BoolToIconPipe
   ]
 })
@@ -35,39 +36,44 @@ export class EmployeeDepartmentsComponent {
   private readonly employeeSelectedService = inject(EmployeeSelectedService);
   private readonly router = inject(Router);
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   readonly employeeSelected = computed(() => this.employeeSelectedService.employeeSelected());
 
+  displayedColumns = ['name'];
+  fieldsFilter = ['name'];
+  dataSource!: MatTableDataSource<Department, MatPaginator>;
   apiResult = new ApiResult<Department>();
-  tableHeaderConfig = new TableHeaderConfig();
-  loading = false;
+  loading = true;
 
   constructor() {
-    this.configureTableHeaders();
     this.loadCompanyTasks();
   }
 
-  handleReloadData(): void {
-    this.loadCompanyTasks();
-  }
-
-  handleClickClean(event: ApiResult<Department>): void {
-    this.apiResult = event;
-    this.handleReloadData();
-  }
-
-  handleSelectItem(department: Department): void {
-    const url = CommonUtils.urlReplaceParams(SiteUrls.departments.details, { id: department.id });
+  handleSelectRow(department: Department): void {
+    const url = CommonUtils.urlReplaceParams(SiteUrl.departments.details, { id: department.id });
     this.router.navigateByUrl(url);
   }
 
-  private configureTableHeaders(): void {
-    this.tableHeaderConfig.addHeaders(employeeDepartmentsTableHeaders);
+  handlePageEvent(pageEvent: PageEvent): void {
+    this.apiResult = this.apiResult.handlePageEvent(pageEvent);
+
+    this.loadCompanyTasks();
+  }
+
+  handleFilterChange(apiResult: ApiResult<Department>): void {
+    this.apiResult = apiResult;
+    this.loadCompanyTasks();
+  }
+
+  handleSortChange(sortState: Sort): void {
+    this.apiResult = this.apiResult.handleSortChange(sortState);
+    this.loadCompanyTasks();
   }
 
   private loadCompanyTasks(): void {
-    this.loading = true;
-
-    const url = CommonUtils.urlReplaceParams(ApiUrls.departments.getDepartmentsByEmployeeIdPaginated, {
+    const url = CommonUtils.urlReplaceParams(ApiUrl.departments.getDepartmentsByEmployeeIdPaginated, {
       employeeId: this.employeeSelected()?.id ?? ''
     });
 
@@ -76,7 +82,9 @@ export class EmployeeDepartmentsComponent {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (result: ApiResult<Department>) => {
-          this.apiResult = result;
+          this.apiResult = ApiResult.clone<Department>(result);
+          this.dataSource = new MatTableDataSource(result.items);
+          this.dataSource.sort = this.sort;
         }
       });
   }

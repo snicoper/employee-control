@@ -1,0 +1,91 @@
+@use "variables";
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--aw-primary);
+
+  &:hover {
+    color: var(--aw-accent);
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/***************
+ * TEXTS.
+ */
+
+.nl2br {
+  white-space: pre-wrap;
+}
+
+.small {
+  font-size: 0.8rem;
+}
+
+/***************
+ * COLORS.
+ */
+
+.bg-transparent {
+  background-color: transparent;
+  color: transparent;
+}
+
+.bg-success {
+  background-color: $aw-color-success;
+  color: #ffffff;
+}
+
+.bg-info {
+  background-color: $aw-color-info;
+  color: #000000;
+}
+
+.bg-warning {
+  background-color: $aw-color-warning;
+  color: #000000;
+}
+
+.bg-danger {
+  background-color: $aw-color-danger;
+  color: #ffffff;
+}
+
+.text-success {
+  color: $aw-color-success;
+}
+
+.text-info {
+  color: $aw-color-info;
+}
+
+.text-warning {
+  color: $aw-color-warning;
+}
+
+.text-danger {
+  color: $aw-color-danger;
+}
+
+/***********************
+ * ICONS.
+ */
+
+.material-symbols-outlined,
+.material-icons {
+  display: inline-flex;
+  vertical-align: middle;
+  align-items: center;
+}

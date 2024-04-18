@@ -1,12 +1,12 @@
-import { NgClass } from '@angular/common';
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef, input } from '@angular/core';
 import { ControlValueAccessor, FormGroup, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { BadRequest } from '../../../../models/bad-request';
 import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 /* eslint-disable  @typescript-eslint/no-unused-vars */
-/* eslint-disable  @typescript-eslint/no-empty-function */
 
 @Component({
   selector: 'aw-form-checkbox',
@@ -19,23 +19,18 @@ import { FieldErrorComponent } from '../../errors/field-error/field-error.compon
     }
   ],
   standalone: true,
-  imports: [FormsModule, NgClass, FieldErrorComponent]
+  imports: [FormsModule, MatFormFieldModule, MatCheckbox, FieldErrorComponent]
 })
 export class FormCheckboxComponent implements ControlValueAccessor {
-  @Input({ required: true }) badRequest: BadRequest | undefined;
-  @Input({ required: true }) form: FormGroup | undefined;
-  @Input({ required: true }) submitted = false;
-  @Input({ required: true }) fieldName = '';
-  @Input() id: string;
-  @Input() label = '';
-  @Input() extraCss = '';
+  badRequest = input.required<BadRequest | undefined>();
+  form = input.required<FormGroup>();
+  submitted = input.required<boolean>();
+  fieldName = input.required<string>();
+  label = input.required<string>();
+  id = input(Math.random.toString());
 
   value = false;
   isDisabled = false;
-
-  constructor() {
-    this.id = Math.random().toString();
-  }
 
   onChange = (_: boolean): void => {};
 
@@ -64,11 +59,5 @@ export class FormCheckboxComponent implements ControlValueAccessor {
 
   onChangeValue(value: boolean): void {
     this.onChange(value);
-  }
-
-  isInvalid(): boolean {
-    const control = this.form?.get(this.fieldName) as FormGroup;
-
-    return !!((this.submitted && control.invalid) || this.badRequest?.errors[this.fieldName]);
   }
 }

@@ -1,20 +1,24 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
-import { CardComponent } from '../../../components/cards/card/card.component';
+import { FieldErrorComponent } from '../../../components/forms/errors/field-error/field-error.component';
 import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
-import { FormFloatingComponent } from '../../../components/forms/inputs/form-floating/form-floating.component';
-import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
-import { FormInputTypes } from '../../../core/types/form-input-types';
-import { ApiUrls } from '../../../core/urls/api-urls';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
+import { PageSimpleComponent } from '../../../components/pages/page-simple/page-simple.component';
+import { FormInputType } from '../../../core/types/form-input-type';
+import { ApiUrl } from '../../../core/urls/api-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
+import { CustomValidators } from '../../../core/validators/custom-validators-form';
 import { BadRequest } from '../../../models/bad-request';
 import { ResultResponse } from '../../../models/result-response.model';
 import { AccountsApiService } from '../../../services/api/accounts-api.service';
+import { SnackBarService } from '../../../services/snackbar.service';
 import { RecoveryPasswordChangeRequest } from './recovery-password-change-request.model';
 
 @Component({
@@ -23,14 +27,16 @@ import { RecoveryPasswordChangeRequest } from './recovery-password-change-reques
   styleUrls: ['./recovery-password-change.component.scss'],
   standalone: true,
   imports: [
-    PageBaseComponent,
-    CardComponent,
-    FormsModule,
-    ReactiveFormsModule,
-    NonFieldErrorsComponent,
-    FormFloatingComponent,
     RouterLink,
-    BtnLoadingComponent
+    ReactiveFormsModule,
+    MatCardModule,
+    MatDivider,
+    MatButtonModule,
+    PageSimpleComponent,
+    FormInputComponent,
+    NonFieldErrorsComponent,
+    BtnLoadingComponent,
+    FieldErrorComponent
   ]
 })
 export class RecoveryPasswordChangeComponent {
@@ -38,15 +44,15 @@ export class RecoveryPasswordChangeComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly accountsApiService = inject(AccountsApiService);
-  private readonly toastrService = inject(ToastrService);
+  private readonly snackBarService = inject(SnackBarService);
 
   form: FormGroup = this.formBuilder.group({});
   badRequest: BadRequest | undefined;
-  formInputTypes = FormInputTypes;
-  siteUrls = SiteUrls;
+  formInputType = FormInputType;
+  siteUrl = SiteUrl;
   submitted = false;
   loading = false;
-  errorMessages: string[] = [];
+  errorMessages: Array<string> = [];
 
   private readonly recoveryPasswordChangeRequest: RecoveryPasswordChangeRequest;
 
@@ -77,7 +83,7 @@ export class RecoveryPasswordChangeComponent {
     this.accountsApiService
       .post<RecoveryPasswordChangeRequest, ResultResponse>(
         this.recoveryPasswordChangeRequest,
-        ApiUrls.accounts.recoveryPasswordChange
+        ApiUrl.accounts.recoveryPasswordChange
       )
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
@@ -88,8 +94,8 @@ export class RecoveryPasswordChangeComponent {
             return;
           }
 
-          this.toastrService.success('Contraseña restablecida con éxito');
-          this.router.navigateByUrl(SiteUrls.auth.login);
+          this.snackBarService.success('Contraseña restablecida con éxito');
+          this.router.navigateByUrl(SiteUrl.auth.login);
         },
         error: (error: HttpErrorResponse) => {
           this.badRequest = error.error;
@@ -98,9 +104,12 @@ export class RecoveryPasswordChangeComponent {
   }
 
   private buildForm(): void {
-    this.form = this.formBuilder.group({
-      password: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]]
-    });
+    this.form = this.formBuilder.group(
+      {
+        password: ['', [Validators.required]],
+        confirmPassword: ['', [Validators.required]]
+      },
+      { validators: CustomValidators.passwordMustMatch('password', 'confirmPassword') }
+    );
   }
 }

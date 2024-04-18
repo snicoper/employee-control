@@ -19,18 +19,18 @@ export class ApiResultInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       map((event) => {
         if (event instanceof HttpResponse && event.status === HttpStatusCode.Ok) {
-          // Orders de ApiResult.
-          if (Object.hasOwn(event.body, 'orders') && event.body.orders.length) {
-            event.body.orders = JSON.parse(event.body.orders) as ApiResultItemOrderBy[];
-          } else if (Object.hasOwn(event.body, 'orders')) {
-            event.body.orders = [] as ApiResultItemOrderBy[];
+          // Order de ApiResult.
+          if (Object.hasOwn(event.body, 'order') && event.body.order.length) {
+            event.body.order = JSON.parse(event.body.order) as ApiResultItemOrderBy;
+          } else if (Object.hasOwn(event.body, 'order')) {
+            event.body.order = '';
           }
 
           // Filtros de ApiResult.
           if (Object.hasOwn(event.body, 'filters') && event.body.filters.length) {
-            event.body.filters = JSON.parse(event.body.filters) as ApiResultItemFilter[];
+            event.body.filters = JSON.parse(event.body.filters) as Array<ApiResultItemFilter>;
           } else if (Object.hasOwn(event.body, 'filters')) {
-            event.body.filters = [] as ApiResultItemFilter[];
+            event.body.filters = [] as Array<ApiResultItemFilter>;
           }
         }
 

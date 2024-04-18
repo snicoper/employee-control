@@ -1,32 +1,32 @@
 import { DateTime } from 'luxon';
 import { logDebug } from '../../errors/log-messages';
-import { PeriodDatetime } from '../../models/preriod-datetime';
+import { PeriodDatetime } from '../../models/period-datetime';
 import { CommonUtils } from '../../utils/common-utils';
-import { DatetimeUtils } from '../../utils/datetime-utils';
+import { DateTimeUtils } from '../../utils/datetime-utils';
 import { TimeControlGroupResponse, TimeResponse } from './times-control-response.model';
 
 /**
  * Procesa una respuesta y re-calcula los times según el timezone del usuario.
  */
 export class ProcessTimeControlGroups {
-  private readonly timeControlGroups: TimeControlGroupResponse[];
-  private readonly timeControlGroupsResult: TimeControlGroupResponse[] = [];
+  private readonly timeControlGroups: Array<TimeControlGroupResponse>;
+  private readonly timeControlGroupsResult: Array<TimeControlGroupResponse> = [];
   private readonly date: DateTime;
   private readonly minutesInDay: number;
 
-  constructor(timeControlGroups: TimeControlGroupResponse[], date: Date) {
-    this.date = DateTime.fromJSDate(date);
+  constructor(timeControlGroups: Array<TimeControlGroupResponse>, date: DateTime) {
+    this.date = date;
     this.minutesInDay = 60 * 24;
     this.timeControlGroups = this.initialAndFinishMonth(timeControlGroups);
   }
 
   /**
-   * Comprueba todos los TimeResponse[] en base al timezone del usuario.
-   * Genera una nueva lista de TimeControlGroupResponse[].
+   * Comprueba todos los Array<TimeResponse> en base al timezone del usuario.
+   * Genera una nueva lista de Array<TimeControlGroupResponse>.
    *
-   * @returns TimeControlGroupResponse[].
+   * @returns Array<TimeControlGroupResponse>.
    */
-  process(): TimeControlGroupResponse[] {
+  process(): Array<TimeControlGroupResponse> {
     this.createTimeControlGroupForCurrentMonth();
     this.timeControlGroups.forEach((timeControlGroup) => this.processTimeControlGroup(timeControlGroup));
 
@@ -41,7 +41,7 @@ export class ProcessTimeControlGroups {
   /**
    * Comprueba el primer y último tiempo del mes siguiente y anterior al actual para mover las partes al mes actual.
    */
-  private initialAndFinishMonth(timeControlGroups: TimeControlGroupResponse[]): TimeControlGroupResponse[] {
+  private initialAndFinishMonth(timeControlGroups: Array<TimeControlGroupResponse>): Array<TimeControlGroupResponse> {
     timeControlGroups.forEach((timeControlGroup) => {
       const endOfMonth = DateTime.fromISO(timeControlGroup.dayTitle).startOf('month');
       const startOfMonth = this.date.startOf('month');
@@ -70,8 +70,8 @@ export class ProcessTimeControlGroups {
     return timeControlGroups;
   }
 
-  /** Procesa una lista de TimeResponse[]. */
-  private processTimesInTimeControl(times: TimeResponse[], day: number): void {
+  /** Procesa una lista de Array<TimeResponse>. */
+  private processTimesInTimeControl(times: Array<TimeResponse>, day: number): void {
     times.forEach((time) => {
       const start = DateTime.fromJSDate(new Date(time.start));
       const end = DateTime.fromJSDate(new Date(time.finish));
@@ -228,10 +228,10 @@ export class ProcessTimeControlGroups {
     const dateStart = this.date.startOf('month').startOf('day');
     const dateEnd = this.date.endOf('month').endOf('day');
 
-    DatetimeUtils.dayDateTimeInterval(dateStart, dateEnd).forEach((currentDay) => {
+    DateTimeUtils.dayDateTimeInterval(dateStart, dateEnd).forEach((currentDay) => {
       const timeControlGroupResponse = {
         day: currentDay?.day,
-        dayTitle: DatetimeUtils.dateOnly(currentDay),
+        dayTitle: DateTimeUtils.dateOnly(currentDay),
         totalMinutes: 0,
         times: []
       } as TimeControlGroupResponse;

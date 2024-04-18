@@ -1,7 +1,7 @@
 import { DateTime, Interval } from 'luxon';
-import { WeekDays } from '../types/week-days';
+import { WeekDay } from '../types/week-day';
 
-export abstract class DatetimeUtils {
+export abstract class DateTimeUtils {
   /**
    * Obtener un array con un intervalo de días desde start a end con DateTime.
    *
@@ -9,7 +9,7 @@ export abstract class DatetimeUtils {
    * @param end Fecha final.
    * @returns Un array de DateTime con el intervalo de días.
    */
-  static dayDateTimeInterval(start: DateTime, end: DateTime): (DateTime | null)[] {
+  static dayDateTimeInterval(start: DateTime, end: DateTime): Array<DateTime | null> {
     return Interval.fromDateTimes(start.startOf('day'), end.endOf('day'))
       .splitBy({ day: 1 })
       .map((date: Interval) => date.start);
@@ -35,11 +35,13 @@ export abstract class DatetimeUtils {
    * @returns Un string con la hora pasada en UTC.
    */
   static toISOString(dateTime: DateTime): string {
-    return dateTime.toUTC().toString();
+    const result = dateTime.toUTC().toString();
+
+    return result;
   }
 
-  static weekDaysFromYear(date: DateTime, weekDay: WeekDays): DateTime[] {
-    const result: DateTime[] = [];
+  static weekDaysFromYear(date: DateTime, weekDay: WeekDay): Array<DateTime> {
+    const result: Array<DateTime> = [];
     const start = date.startOf('year');
     const end = date.endOf('year');
 
@@ -63,6 +65,8 @@ export abstract class DatetimeUtils {
    * @param date Fecha y hora a obtener solo el Date.
    */
   static dateOnly(date: DateTime | null): string {
-    return date?.toFormat('yyyy-LL-dd') ?? '';
+    const result = date?.toFormat('yyyy-LL-dd') ?? '';
+
+    return result;
   }
 }

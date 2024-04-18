@@ -1,0 +1,81 @@
+<mat-sidenav-container>
+  <!-- sidenav -->
+  <mat-sidenav [opened]="sidenavState()" opened="sidebarOpen" mode="side">
+    <!-- header -->
+    <div class="sidenav-header">
+      <img
+        [ngClass]="{
+          'time-state-open': currentTimeControl()?.timeState === timeStates.Open,
+          'time-state-close': currentTimeControl()?.timeState === timeStates.Close
+        }"
+        class="sidenav-header-image"
+        src="/assets/images/user.jpg"
+        alt="Avatar del empleado"
+        width="100"
+        height="100" />
+      <div class="header-text">
+        <h2 class="header-text-title">{{ companyName }}</h2>
+        <p class="header-text-content">{{ username }}</p>
+      </div>
+    </div>
+
+    <!-- menu list -->
+    <mat-nav-list>
+      @for (sidenavMenu of sidenavMenus; track $index) {
+        <span [awRequiredRole]="sidenavMenu.requiredRole">
+          <!-- type header -->
+          @if (sidenavMenu.type === sidebarMenuType.header) {
+            <mat-list-item [routerLink]="[sidenavMenu.router]" routerLinkActive="active">
+              <mat-icon>{{ sidenavMenu.icon }}</mat-icon> {{ sidenavMenu.title }}
+              @if (sidenavMenu.badge) {}
+            </mat-list-item>
+          }
+
+          <!-- type simple -->
+          @if (sidenavMenu.type === sidebarMenuType.simple) {
+            <mat-list-item [routerLink]="[sidenavMenu.router]" routerLinkActive="active">
+              <mat-icon>{{ sidenavMenu.icon }}</mat-icon> {{ sidenavMenu.title }}
+              @if (sidenavMenu.badge) {}
+            </mat-list-item>
+          }
+
+          <!-- type dropdown -->
+          @if (sidenavMenu.type === sidebarMenuType.dropdown) {
+            <mat-expansion-panel
+              [class.mat-elevation-z0]="true"
+              (click)="handleChangeMenuState()"
+              [(expanded)]="sidenavMenu.active">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon>{{ sidenavMenu.icon }}</mat-icon>
+                  <span>{{ sidenavMenu.title }}</span>
+                  @if (sidenavMenu.badge) {}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <!-- submenus -->
+              @if (sidenavMenu.submenus?.length) {
+                @for (submenu of sidenavMenu.submenus; track submenu) {
+                  <mat-nav-list
+                    (click)="handleChangeSubMenuState(sidenavMenu, submenu)"
+                    [awRequiredRole]="submenu.requiredRole">
+                    <mat-list-item [routerLink]="submenu.router">
+                      <mat-icon>{{ submenu.icon }}</mat-icon>
+                      <span>{{ submenu.title }}</span>
+                      @if (submenu.badge) {}
+                    </mat-list-item>
+                  </mat-nav-list>
+                }
+              }
+            </mat-expansion-panel>
+          }
+        </span>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- page content -->
+  <mat-sidenav-content class="sidenav-content">
+    <ng-content />
+  </mat-sidenav-content>
+</mat-sidenav-container>

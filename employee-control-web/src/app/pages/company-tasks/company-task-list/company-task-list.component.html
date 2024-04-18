@@ -1,63 +1,88 @@
 <aw-page-base>
   <aw-page-header [breadcrumb]="breadcrumb">Lista de tarea</aw-page-header>
 
-  <aw-card>
-    <!-- toolbar -->
-    <div class="d-flex justify-content-between mb-2">
-      <span>
-        <a [routerLink]="siteUrls.companyTasks.create" class="btn btn-sm btn-outline-success">
-          <span class="fa-solid fa-list-check"></span> Crear tarea
-        </a>
-      </span>
+  <mat-card>
+    <mat-card-content>
+      <!-- toolbar -->
+      <div class="d-flex flex-row">
+        <button mat-button color="primary" [routerLink]="siteUrl.companyTasks.create">
+          <mat-icon>add</mat-icon> Crear tarea
+        </button>
+        <div class="ms-auto">
+          <aw-table-filter
+            (filterChange)="handleFilterChange($event)"
+            [apiResult]="apiResult"
+            [fieldsFilter]="fieldsFilter" />
+        </div>
+      </div>
 
-      <span>
-        <aw-table-input-search
-          (clickClean)="handleClickClean($event)"
-          [apiResult]="apiResult"
-          [tableHeaderConfig]="tableHeaderConfig" />
-      </span>
-    </div>
-    <!-- end toolbar -->
+      @if (!loading) {
+        <table mat-table matSort (matSortChange)="handleSortChange($event)" [dataSource]="dataSource">
+          <!-- name -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef="let row">
+              <aw-badge [background]="row.background" [color]="row.color">{{ row.name }}</aw-badge>
+            </td>
+          </ng-container>
 
-    <!-- table -->
-    <aw-table [apiResult]="apiResult" [loading]="loading">
-      <thead awThead>
-        <tr
-          (clickOrdering)="handleReloadData()"
-          [apiResult]="apiResult"
-          [tableHeaderConfig]="tableHeaderConfig"
-          awTableHeader></tr>
-      </thead>
+          <!-- active -->
+          <ng-container matColumnDef="created">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de creación</th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.created | datetime }}
+            </td>
+          </ng-container>
 
-      @if (apiResult) {
-        <tbody awTbody>
-          @for (task of apiResult.items; track task) {
-            <tr (click)="handleSelectItem(task)" class="cursor-pointer">
-              <td>
-                <aw-badge [background]="task.background" [color]="task.color" [name]="task.name"></aw-badge>
-              </td>
-              <td>{{ task.created | datetime: dateShort }}</td>
-              <td [innerHTML]="task.active | boolToIcon"></td>
-              <td>
-                <aw-dot [color]="task.background"></aw-dot>
-              </td>
-              <td>
-                <aw-dot [color]="task.color"></aw-dot>
-              </td>
-            </tr>
-          }
-        </tbody>
+          <!-- active -->
+          <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Activa</th>
+            <td mat-cell *matCellDef="let row">
+              <span [innerHTML]="row.active | boolToIcon"></span>
+            </td>
+          </ng-container>
+
+          <!-- background -->
+          <ng-container matColumnDef="background">
+            <th mat-header-cell *matHeaderCellDef>Color de fondo</th>
+            <td mat-cell *matCellDef="let row">
+              <aw-dot [color]="row.background" />
+            </td>
+          </ng-container>
+
+          <!-- color -->
+          <ng-container matColumnDef="color">
+            <th mat-header-cell *matHeaderCellDef>Color de texto</th>
+            <td mat-cell *matCellDef="let row">
+              <aw-dot [color]="row.color" />
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="handleSelectRow(row)"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell p-4" [attr.colspan]="displayedColumns.length">No hay datos a mostrar</td>
+          </tr>
+        </table>
+
+        <!-- paginator -->
+        @if (dataSource) {
+          <mat-paginator
+            showFirstLastButtons
+            (page)="handlePageEvent($event)"
+            [length]="apiResult.totalItems"
+            [pageSize]="apiResult.pageSize"
+            [pageIndex]="apiResult.pageNumber - 1"
+            [pageSizeOptions]="[25, 50, 100]"
+            aria-label="Selección de pagina" />
+        }
+      } @else {
+        <!-- spinner -->
+        <div class="d-flex justify-content-center p-5">
+          <mat-progress-spinner color="primary" mode="indeterminate" />
+        </div>
       }
-    </aw-table>
-    <!-- end table -->
-
-    <!-- pagination -->
-    @if (apiResult) {
-      <aw-pagination
-        (changePage)="handleReloadData()"
-        (changePageListNumber)="handleReloadData()"
-        [apiResult]="apiResult" />
-    }
-    <!-- end pagination -->
-  </aw-card>
+    </mat-card-content>
+  </mat-card>
 </aw-page-base>

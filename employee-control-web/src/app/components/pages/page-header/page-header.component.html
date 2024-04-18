@@ -1,13 +1,16 @@
-<aw-card>
-  <h3>
-    <ng-content />
+<mat-card>
+  <mat-card-content>
+    <h1>
+      <ng-content />
 
-    <span class="fs-5">
-      <ng-content select="[awHeaderSubtitle]" />
-    </span>
-  </h3>
+      <span>
+        <ng-content select="[awHeaderSubtitle]" />
+      </span>
+    </h1>
 
-  <aw-breadcrumb [breadcrumb]="breadcrumb" />
-</aw-card>
+    <mat-divider />
+    <aw-breadcrumb [breadcrumb]="breadcrumb()" />
+  </mat-card-content>
+</mat-card>
 
-<div class="mt-2"></div>
+<div class="pb-2"></div>

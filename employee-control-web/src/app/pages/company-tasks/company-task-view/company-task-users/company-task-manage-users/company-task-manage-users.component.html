@@ -1,0 +1,12 @@
+<div class="d-flex my-3">
+  <h3 class="m-auto">Asociar empleados</h3>
+</div>
+
+@if (!loading) {
+  <aw-dual-list-box
+    (saveChanges)="handleSaveChanges($event)"
+    [dualListBoxItems]="dualListBoxItems"
+    [loading]="loading"
+    labelLeftListBox="Empleados sin asignar"
+    labelRightListBox="Empleados a asignar" />
+}

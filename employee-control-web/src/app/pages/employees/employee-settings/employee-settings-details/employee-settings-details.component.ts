@@ -1,14 +1,16 @@
 import { Component, computed, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { TimeZone, getTimeZones } from '@vvo/tzdb';
 import { DateTime } from 'luxon';
 import { BreadcrumbCollection } from '../../../../components/breadcrumb/breadcrumb-collection';
-import { CardComponent } from '../../../../components/cards/card/card.component';
 import { PageBaseComponent } from '../../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../../components/pages/page-header/page-header.component';
-import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
-import { TooltipInfoComponent } from '../../../../components/tooltips/tooltip-info/tooltip-info.component';
-import { SiteUrls } from '../../../../core/urls/site-urls';
+import { SiteUrl } from '../../../../core/urls/site-urls';
 import { EmployeeSettingsStateService } from '../../../../services/states/employee-settings-state.service';
 
 @Component({
@@ -16,12 +18,14 @@ import { EmployeeSettingsStateService } from '../../../../services/states/employ
   templateUrl: './employee-settings-details.component.html',
   standalone: true,
   imports: [
-    PageBaseComponent,
-    PageHeaderComponent,
-    CardComponent,
     RouterLink,
-    TooltipInfoComponent,
-    TableLoadingComponent
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule,
+    PageBaseComponent,
+    PageHeaderComponent
   ]
 })
 export class EmployeeSettingsDetailsComponent {
@@ -33,7 +37,7 @@ export class EmployeeSettingsDetailsComponent {
   readonly breadcrumb = new BreadcrumbCollection();
   nowWithTimezone = '';
   timezoneInfo: TimeZone | undefined;
-  siteUrls = SiteUrls;
+  siteUrl = SiteUrl;
 
   constructor() {
     this.setBreadcrumb();
@@ -46,7 +50,7 @@ export class EmployeeSettingsDetailsComponent {
   }
 
   private setBreadcrumb(): void {
-    this.breadcrumb.add('Configuración de empleado', SiteUrls.employees.settings, '', false);
+    this.breadcrumb.add('Configuración de empleado', SiteUrl.employees.settings, '', false);
   }
 
   private setNowWithOriginalTimezone(): void {

@@ -1,79 +1,74 @@
 <aw-page-base>
   <aw-page-header [breadcrumb]="breadcrumb">Editar ausencia</aw-page-header>
 
-  <aw-card>
-    <!-- form -->
-    @if (categoryAbsence) {
-      <form (ngSubmit)="handleSubmit()" [formGroup]="form">
-        <aw-non-field-errors [badRequest]="badRequest" />
+  <mat-card>
+    <mat-card-content>
+      <!-- form -->
+      @if (categoryAbsence) {
+        <form (ngSubmit)="handleSubmit()" [formGroup]="form">
+          <aw-non-field-errors [badRequest]="badRequest" />
 
-        @if (form.get("description")?.value) {
-          <div class="my-3">
-            <aw-badge
-              [background]="form.get('background')?.value"
-              [color]="form.get('color')?.value"
-              [name]="form.get('description')?.value" />
-          </div>
-        }
-        <!-- description -->
-        <div class="mb-2">
-          <aw-form-input
-            [badRequest]="badRequest"
-            [form]="form"
-            [submitted]="submitted"
-            fieldName="description"
-            formControlName="description"
-            label="Descripción" />
-        </div>
-        <!-- end description -->
-
-        <!-- active -->
-        <div class="mb-2">
-          <aw-form-checkbox
-            [badRequest]="badRequest"
-            [form]="form"
-            [submitted]="submitted"
-            fieldName="active"
-            formControlName="active"
-            label="Activo" />
-        </div>
-        <!-- end active -->
-
-        <div class="d-flex">
-          <!-- background -->
+          <!-- description -->
           <div class="mb-2">
-            <aw-form-color
+            <aw-form-input
               [badRequest]="badRequest"
               [form]="form"
               [submitted]="submitted"
-              fieldName="background"
-              formControlName="background"
-              label="Color de fondo" />
+              fieldName="description"
+              formControlName="description"
+              label="Descripción" />
           </div>
-          <!-- end background -->
 
-          <!-- color -->
-          <div class="mb-2 ms-5">
-            <aw-form-color
+          <!-- show result -->
+          @if (form.get("description")?.value) {
+            <div class="my-3">
+              <aw-badge [background]="form.get('background')?.value" [color]="form.get('color')?.value">
+                {{ form.get("description")?.value }}
+              </aw-badge>
+            </div>
+          }
+
+          <!-- active -->
+          <div class="mb-2">
+            <aw-form-checkbox
               [badRequest]="badRequest"
               [form]="form"
               [submitted]="submitted"
-              fieldName="color"
-              formControlName="color"
-              label="Color de texto" />
+              fieldName="active"
+              formControlName="active"
+              label="Activo" />
           </div>
-          <!-- end color -->
-        </div>
 
-        <aw-btn-back cssClass="btn btn-primary mt-2" />
-        <aw-btn-loading
-          [loading]="loadingForm"
-          btnClass="btn btn-success mt-2 ms-2"
-          btnIcon="fa-regular fa-floppy-disk"
-          btnText="Guardar"
-          spinnerLoadingText="Guardando" />
-      </form>
-    }
-    <!-- end form -->
-  </aw-card>
+          <div class="d-flex">
+            <!-- background -->
+            <div class="mb-2">
+              <aw-form-color-picker
+                [badRequest]="badRequest"
+                [form]="form"
+                [submitted]="submitted"
+                fieldName="background"
+                formControlName="background"
+                label="Color de fondo" />
+            </div>
+
+            <!-- color -->
+            <div class="mb-2 ms-5">
+              <aw-form-color-picker
+                [badRequest]="badRequest"
+                [form]="form"
+                [submitted]="submitted"
+                fieldName="color"
+                formControlName="color"
+                label="Color de texto" />
+            </div>
+          </div>
+
+          <mat-divider class="mt-4" />
+
+          <aw-btn-back class="me-2" />
+          <aw-btn-loading [loading]="loadingForm" icon="save" btnText="Guardar" />
+        </form>
+      }
+    </mat-card-content>
+  </mat-card>
 </aw-page-base>

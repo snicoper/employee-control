@@ -1,15 +1,16 @@
 import { Component, computed, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { TimeZone, getTimeZones } from '@vvo/tzdb';
 import { DateTime } from 'luxon';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
-import { CardComponent } from '../../../components/cards/card/card.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
-import { TableLoadingComponent } from '../../../components/tables/table-loading/table-loading.component';
-import { TooltipInfoComponent } from '../../../components/tooltips/tooltip-info/tooltip-info.component';
-import { SiteUrls } from '../../../core/urls/site-urls';
-import { TooltipDirective } from '../../../directives/tooltip.directive';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
 import { CompanySettingsStateService } from '../../../services/states/company-settings-state.service';
 import { WorkingDaysWeekComponent } from './working-days-week/working-days-week.component';
@@ -20,14 +21,15 @@ import { WorkingDaysWeekComponent } from './working-days-week/working-days-week.
   standalone: true,
   imports: [
     RouterLink,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
-    TooltipInfoComponent,
-    TableLoadingComponent,
     WorkingDaysWeekComponent,
-    BoolToIconPipe,
-    TooltipDirective
+    BoolToIconPipe
   ]
 })
 export class CompanySettingsDetailsComponent {
@@ -37,9 +39,10 @@ export class CompanySettingsDetailsComponent {
   readonly loadingCompanySettings = computed(() => this.companySettingsStateService.loadingCompanySettings());
 
   readonly breadcrumb = new BreadcrumbCollection();
+
   nowWithTimezone = '';
   timezoneInfo: TimeZone | undefined;
-  siteUrls = SiteUrls;
+  siteUrl = SiteUrl;
 
   constructor() {
     this.setBreadcrumb();
@@ -56,7 +59,7 @@ export class CompanySettingsDetailsComponent {
   }
 
   private setBreadcrumb(): void {
-    this.breadcrumb.add('Configuración', SiteUrls.companySettings.details, '', false);
+    this.breadcrumb.add('Configuración', SiteUrl.companySettings.details, '', false);
   }
 
   private setNowWithOriginalTimezone(): void {

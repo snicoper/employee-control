@@ -1,45 +1,51 @@
-<aw-page-base [footerState]="false" [navbarState]="false" [sidebarMenuState]="false">
-  <div class="d-flex align-items-center justify-content-center login-container">
-    <div class="form-login w-100">
-      <aw-card extraCss="p-4">
-        <form (ngSubmit)="handleSubmit()" [formGroup]="form">
-          <h1 class="h3 mb-3 fw-normal"><span class="fa-solid fa-user"></span> Iniciar sesión</h1>
-          <hr />
+<aw-page-simple>
+  <div class="login-container">
+    <form (ngSubmit)="handleSubmit()" [formGroup]="form" class="form">
+      <mat-card class="mat-elevation-z3 p-4">
+        <mat-card-header>
+          <mat-card-title class="title">
+            <h1>Identificarse</h1>
+          </mat-card-title>
+        </mat-card-header>
 
-          @if (invalidLogin) {
-            <div class="alert alert-danger" role="alert">Nombre de usuario o contraseña no validos.</div>
+        <mat-card-content>
+          @if (invalidResponse) {
+            <div class="alert alert-danger mb-4">Nombre de usuario o contraseña no validos.</div>
           }
 
           <aw-non-field-errors [badRequest]="badRequest" />
 
           <!-- email -->
-          <div class="mb-2">
-            <aw-form-floating
-              [badRequest]="badRequest"
-              [form]="form"
-              [submitted]="submitted"
-              fieldName="email"
-              formControlName="email"
-              label="Email" />
-          </div>
-          <!-- end email -->
-
-          <!-- password -->
-          <aw-form-floating
+          <aw-form-input
             [badRequest]="badRequest"
             [form]="form"
-            [inputType]="formTypes.password"
             [submitted]="submitted"
+            fieldName="email"
+            formControlName="email"
+            label="Correo electrónico"
+            icon="mail" />
+
+          <!-- password -->
+          <aw-form-input
+            [badRequest]="badRequest"
+            [form]="form"
+            [submitted]="submitted"
+            [formInputType]="formInputType.Password"
             fieldName="password"
             formControlName="password"
-            label="Contraseña" />
-          <!-- end password -->
+            label="Contraseña"
+            icon="lock" />
 
-          <a [routerLink]="[siteUrls.accounts.recoveryPassword]" class="small p-2">¿Olvidaste contraseña?</a>
+          <mat-divider />
+        </mat-card-content>
 
-          <aw-btn-loading [loading]="loading" btnClass="w-100 btn btn-lg btn-primary mt-2" btnText="Acceder" />
-        </form>
-      </aw-card>
-    </div>
+        <mat-card-footer class="mt-2">
+          <aw-btn-loading [loading]="loading" btnText="Identificar" />
+          <button mat-button class="ms-2" type="button" [routerLink]="[siteUrl.accounts.recoveryPassword]">
+            ¿Olvidaste contraseña?
+          </button>
+        </mat-card-footer>
+      </mat-card>
+    </form>
   </div>
-</aw-page-base>
+</aw-page-simple>

@@ -1,53 +1,37 @@
-import { NgClass } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { AppEnvironments } from '../../core/config/app-environments';
-import { Roles } from '../../core/types/roles';
-import { ThemeColors } from '../../core/types/theme-colors';
-import { SiteUrls } from '../../core/urls/site-urls';
-import { RequiredRoleDirective } from '../../directives/required-role.directive';
-import { AuthService } from '../../services/auth.service';
-import { JwtService } from '../../services/jwt.service';
-import { LayoutService } from '../../services/layout.service';
-import { TimeControlIncidencesCountStateService } from '../../services/states/time-control-incidences-count-state.service';
-import { ThemeColorService } from '../../services/theme-color.service';
+import { Component, computed, inject, output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterLink } from '@angular/router';
+import { AppEnvironment } from '../../core/config/app-environment';
+import { ThemeColor } from '../../core/types/theme-color';
+import { SiteUrl } from '../../core/urls/site-urls';
+import { ThemeManagerService } from '../../services/theme-manager.service';
 
 @Component({
   selector: 'aw-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
   standalone: true,
-  imports: [NgClass, RouterLink, RouterLinkActive, RequiredRoleDirective]
+  imports: [RouterLink, MatToolbarModule, MatButtonModule, MatIconModule],
+  templateUrl: './navbar.component.html'
 })
 export class NavbarComponent {
-  private readonly jwtService = inject(JwtService);
-  private readonly authService = inject(AuthService);
-  private readonly layoutService = inject(LayoutService);
-  private readonly router = inject(Router);
-  private readonly themeColorService = inject(ThemeColorService);
-  private readonly timeControlIncidencesCountStateService = inject(TimeControlIncidencesCountStateService);
+  private readonly themeManagerService = inject(ThemeManagerService);
 
-  readonly userName = this.jwtService.getName();
-  readonly siteName = AppEnvironments.siteName;
-  readonly siteUrls = SiteUrls;
+  changeSidenavState = output<void>();
 
-  readonly sidebarMenuState$ = computed(() => this.layoutService.sidebarMenuState$());
-  readonly authState$ = computed(() => this.authService.authValue$);
-  readonly theme = computed(() => this.themeColorService.theme());
-  readonly timeControlIncidencesCount = computed(() => this.timeControlIncidencesCountStateService.incidences());
+  readonly theme = computed(() => this.themeManagerService.theme());
 
-  themeColors = ThemeColors;
-  roles = Roles;
+  themeColor = ThemeColor;
+  siteName = AppEnvironment.siteName;
+  siteUrl = SiteUrl;
 
-  toggleSidebarState(): void {
-    this.layoutService.toggleSidebarState();
+  /** Alternar color del theme. */
+  handleToggleThemeColor(): void {
+    this.themeManagerService.toggle();
   }
 
-  handleChangeTheme(): void {
-    this.themeColorService.toggle();
-  }
-
-  logOut(): void {
-    this.router.navigateByUrl(SiteUrls.auth.login);
+  /** Emitir cambio de estado de sidenav. */
+  handleToggleSidenavState(): void {
+    this.changeSidenavState.emit();
   }
 }

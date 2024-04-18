@@ -1,6 +1,6 @@
 import { NgClass, NgStyle } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TooltipDirective } from '../../../directives/tooltip.directive';
+import { Component, input, output } from '@angular/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProgressStackedCollection } from './progress-stacked-collection';
 import { ProgressStackedItem } from './progress-stacked-item.model';
 
@@ -9,16 +9,12 @@ import { ProgressStackedItem } from './progress-stacked-item.model';
   templateUrl: './progress-stacked.component.html',
   styleUrls: ['./progress-stacked.component.scss'],
   standalone: true,
-  imports: [NgStyle, TooltipDirective, NgClass]
+  imports: [NgStyle, NgClass, MatTooltipModule]
 })
 export class ProgressStackedComponent {
-  @Input({ required: true }) progressStackedCollection: ProgressStackedCollection;
+  progressStackedCollection = input.required<ProgressStackedCollection>();
 
-  @Output() clickProgress = new EventEmitter<ProgressStackedItem>();
-
-  constructor() {
-    this.progressStackedCollection = new ProgressStackedCollection();
-  }
+  clickProgress = output<ProgressStackedItem>();
 
   handleClickProgress(progressStackedItem: ProgressStackedItem): void {
     if (!progressStackedItem.selectable) {

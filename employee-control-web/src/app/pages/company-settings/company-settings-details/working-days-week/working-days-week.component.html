@@ -1,54 +1,50 @@
 @if (workingDaysWeek() && !loadingWorkingDaysWeek()) {
-  <div class="btn-group">
-    <button
-      (click)="handleClickDay(weekDays.monday)"
-      [ngClass]="{ 'btn-success': workingDaysWeek()?.monday, 'btn-danger': !workingDaysWeek()?.monday }"
-      class="btn btn-sm">
+  <mat-button-toggle-group name="weekDay" aria-label="Días de trabajo semanal" multiple class="button-toggle-group">
+    <mat-button-toggle
+      (click)="handleClickDay(weekDay.Monday)"
+      [value]="weekDay.Monday"
+      [checked]="workingDaysWeek()?.monday">
       Lunes
-    </button>
-
-    <button
-      (click)="handleClickDay(weekDays.tuesday)"
-      [ngClass]="{ 'btn-success': workingDaysWeek()?.tuesday, 'btn-danger': !workingDaysWeek()?.tuesday }"
-      class="btn btn-sm">
+    </mat-button-toggle>
+    <mat-button-toggle
+      (click)="handleClickDay(weekDay.Tuesday)"
+      [value]="weekDay.Tuesday"
+      [checked]="workingDaysWeek()?.tuesday">
       Martes
-    </button>
-
-    <button
-      (click)="handleClickDay(weekDays.wednesday)"
-      [ngClass]="{ 'btn-success': workingDaysWeek()?.wednesday, 'btn-danger': !workingDaysWeek()?.wednesday }"
-      class="btn btn-sm">
+    </mat-button-toggle>
+    <mat-button-toggle
+      (click)="handleClickDay(weekDay.Wednesday)"
+      [value]="weekDay.Wednesday"
+      [checked]="workingDaysWeek()?.wednesday">
       Miércoles
-    </button>
-
-    <button
-      (click)="handleClickDay(weekDays.thursday)"
-      [ngClass]="{ 'btn-success': workingDaysWeek()?.thursday, 'btn-danger': !workingDaysWeek()?.thursday }"
-      class="btn btn-sm">
+    </mat-button-toggle>
+    <mat-button-toggle
+      (click)="handleClickDay(weekDay.Thursday)"
+      [value]="weekDay.Thursday"
+      [checked]="workingDaysWeek()?.thursday">
       Jueves
-    </button>
-
-    <button
-      (click)="handleClickDay(weekDays.friday)"
-      [ngClass]="{ 'btn-success': workingDaysWeek()?.friday, 'btn-danger': !workingDaysWeek()?.friday }"
-      class="btn btn-sm">
+    </mat-button-toggle>
+    <mat-button-toggle
+      (click)="handleClickDay(weekDay.Friday)"
+      [value]="weekDay.Friday"
+      [checked]="workingDaysWeek()?.friday">
       Viernes
-    </button>
-
-    <button
-      (click)="handleClickDay(weekDays.saturday)"
-      [ngClass]="{ 'btn-success': workingDaysWeek()?.saturday, 'btn-danger': !workingDaysWeek()?.saturday }"
-      class="btn btn-sm">
+    </mat-button-toggle>
+    <mat-button-toggle
+      (click)="handleClickDay(weekDay.Saturday)"
+      [value]="weekDay.Saturday"
+      [checked]="workingDaysWeek()?.saturday">
       Sábado
-    </button>
-
-    <button
-      (click)="handleClickDay(weekDays.sunday)"
-      [ngClass]="{ 'btn-success': workingDaysWeek()?.sunday, 'btn-danger': !workingDaysWeek()?.sunday }"
-      class="btn btn-sm">
+    </mat-button-toggle>
+    <mat-button-toggle
+      (click)="handleClickDay(weekDay.Sunday)"
+      [value]="weekDay.Sunday"
+      [checked]="workingDaysWeek()?.sunday">
       Domingo
-    </button>
-  </div>
+    </mat-button-toggle>
+  </mat-button-toggle-group>
 } @else {
-  <aw-spinner [loading]="loadingWorkingDaysWeek()" />
+  <div class="d-flex justify-content-center">
+    <mat-spinner [diameter]="24" />
+  </div>
 }

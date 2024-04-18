@@ -6,7 +6,7 @@ import { DateTime } from 'luxon';
   standalone: true
 })
 export class DatetimePipe implements PipeTransform {
-  transform(value: Date | string | undefined, format = DateTime.DATETIME_SHORT): string {
+  transform(value: Date | string | undefined, format = DateTime.DATE_MED): string {
     if (!value) {
       return '';
     }

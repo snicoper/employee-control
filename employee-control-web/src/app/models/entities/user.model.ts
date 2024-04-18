@@ -12,5 +12,5 @@ export interface User {
   entryDate?: Date;
   emailConfirmed: boolean;
   company?: Company;
-  userRoles: UserRole[];
+  userRoles: Array<UserRole>;
 }

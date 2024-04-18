@@ -1,36 +1,18 @@
-import { NgClass } from '@angular/common';
-import { Component, Input, OnInit, computed, inject } from '@angular/core';
-import { LayoutService } from '../../../services/layout.service';
+import { Component } from '@angular/core';
 import { FooterComponent } from '../../footer/footer.component';
 import { NavbarComponent } from '../../navbar/navbar.component';
-import { SidebarComponent } from '../../sidebars/sidebar-menu/sidebar.component';
-import { PageTitleComponent } from '../page-title/view-title.component';
+import { SidenavComponent } from '../../sidenav/sidenav.component';
 
 @Component({
   selector: 'aw-page-base',
-  templateUrl: './page-base.component.html',
-  styleUrls: ['./page-base.component.scss'],
   standalone: true,
-  imports: [PageTitleComponent, NgClass, SidebarComponent, NavbarComponent, FooterComponent]
+  imports: [NavbarComponent, SidenavComponent, FooterComponent],
+  templateUrl: './page-base.component.html'
 })
-export class PageBaseComponent implements OnInit {
-  private readonly layoutService = inject(LayoutService);
+export class PageBaseComponent {
+  sidenavState = true;
 
-  @Input() cssContent = 'container-fluid';
-  @Input() showPageTitle = true;
-  @Input() pageTitle = '';
-
-  @Input() navbarState = true;
-  @Input() sidebarMenuState = true;
-  @Input() footerState = true;
-
-  readonly navbarState$ = computed(() => this.layoutService.navbarState$());
-  readonly sidebarMenuState$ = computed(() => this.layoutService.sidebarMenuState$());
-  readonly footerState$ = computed(() => this.layoutService.footerState$());
-
-  ngOnInit(): void {
-    this.layoutService.navbarState$.set(this.navbarState);
-    this.layoutService.sidebarMenuState$.set(this.sidebarMenuState);
-    this.layoutService.footerState$.set(this.footerState);
+  handleToggleSidenavState(): void {
+    this.sidenavState = !this.sidenavState;
   }
 }

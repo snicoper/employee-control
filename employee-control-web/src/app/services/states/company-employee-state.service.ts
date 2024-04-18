@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { ApiUrls } from '../../core/urls/api-urls';
+import { ApiUrl } from '../../core/urls/api-urls';
 import { CompanyEmployeeStateResponse } from '../../models/states/company-employee-state-response.model';
 import { CompaniesApiService } from '../api/companies-api.service';
 import { JwtService } from '../jwt.service';
@@ -19,7 +19,7 @@ export class CompanyEmployeeStateService implements StateService<CompanyEmployee
       return;
     }
 
-    this.companiesApiService.get<CompanyEmployeeStateResponse>(ApiUrls.companies.getCompanyByCurrentUser).subscribe({
+    this.companiesApiService.get<CompanyEmployeeStateResponse>(ApiUrl.companies.getCompanyByCurrentUser).subscribe({
       next: (result: CompanyEmployeeStateResponse) => {
         this.currentCompanyEmployeeResponse$.set(result);
       }

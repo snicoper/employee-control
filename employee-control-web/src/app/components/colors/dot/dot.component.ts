@@ -1,18 +1,16 @@
 import { NgClass, NgStyle } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 @Component({
   selector: 'aw-dot',
-  templateUrl: './dot.component.html',
   standalone: true,
-  imports: [NgStyle, NgClass]
+  imports: [NgStyle, NgClass],
+  templateUrl: './dot.component.html',
+  styleUrl: './dot.component.scss'
 })
-export class DotComponent implements OnInit {
-  @Input({ required: true }) color = '';
-  @Input() rounded = false;
-  @Input() size = '10';
+export class DotComponent {
+  color = input<string>();
+  size = input('25');
 
-  ngOnInit(): void {
-    this.size = `${this.size}px`;
-  }
+  dotSize = computed(() => `${this.size()}px`);
 }

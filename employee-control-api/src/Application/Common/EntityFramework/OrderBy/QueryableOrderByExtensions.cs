@@ -11,9 +11,7 @@ public static class QueryableOrderByExtensions
 {
     public static IQueryable<TEntity> Ordering<TEntity>(this IQueryable<TEntity> source, RequestData request)
     {
-        IQueryable<TEntity> result;
-
-        if (string.IsNullOrEmpty(request.Orders))
+        if (string.IsNullOrEmpty(request.Order))
         {
             // Por defecto si existe, ordena por "Created | Id" - Descending.
             return OrderByDefault(source);
@@ -22,28 +20,18 @@ public static class QueryableOrderByExtensions
         var options = new JsonSerializerOptions { WriteIndented = true, PropertyNameCaseInsensitive = true };
 
         var requestItemOrderBy = JsonSerializer
-            .Deserialize<List<RequestOrderBy>>(request.Orders, options)?
-            .OrderBy(o => o.Precedence)
-            .ToArray() ?? Array.Empty<RequestOrderBy>();
+            .Deserialize<RequestOrderBy>(request.Order, options);
 
-        var firstField = requestItemOrderBy.FirstOrDefault();
-
-        if (requestItemOrderBy.Length == 0 || firstField is null)
+        if (requestItemOrderBy is null)
         {
-            result = OrderByDefault(source);
+            var result = OrderByDefault(source);
 
             return result;
         }
 
-        source = HandleOrderByCommand(source, firstField, OrderByCommandType.OrderBy);
+        source = HandleOrderByCommand(source, requestItemOrderBy, OrderByCommandType.OrderBy);
 
-        result = string.IsNullOrEmpty(firstField.PropertyName)
-            ? source
-            : requestItemOrderBy
-                .Skip(1)
-                .Aggregate(source, (current, field) => HandleOrderByCommand(current, field));
-
-        return result;
+        return source;
     }
 
     public static IOrderedQueryable<TEntity> OrderByCommand<TEntity>(

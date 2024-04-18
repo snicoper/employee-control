@@ -1,9 +1,10 @@
 import { Component, OnDestroy, computed, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
-import { CardComponent } from '../../../components/cards/card/card.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { TimeControlRecordCreateFormComponent } from './time-control-record-create-form/time-control-record-create-form.component';
 import { TimeControlRecordCreateService } from './time-control-record-create.service';
 import { TimeControlSelectEmployeeComponent } from './time-control-select-employee/time-control-select-employee.component';
@@ -13,9 +14,10 @@ import { TimeControlSelectEmployeeComponent } from './time-control-select-employ
   templateUrl: './time-control-record-create.component.html',
   standalone: true,
   imports: [
+    MatCardModule,
+    MatButtonModule,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
     TimeControlSelectEmployeeComponent,
     TimeControlRecordCreateFormComponent
   ]
@@ -41,7 +43,7 @@ export class TimeControlRecordCreateComponent implements OnDestroy {
 
   private setBreadcrumb(): void {
     this.breadcrumb
-      .add('Registro de tiempos', SiteUrls.timeControlRecords.list)
-      .add('Añadir tiempo', SiteUrls.timeControlRecords.create, '', false);
+      .add('Registro de tiempos', SiteUrl.timeControlRecords.list)
+      .add('Añadir tiempo', SiteUrl.timeControlRecords.create, '', false);
   }
 }

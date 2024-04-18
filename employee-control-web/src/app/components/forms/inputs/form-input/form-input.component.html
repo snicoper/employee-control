@@ -1,27 +1,28 @@
-<div class="form-group">
-  @if (label) {
-    <label [for]="id" class="form-label">
-      {{ label }}
-    </label>
-  }
-
+<mat-form-field>
+  <mat-label>{{ label() }}</mat-label>
   <input
+    matInput
     (ngModelChange)="onChangeValue($event)"
     [(ngModel)]="value"
     [disabled]="isDisabled"
-    [id]="id"
-    [ngClass]="{ extraCss: true, 'is-invalid': isInvalid() }"
-    [placeholder]="placeholder"
-    [type]="inputType"
+    [id]="id()"
+    [placeholder]="placeholder()"
+    [type]="formInputType()"
     [value]="value"
-    class="form-control" />
+    [readonly]="readonly()" />
 
-  @if (form) {
-    <aw-field-error
-      [badRequest]="badRequest"
-      [fieldName]="fieldName"
-      [fieldText]="label"
-      [form]="form"
-      [submitted]="submitted" />
+  @if (icon() && formIconPosition() === iconPositions.prefix) {
+    <mat-icon matPrefix>{{ icon() }}</mat-icon>
+  } @else if (icon() && formIconPosition() === iconPositions.suffix) {
+    <mat-icon matSuffix>{{ icon() }}</mat-icon>
   }
-</div>
+</mat-form-field>
+
+@if (form()) {
+  <aw-field-error
+    [badRequest]="badRequest()"
+    [fieldName]="fieldName()"
+    [fieldText]="label()"
+    [form]="form()"
+    [submitted]="submitted()" />
+}

@@ -1,18 +1,21 @@
-import { Component, computed, inject, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, computed, inject, input } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { BadgeComponent } from '../../../../components/badges/badge/badge.component';
+import { BadgeComponent } from '../../../../components/badge/badge.component';
 import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
-import { CardComponent } from '../../../../components/cards/card/card.component';
-import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
-import { ApiUrls } from '../../../../core/urls/api-urls';
-import { SiteUrls } from '../../../../core/urls/site-urls';
+import { ApiUrl } from '../../../../core/urls/api-urls';
+import { SiteUrl } from '../../../../core/urls/site-urls';
 import { CommonUtils } from '../../../../core/utils/common-utils';
 import { ResultResponse } from '../../../../models/result-response.model';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
 import { DepartmentApiService } from '../../../../services/api/department-api.service';
+import { SnackBarService } from '../../../../services/snackbar.service';
 import { DepartmentSelectedService } from '../department-selected.service';
 
 @Component({
@@ -20,48 +23,48 @@ import { DepartmentSelectedService } from '../department-selected.service';
   templateUrl: './department-details.component.html',
   standalone: true,
   imports: [
-    CardComponent,
+    RouterLink,
+    MatCardModule,
+    MatButton,
+    MatIcon,
+    MatDivider,
+    MatProgressSpinner,
     BadgeComponent,
     BtnLoadingComponent,
-    TableLoadingComponent,
     BtnBackComponent,
-    RouterLink,
     BoolToIconPipe
   ]
 })
-export class DepartmentDetailsComponent implements OnDestroy {
-  @Input({ required: true }) departmentId = '';
-
-  private readonly toastrService = inject(ToastrService);
+export class DepartmentDetailsComponent implements OnInit {
+  private readonly snackBarService = inject(SnackBarService);
   private readonly departmentSelectedService = inject(DepartmentSelectedService);
   private readonly departmentApiService = inject(DepartmentApiService);
 
+  departmentId = input.required<string>();
+
   readonly departmentSelected = computed(() => this.departmentSelectedService.departmentSelected());
-  readonly loadingDepartmentSelected = computed(() => this.departmentSelectedService.loadingDepartmentSelected());
+  readonly departmentSelectedLoading = computed(() => this.departmentSelectedService.departmentSelectedLoading());
 
+  urlToEdit!: string;
   loadingDepartmentState = false;
-  siteUrls = SiteUrls;
+  siteUrl = SiteUrl;
 
-  get urlToEdit(): string {
-    return CommonUtils.urlReplaceParams(SiteUrls.departments.update, { id: this.departmentId });
-  }
-
-  ngOnDestroy(): void {
-    this.departmentSelectedService.clean();
+  ngOnInit(): void {
+    this.urlToEdit = CommonUtils.urlReplaceParams(SiteUrl.departments.update, { id: this.departmentId() });
   }
 
   handleActivateDepartment(): void {
     this.loadingDepartmentState = true;
-    const data = { departmentId: this.departmentId };
+    const data = { departmentId: this.departmentId() };
 
     this.departmentApiService
-      .put<typeof data, ResultResponse>(data, ApiUrls.departments.activateDepartment)
+      .put<typeof data, ResultResponse>(data, ApiUrl.departments.activateDepartment)
       .pipe(finalize(() => (this.loadingDepartmentState = false)))
       .subscribe({
         next: (result) => {
           if (result.succeeded) {
-            this.toastrService.success('Departamento desactivado con éxito');
-            this.departmentSelectedService.loadDepartmentById(this.departmentId);
+            this.snackBarService.success('Departamento desactivado con éxito');
+            this.departmentSelectedService.loadDepartmentById(this.departmentId());
           }
         }
       });
@@ -69,16 +72,16 @@ export class DepartmentDetailsComponent implements OnDestroy {
 
   handleDeactivateDepartment(): void {
     this.loadingDepartmentState = true;
-    const data = { departmentId: this.departmentId };
+    const data = { departmentId: this.departmentId() };
 
     this.departmentApiService
-      .put<typeof data, ResultResponse>(data, ApiUrls.departments.deactivateDepartment)
+      .put<typeof data, ResultResponse>(data, ApiUrl.departments.deactivateDepartment)
       .pipe(finalize(() => (this.loadingDepartmentState = false)))
       .subscribe({
         next: (result) => {
           if (result.succeeded) {
-            this.toastrService.success('Departamento activado con éxito');
-            this.departmentSelectedService.loadDepartmentById(this.departmentId);
+            this.snackBarService.success('Departamento activado con éxito');
+            this.departmentSelectedService.loadDepartmentById(this.departmentId());
           }
         }
       });

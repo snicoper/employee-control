@@ -1,64 +1,22 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top shadow">
-  <div class="container-fluid">
-    <span
-      (click)="toggleSidebarState()"
-      [ngClass]="{ 'text-muted': sidebarMenuState$() }"
-      class="fa-solid fa-bars"></span>
+<mat-toolbar class="mat-elevation-z3">
+  <button (click)="handleToggleSidenavState()" mat-icon-button>
+    <mat-icon>menu</mat-icon>
+  </button>
 
-    <a [routerLink]="[siteUrls.home]" class="navbar-brand cursor-pointer">{{ siteName }}</a>
+  <span class="cursor-pointer" [routerLink]="siteUrl.home">{{ siteName }}</span>
+  <span class="d-flex m-auto"></span>
 
-    <button
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-      class="navbar-toggler"
-      data-bs-target="#navbarSupportedContent"
-      data-bs-toggle="collapse"
-      type="button">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <button (click)="handleToggleThemeColor()" mat-icon-button>
+    <span>
+      @if (theme() === themeColor.Light) {
+        <mat-icon>light_mode</mat-icon>
+      } @else {
+        <mat-icon>dark_mode</mat-icon>
+      }
+    </span>
+  </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto"></ul>
-
-      <div>
-        <ul class="navbar-nav">
-          <!-- incidences -->
-          <li [awRequiredRole]="roles.enterpriseStaff" class="nav-item">
-            <a [routerLink]="siteUrls.timeControlRecords.list" class="nav-link">
-              Incidencias
-
-              @if (timeControlIncidencesCount()) {
-                <span class="badge text-bg-danger">{{ timeControlIncidencesCount() }}</span>
-              } @else {
-                <span class="badge text-bg-secondary">0</span>
-              }
-            </a>
-          </li>
-          <!-- end incidences -->
-
-          <!-- theme selector -->
-          <li class="nav-item">
-            <a class="nav-link cursor-pointer">
-              <span
-                (click)="handleChangeTheme()"
-                [ngClass]="{
-                  'fa-solid fa-moon': theme() === themeColors.light,
-                  'fa-regular fa-sun': theme() === themeColors.dark
-                }"></span>
-            </a>
-          </li>
-          <!-- end theme selector -->
-
-          <!-- user information-->
-          @if (authState$()) {
-            <li class="nav-item">
-              <a class="nav-link">{{ userName }}</a>
-            </li>
-          }
-          <!-- user information -->
-        </ul>
-      </div>
-    </div>
-  </div>
-</nav>
+  <button mat-icon-button>
+    <mat-icon>share</mat-icon>
+  </button>
+</mat-toolbar>

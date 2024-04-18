@@ -1,25 +1,25 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
-import { CardComponent } from '../../../components/cards/card/card.component';
 import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { FormTimezoneComponent } from '../../../components/forms/inputs/form-timezone/form-timezone.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
-import { FormInputTypes } from '../../../core/types/form-input-types';
-import { ApiUrls } from '../../../core/urls/api-urls';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { FormInputType } from '../../../core/types/form-input-type';
+import { ApiUrl } from '../../../core/urls/api-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { EmployeesApiService } from '../../../services/api/employees-api.service';
 import { JwtService } from '../../../services/jwt.service';
+import { SnackBarService } from '../../../services/snackbar.service';
 import { CompanySettingsStateService } from '../../../services/states/company-settings-state.service';
 import { InviteEmployeeRequest } from './employee-invite-request.model';
 
@@ -28,11 +28,10 @@ import { InviteEmployeeRequest } from './employee-invite-request.model';
   templateUrl: './employee-invite.component.html',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
+    MatCardModule,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
-    FormsModule,
-    ReactiveFormsModule,
     NonFieldErrorsComponent,
     FormInputComponent,
     FormTimezoneComponent,
@@ -44,7 +43,7 @@ export class EmployeeInviteComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly employeesApiService = inject(EmployeesApiService);
   private readonly jwtService = inject(JwtService);
-  private readonly toastrService = inject(ToastrService);
+  private readonly snackBarService = inject(SnackBarService);
   private readonly router = inject(Router);
   private readonly companySettingsStateService = inject(CompanySettingsStateService);
 
@@ -52,10 +51,10 @@ export class EmployeeInviteComponent {
 
   form: FormGroup = this.formBuilder.group({});
   badRequest: BadRequest | undefined;
-  formInputTypes = FormInputTypes;
+  formInputType = FormInputType;
   submitted = false;
   loading = false;
-  siteUrls = SiteUrls;
+  siteUrl = SiteUrl;
 
   constructor() {
     this.setBreadcrumb();
@@ -76,12 +75,12 @@ export class EmployeeInviteComponent {
     inviteEmployeeRequest.companyId = this.jwtService.getCompanyId();
 
     this.employeesApiService
-      .post<InviteEmployeeRequest, string>(inviteEmployeeRequest, ApiUrls.employees.inviteEmployee)
+      .post<InviteEmployeeRequest, string>(inviteEmployeeRequest, ApiUrl.employees.inviteEmployee)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (result: string) => {
-          const url = CommonUtils.urlReplaceParams(SiteUrls.employees.details, { id: result });
-          this.toastrService.success('Invitación enviada con éxito.');
+          const url = CommonUtils.urlReplaceParams(SiteUrl.employees.details, { id: result });
+          this.snackBarService.success('Invitación enviada con éxito.');
           this.router.navigateByUrl(url);
         },
         error: (error: HttpErrorResponse) => {
@@ -92,8 +91,8 @@ export class EmployeeInviteComponent {
 
   private setBreadcrumb(): void {
     this.breadcrumb
-      .add('Empleados', SiteUrls.employees.list)
-      .add('Invitar empleado', SiteUrls.employees.invite, '', false);
+      .add('Empleados', SiteUrl.employees.list)
+      .add('Invitar empleado', SiteUrl.employees.invite, '', false);
   }
 
   private buildForm(): void {

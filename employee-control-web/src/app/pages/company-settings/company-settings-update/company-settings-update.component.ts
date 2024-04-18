@@ -1,26 +1,27 @@
 import { Component, computed, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
 import { Router } from '@angular/router';
 import { DateTime } from 'luxon';
-import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
-import { CardComponent } from '../../../components/cards/card/card.component';
 import { FormCheckboxComponent } from '../../../components/forms/inputs/form-checkbox/form-checkbox.component';
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { FormTimezoneComponent } from '../../../components/forms/inputs/form-timezone/form-timezone.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
-import { FormInputTypes } from '../../../core/types/form-input-types';
-import { ApiUrls } from '../../../core/urls/api-urls';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { FormInputType } from '../../../core/types/form-input-type';
+import { ApiUrl } from '../../../core/urls/api-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { BadRequest } from '../../../models/bad-request';
 import { CompanySettings } from '../../../models/entities/company-settings.model';
 import { ResultResponse } from '../../../models/result-response.model';
 import { CompanySettingsApiService } from '../../../services/api/company-settings-api.service';
+import { SnackBarService } from '../../../services/snackbar.service';
 import { CompanySettingsStateService } from '../../../services/states/company-settings-state.service';
 
 @Component({
@@ -28,11 +29,11 @@ import { CompanySettingsStateService } from '../../../services/states/company-se
   templateUrl: './company-settings-update.component.html',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
+    MatCardModule,
+    MatDivider,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
-    FormsModule,
-    ReactiveFormsModule,
     FormTimezoneComponent,
     FormInputComponent,
     FormCheckboxComponent,
@@ -44,7 +45,7 @@ export class CompanySettingsUpdateComponent {
   private readonly companySettingsStateService = inject(CompanySettingsStateService);
   private readonly companySettingsApiService = inject(CompanySettingsApiService);
   private readonly formBuilder = inject(FormBuilder);
-  private readonly toastrService = inject(ToastrService);
+  private readonly snackBarService = inject(SnackBarService);
   private readonly router = inject(Router);
 
   readonly companySettings = computed(() => this.companySettingsStateService.companySettings());
@@ -57,8 +58,8 @@ export class CompanySettingsUpdateComponent {
   submitted = false;
   nowWithOriginalTimezone = '';
   nowWithTimezoneSelected = '';
-  siteUrls = SiteUrls;
-  formInputTypes = FormInputTypes;
+  siteUrl = SiteUrl;
+  formInputTypes = FormInputType;
 
   constructor() {
     this.setBreadcrumb();
@@ -81,13 +82,13 @@ export class CompanySettingsUpdateComponent {
     companySettings.id = this.companySettings()?.id as string;
 
     this.companySettingsApiService
-      .put<CompanySettings, ResultResponse>(companySettings, ApiUrls.companySettings.updateCompanySettings)
+      .put<CompanySettings, ResultResponse>(companySettings, ApiUrl.companySettings.updateCompanySettings)
       .pipe(finalize(() => (this.loadingForm = false)))
       .subscribe({
         next: (result: ResultResponse) => {
           if (result.succeeded) {
-            this.toastrService.success('Configuración actualizada con éxito');
-            this.router.navigateByUrl(SiteUrls.companySettings.details);
+            this.snackBarService.success('Configuración actualizada con éxito');
+            this.router.navigateByUrl(SiteUrl.companySettings.details);
             this.companySettingsStateService.refresh();
           }
         }
@@ -96,8 +97,8 @@ export class CompanySettingsUpdateComponent {
 
   private setBreadcrumb(): void {
     this.breadcrumb
-      .add('Configuración', SiteUrls.companySettings.details)
-      .add('Editar', SiteUrls.companySettings.update, '', false);
+      .add('Configuración', SiteUrl.companySettings.details)
+      .add('Editar', SiteUrl.companySettings.update, '', false);
   }
 
   private setNowWithOriginalTimezone(): void {

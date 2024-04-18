@@ -1,47 +1,63 @@
-<!-- toolbar -->
-<div class="mb-2">
-  <h3 class="text-center mb-4">Seleccionar empleado</h3>
-
-  <span>
-    <aw-table-input-search
-      (clickClean)="handleClickClean($event)"
-      [apiResult]="apiResult"
-      [tableHeaderConfig]="tableHeaderConfig" />
-  </span>
+<!-- title -->
+<div class="d-flex justify-content-center">
+  <h3>Seleccionar empleado</h3>
 </div>
-<!-- end toolbar -->
+
+<!-- filter -->
+<div class="d-flex flex-row">
+  <div class="ms-auto">
+    <aw-table-filter
+      (filterChange)="handleFilterChange($event)"
+      [apiResult]="apiResult"
+      [fieldsFilter]="fieldsFilter" />
+  </div>
+</div>
 
 <!-- table -->
-<aw-table [apiResult]="apiResult" [loading]="loading">
-  <thead awThead>
-    <tr
-      (clickOrdering)="handleReloadData()"
-      [apiResult]="apiResult"
-      [tableHeaderConfig]="tableHeaderConfig"
-      awTableHeader></tr>
-  </thead>
+@if (!loading) {
+  <table mat-table matSort (matSortChange)="handleSortChange($event)" [dataSource]="dataSource">
+    <!-- firstName -->
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+      <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
+    </ng-container>
 
-  @if (apiResult) {
-    <tbody awTbody>
-      @for (user of apiResult.items; track user) {
-        <tr (click)="handleSelectItem(user)" class="cursor-pointer">
-          <td>{{ user.firstName }}</td>
-          <td>{{ user.lastName }}</td>
-          <td>{{ user.email }}</td>
-        </tr>
-      }
-    </tbody>
+    <!-- lastName -->
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellidos</th>
+      <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
+    </ng-container>
+
+    <!-- email -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo electrónico</th>
+      <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="handleSelectRow(row)"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell p-4" [attr.colspan]="displayedColumns.length">No hay datos a mostrar</td>
+    </tr>
+  </table>
+
+  <!-- paginator -->
+  @if (dataSource) {
+    <mat-paginator
+      showFirstLastButtons
+      (page)="handlePageEvent($event)"
+      [length]="apiResult.totalItems"
+      [pageSize]="apiResult.pageSize"
+      [pageIndex]="apiResult.pageNumber - 1"
+      [pageSizeOptions]="[25, 50, 100]"
+      aria-label="Selección de pagina" />
   }
-</aw-table>
-<!-- end table -->
-
-<!-- pagination -->
-@if (apiResult) {
-  <aw-pagination
-    (changePage)="handleReloadData()"
-    (changePageListNumber)="handleReloadData()"
-    [apiResult]="apiResult" />
+} @else {
+  <!-- spinner -->
+  <div class="d-flex justify-content-center p-5">
+    <mat-progress-spinner color="primary" mode="indeterminate" />
+  </div>
 }
-<!-- end pagination -->
 
 <aw-btn-back text="Cancelar" />

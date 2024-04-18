@@ -1,26 +1,32 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { logDebug } from '../core/errors/log-messages';
-import { SiteUrls } from '../core/urls/site-urls';
+import { Role } from '../core/types/role';
+import { SiteUrl } from '../core/urls/site-urls';
 import { AuthService } from '../services/auth.service';
 import { JwtService } from '../services/jwt.service';
+import { SnackBarService } from '../services/snackbar.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
   private readonly jwtService = inject(JwtService);
-  private readonly toastr = inject(ToastrService);
+  private readonly snackBarService = inject(SnackBarService);
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    const { roles } = route.data;
+
+    // Si requiere Role.Anonymous, omite el resto de validaciones.
+    if (roles.find((role: Role) => role === Role.Anonymous)) {
+      return true;
+    }
+
     if (!this.authService.authValue$() || !this.jwtService.existsTokens()) {
       this.redirectToLogin(state.url);
 
       return false;
     }
-
-    const { roles } = route.data;
 
     if (!roles) {
       return true;
@@ -38,7 +44,7 @@ export class AuthGuard {
   }
 
   private redirectToLogin(redirectUrl: string): void {
-    this.toastr.error('Requiere autorización para acceder a la página.');
-    this.router.navigate([SiteUrls.auth.login], { queryParams: { returnUrl: redirectUrl } });
+    this.snackBarService.error('Requiere autorización para acceder a la página.');
+    this.router.navigate([SiteUrl.auth.login], { queryParams: { returnUrl: redirectUrl } });
   }
 }

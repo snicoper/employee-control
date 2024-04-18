@@ -1,9 +1,8 @@
-@if (progressStackedCollection.title) {
-  <div class="text-muted small ms-1">{{ progressStackedCollection.title }}</div>
+@if (progressStackedCollection().title) {
+  <div class="text-muted small ms-1">{{ progressStackedCollection().title }}</div>
 }
-
 <div class="progress-stacked mb-2">
-  @for (item of progressStackedCollection.progressStackedItems; track item) {
+  @for (item of progressStackedCollection().progressStackedItems; track item) {
     <div
       (click)="handleClickProgress(item)"
       [attr.aria-valuemax]="item.valueMax"
@@ -11,10 +10,9 @@
       [attr.aria-valuenow]="item.valueNow"
       [ngStyle]="{ width: item.percent + '%' }"
       [ngClass]="{ 'cursor-pointer': item.selectable }"
-      aria-label="Time control"
       class="progress"
       role="progressbar">
-      <div [ngClass]="item.background" [title]="item.tooltip" awTooltip class="progress-bar">
+      <div [ngClass]="item.background" [matTooltip]="item.tooltip" class="progress-bar">
         {{ item.content }}
       </div>
     </div>

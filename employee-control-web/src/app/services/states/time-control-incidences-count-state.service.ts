@@ -1,6 +1,6 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { HubNames } from '../../core/types/hub-names';
-import { ApiUrls } from '../../core/urls/api-urls';
+import { HubName } from '../../core/types/hub-name';
+import { ApiUrl } from '../../core/urls/api-urls';
 import { TimeControlIncidencesCountStateResponse } from '../../models/states/time-control-incidences-count-state-response.model';
 import { TimeControlApiService } from '../api/time-control-api.service';
 import { SignalRService } from '../signalr.service';
@@ -37,7 +37,7 @@ export class TimeControlIncidencesCountStateService implements StateService<numb
 
   private loadIncidencesCount(): void {
     this.timeControlApiService
-      .get<TimeControlIncidencesCountStateResponse>(ApiUrls.timeControl.getTimeControlIncidencesCount)
+      .get<TimeControlIncidencesCountStateResponse>(ApiUrl.timeControl.getTimeControlIncidencesCount)
       .subscribe({
         next: (result: TimeControlIncidencesCountStateResponse) => {
           this.incidences$.set(result.incidences);
@@ -46,7 +46,7 @@ export class TimeControlIncidencesCountStateService implements StateService<numb
   }
 
   private addListener(): void {
-    this.signalRService.hubConnection.on(HubNames.timeControlIncidences, () => {
+    this.signalRService.hubConnection.on(HubName.TimeControlIncidences, () => {
       this.refresh();
     });
   }

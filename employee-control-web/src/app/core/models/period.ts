@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { PeriodDatetime } from './preriod-datetime';
+import { PeriodDatetime } from './period-datetime';
 
 export class Period {
   start: Date;

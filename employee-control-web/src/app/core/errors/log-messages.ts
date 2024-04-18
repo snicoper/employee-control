@@ -1,6 +1,6 @@
 /* eslint-disable  no-console */
 
-import { AppEnvironments } from '../config/app-environments';
+import { AppEnvironment } from '../config/app-environment';
 
 interface LogSettings {
   key: string;
@@ -15,7 +15,7 @@ const logSettings = {
 };
 
 const displayLogMessage = (message: string, settings: LogSettings): void => {
-  if (AppEnvironments.isDebug) {
+  if (AppEnvironment.isDebug) {
     const background = `background: ${settings.color}; color: white`;
     const formatMessage = `%c ${settings.key}: ${message} `;
 

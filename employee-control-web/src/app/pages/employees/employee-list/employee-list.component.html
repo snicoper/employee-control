@@ -1,57 +1,83 @@
 <aw-page-base>
   <aw-page-header [breadcrumb]="breadcrumb">Lista de empleados</aw-page-header>
 
-  <aw-card>
-    <!-- toolbar -->
-    <div class="d-flex justify-content-between mb-2">
-      <span>
-        <a [routerLink]="siteUrls.employees.invite" class="btn btn-sm btn-outline-success">
-          <span class="fas fa-user-plus"></span> Invitar empleado
-        </a>
-      </span>
+  <mat-card>
+    <mat-card-content>
+      <!-- toolbar -->
+      <div class="d-flex flex-row">
+        <button mat-button color="primary" [routerLink]="siteUrl.employees.invite">
+          <mat-icon>add</mat-icon> Invitar empleado
+        </button>
+        <div class="ms-auto">
+          <aw-table-filter
+            (filterChange)="handleFilterChange($event)"
+            [apiResult]="apiResult"
+            [fieldsFilter]="fieldsFilter" />
+        </div>
+      </div>
 
-      <span>
-        <aw-table-input-search
-          (clickClean)="handleClickClean($event)"
-          [apiResult]="apiResult"
-          [tableHeaderConfig]="tableHeaderConfig" />
-      </span>
-    </div>
-    <!-- end toolbar -->
+      <!-- table -->
+      @if (!loading) {
+        <table mat-table matSort (matSortChange)="handleSortChange($event)" [dataSource]="dataSource">
+          <!-- firstName -->
+          <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
+          </ng-container>
 
-    <!-- table -->
-    <aw-table [apiResult]="apiResult" [loading]="loading">
-      <thead awThead>
-        <tr
-          (clickOrdering)="handleReloadData()"
-          [apiResult]="apiResult"
-          [tableHeaderConfig]="tableHeaderConfig"
-          awTableHeader></tr>
-      </thead>
+          <!-- lastName -->
+          <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellidos</th>
+            <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
+          </ng-container>
 
-      @if (apiResult) {
-        <tbody awTbody>
-          @for (employee of apiResult.items; track employee) {
-            <tr (click)="handleSelectItem(employee)" class="cursor-pointer">
-              <td>{{ employee.firstName }}</td>
-              <td>{{ employee.lastName }}</td>
-              <td>{{ employee.email }}</td>
-              <td [innerHTML]="employee.active | boolToIcon"></td>
-              <td [innerHTML]="employee.emailConfirmed | boolToIcon"></td>
-            </tr>
-          }
-        </tbody>
+          <!-- email -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo electrónico</th>
+            <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+          </ng-container>
+
+          <!-- active -->
+          <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Activo</th>
+            <td mat-cell *matCellDef="let row">
+              <span [innerHTML]="row.active | boolToIcon"></span>
+            </td>
+          </ng-container>
+
+          <!-- emailConfirmed -->
+          <ng-container matColumnDef="emailConfirmed">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email confirmado</th>
+            <td mat-cell *matCellDef="let row">
+              <span [innerHTML]="row.emailConfirmed | boolToIcon"></span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="handleSelectRow(row)"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell p-4" [attr.colspan]="displayedColumns.length">No hay datos a mostrar</td>
+          </tr>
+        </table>
+
+        <!-- paginator -->
+        @if (dataSource) {
+          <mat-paginator
+            showFirstLastButtons
+            (page)="handlePageEvent($event)"
+            [length]="apiResult.totalItems"
+            [pageSize]="apiResult.pageSize"
+            [pageIndex]="apiResult.pageNumber - 1"
+            [pageSizeOptions]="[25, 50, 100]"
+            aria-label="Selección de pagina" />
+        }
+      } @else {
+        <!-- spinner -->
+        <div class="d-flex justify-content-center p-5">
+          <mat-progress-spinner color="primary" mode="indeterminate" />
+        </div>
       }
-    </aw-table>
-    <!-- end table -->
-
-    <!-- pagination -->
-    @if (apiResult) {
-      <aw-pagination
-        (changePage)="handleReloadData()"
-        (changePageListNumber)="handleReloadData()"
-        [apiResult]="apiResult" />
-    }
-    <!-- end pagination -->
-  </aw-card>
+    </mat-card-content>
+  </mat-card>
 </aw-page-base>

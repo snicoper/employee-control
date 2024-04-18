@@ -8,8 +8,8 @@ export interface Company {
   id: string;
   name: string;
   companySettings: CompanySettings;
-  departments: Department[];
-  users: User[];
-  companyTasks: CompanyTask[];
-  categoryAbsences: CategoryAbsence[];
+  departments: Array<Department>;
+  users: Array<User>;
+  companyTasks: Array<CompanyTask>;
+  categoryAbsences: Array<CategoryAbsence>;
 }

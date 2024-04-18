@@ -3,22 +3,22 @@ import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { Observable, tap } from 'rxjs';
-import { LocalStorageKeys } from '../core/types/local-storage-keys';
-import { Roles } from '../core/types/roles';
-import { ApiUrls } from '../core/urls/api-urls';
-import { SiteUrls } from '../core/urls/site-urls';
+import { BrowserStorageKey } from '../core/types/browser-storage-key';
+import { Role } from '../core/types/role';
+import { ApiUrl } from '../core/urls/api-urls';
+import { SiteUrl } from '../core/urls/site-urls';
 import { RefreshTokenRequest } from '../models/refresh-token-request.model';
 import { RefreshTokenResponse } from '../models/refresh-token-response.model';
 import { AuthApiService } from './api/auth-api.service';
 import { AuthService } from './auth.service';
-import { LocalStorageService } from './local-storage.service';
+import { BrowserStorageService } from './browser-storage.service';
 
 @Injectable({ providedIn: 'root' })
 export class JwtService {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
   private readonly authApiService = inject(AuthApiService);
-  private readonly localStorageService = inject(LocalStorageService);
+  private readonly browserStorageService = inject(BrowserStorageService);
 
   /** Comprueba si el token se esta refrescando. */
   readonly isRefreshing$ = signal(false);
@@ -32,8 +32,8 @@ export class JwtService {
   private refreshToken = '';
 
   constructor() {
-    const accessToken = this.localStorageService.get(LocalStorageKeys.accessToken);
-    const refreshToken = this.localStorageService.get(LocalStorageKeys.refreshToken);
+    const accessToken = this.browserStorageService.get(BrowserStorageKey.AccessToken);
+    const refreshToken = this.browserStorageService.get(BrowserStorageKey.RefreshToken);
 
     this.setTokens(accessToken, refreshToken, false);
   }
@@ -48,8 +48,8 @@ export class JwtService {
     this.refreshToken = refreshToken;
 
     if (storeTokens) {
-      this.localStorageService.set(LocalStorageKeys.accessToken, accessToken);
-      this.localStorageService.set(LocalStorageKeys.refreshToken, refreshToken);
+      this.browserStorageService.set(BrowserStorageKey.AccessToken, accessToken);
+      this.browserStorageService.set(BrowserStorageKey.RefreshToken, refreshToken);
     }
 
     this.authService.setAuthValue(true);
@@ -68,7 +68,7 @@ export class JwtService {
   refreshingTokens(): Observable<RefreshTokenResponse> {
     const model = { refreshToken: this.refreshToken } as RefreshTokenRequest;
 
-    return this.authApiService.post<RefreshTokenRequest, RefreshTokenResponse>(model, ApiUrls.auth.refreshToken).pipe(
+    return this.authApiService.post<RefreshTokenRequest, RefreshTokenResponse>(model, ApiUrl.auth.refreshToken).pipe(
       tap((result) => {
         this.setTokens(result.accessToken, result.refreshToken);
       })
@@ -97,24 +97,24 @@ export class JwtService {
     return !!(this.accessToken && this.refreshToken);
   }
 
-  isInRole(role: Roles): boolean {
+  isInRole(role: Role): boolean {
     return this.getRoles().includes(role);
   }
 
-  getRole(role: string): string[] | string {
+  getRole(role: string): Array<string> | string {
     const index = this.getRoles().indexOf(role);
 
     return index >= 0 ? this.getRoles()[index] : '';
   }
 
-  getRoles(): string[] {
+  getRoles(): Array<string> {
     const key = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
 
     if (!this.accessToken || !(key in this.tokenDecode)) {
       return [];
     }
 
-    return this.tokenDecode[key] as string[];
+    return this.tokenDecode[key] as Array<string>;
   }
 
   getName(): string {
@@ -148,14 +148,14 @@ export class JwtService {
   }
 
   removeTokens(): void {
-    this.localStorageService.remove(LocalStorageKeys.refreshToken);
-    this.localStorageService.remove(LocalStorageKeys.accessToken);
+    this.browserStorageService.remove(BrowserStorageKey.RefreshToken);
+    this.browserStorageService.remove(BrowserStorageKey.AccessToken);
     this.refreshToken = '';
     this.accessToken = '';
     this.tokenDecode = {};
 
     this.authService.setAuthValue(false);
 
-    this.router.navigateByUrl(SiteUrls.auth.login);
+    this.router.navigateByUrl(SiteUrl.auth.login);
   }
 }

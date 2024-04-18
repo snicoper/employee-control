@@ -27,10 +27,10 @@ internal class DeactivateEmployeeHandler(
         var user = userManager.Users.SingleOrDefault(au => au.Id == request.EmployeeId && au.CompanyId == currentCompanyId)
                    ?? throw new NotFoundException(nameof(ApplicationUser), nameof(ApplicationUser.Id));
 
-        // La cuenta del EnterpriseAdministrator, no se puede desactivar.
-        var isEnterpriseAdministrator = await identityService.IsInRoleAsync(user.Id, Roles.EnterpriseAdmin);
+        // La cuenta del Administrator, no se puede desactivar.
+        var isAdministrator = await identityService.IsInRoleAsync(user.Id, Roles.Admin);
 
-        if (isEnterpriseAdministrator)
+        if (isAdministrator)
         {
             var message = localizer["No tiene permisos para desactivar esta cuenta"];
             validationFailureService.AddAndRaiseException(ValidationErrorsKeys.NotificationErrors, message);

@@ -1,7 +1,5 @@
-.footer {
-  padding: 1rem;
-
-  @media screen and (min-width: 768px) {
-    padding-left: 260px;
-  }
+.footer-container {
+  position: fixed;
+  bottom: 0;
+  font-size: 0.9rem;
 }

@@ -1,44 +1,49 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
-import { CardComponent } from '../../../components/cards/card/card.component';
 import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
 import { FormDatepickerComponent } from '../../../components/forms/inputs/form-datepicker/form-datepicker.component';
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
-import { SpinnerComponent } from '../../../components/spinner/spinner.component';
-import { FormInputTypes } from '../../../core/types/form-input-types';
-import { ApiUrls } from '../../../core/urls/api-urls';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { FormInputType } from '../../../core/types/form-input-type';
+import { ApiUrl } from '../../../core/urls/api-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { User } from '../../../models/entities/user.model';
 import { ResultResponse } from '../../../models/result-response.model';
 import { EmployeesApiService } from '../../../services/api/employees-api.service';
+import { SnackBarService } from '../../../services/snackbar.service';
 
 @Component({
   selector: 'aw-employee-update',
   templateUrl: './employee-update.component.html',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule,
+    MatProgressSpinner,
+    MatDivider,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
-    FormsModule,
-    ReactiveFormsModule,
     NonFieldErrorsComponent,
     FormInputComponent,
-    FormDatepickerComponent,
     BtnBackComponent,
     BtnLoadingComponent,
-    SpinnerComponent
+    FormDatepickerComponent
   ]
 })
 export class EmployeeUpdateComponent {
@@ -46,16 +51,16 @@ export class EmployeeUpdateComponent {
   private readonly router = inject(Router);
   private readonly formBuilder = inject(FormBuilder);
   private readonly employeesApiService = inject(EmployeesApiService);
-  private readonly toastrService = inject(ToastrService);
+  private readonly snackBarService = inject(SnackBarService);
 
-  readonly siteUrls = SiteUrls;
+  readonly siteUrl = SiteUrl;
   readonly urlEmployeeDetails: string;
   readonly breadcrumb = new BreadcrumbCollection();
   readonly employeeId: string;
 
   form: FormGroup = this.formBuilder.group({});
   badRequest: BadRequest | undefined;
-  formTypes = FormInputTypes;
+  formInputType = FormInputType;
   loadingEmployee = false;
   loadingForm = false;
   submitted = false;
@@ -63,7 +68,7 @@ export class EmployeeUpdateComponent {
 
   constructor() {
     this.employeeId = this.route.snapshot.paramMap.get('id') as string;
-    this.urlEmployeeDetails = CommonUtils.urlReplaceParams(SiteUrls.employees.details, { id: this.employeeId });
+    this.urlEmployeeDetails = CommonUtils.urlReplaceParams(SiteUrl.employees.details, { id: this.employeeId });
     this.loadEmployee();
     this.setBreadcrumb();
   }
@@ -81,18 +86,18 @@ export class EmployeeUpdateComponent {
     employee.id = this.employeeId;
 
     this.employeesApiService
-      .put<User, ResultResponse>(employee, ApiUrls.employees.updateEmployee)
+      .put<User, ResultResponse>(employee, ApiUrl.employees.updateEmployee)
       .pipe(finalize(() => (this.loadingForm = false)))
       .subscribe({
         next: (result: ResultResponse) => {
           if (!result.succeeded) {
-            this.toastrService.error('Ha ocurrido un error al actualizar el empleado.');
+            this.snackBarService.error('Ha ocurrido un error al actualizar el empleado.');
 
             return;
           }
 
-          const url = CommonUtils.urlReplaceParams(SiteUrls.employees.details, { id: this.employeeId });
-          this.toastrService.success('Datos de empleado actualizados con éxito.');
+          const url = CommonUtils.urlReplaceParams(SiteUrl.employees.details, { id: this.employeeId });
+          this.snackBarService.success('Datos de empleado actualizados con éxito.');
           this.router.navigateByUrl(url);
         },
         error: (error: HttpErrorResponse) => {
@@ -103,9 +108,9 @@ export class EmployeeUpdateComponent {
 
   private setBreadcrumb(): void {
     this.breadcrumb
-      .add('Empleados', SiteUrls.employees.list)
+      .add('Empleados', SiteUrl.employees.list)
       .add('Detalles', this.urlEmployeeDetails)
-      .add('Editar', SiteUrls.employees.update, '', false);
+      .add('Editar', SiteUrl.employees.update, '', false);
   }
 
   private buildForm(): void {
@@ -114,13 +119,13 @@ export class EmployeeUpdateComponent {
       lastName: [this.employee?.lastName, [Validators.required]],
       email: [this.employee?.email, [Validators.email, Validators.required]],
       phoneNumber: [this.employee?.phoneNumber],
-      entryDate: [this.employee?.entryDate]
+      entryDate: [this.employee?.entryDate, [Validators.required]]
     });
   }
 
   private loadEmployee(): void {
     this.loadingEmployee = true;
-    const url = CommonUtils.urlReplaceParams(ApiUrls.employees.getEmployeeById, { id: this.employeeId });
+    const url = CommonUtils.urlReplaceParams(ApiUrl.employees.getEmployeeById, { id: this.employeeId });
 
     this.employeesApiService
       .get<User>(url)

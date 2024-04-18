@@ -1,5 +1,6 @@
-import { HtmlItemSelector } from './../../core/models/html-item-selector.model';
+import { DualListBoxItem } from './dual-list-box-item.model';
+
 export interface DualListBox {
-  itemsToAdd: HtmlItemSelector[];
-  itemsToRemove: HtmlItemSelector[];
+  itemsToAdd: DualListBoxItem[];
+  itemsToRemove: DualListBoxItem[];
 }

@@ -43,7 +43,7 @@ public class ResponseData<TResponse> : RequestData
             Ratio = request.Ratio,
             PageSize = request.PageSize,
             Items = mapper.Map<List<TResponse>>(items),
-            Orders = request.Orders,
+            Order = request.Order,
             Filters = request.Filters
         };
 

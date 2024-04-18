@@ -1,33 +1,37 @@
 <aw-page-base>
   <aw-page-header [breadcrumb]="breadcrumb">Añadir tiempo</aw-page-header>
 
-  <aw-card>
-    <!-- seleccionar empleado -->
-    @if (!employeeSelected()) {
-      <aw-time-control-select-employee />
-    }
-    <!-- end seleccionar empleado -->
-  </aw-card>
+  <!-- seleccionar empleado -->
+  <mat-card>
+    <mat-card-content>
+      @if (!employeeSelected()) {
+        <aw-time-control-select-employee />
+      }
+    </mat-card-content>
+  </mat-card>
 
   <!-- seleccionar tiempos -->
   @if (employeeSelected()) {
-    <aw-card>
-      <div class="row">
-        <div class="col text-center">
-          <button (click)="handleSelectEmployee()" class="btn btn-outline-primary">Seleccionar empleado</button>
+    <mat-card>
+      <mat-card-content>
+        <div class="d-flex justify-content-center">
+          <button mat-button color="primary" (click)="handleSelectEmployee()" class="btn btn-outline-primary">
+            Seleccionar empleado
+          </button>
         </div>
-      </div>
 
-      <span class="fs-6">
-        {{ employeeSelected()?.firstName }} {{ employeeSelected()?.lastName }} &lt;{{ employeeSelected()?.email }}&gt;
-      </span>
-    </aw-card>
+        <h3>
+          {{ employeeSelected()?.firstName }} {{ employeeSelected()?.lastName }} &lt;{{ employeeSelected()?.email }}&gt;
+        </h3>
+      </mat-card-content>
+    </mat-card>
 
-    <div class="mt-3"></div>
+    <div class="mt-2"></div>
 
-    <aw-card>
-      <aw-time-control-record-create-form />
-    </aw-card>
+    <mat-card>
+      <mat-card-content>
+        <aw-time-control-record-create-form />
+      </mat-card-content>
+    </mat-card>
   }
-  <!-- end seleccionar tiempos -->
 </aw-page-base>

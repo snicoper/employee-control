@@ -1,16 +1,19 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
-import { CardComponent } from '../../../components/cards/card/card.component';
+import { FieldErrorComponent } from '../../../components/forms/errors/field-error/field-error.component';
 import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
-import { FormFloatingComponent } from '../../../components/forms/inputs/form-floating/form-floating.component';
-import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
-import { FormInputTypes } from '../../../core/types/form-input-types';
-import { ApiUrls } from '../../../core/urls/api-urls';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
+import { PageSimpleComponent } from '../../../components/pages/page-simple/page-simple.component';
+import { FormInputType } from '../../../core/types/form-input-type';
+import { ApiUrl } from '../../../core/urls/api-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { BadRequest } from '../../../models/bad-request';
 import { ResultResponse } from '../../../models/result-response.model';
 import { AccountsApiService } from '../../../services/api/accounts-api.service';
@@ -22,14 +25,16 @@ import { RecoveryPasswordRequest } from './recovery-password-request.model';
   styleUrls: ['./recovery-password.component.scss'],
   standalone: true,
   imports: [
-    PageBaseComponent,
-    CardComponent,
-    FormsModule,
-    ReactiveFormsModule,
-    NonFieldErrorsComponent,
-    FormFloatingComponent,
     RouterLink,
-    BtnLoadingComponent
+    ReactiveFormsModule,
+    MatCardModule,
+    MatDivider,
+    MatButtonModule,
+    PageSimpleComponent,
+    FormInputComponent,
+    NonFieldErrorsComponent,
+    BtnLoadingComponent,
+    FieldErrorComponent
   ]
 })
 export class RecoveryPasswordComponent {
@@ -38,11 +43,11 @@ export class RecoveryPasswordComponent {
 
   form: FormGroup = this.formBuilder.group({});
   badRequest: BadRequest | undefined;
-  formInputTypes = FormInputTypes;
-  siteUrls = SiteUrls;
+  formInputType = FormInputType;
+  siteUrl = SiteUrl;
   submitted = false;
   loading = false;
-  hasResponse = false;
+  messageResponse = false;
 
   constructor() {
     this.buildForm();
@@ -50,7 +55,7 @@ export class RecoveryPasswordComponent {
 
   handleSubmit(): void {
     this.submitted = true;
-    this.hasResponse = false;
+    this.messageResponse = false;
 
     if (this.form.invalid) {
       return;
@@ -60,11 +65,11 @@ export class RecoveryPasswordComponent {
     const recoveryPasswordRequest = this.form.value as RecoveryPasswordRequest;
 
     this.accountsApiService
-      .post<RecoveryPasswordRequest, ResultResponse>(recoveryPasswordRequest, ApiUrls.accounts.recoveryPassword)
+      .post<RecoveryPasswordRequest, ResultResponse>(recoveryPasswordRequest, ApiUrl.accounts.recoveryPassword)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: () => {
-          this.hasResponse = true;
+          this.messageResponse = true;
         },
         error: (error: HttpErrorResponse) => {
           this.badRequest = error.error;

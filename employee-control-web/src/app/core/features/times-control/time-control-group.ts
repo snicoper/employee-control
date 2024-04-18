@@ -3,7 +3,7 @@ import { ProgressStackedCollection } from '../../../components/progress/progress
 import { ClosedBy } from '../../../models/entities/types/closed-by.model';
 import { CommonUtils } from '../../utils/common-utils';
 import { DateUtils } from '../../utils/date-utils';
-import { DatetimeUtils } from '../../utils/datetime-utils';
+import { DateTimeUtils } from '../../utils/datetime-utils';
 import { ProcessTimeControlGroups } from './process-time-control-groups';
 import { TimeControlGroupResponse, TimeResponse } from './times-control-response.model';
 
@@ -11,11 +11,11 @@ import { TimeControlGroupResponse, TimeResponse } from './times-control-response
  * Genera una lista de ProgressStackedCollection a partir de una lista de TimeControlGroupResponse.
  */
 export class TimeControlProgressStacked {
-  private readonly timeControlGroups: TimeControlGroupResponse[];
-  private readonly progressStackedCollections: ProgressStackedCollection[];
+  private readonly timeControlGroups: Array<TimeControlGroupResponse>;
+  private readonly progressStackedCollections: Array<ProgressStackedCollection>;
   private readonly minutesInDay: number;
 
-  constructor(timeControlGroups: TimeControlGroupResponse[], date: Date) {
+  constructor(timeControlGroups: Array<TimeControlGroupResponse>, date: DateTime) {
     this.minutesInDay = 60 * 24;
     this.progressStackedCollections = [];
 
@@ -23,8 +23,8 @@ export class TimeControlProgressStacked {
     this.timeControlGroups = processTimeControlGroups.process();
   }
 
-  /** Compone una lista de TimeControlGroupResponse[] a ProgressStackedCollection[]. */
-  compose(): ProgressStackedCollection[] {
+  /** Compone una lista de Array<TimeControlGroupResponse> a Array<ProgressStackedCollection>. */
+  compose(): Array<ProgressStackedCollection> {
     this.composeTimeControlGroups(this.timeControlGroups).forEach((progressStacked) =>
       this.progressStackedCollections.push(progressStacked)
     );
@@ -36,10 +36,12 @@ export class TimeControlProgressStacked {
    * Componer rango de tiempos para su representación.
    *
    * @param timeControlGroups Grupo de timeControl.
-   * @returns ProgressStackedCollection[].
+   * @returns Array<ProgressStackedCollection>.
    */
-  private composeTimeControlGroups = (timeControlGroups: TimeControlGroupResponse[]): ProgressStackedCollection[] => {
-    const progressStackedCollections: ProgressStackedCollection[] = [];
+  private composeTimeControlGroups = (
+    timeControlGroups: Array<TimeControlGroupResponse>
+  ): Array<ProgressStackedCollection> => {
+    const progressStackedCollections: Array<ProgressStackedCollection> = [];
 
     timeControlGroups.forEach((timeControlGroup: TimeControlGroupResponse) => {
       const progressStackedCollection = this.composeTimeControlGroup(timeControlGroup);
@@ -51,9 +53,9 @@ export class TimeControlProgressStacked {
   };
 
   /**
-   * Componer un grupo (día) de TimeControl[].
+   * Componer un grupo (día) de Array<TimeControl>.
    *
-   * @param timeControlGroup Un grupo TimeControlGroupResponse (día) de TimeControl[].
+   * @param timeControlGroup Un grupo TimeControlGroupResponse (día) de Array<TimeControl>.
    * @returns ProgressStackedCollection.
    */
   private composeTimeControlGroup(timeControlGroup: TimeControlGroupResponse): ProgressStackedCollection {
@@ -75,7 +77,7 @@ export class TimeControlProgressStacked {
       const dateTimeEnd = DateTime.fromJSDate(new Date(time.finish));
 
       // Calcular posición del día.
-      const diffDateTime = DatetimeUtils.duration(dateTimeStart, lastTimeCalculate);
+      const diffDateTime = DateTimeUtils.duration(dateTimeStart, lastTimeCalculate);
       const diffPercent = CommonUtils.calculatePercent(this.minutesInDay, diffDateTime);
 
       // Insertar tiempo de inactividad (progressStackedItem).
@@ -137,9 +139,9 @@ export class TimeControlProgressStacked {
     }
 
     switch (time.closedBy) {
-      case ClosedBy.unclosed:
+      case ClosedBy.Unclosed:
         return 'bg-primary';
-      case ClosedBy.system:
+      case ClosedBy.System:
         return 'bg-danger';
       default:
         return 'bg-success';

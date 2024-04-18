@@ -1,62 +1,80 @@
 <aw-page-base>
   <aw-page-header [breadcrumb]="breadcrumb">Departamentos</aw-page-header>
 
-  <aw-card>
-    <!-- toolbar -->
-    <div class="d-flex justify-content-between mb-2">
-      <span>
-        <a [routerLink]="siteUrls.departments.create" class="btn btn-sm btn-outline-success">
-          <span class="fa-solid fa-building-user"></span> Crear departamento
-        </a>
-      </span>
+  <mat-card>
+    <mat-card-content>
+      <!-- toolbar -->
+      <div class="d-flex flex-row">
+        <button mat-button color="primary" [routerLink]="siteUrl.departments.create">
+          <mat-icon>add</mat-icon> Crear departamento
+        </button>
+        <div class="ms-auto">
+          <aw-table-filter
+            (filterChange)="handleFilterChange($event)"
+            [apiResult]="apiResult"
+            [fieldsFilter]="fieldsFilter" />
+        </div>
+      </div>
 
-      <span>
-        <aw-table-input-search
-          (clickClean)="handleClickClean($event)"
-          [apiResult]="apiResult"
-          [tableHeaderConfig]="tableHeaderConfig" />
-      </span>
-    </div>
-    <!-- end toolbar -->
+      @if (!loading) {
+        <table mat-table matSort (matSortChange)="handleSortChange($event)" [dataSource]="dataSource">
+          <!-- name -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef="let row">
+              <aw-badge [background]="row.background" [color]="row.color">{{ row.name }}</aw-badge>
+            </td>
+          </ng-container>
 
-    <!-- table -->
-    <aw-table [apiResult]="apiResult" [loading]="loading">
-      <thead awThead>
-        <tr
-          (clickOrdering)="handleReloadData()"
-          [apiResult]="apiResult"
-          [tableHeaderConfig]="tableHeaderConfig"
-          awTableHeader></tr>
-      </thead>
+          <!-- active -->
+          <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Activo</th>
+            <td mat-cell *matCellDef="let row">
+              <span [innerHTML]="row.active | boolToIcon"></span>
+            </td>
+          </ng-container>
 
-      @if (apiResult) {
-        <tbody awTbody>
-          @for (department of apiResult.items; track department) {
-            <tr (click)="handleSelectItem(department)" class="cursor-pointer">
-              <td>
-                <aw-badge [background]="department.background" [color]="department.color" [name]="department.name" />
-              </td>
-              <td [innerHTML]="department.active | boolToIcon"></td>
-              <td>
-                <aw-dot [color]="department.background" />
-              </td>
-              <td>
-                <aw-dot [color]="department.color" />
-              </td>
-            </tr>
-          }
-        </tbody>
+          <!-- background -->
+          <ng-container matColumnDef="background">
+            <th mat-header-cell *matHeaderCellDef>Color de fondo</th>
+            <td mat-cell *matCellDef="let row">
+              <aw-dot [color]="row.background" />
+            </td>
+          </ng-container>
+
+          <!-- color -->
+          <ng-container matColumnDef="color">
+            <th mat-header-cell *matHeaderCellDef>Color de texto</th>
+            <td mat-cell *matCellDef="let row">
+              <aw-dot [color]="row.color" />
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="handleSelectRow(row)"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell p-4" [attr.colspan]="displayedColumns.length">No hay datos a mostrar</td>
+          </tr>
+        </table>
+
+        <!-- paginator -->
+        @if (dataSource) {
+          <mat-paginator
+            showFirstLastButtons
+            (page)="handlePageEvent($event)"
+            [length]="apiResult.totalItems"
+            [pageSize]="apiResult.pageSize"
+            [pageIndex]="apiResult.pageNumber - 1"
+            [pageSizeOptions]="[25, 50, 100]"
+            aria-label="Selección de pagina" />
+        }
+      } @else {
+        <!-- spinner -->
+        <div class="d-flex justify-content-center p-5">
+          <mat-progress-spinner color="primary" mode="indeterminate" />
+        </div>
       }
-    </aw-table>
-    <!-- end table -->
-
-    <!-- pagination -->
-    @if (apiResult) {
-      <aw-pagination
-        (changePage)="handleReloadData()"
-        (changePageListNumber)="handleReloadData()"
-        [apiResult]="apiResult" />
-    }
-    <!-- end pagination -->
-  </aw-card>
+    </mat-card-content>
+  </mat-card>
 </aw-page-base>

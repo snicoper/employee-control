@@ -1,6 +1,6 @@
 /** Tipos de ordenación. */
-export enum OrderTypes {
-  none = 'None',
-  ascending = 'ASC',
-  descending = 'DESC'
+export enum OrderType {
+  None = 'None',
+  Ascending = 'ASC',
+  Descending = 'DESC'
 }

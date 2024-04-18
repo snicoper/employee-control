@@ -1,87 +1,88 @@
-import { Component, Input, OnDestroy, computed, inject } from '@angular/core';
+import { Component, OnInit, computed, inject, input } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDivider } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
-import { DateTime } from 'luxon';
-import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
-import { BadgeComponent } from '../../../../components/badges/badge/badge.component';
+import { BadgeComponent } from '../../../../components/badge/badge.component';
 import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
-import { CardComponent } from '../../../../components/cards/card/card.component';
-import { TableLoadingComponent } from '../../../../components/tables/table-loading/table-loading.component';
-import { ApiUrls } from '../../../../core/urls/api-urls';
-import { SiteUrls } from '../../../../core/urls/site-urls';
+import { ApiUrl } from '../../../../core/urls/api-urls';
+import { SiteUrl } from '../../../../core/urls/site-urls';
 import { CommonUtils } from '../../../../core/utils/common-utils';
 import { BoolToIconPipe } from '../../../../pipes/bool-to-icon.pipe';
 import { DatetimePipe } from '../../../../pipes/datetime.pipe';
 import { CompanyTaskApiService } from '../../../../services/api/company-task-api.service';
-import { CompanyTaskSelectedService } from '../company-task-selected.service';
+import { SnackBarService } from '../../../../services/snackbar.service';
+import { CompanyTaskViewService } from '../company-task-view.service';
 
 @Component({
   selector: 'aw-company-task-details',
   templateUrl: './company-task-details.component.html',
   standalone: true,
   imports: [
-    CardComponent,
+    RouterLink,
+    MatCardModule,
+    MatCardModule,
+    MatButton,
+    MatIcon,
+    MatDivider,
+    MatProgressSpinner,
     BadgeComponent,
     BtnLoadingComponent,
-    TableLoadingComponent,
     BtnBackComponent,
-    RouterLink,
     BoolToIconPipe,
     DatetimePipe
   ]
 })
-export class CompanyTaskDetailsComponent implements OnDestroy {
-  @Input({ required: true }) companyTaskId = '';
-
-  private readonly toastrService = inject(ToastrService);
-  private readonly companyTaskSelectedService = inject(CompanyTaskSelectedService);
+export class CompanyTaskDetailsComponent implements OnInit {
+  private readonly snackBarService = inject(SnackBarService);
+  private readonly companyTaskViewService = inject(CompanyTaskViewService);
   private readonly companyTaskApiService = inject(CompanyTaskApiService);
 
-  readonly companyTaskSelected = computed(() => this.companyTaskSelectedService.companyTaskSelected());
-  readonly companyTaskLoading = computed(() => this.companyTaskSelectedService.companyTaskLoading());
+  companyTaskId = input.required<string>();
 
-  readonly dateShort = DateTime.DATE_SHORT;
+  readonly companyTaskSelected = computed(() => this.companyTaskViewService.companyTaskSelected());
+  readonly companyTaskVLoading = computed(() => this.companyTaskViewService.companyTaskVLoading());
 
+  urlToEdit!: string;
   loadingStateTask = false;
-  siteUrls = SiteUrls;
+  siteUrl = SiteUrl;
 
-  get urlToEdit(): string {
-    return CommonUtils.urlReplaceParams(SiteUrls.companyTasks.update, { id: this.companyTaskId });
-  }
-
-  ngOnDestroy(): void {
-    this.companyTaskSelectedService.clean();
+  ngOnInit(): void {
+    this.urlToEdit = CommonUtils.urlReplaceParams(SiteUrl.companyTasks.update, { id: this.companyTaskId() });
   }
 
   handleActivateTask(): void {
     this.loadingStateTask = true;
-    const url = CommonUtils.urlReplaceParams(ApiUrls.companyTasks.activateCompanyTask, { id: this.companyTaskId });
-    const data = { companyTaskId: this.companyTaskId };
+    const url = CommonUtils.urlReplaceParams(ApiUrl.companyTasks.activateCompanyTask, { id: this.companyTaskId() });
+    const data = { companyTaskId: this.companyTaskId() };
 
     this.companyTaskApiService
       .put<typeof data, undefined>(data, url)
       .pipe(finalize(() => (this.loadingStateTask = false)))
       .subscribe({
         next: () => {
-          this.toastrService.success('Tareas activada con éxito.');
-          this.companyTaskSelectedService.loadData(this.companyTaskId);
+          this.snackBarService.success('Tareas activada con éxito.');
+          this.companyTaskViewService.loadCompanyTaskById(this.companyTaskId());
         }
       });
   }
 
   handleDeactivateTask(): void {
     this.loadingStateTask = true;
-    const url = CommonUtils.urlReplaceParams(ApiUrls.companyTasks.deactivateCompanyTask, { id: this.companyTaskId });
-    const data = { companyTaskId: this.companyTaskId };
+    const url = CommonUtils.urlReplaceParams(ApiUrl.companyTasks.deactivateCompanyTask, { id: this.companyTaskId() });
+    const data = { companyTaskId: this.companyTaskId() };
 
     this.companyTaskApiService
       .put<typeof data, undefined>(data, url)
       .pipe(finalize(() => (this.loadingStateTask = false)))
       .subscribe({
         next: () => {
-          this.toastrService.success('Tareas desactivada con éxito.');
-          this.companyTaskSelectedService.loadData(this.companyTaskId);
+          this.snackBarService.success('Tareas desactivada con éxito.');
+          this.companyTaskViewService.loadCompanyTaskById(this.companyTaskId());
         }
       });
   }

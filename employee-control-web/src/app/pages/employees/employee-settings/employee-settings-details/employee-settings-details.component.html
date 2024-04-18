@@ -1,30 +1,33 @@
 <aw-page-base>
   <aw-page-header [breadcrumb]="breadcrumb">Configuración de empleado</aw-page-header>
 
-  <aw-card>
-    <a [routerLink]="[siteUrls.employees.settingsUpdate]" class="mb-3 btn btn-sm btn-outline-success">
-      <span class="fa-solid fa-pencil"></span> Editar
-    </a>
+  <mat-card>
+    <mat-card-content>
+      <!-- toolbar -->
+      <button mat-button color="primary" [routerLink]="[siteUrl.employees.settingsUpdate]">
+        <mat-icon>edit</mat-icon> Editar
+      </button>
 
-    <table class="table table-striped table-borderless">
-      <caption></caption>
-      <thead>
-        <!-- details -->
-        @if (!loadingEmployeeSettings()) {
-          <tr>
-            <th>
-              Zona horaria
-              <aw-tooltip-info content="Los tiempos se vera en base a la zona horaria" cssClass="text-info" />
-            </th>
-            <td>{{ employeeSettings()?.timezone }} - {{ nowWithTimezone }}</td>
-          </tr>
-        }
-        <!-- end details -->
-
+      <!-- table -->
+      @if (!loadingEmployeeSettings()) {
+        <table class="table-list">
+          <tbody>
+            <!-- timezone -->
+            <tr class="table-list-row">
+              <td>
+                Zona horaria
+                <mat-icon matTooltip="Los tiempos se vera en base a la zona horaria" color="primary">info</mat-icon>
+              </td>
+              <td>{{ employeeSettings()?.timezone }} - {{ nowWithTimezone }}</td>
+            </tr>
+          </tbody>
+        </table>
+      } @else {
         <!-- spinner -->
-        <aw-table-loading [loading]="loadingEmployeeSettings()" />
-        <!-- end spinner -->
-      </thead>
-    </table>
-  </aw-card>
+        <div class="d-flex justify-content-center my-5">
+          <mat-progress-spinner color="primary" mode="indeterminate" />
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
 </aw-page-base>

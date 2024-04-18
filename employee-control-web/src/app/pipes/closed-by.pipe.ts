@@ -8,11 +8,11 @@ import { ClosedBy } from '../models/entities/types/closed-by.model';
 export class ClosedByPipe implements PipeTransform {
   transform(value: ClosedBy): string {
     switch (value) {
-      case ClosedBy.employee:
+      case ClosedBy.Employee:
         return 'Empleado';
-      case ClosedBy.staff:
+      case ClosedBy.Staff:
         return 'Staff';
-      case ClosedBy.system:
+      case ClosedBy.System:
         return 'Sistema';
       default:
         return ' ';

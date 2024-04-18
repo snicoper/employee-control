@@ -1,15 +1,18 @@
 import { Location } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'aw-btn-back',
-  templateUrl: './btn-back.component.html',
-  standalone: true
+  standalone: true,
+  imports: [MatButtonModule, MatIconModule],
+  templateUrl: './btn-back.component.html'
 })
 export class BtnBackComponent {
-  @Input() cssClass = 'btn btn-primary';
-  @Input() icon = 'fa-solid fa-chevron-left';
-  @Input() text = 'Volver';
+  color = input('accent');
+  icon = input('arrow_back_ios');
+  text = input('Volver');
 
   private readonly location = inject(Location);
 

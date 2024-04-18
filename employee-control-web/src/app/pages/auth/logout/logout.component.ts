@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { JwtService } from '../../../services/jwt.service';
 import { UserStatesService } from '../../../services/states/user-states.service';
 
@@ -17,6 +17,6 @@ export class LogoutComponent {
   constructor() {
     this.jwtService.removeTokens();
     this.userStatesService.clean();
-    this.router.navigateByUrl(SiteUrls.auth.login);
+    this.router.navigateByUrl(SiteUrl.auth.login);
   }
 }

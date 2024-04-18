@@ -8,12 +8,12 @@ public abstract class Roles
     /// <summary>
     /// Administrador de empresa.
     /// </summary>
-    public const string EnterpriseAdmin = nameof(EnterpriseAdmin);
+    public const string Admin = nameof(Admin);
 
     /// <summary>
     /// Staff de empresa.
     /// </summary>
-    public const string EnterpriseStaff = nameof(EnterpriseStaff);
+    public const string Staff = nameof(Staff);
 
     /// <summary>
     /// Recursos humanos (RRHH) de empresa.

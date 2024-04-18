@@ -1,7 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
-import { Roles } from '../../../core/types/roles';
-import { ApiUrls } from '../../../core/urls/api-urls';
+import { Role } from '../../../core/types/role';
+import { ApiUrl } from '../../../core/urls/api-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
 import { UserRole } from '../../../models/entities/user-role.model';
 import { User } from '../../../models/entities/user.model';
@@ -23,27 +23,24 @@ export class EmployeeSelectedService {
   private readonly employeeSelected$ = signal<User | null>(null);
   private readonly employeeSelectedRoles$ = signal<UserRole[]>([]);
   private readonly timeControlStateResponse$ = signal<TimeControlStateResponse | null>(null);
-
   private readonly loadingEmployee$ = signal(false);
   private readonly loadingEmployeeRoles$ = signal(false);
   private readonly loadingEmployeeTimeControlState$ = signal(false);
 
   readonly employeeSelected = computed(() => this.employeeSelected$());
   readonly employeeSelectedRoles = computed(() => this.employeeSelectedRoles$());
-
+  readonly employeeTimeControlState = computed(() => this.timeControlStateResponse$());
   readonly loadingEmployee = computed(() => this.loadingEmployee$());
   readonly loadingEmployeeRoles = computed(() => this.loadingEmployeeRoles$());
-
-  readonly employeeTimeControlState = computed(() => this.timeControlStateResponse$());
   readonly loadingEmployeeTimeControlState = computed(() => this.loadingEmployeeTimeControlState$());
 
-  isInRole(role: Roles): boolean {
+  isInRole(role: Role): boolean {
     const index = this.employeeSelectedRoles$().findIndex((r) => r.name === role);
 
     return index >= 0;
   }
 
-  cleanData(): void {
+  clean(): void {
     this.employeeSelected$.set(null);
     this.employeeSelectedRoles$.set([]);
     this.timeControlStateResponse$.set(null);
@@ -54,9 +51,9 @@ export class EmployeeSelectedService {
     this.loadingEmployeeRoles$.set(true);
     this.loadingEmployeeTimeControlState$.set(true);
 
-    const urlEmployee = CommonUtils.urlReplaceParams(ApiUrls.employees.getEmployeeById, { id: employeeId });
+    const urlEmployee = CommonUtils.urlReplaceParams(ApiUrl.employees.getEmployeeById, { id: employeeId });
     const urlEmployeeRoles = `${urlEmployee}/roles`;
-    const urlTimeState = CommonUtils.urlReplaceParams(ApiUrls.timeControl.getTimeStateOpenByEmployeeId, {
+    const urlTimeState = CommonUtils.urlReplaceParams(ApiUrl.timeControl.getTimeStateOpenByEmployeeId, {
       employeeId: employeeId
     });
 

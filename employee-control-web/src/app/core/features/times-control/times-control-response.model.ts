@@ -6,7 +6,7 @@ export interface TimeControlGroupResponse {
   day: number;
   dayTitle: string;
   totalMinutes: number;
-  times: TimeResponse[];
+  times: Array<TimeResponse>;
 }
 
 export interface TimeResponse {

@@ -1,5 +1,5 @@
-/** URLs en la API. */
-export const ApiUrls = {
+/** API URLs. */
+export const ApiUrl = {
   auth: {
     login: '/auth/login',
     refreshToken: '/auth/refresh-token'

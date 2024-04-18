@@ -1,16 +1,15 @@
-import { NgClass } from '@angular/common';
-import { Component, forwardRef, inject, Input } from '@angular/core';
-import { FormGroup, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { BsDatepickerConfig, BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { LocalizationUtils } from '../../../../core/features/localizations/localization-utils';
-import { LocalizationService } from '../../../../core/features/localizations/localization.service';
-import { FormInputTypes } from '../../../../core/types/form-input-types';
+import { Component, forwardRef, input } from '@angular/core';
+import { ControlValueAccessor, FormGroup, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { DateTime } from 'luxon';
+import { FormInputType } from '../../../../core/types/form-input-type';
 import { BadRequest } from '../../../../models/bad-request';
 import { FieldErrorComponent } from '../../errors/field-error/field-error.component';
 
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 /* eslint-disable  @typescript-eslint/no-unused-vars */
-/* eslint-disable  @typescript-eslint/no-empty-function */
 
 @Component({
   selector: 'aw-form-datepicker',
@@ -23,48 +22,28 @@ import { FieldErrorComponent } from '../../errors/field-error/field-error.compon
     }
   ],
   standalone: true,
-  imports: [BsDatepickerModule, FormsModule, NgClass, FieldErrorComponent]
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, FieldErrorComponent]
 })
-export class FormDatepickerComponent {
-  private readonly bsLocaleService = inject(BsLocaleService);
-  private readonly localizationService = inject(LocalizationService);
+export class FormDatepickerComponent implements ControlValueAccessor {
+  badRequest = input.required<BadRequest | undefined>();
+  form = input.required<FormGroup>();
+  submitted = input.required<boolean>();
+  fieldName = input.required<string>();
+  label = input.required<string>();
+  id = input(Math.random.toString());
+  formInputType = input(FormInputType.Text);
+  readonly = input(false);
+  placeholder = input('');
 
-  @Input({ required: true }) badRequest: BadRequest | undefined;
-  @Input({ required: true }) form: FormGroup | undefined;
-  @Input({ required: true }) submitted = false;
-  @Input({ required: true }) fieldName = '';
-  @Input() bsConfig: Partial<BsDatepickerConfig>;
-  @Input() id: string;
-  @Input() inputType = FormInputTypes.text;
-  @Input() label = '';
-  @Input() extraCss = '';
-  @Input() placeholder = '';
-
-  value?: Date;
+  value?: DateTime;
   isDisabled = false;
 
-  constructor() {
-    this.id = Math.random().toString();
-
-    // Locale BsDatepicker.
-    const localeNgxBootstrap = LocalizationUtils.mapLocaleToNgxBootstrap(this.localizationService.getLocaleValue());
-    this.bsLocaleService.use(localeNgxBootstrap);
-
-    // Default BsDatepickerConfig.
-    this.bsConfig = {
-      containerClass: 'theme-default',
-      showWeekNumbers: false,
-      dateInputFormat: 'LL',
-      adaptivePosition: true
-    };
-  }
-
-  onChange = (_: Date): void => {};
+  onChange = (_: DateTime): void => {};
 
   onTouch = (): void => {};
 
-  writeValue(value: Date): void {
-    if (value !== undefined && value !== this.value) {
+  writeValue(value: DateTime): void {
+    if (value !== this.value) {
       this.value = value || undefined;
       this.onChange(this.value);
     } else {
@@ -84,13 +63,7 @@ export class FormDatepickerComponent {
     this.isDisabled = isDisabled;
   }
 
-  onChangeValue(value: Date): void {
+  onChangeValue(value: DateTime): void {
     this.onChange(value);
-  }
-
-  isInvalid(): boolean {
-    const control = this.form?.get(this.fieldName) as FormGroup;
-
-    return !!((this.submitted && control.invalid) || this.badRequest?.errors[this.fieldName]);
   }
 }

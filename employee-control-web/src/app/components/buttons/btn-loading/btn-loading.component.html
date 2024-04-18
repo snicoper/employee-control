@@ -1,18 +1,24 @@
-<button (click)="handleClick()" [class]="btnClass" [disabled]="disabled || loading" [type]="btnType">
-  @if (!loading) {
-    <span>
-      <ng-content />
-      @if (btnIcon) {
-        <span [class]="btnIcon"></span>
-      }
-      {{ btnText }}
-    </span>
-  }
-
-  <aw-spinner
-    [color]="spinnerColor"
-    [extraCss]="spinnerClass"
-    [loading]="loading"
-    [size]="spinnerSize"
-    [text]="spinnerLoadingText" />
-</button>
+@if (loading()) {
+  <button
+    mat-flat-button
+    (click)="handleClick()"
+    [ngClass]="extraCss()"
+    [color]="color()"
+    [type]="btnType()"
+    [disabled]="disabled()">
+    <mat-spinner [color]="spinnerColor()" [diameter]="25"></mat-spinner> {{ btnTextLoading() }}
+  </button>
+} @else {
+  <button
+    mat-flat-button
+    (click)="handleClick()"
+    [ngClass]="extraCss()"
+    [color]="color()"
+    [type]="btnType()"
+    [disabled]="disabled()">
+    @if (icon()) {
+      <mat-icon>{{ icon() }}</mat-icon>
+    }
+    {{ btnText() }}
+  </button>
+}

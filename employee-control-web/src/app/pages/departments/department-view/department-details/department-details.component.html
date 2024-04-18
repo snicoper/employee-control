@@ -1,58 +1,58 @@
-<aw-card>
-  <table class="table table-striped table-borderless">
-    <!-- sonarLint -->
-    <caption></caption>
-    <thead>
-      <th></th>
-    </thead>
-    <!-- end sonarLint -->
-
-    <!-- data company task -->
-    <tbody>
-      @if (departmentSelected() && !loadingDepartmentSelected()) {
-        <tr>
-          <td>Nombre</td>
-          <td>
-            <aw-badge
-              [background]="departmentSelected()?.background"
-              [color]="departmentSelected()?.color"
-              [name]="departmentSelected()?.name" />
-          </td>
-        </tr>
-        <tr>
-          <td>Activa</td>
-          <td>
-            <span class="d-flex">
+<mat-card>
+  <mat-card-content>
+    <!-- data department -->
+    <table class="table-list">
+      <tbody>
+        @if (departmentSelected() && !departmentSelectedLoading()) {
+          <tr class="table-list-row">
+            <td>Nombre</td>
+            <td>
+              <aw-badge [background]="departmentSelected()?.background" [color]="departmentSelected()?.color">
+                {{ departmentSelected()?.name }}
+              </aw-badge>
+            </td>
+          </tr>
+          <tr class="table-list-row">
+            <td>Activo</td>
+            <td>
               <span [innerHTML]="departmentSelected()?.active | boolToIcon"></span>
-              <span class="ms-auto">
-                @if (departmentSelected()?.active) {
-                  <aw-btn-loading
-                    (click)="handleDeactivateDepartment()"
-                    [loading]="loadingDepartmentState"
-                    btnClass="btn btn-sm btn-outline-danger"
-                    btnText="Desactivar" />
-                }
-                @if (!departmentSelected()?.active) {
-                  <aw-btn-loading
-                    (click)="handleActivateDepartment()"
-                    [loading]="loadingDepartmentState"
-                    btnClass="btn btn-sm btn-outline-success"
-                    btnText="Activar" />
-                }
-              </span>
-            </span>
-          </td>
-        </tr>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <!-- spinner -->
+    @if (departmentSelectedLoading()) {
+      <div class="d-flex justify-content-center p-5">
+        <mat-progress-spinner color="primary" mode="indeterminate" />
+      </div>
+    }
+
+    <mat-divider />
+
+    <!-- buttons -->
+    <div class="mt-2">
+      <aw-btn-back class="me-2" />
+      <button mat-flat-button color="primary" class="me-2" [routerLink]="urlToEdit">
+        <mat-icon>edit</mat-icon> Editar
+      </button>
+
+      @if (departmentSelected()?.active) {
+        <aw-btn-loading
+          color="warn"
+          btnText="Desactivar"
+          icon="toggle_off"
+          (click)="handleDeactivateDepartment()"
+          [loading]="loadingDepartmentState" />
+      } @else {
+        <aw-btn-loading
+          color="primary"
+          btnText="Activar"
+          icon="toggle_on"
+          (click)="handleActivateDepartment()"
+          [loading]="loadingDepartmentState" />
       }
-      <!-- end data company task -->
-
-      <!-- spinner -->
-      <aw-table-loading [loading]="loadingDepartmentSelected()" />
-      <!-- end spinner -->
-    </tbody>
-  </table>
-
-  <aw-btn-back />
-
-  <button [routerLink]="urlToEdit" class="btn btn-success ms-2"><span class="fa-solid fa-pencil"></span> Editar</button>
-</aw-card>
+    </div>
+  </mat-card-content>
+</mat-card>

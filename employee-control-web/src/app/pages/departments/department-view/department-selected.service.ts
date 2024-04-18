@@ -1,31 +1,37 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { finalize } from 'rxjs';
-import { ApiUrls } from '../../../core/urls/api-urls';
+import { ApiUrl } from '../../../core/urls/api-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
 import { Department } from '../../../models/entities/department.model';
 import { DepartmentApiService } from '../../../services/api/department-api.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class DepartmentSelectedService {
   private readonly departmentApiService = inject(DepartmentApiService);
 
   private readonly departmentSelected$ = signal<Department | null>(null);
-  private readonly loadingDepartmentSelected$ = signal(false);
+  private readonly departmentSelectedLoading$ = signal(false);
+  private readonly tabSelected$ = signal<'user-list' | 'add-users'>('user-list');
 
   readonly departmentSelected = computed(() => this.departmentSelected$());
-  readonly loadingDepartmentSelected = computed(() => this.loadingDepartmentSelected$());
+  readonly departmentSelectedLoading = computed(() => this.departmentSelectedLoading$());
+  readonly tabSelected = computed(() => this.tabSelected$());
 
-  clean(): void {
-    this.departmentSelected$.set(null);
+  toggleTabSelected(): void {
+    if (this.tabSelected$() === 'user-list') {
+      this.tabSelected$.set('add-users');
+    } else {
+      this.tabSelected$.set('user-list');
+    }
   }
 
   loadDepartmentById(id: string): void {
-    this.loadingDepartmentSelected$.set(true);
-    const url = CommonUtils.urlReplaceParams(ApiUrls.departments.getDepartmentById, { id: id });
+    this.departmentSelectedLoading$.set(true);
+    const url = CommonUtils.urlReplaceParams(ApiUrl.departments.getDepartmentById, { id: id });
 
     this.departmentApiService
       .get<Department>(url)
-      .pipe(finalize(() => this.loadingDepartmentSelected$.set(false)))
+      .pipe(finalize(() => this.departmentSelectedLoading$.set(false)))
       .subscribe({
         next: (result: Department) => {
           this.departmentSelected$.set(result);

@@ -1,0 +1,30 @@
+@import "../variables";
+
+.alert {
+  padding: 1.3rem;
+  border-radius: 4px;
+
+  &.alert-success {
+    border: 1px solid darken($aw-color-success, 10);
+    background-color: $aw-color-success;
+    color: darken($aw-color-success, 60);
+  }
+
+  &.alert-info {
+    border: 1px solid darken($aw-color-info, 10);
+    background-color: $aw-color-info;
+    color: darken($aw-color-info, 60);
+  }
+
+  &.alert-warning {
+    border: 1px solid darken($aw-color-warning, 10);
+    background-color: $aw-color-warning;
+    color: darken($aw-color-warning, 60);
+  }
+
+  &.alert-danger {
+    border: 1px solid darken($aw-color-danger, 10);
+    background-color: $aw-color-danger;
+    color: darken($aw-color-danger, 60);
+  }
+}

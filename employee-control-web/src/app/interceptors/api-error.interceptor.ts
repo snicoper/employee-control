@@ -8,21 +8,21 @@ import {
 } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { Observable, finalize, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { logDebug, logWarning } from '../core/errors/log-messages';
-import { ValidationErrors } from '../core/types/validation-errors';
-import { SiteUrls } from '../core/urls/site-urls';
+import { ValidationError } from '../core/types/validation-error';
+import { SiteUrl } from '../core/urls/site-urls';
 import { BadRequestErrors } from '../models/bad-request-errors';
 import { RefreshTokenResponse } from '../models/refresh-token-response.model';
 import { JwtService } from '../services/jwt.service';
+import { SnackBarService } from '../services/snackbar.service';
 
 @Injectable()
 export class ApiErrorInterceptor implements HttpInterceptor {
   private readonly router = inject(Router);
   private readonly jwtService = inject(JwtService);
-  private readonly toastrService = inject(ToastrService);
+  private readonly snackBarService = inject(SnackBarService);
 
   /** Handle error de la aplicación. */
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -54,7 +54,7 @@ export class ApiErrorInterceptor implements HttpInterceptor {
   /** Manejar error Unauthorized. */
   private handleUnauthorized(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (!this.jwtService.existsTokens()) {
-      this.router.navigate([SiteUrls.auth.login]);
+      this.router.navigate([SiteUrl.auth.login]);
 
       return next.handle(request);
     }
@@ -92,23 +92,23 @@ export class ApiErrorInterceptor implements HttpInterceptor {
 
   /** Manejar error Forbidden.  */
   private handleForbidden(): void {
-    this.router.navigateByUrl(SiteUrls.errors.forbidden);
+    this.router.navigateByUrl(SiteUrl.errors.forbidden);
   }
 
   /** Manejar error BadRequest. */
   private handleBadRequest(errorResponse: HttpErrorResponse): void {
     const errors = errorResponse.error.errors as BadRequestErrors;
 
-    if (Object.hasOwn(errors, ValidationErrors.notificationErrors)) {
-      errors[ValidationErrors.notificationErrors].forEach((error: string) => {
-        this.toastrService.error(error);
+    if (Object.hasOwn(errors, ValidationError.NotificationErrors)) {
+      errors[ValidationError.NotificationErrors].forEach((error: string) => {
+        this.snackBarService.error(error);
       });
     }
   }
 
   /** Errores 500. */
   private handleUnknownError(): void {
-    this.toastrService.error(
+    this.snackBarService.error(
       `Ha ocurrido un error, por favor si el problema persiste póngase en contacto con la administración.`
     );
   }

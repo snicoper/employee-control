@@ -6,7 +6,7 @@ using MediatR;
 
 namespace EmployeeControl.Application.Features.CompanySettings.Commands.UpdateCompanySettings;
 
-[Authorize(Roles = Roles.EnterpriseStaff)]
+[Authorize(Roles = Roles.Staff)]
 public record UpdateCompanySettingsCommand(
     string Id,
     string Timezone,

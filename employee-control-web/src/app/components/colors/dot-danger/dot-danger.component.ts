@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { DotComponent } from '../dot/dot.component';
 
 @Component({
@@ -7,4 +7,6 @@ import { DotComponent } from '../dot/dot.component';
   standalone: true,
   imports: [DotComponent]
 })
-export class DotDangerComponent {}
+export class DotDangerComponent {
+  size = input('25');
+}

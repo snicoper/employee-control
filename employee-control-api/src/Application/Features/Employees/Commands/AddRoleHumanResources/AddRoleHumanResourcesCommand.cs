@@ -5,5 +5,5 @@ using MediatR;
 
 namespace EmployeeControl.Application.Features.Employees.Commands.AddRoleHumanResources;
 
-[Authorize(Roles = Roles.EnterpriseAdmin)]
+[Authorize(Roles = Roles.Admin)]
 public record AddRoleHumanResourcesCommand(string EmployeeId) : IRequest<Result>;

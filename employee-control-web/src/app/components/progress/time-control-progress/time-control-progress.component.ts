@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { SpinnerComponent } from '../../spinner/spinner.component';
+import { Component, input, output } from '@angular/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProgressStackedCollection } from '../progress-stacked/progress-stacked-collection';
 import { ProgressStackedItem } from '../progress-stacked/progress-stacked-item.model';
 import { ProgressStackedComponent } from '../progress-stacked/progress-stacked.component';
@@ -8,13 +8,13 @@ import { ProgressStackedComponent } from '../progress-stacked/progress-stacked.c
   selector: 'aw-time-control-progress',
   templateUrl: './time-control-progress.component.html',
   standalone: true,
-  imports: [ProgressStackedComponent, SpinnerComponent]
+  imports: [ProgressStackedComponent, MatProgressSpinnerModule]
 })
 export class TimeControlProgressComponent {
-  @Input({ required: true }) progressStackedCollection: ProgressStackedCollection[] = [];
-  @Input({ required: true }) loading = false;
+  progressStackedCollection = input.required<Array<ProgressStackedCollection>>();
+  loading = input.required<boolean>();
 
-  @Output() clickProgress = new EventEmitter<ProgressStackedItem>();
+  clickProgress = output<ProgressStackedItem>();
 
   handleClickProgress(progressStackedItem: ProgressStackedItem): void {
     this.clickProgress.emit(progressStackedItem);

@@ -1,14 +1,13 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { DateTime, Settings } from 'luxon';
-import { defineLocale, esLocale } from 'ngx-bootstrap/chronos';
-import { LocalStorageService } from '../../../services/local-storage.service';
-import { LocalStorageKeys } from '../../types/local-storage-keys';
+import { BrowserStorageService } from '../../../services/browser-storage.service';
+import { BrowserStorageKey } from '../../types/browser-storage-key';
 import { LocalesSupported } from './locales-supported';
 import { LocalizationUtils } from './localization-utils';
 
 @Injectable({ providedIn: 'root' })
 export class LocalizationService {
-  private readonly localStorageService = inject(LocalStorageService);
+  private readonly browserStorageService = inject(BrowserStorageService);
 
   private readonly locale$ = signal(LocalizationUtils.defaultLocale);
   private readonly timezone$ = signal(LocalizationUtils.defaultTimezone);
@@ -16,7 +15,7 @@ export class LocalizationService {
   initialize(locale?: LocalesSupported): void {
     // Precedencia: localStorage -> parámetro -> defaultLocale.
     locale =
-      (this.localStorageService.get(LocalStorageKeys.locale) as LocalesSupported) ??
+      (this.browserStorageService.get(BrowserStorageKey.Locale) as LocalesSupported) ??
       locale ??
       DateTime.now().resolvedLocaleOptions().locale;
 
@@ -39,10 +38,6 @@ export class LocalizationService {
   setLocale(locale: LocalesSupported): void {
     this.locale$.set(locale);
     Settings.defaultLocale = this.locale$();
-    this.localStorageService.set(LocalStorageKeys.locale, this.locale$());
-
-    // Establecer locale en ngx-bootstrap.
-    defineLocale(LocalesSupported.es, esLocale);
   }
 
   /** Establecer timezone del usuario actual. */

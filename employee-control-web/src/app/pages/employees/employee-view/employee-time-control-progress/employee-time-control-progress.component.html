@@ -2,8 +2,11 @@
   <h3 class="m-auto">Control de tiempos</h3>
 </div>
 
-<div class="my-3">
-  <aw-month-selector (changeMonthSelected)="handleDateSelected($event)" [dateSelected]="dateSelected" />
+<div class="d-flex justify-content-end my-3">
+  <aw-month-selector
+    (changeMonthSelected)="handleDateSelected($event)"
+    [dateSelected]="dateSelected"
+    [readOnly]="true" />
 </div>
 
 <div class="d-flex my-3">
@@ -16,5 +19,4 @@
     (clickProgress)="handleClickProgress($event)"
     [loading]="loadingTimeControls"
     [progressStackedCollection]="progressStackedCollection" />
-  <!-- end times -->
 </div>

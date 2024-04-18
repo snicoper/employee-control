@@ -1,45 +1,41 @@
 <aw-page-base>
   <aw-page-header [breadcrumb]="breadcrumb">Editar Configuración</aw-page-header>
 
-  <aw-card>
-    <form (ngSubmit)="handleSubmit()" [formGroup]="form">
-      <!-- timezone -->
-      <div class="mb-2">
-        <aw-form-timezone
-          [badRequest]="badRequest"
-          [form]="form"
-          [submitted]="submitted"
-          fieldName="timezone"
-          formControlName="timezone"
-          label="Zona horaria" />
+  <mat-card>
+    <mat-card-content>
+      <form (ngSubmit)="handleSubmit()" [formGroup]="form">
+        <!-- timezone -->
+        <div class="mb-2">
+          <aw-form-timezone
+            [badRequest]="badRequest"
+            [form]="form"
+            [submitted]="submitted"
+            fieldName="timezone"
+            formControlName="timezone"
+            label="Zona horaria" />
 
-        <!-- comparación de horas. -->
-        @if (nowWithOriginalTimezone) {
-          <span class="text-muted small">
-            Hora actual seleccionada: <strong>{{ nowWithOriginalTimezone }}</strong>
-          </span>
-        }
+          <!-- comparación de horas. -->
+          @if (nowWithOriginalTimezone) {
+            <span class="small">
+              Hora actual seleccionada: <strong>{{ nowWithOriginalTimezone }}</strong>
+            </span>
+          }
 
-        @if (nowWithTimezoneSelected) {
-          <span class="text-muted small">
-            - Nueva hora seleccionada: <strong>{{ nowWithTimezoneSelected }}</strong>
-          </span>
-        }
-        <!-- end comparación de horas. -->
-      </div>
-      <!-- end timezone -->
+          @if (nowWithTimezoneSelected) {
+            <span class="small">
+              - Nueva hora seleccionada: <strong>{{ nowWithTimezoneSelected }}</strong>
+            </span>
+          }
+        </div>
 
-      <!-- buttons-->
-      <div class="mt-2">
-        <aw-btn-back cssClass="me-2 btn btn-primary" />
+        <mat-divider />
 
-        <aw-btn-loading
-          [loading]="loadingForm"
-          btnClass="btn btn-success"
-          btnIcon="fa-solid fa-screwdriver-wrench"
-          btnText="Actualizar" />
-      </div>
-      <!-- end buttons-->
-    </form>
-  </aw-card>
+        <!-- buttons-->
+        <div class="mt-2">
+          <aw-btn-back class="me-2" />
+          <aw-btn-loading [loading]="loadingForm" icon="save" btnText="Actualizar" />
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </aw-page-base>

@@ -1,52 +1,49 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BsDatepickerConfig, BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
-import { CalendarCellViewModel } from 'ngx-bootstrap/datepicker/models';
-import { LocalizationUtils } from '../../../core/features/localizations/localization-utils';
-import { LocalizationService } from '../../../core/features/localizations/localization.service';
+import { provideLuxonDateAdapter } from '@angular/material-luxon-adapter';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { DateTime } from 'luxon';
+
+const DateTimeFormats = {
+  parse: {
+    dateInput: 'LLLL/yyyy'
+  },
+  display: {
+    dateInput: 'LLLL/yyyy',
+    monthYearLabel: 'MMM yyyy',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM yyyy'
+  }
+};
 
 @Component({
   selector: 'aw-month-selector',
   templateUrl: './month-selector.component.html',
   standalone: true,
-  imports: [BsDatepickerModule, FormsModule]
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule],
+  providers: [provideLuxonDateAdapter(DateTimeFormats)]
 })
 export class MonthSelectorComponent {
-  private readonly bsLocaleService = inject(BsLocaleService);
-  private readonly localizationService = inject(LocalizationService);
+  dateSelected = input(DateTime.local());
+  readOnly = input(false);
 
-  @Input() dateSelected = new Date();
+  changeMonthSelected = output<DateTime>();
 
-  @Output() changeMonthSelected = new EventEmitter<Date>();
-
-  bsConfig: Partial<BsDatepickerConfig>;
+  value = this.dateSelected();
 
   constructor() {
-    // Locale BsDatepicker.
-    const localeNgxBootstrap = LocalizationUtils.mapLocaleToNgxBootstrap(this.localizationService.getLocaleValue());
-    this.bsLocaleService.use(localeNgxBootstrap);
-
-    // Default BsDatepickerConfig.
-    this.bsConfig = {
-      containerClass: 'theme-default',
-      dateInputFormat: 'MMMM YYYY',
-      showTodayButton: true,
-      todayButtonLabel: 'Mes actual',
-      adaptivePosition: true
-    };
+    this.loadListeners();
   }
 
-  // No se que tipo es container.
-  // eslint-disable-next-line
-  handleOpenCalendar(container: any): void {
-    container.monthSelectHandler = (event: CalendarCellViewModel): void => {
-      container._store.dispatch(container._actions.select(event.date));
-    };
-
-    container.setViewMode('month');
-  }
-
-  handleChange(date: Date): void {
+  handleChange(date: DateTime, datepicker: MatDatepicker<DateTime>): void {
+    this.value = date;
     this.changeMonthSelected.emit(date);
+    datepicker.close();
+  }
+
+  private loadListeners(): void {
+    effect(() => (this.value = this.dateSelected()));
   }
 }

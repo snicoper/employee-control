@@ -1,5 +1,5 @@
-import { Directive, ElementRef, Input, OnInit, inject } from '@angular/core';
-import { Roles } from '../core/types/roles';
+import { Directive, ElementRef, OnInit, inject, input } from '@angular/core';
+import { Role } from '../core/types/role';
 import { JwtService } from '../services/jwt.service';
 
 @Directive({
@@ -10,7 +10,7 @@ export class RequiredRoleDirective implements OnInit {
   private readonly elementRef = inject(ElementRef);
   private readonly jwtService = inject(JwtService);
 
-  @Input() awRequiredRole? = Roles.anonymous;
+  awRequiredRole = input(Role.Anonymous);
 
   ngOnInit(): void {
     this.elementRef.nativeElement.style.display = 'none';
@@ -25,7 +25,7 @@ export class RequiredRoleDirective implements OnInit {
       return;
     }
 
-    const isInRole = this.jwtService.isInRole(this.awRequiredRole as Roles);
+    const isInRole = this.jwtService.isInRole(this.awRequiredRole());
     this.elementRef.nativeElement.style.display = isInRole ? 'initial' : 'none';
   }
 }

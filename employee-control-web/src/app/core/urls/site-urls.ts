@@ -1,5 +1,5 @@
 /** URLs en la APP. */
-export const SiteUrls = {
+export const SiteUrl = {
   home: '/',
 
   accounts: {

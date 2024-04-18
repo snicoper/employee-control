@@ -1,20 +1,22 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { DateTime } from 'luxon';
 import { finalize } from 'rxjs';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
-import { CardComponent } from '../../../components/cards/card/card.component';
 import { DotDangerComponent } from '../../../components/colors/dot-danger/dot-danger.component';
 import { DotSuccessComponent } from '../../../components/colors/dot-success/dot-success.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
-import { SpinnerComponent } from '../../../components/spinner/spinner.component';
 import { logError } from '../../../core/errors/log-messages';
-import { ApiUrls } from '../../../core/urls/api-urls';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { ApiUrl } from '../../../core/urls/api-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
-import { TooltipDirective } from '../../../directives/tooltip.directive';
 import { ClosedBy } from '../../../models/entities/types/closed-by.model';
 import { TimeState } from '../../../models/entities/types/time-state.model';
 import { ResultResponse } from '../../../models/result-response.model';
@@ -24,6 +26,7 @@ import { DeviceTypePipe } from '../../../pipes/device-type.pipe';
 import { DurationToTimePipe } from '../../../pipes/duration-to-time.pipe';
 import { TimeControlApiService } from '../../../services/api/time-control-api.service';
 import { SimpleGeolocationService } from '../../../services/simple-geolocation.service';
+import { SnackBarService } from '../../../services/snackbar.service';
 import { TimeControlRecordDetailsResponse } from './time-control-record-details-response.model';
 
 @Component({
@@ -32,14 +35,16 @@ import { TimeControlRecordDetailsResponse } from './time-control-record-details-
   styleUrl: './time-control-record-details.component.scss',
   standalone: true,
   imports: [
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
-    SpinnerComponent,
     DotDangerComponent,
     DotSuccessComponent,
     BtnBackComponent,
-    TooltipDirective,
     DatetimePipe,
     DeviceTypePipe,
     ClosedByPipe,
@@ -49,7 +54,7 @@ import { TimeControlRecordDetailsResponse } from './time-control-record-details-
 export class TimeControlRecordDetailsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly toastrService = inject(ToastrService);
+  private readonly snackBarService = inject(SnackBarService);
   private readonly timeControlApiService = inject(TimeControlApiService);
   private readonly simpleGeolocationService = inject(SimpleGeolocationService);
 
@@ -61,6 +66,7 @@ export class TimeControlRecordDetailsComponent implements OnInit {
   loadingTimeControl = false;
   timeState = TimeState;
   closedBy = ClosedBy;
+  dateTimeShortFormat = DateTime.DATETIME_SHORT;
 
   ngOnInit(): void {
     this.timeControlId = this.route.snapshot.paramMap.get('id') as string;
@@ -88,25 +94,25 @@ export class TimeControlRecordDetailsComponent implements OnInit {
   }
 
   handleNavigateToEmployee(employeeId: string): void {
-    const url = CommonUtils.urlReplaceParams(SiteUrls.employees.details, { id: employeeId });
+    const url = CommonUtils.urlReplaceParams(SiteUrl.employees.details, { id: employeeId });
     this.router.navigateByUrl(url);
   }
 
   handleTimeControlUpdate(timeControl: TimeControlRecordDetailsResponse): void {
-    const url = CommonUtils.urlReplaceParams(SiteUrls.timeControlRecords.update, { id: timeControl.id });
+    const url = CommonUtils.urlReplaceParams(SiteUrl.timeControlRecords.update, { id: timeControl.id });
     this.router.navigateByUrl(url);
   }
 
   handleTimeControlDelete(timeControl: TimeControlRecordDetailsResponse): void {
-    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.deleteTimeControl, { id: timeControl.id });
+    const url = CommonUtils.urlReplaceParams(ApiUrl.timeControl.deleteTimeControl, { id: timeControl.id });
 
     this.timeControlApiService.delete<ResultResponse>(url).subscribe({
       next: (result: ResultResponse) => {
         if (result.succeeded) {
-          this.toastrService.success('Tiempo eliminado con éxito.');
-          this.router.navigateByUrl(SiteUrls.timeControlRecords.list);
+          this.snackBarService.success('Tiempo eliminado con éxito.');
+          this.router.navigateByUrl(SiteUrl.timeControlRecords.list);
         } else {
-          this.toastrService.error('Ha ocurrido un error al eliminar el tiempo.');
+          this.snackBarService.error('Ha ocurrido un error al eliminar el tiempo.');
           logError(result.errors.join());
         }
       }
@@ -118,15 +124,15 @@ export class TimeControlRecordDetailsComponent implements OnInit {
     const data = { timeControlId: timeControl.id };
 
     this.timeControlApiService
-      .put<typeof data, ResultResponse>(data, ApiUrls.timeControl.finishTimeControlByStaff)
+      .put<typeof data, ResultResponse>(data, ApiUrl.timeControl.finishTimeControlByStaff)
       .pipe(finalize(() => (this.loadingTimeControl = false)))
       .subscribe({
         next: (result: ResultResponse) => {
           if (result.succeeded) {
-            this.toastrService.success('Tiempo finalizado con éxito.');
+            this.snackBarService.success('Tiempo finalizado con éxito.');
             this.loadTimeControl();
           } else {
-            this.toastrService.error('Ha ocurrido un error al iniciar el tiempo.');
+            this.snackBarService.error('Ha ocurrido un error al iniciar el tiempo.');
             logError(result.errors.join());
           }
         }
@@ -134,13 +140,13 @@ export class TimeControlRecordDetailsComponent implements OnInit {
   }
 
   handleCloseIncidence(): void {
-    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.closeIncidence, { id: this.timeControlId });
+    const url = CommonUtils.urlReplaceParams(ApiUrl.timeControl.closeIncidence, { id: this.timeControlId });
     const data = { id: this.timeControlId };
 
     this.timeControlApiService.put<typeof data, ResultResponse>(data, url).subscribe({
       next: (result: ResultResponse) => {
         if (result.succeeded) {
-          this.toastrService.success('Incidencia cerrada con éxito.');
+          this.snackBarService.success('Incidencia cerrada con éxito.');
           this.loadTimeControl();
         }
       }
@@ -148,15 +154,15 @@ export class TimeControlRecordDetailsComponent implements OnInit {
   }
 
   private setBreadcrumb(): void {
-    const urlDetails = CommonUtils.urlReplaceParams(SiteUrls.timeControlRecords.details, { id: this.timeControlId });
+    const urlDetails = CommonUtils.urlReplaceParams(SiteUrl.timeControlRecords.details, { id: this.timeControlId });
 
     this.breadcrumb
-      .add('Registro de tiempos', SiteUrls.timeControlRecords.list, '')
+      .add('Registro de tiempos', SiteUrl.timeControlRecords.list, '')
       .add('Detalles de tiempo', urlDetails, '', false);
   }
 
   private loadTimeControl(): void {
-    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.getTimeControlWithEmployeeById, {
+    const url = CommonUtils.urlReplaceParams(ApiUrl.timeControl.getTimeControlWithEmployeeById, {
       id: this.timeControlId
     });
     this.loadingTimeControl = true;

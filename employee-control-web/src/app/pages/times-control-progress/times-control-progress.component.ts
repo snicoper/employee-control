@@ -1,12 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
 import { DateTime } from 'luxon';
-import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { BtnLoadingComponent } from '../../components/buttons/btn-loading/btn-loading.component';
-import { CardComponent } from '../../components/cards/card/card.component';
 import { DotDangerComponent } from '../../components/colors/dot-danger/dot-danger.component';
 import { DotSuccessComponent } from '../../components/colors/dot-success/dot-success.component';
 import { PageBaseComponent } from '../../components/pages/page-base/page-base.component';
@@ -18,10 +17,10 @@ import { MonthSelectorComponent } from '../../components/selectors/month-selecto
 import { logError } from '../../core/errors/log-messages';
 import { TimeControlProgressStacked } from '../../core/features/times-control/time-control-group';
 import { TimeControlGroupResponse } from '../../core/features/times-control/times-control-response.model';
-import { ApiUrls } from '../../core/urls/api-urls';
+import { ApiUrl } from '../../core/urls/api-urls';
 import { CommonUtils } from '../../core/utils/common-utils';
 import { DateUtils } from '../../core/utils/date-utils';
-import { DatetimeUtils } from '../../core/utils/datetime-utils';
+import { DateTimeUtils } from '../../core/utils/datetime-utils';
 import { DeviceType, deviceToDeviceType } from '../../models/entities/types/device-type.model';
 import { TimeState } from '../../models/entities/types/time-state.model';
 import { ResultResponse } from '../../models/result-response.model';
@@ -29,6 +28,7 @@ import { DatetimeFormatPipe } from '../../pipes/datetime-format.pipe';
 import { TimeControlApiService } from '../../services/api/time-control-api.service';
 import { JwtService } from '../../services/jwt.service';
 import { SimpleGeolocationService } from '../../services/simple-geolocation.service';
+import { SnackBarService } from '../../services/snackbar.service';
 import { CompanySettingsStateService } from '../../services/states/company-settings-state.service';
 import { UserTimeControlStateService } from '../../services/states/user-time-control-state.service';
 import { TimeControlIncidenceCreateComponent } from './time-control-incidence-create/time-control-incidence-create.component';
@@ -39,49 +39,47 @@ import { TimeControlProgressChangeStateRequest } from './time-control-progress-c
   templateUrl: './times-control-progress.component.html',
   standalone: true,
   imports: [
+    MatCardModule,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
     MonthSelectorComponent,
     DotSuccessComponent,
     DotDangerComponent,
     BtnLoadingComponent,
     TimeControlProgressComponent,
     DatetimeFormatPipe
-  ],
-  providers: [BsModalService]
+  ]
 })
 export class TimesControlProgressComponent {
   private readonly timeControlApiService = inject(TimeControlApiService);
   private readonly jwtService = inject(JwtService);
-  private readonly toastrService = inject(ToastrService);
+  private readonly snackBarService = inject(SnackBarService);
   private readonly userTimeControlStateService = inject(UserTimeControlStateService);
   private readonly companySettingsStateService = inject(CompanySettingsStateService);
   private readonly deviceDetectorService = inject(DeviceDetectorService);
   private readonly simpleGeolocationService = inject(SimpleGeolocationService);
-  private readonly bsModalService = inject(BsModalService);
+  private readonly matDialog = inject(MatDialog);
 
   readonly currentTimeControl = computed(() => this.userTimeControlStateService.timeControl());
   readonly geolocationIsAvailable = computed(() => this.simpleGeolocationService.geolocationIsAvailable());
 
   private readonly employeeDeviceType: DeviceType;
 
-  progressStackedCollection: ProgressStackedCollection[] = [];
+  progressStackedCollection: Array<ProgressStackedCollection> = [];
   loadingTimeState = false;
-  dateSelected = new Date();
+  dateSelected = DateTime.local();
   timeStates = TimeState;
   loadingTimeControls = false;
   timeTotalInMonth = '';
   latitude: number | undefined;
   longitude: number | undefined;
-  bsModalRef?: BsModalRef;
   companyGeolocationRequired = false;
 
   constructor() {
     this.companyGeolocationRequired = this.companySettingsStateService.companySettings()
       ?.geolocationRequired as boolean;
 
-    this.loadTimesControlRange();
+    this.loadTimesControl();
 
     this.simpleGeolocationService
       .getCurrentPosition()
@@ -95,9 +93,9 @@ export class TimesControlProgressComponent {
     this.employeeDeviceType = deviceToDeviceType(deviceType);
   }
 
-  handleDateSelected(date: Date): void {
+  handleDateSelected(date: DateTime): void {
     this.dateSelected = date;
-    this.loadTimesControlRange();
+    this.loadTimesControl();
   }
 
   /** Abrir tiempo de actividad. */
@@ -112,16 +110,16 @@ export class TimesControlProgressComponent {
     };
 
     this.timeControlApiService
-      .post<TimeControlProgressChangeStateRequest, ResultResponse>(data, ApiUrls.timeControl.startTimeControl)
+      .post<TimeControlProgressChangeStateRequest, ResultResponse>(data, ApiUrl.timeControl.startTimeControl)
       .pipe(finalize(() => (this.loadingTimeState = false)))
       .subscribe({
         next: (result: ResultResponse) => {
           if (result.succeeded && this.currentTimeControl !== undefined) {
             this.userTimeControlStateService.refresh();
-            this.loadTimesControlRange();
-            this.toastrService.success('Tiempo iniciado con éxito.');
+            this.loadTimesControl();
+            this.snackBarService.success('Tiempo iniciado con éxito.');
           } else {
-            this.toastrService.error('Ha ocurrido un error al iniciar el tiempo.');
+            this.snackBarService.error('Ha ocurrido un error al iniciar el tiempo.');
             logError(result.errors.join());
           }
         }
@@ -139,16 +137,16 @@ export class TimesControlProgressComponent {
     };
 
     this.timeControlApiService
-      .put<TimeControlProgressChangeStateRequest, ResultResponse>(data, ApiUrls.timeControl.finishTimeControl)
+      .put<TimeControlProgressChangeStateRequest, ResultResponse>(data, ApiUrl.timeControl.finishTimeControl)
       .pipe(finalize(() => (this.loadingTimeState = false)))
       .subscribe({
         next: (result: ResultResponse) => {
           if (result.succeeded && this.currentTimeControl !== undefined) {
             this.userTimeControlStateService.refresh();
-            this.loadTimesControlRange();
-            this.toastrService.success('Tiempo finalizado con éxito.');
+            this.loadTimesControl();
+            this.snackBarService.success('Tiempo finalizado con éxito.');
           } else {
-            this.toastrService.error('Ha ocurrido un error al iniciar el tiempo.');
+            this.snackBarService.error('Ha ocurrido un error al iniciar el tiempo.');
             logError(result.errors.join());
           }
         }
@@ -156,34 +154,25 @@ export class TimesControlProgressComponent {
   }
 
   handleClickProgress(progressStackedItem: ProgressStackedItem): void {
-    const initialState: ModalOptions = {
-      class: 'modal-lg',
-      initialState: {
-        timeControlId: progressStackedItem.id
-      }
-    };
-
-    this.bsModalRef = this.bsModalService.show(TimeControlIncidenceCreateComponent, initialState);
-    this.bsModalRef.content?.hasSubmit.subscribe({
-      next: () => {
-        this.loadTimesControlRange();
-      }
+    const dialogRef = this.matDialog.open(TimeControlIncidenceCreateComponent, {
+      data: { timeControlId: progressStackedItem.id }
     });
+
+    dialogRef.afterClosed().subscribe(() => this.loadTimesControl());
   }
 
   /** Obtener lista de tiempos en el mes/año seleccionado. */
-  private loadTimesControlRange(): void {
+  private loadTimesControl(): void {
     this.loadingTimeControls = true;
     this.progressStackedCollection = [];
 
-    const dateSelected = DateTime.fromJSDate(this.dateSelected);
-    const startDate = dateSelected.startOf('month');
-    const endDate = dateSelected.endOf('month');
+    const startDate = DateTimeUtils.toISOString(this.dateSelected.startOf('month'));
+    const endDate = DateTimeUtils.toISOString(this.dateSelected.endOf('month'));
 
-    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.getTimeControlRangeByEmployeeId, {
+    const url = CommonUtils.urlReplaceParams(ApiUrl.timeControl.getTimeControlRangeByEmployeeId, {
       employeeId: this.jwtService.getSid(),
-      from: DatetimeUtils.toISOString(startDate),
-      to: DatetimeUtils.toISOString(endDate)
+      from: startDate,
+      to: endDate
     });
 
     this.timeControlApiService.get<TimeControlGroupResponse[]>(url).subscribe({

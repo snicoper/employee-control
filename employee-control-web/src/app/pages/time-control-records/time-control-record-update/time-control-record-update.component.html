@@ -1,18 +1,20 @@
 <aw-page-base>
   <aw-page-header [breadcrumb]="breadcrumb">Actualizar tiempo</aw-page-header>
 
-  @if (timeControl && !loadingForm) {
-    <form (ngSubmit)="handleSubmit()" [formGroup]="form">
-      @if (timeControl.incidence) {
-        <!-- closeIncidence -->
-        <aw-card extraCss="mb-2">
-          <div class="row">
-            <div class="col-12">
-              <h6>Incidencia</h6>
-              <div class="alert alert-warning nl2br">{{ timeControl.incidenceDescription }}</div>
+  <mat-card>
+    <mat-card-content>
+      @if (timeControl && !loadingForm) {
+        <form (ngSubmit)="handleSubmit()" [formGroup]="form">
+          @if (timeControl.incidence) {
+            <div>
+              <h3 class="text-danger">Incidencia</h3>
+              <div class="alert alert-warning">
+                {{ timeControl.incidenceDescription }}
+              </div>
             </div>
 
-            <div class="col-12">
+            <!-- closeIncidence -->
+            <div class="mb-3">
               <aw-form-checkbox
                 [badRequest]="badRequest"
                 [form]="form"
@@ -21,72 +23,40 @@
                 formControlName="closeIncidence"
                 label="Cerrar incidencia" />
             </div>
-          </div>
-        </aw-card>
-        <!-- end closeIncidence -->
-      }
+          }
 
-      <aw-card>
-        <div class="row">
-          <!-- timeStart -->
-          <div class="col-6">
-            <aw-form-datepicker
+          <div class="d-flex justify-content-center flex-wrap">
+            <!-- timeStart -->
+            <aw-form-datetime-picker
               [badRequest]="badRequest"
               [form]="form"
               [submitted]="submitted"
-              fieldName="dateStart"
-              formControlName="dateStart"
-              label="Inicio" />
+              fieldName="start"
+              formControlName="start"
+              label="Inicio"
+              class="me-4" />
 
-            <div class="mt-3"></div>
-
-            <aw-form-timepicker
+            <!-- timeFinish -->
+            <aw-form-datetime-picker
               [badRequest]="badRequest"
               [form]="form"
               [submitted]="submitted"
-              fieldName="timeStart"
-              formControlName="timeStart"
-              label="" />
-          </div>
-          <!-- end timeStart -->
-
-          <!-- timeFinish -->
-          <div class="col-6">
-            <aw-form-datepicker
-              [badRequest]="badRequest"
-              [form]="form"
-              [submitted]="submitted"
-              fieldName="dateFinish"
-              formControlName="dateFinish"
+              fieldName="finish"
+              formControlName="finish"
               label="Final" />
-
-            <div class="mt-3"></div>
-
-            <aw-form-timepicker
-              [badRequest]="badRequest"
-              [form]="form"
-              [submitted]="submitted"
-              fieldName="timeFinish"
-              formControlName="timeFinish"
-              label="" />
           </div>
-          <!-- end timeFinish -->
 
-          <div class="mt-3 col-12">
-            <aw-btn-back />
+          <mat-divider class="mt-2" />
 
-            <aw-btn-loading
-              [btnType]="btnType.submit"
-              [loading]="loadingForm"
-              btnClass="btn btn-success ms-2"
-              btnIcon="fa-regular fa-floppy-disk"
-              btnText="Guardar"
-              spinnerLoadingText="Guardando" />
+          <!-- buttons -->
+          <div class="mt-4">
+            <aw-btn-back class="me-2" />
+            <aw-btn-loading [btnType]="btnType.submit" [loading]="loadingForm" icon="save" btnText="Guardar" />
           </div>
-        </div>
-      </aw-card>
-    </form>
-  } @else {
-    <aw-spinner [loading]="loadingForm" />
-  }
+        </form>
+      } @else {
+        <mat-progress-spinner color="primary" mode="indeterminate" />
+      }
+    </mat-card-content>
+  </mat-card>
 </aw-page-base>

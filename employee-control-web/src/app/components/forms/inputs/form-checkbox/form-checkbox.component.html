@@ -1,26 +1,17 @@
-<div class="form-check">
-  <input
-    (ngModelChange)="onChangeValue($event)"
-    [(ngModel)]="value"
-    [disabled]="isDisabled"
-    [id]="id"
-    [ngClass]="{ extraCss: true, 'is-invalid': isInvalid() }"
-    [value]="value"
-    class="form-check-input"
-    type="checkbox" />
+<mat-checkbox
+  (ngModelChange)="onChangeValue($event)"
+  [(ngModel)]="value"
+  [disabled]="isDisabled"
+  [id]="id()"
+  [checked]="value">
+  {{ label() }}
+</mat-checkbox>
 
-  @if (label) {
-    <label [for]="id" [ngClass]="{ 'text-danger': isInvalid(), 'form-label': !isInvalid() }" class="form-check-label">
-      {{ label }}
-    </label>
-  }
-</div>
-
-@if (form) {
+@if (form()) {
   <aw-field-error
-    [badRequest]="badRequest"
-    [fieldName]="fieldName"
-    [fieldText]="label"
-    [form]="form"
-    [submitted]="submitted" />
+    [badRequest]="badRequest()"
+    [fieldName]="fieldName()"
+    [fieldText]="label()"
+    [form]="form()"
+    [submitted]="submitted()" />
 }

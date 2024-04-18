@@ -1,8 +1,10 @@
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 import { ApiResultItemFilter } from './api-result-item-filter';
 import { ApiResultItemOrderBy } from './api-result-item-order-by';
-import { LogicalOperators } from './types/logical-operator';
-import { OrderTypes } from './types/order-type';
-import { RelationalOperators } from './types/relational-operator';
+import { LogicalOperator } from './types/logical-operator';
+import { OrderType } from './types/order-type';
+import { RelationalOperator } from './types/relational-operator';
 
 export class ApiResult<T> {
   /** Comprueba si tiene pagina siguiente. */
@@ -21,23 +23,23 @@ export class ApiResult<T> {
   totalPages = 1;
 
   /** Numero de items por pagina. */
-  pageSize = 10;
+  pageSize = 25;
 
   /** Ratio máximo de paginas. */
   ratio = 2;
 
   /** Items devueltos. */
-  items: T[] = [];
+  items: Array<T> = [];
 
-  /** Ordenaciones. */
-  orders: ApiResultItemOrderBy[] = [];
+  /** Ordenación. */
+  order: ApiResultItemOrderBy | string = '';
 
   /** Filtros. */
-  filters: ApiResultItemFilter[] = [];
+  filters: Array<ApiResultItemFilter> = [];
 
   constructor() {
     this.cleanFilters();
-    this.cleanOrders();
+    this.cleanOrder();
   }
 
   /**
@@ -59,7 +61,7 @@ export class ApiResult<T> {
    * @param concat Tipo de concatenación.
    * @returns ApiResult<T>.
    */
-  addFilter(propertyName: string, operator: RelationalOperators, value: string, concat = LogicalOperators.none): this {
+  addFilter(propertyName: string, operator: RelationalOperator, value: string, concat = LogicalOperator.None): this {
     const filter = new ApiResultItemFilter(propertyName, operator, value, concat);
     this.filters.push(filter);
 
@@ -120,33 +122,52 @@ export class ApiResult<T> {
    *
    * @param propertyName Nombre de la propiedad.
    * @param orderType Tipo de orden.
-   * @param precedence Precedencia en la ordenación de la propiedad.
    * @returns ApiResult<T>.
    */
-  addOrder(propertyName: string, orderType: OrderTypes, precedence: number): this {
-    if (orderType !== OrderTypes.none) {
-      const order = new ApiResultItemOrderBy(propertyName, orderType, precedence);
-      this.orders.unshift(order);
-    }
+  addOrder(propertyName: string, orderType: OrderType): this {
+    this.order = { propertyName: propertyName, orderType: orderType } as ApiResultItemOrderBy;
 
     return this;
   }
 
   /**
-   * Eliminar un Order.
+   * Wrapper al cambiar de pagina con MatPaginator.
    *
-   * @param filter Orden a eliminar.
-   * @returns ApiResult<T>.
+   * @param pageEvent PageEvent emitido por MatPaginator.
+   * @returns ApiResult<T> con pagination aplicada.
    */
-  removeOrder(filter: ApiResultItemOrderBy): this {
-    const index = this.orders.findIndex((item) => item.propertyName === filter.propertyName);
-    this.orders.splice(index, 1);
+  handlePageEvent(pageEvent: PageEvent): this {
+    this.pageSize = pageEvent.pageSize;
+    this.pageNumber = pageEvent.pageIndex + 1;
 
     return this;
   }
 
-  /** Limpiar orders. */
-  cleanOrders(): void {
-    this.orders = [];
+  /**
+   * Wrapper para añadir el filtro de order desde una table con MatSort.
+   *
+   * @param sortState Resultado del filtro MatSort.
+   * @returns ApiResult<T> con el filtro aplicado.
+   */
+  handleSortChange(sortState: Sort): this {
+    const propertyName = sortState.active;
+
+    switch (sortState.direction.toUpperCase()) {
+      case OrderType.Ascending:
+        this.addOrder(propertyName, OrderType.Ascending);
+        break;
+      case OrderType.Descending:
+        this.addOrder(propertyName, OrderType.Descending);
+        break;
+      default:
+        this.cleanOrder();
+    }
+
+    return this;
+  }
+
+  /** Limpiar order. */
+  cleanOrder(): void {
+    this.order = '';
   }
 }

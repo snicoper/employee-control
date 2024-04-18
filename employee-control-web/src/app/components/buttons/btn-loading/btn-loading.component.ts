@@ -1,27 +1,28 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { SpinnerComponent } from '../../spinner/spinner.component';
-import { BtnType } from './btn-loading.type';
+import { NgClass } from '@angular/common';
+import { Component, input, output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { BtnType } from './btn-type';
 
 @Component({
   selector: 'aw-btn-loading',
-  templateUrl: './btn-loading.component.html',
   standalone: true,
-  imports: [SpinnerComponent]
+  imports: [NgClass, MatProgressSpinner, MatButtonModule, MatIcon],
+  templateUrl: './btn-loading.component.html'
 })
 export class BtnLoadingComponent {
-  @Input({ required: true }) loading = false;
-  @Input() btnClass = 'btn btn-primary';
-  @Input() btnType = BtnType.submit;
-  @Input() disabled = false;
-  @Input() btnText = '';
-  @Input() btnIcon = '';
-  @Input() spinnerClass = 'spinner-border-sm';
-  @Input() spinnerSize = 22;
-  @Input() spinnerText = 'spinner-border-sm';
-  @Input() spinnerColor = 'text-white';
-  @Input() spinnerLoadingText = '';
+  loading = input.required<boolean>();
+  color = input('primary');
+  icon = input<string>();
+  btnText = input<string>();
+  btnTextLoading = input<string>();
+  spinnerColor = input('warn');
+  btnType = input(BtnType.submit);
+  extraCss = input('');
+  disabled = input(false);
 
-  @Output() eventClick = new EventEmitter();
+  eventClick = output<void>();
 
   handleClick(): void {
     this.eventClick.emit();

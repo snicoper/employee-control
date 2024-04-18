@@ -1,62 +1,67 @@
-import { NgClass } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterLink } from '@angular/router';
 import { DateTime } from 'luxon';
-import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs';
 import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
-import { CardComponent } from '../../../components/cards/card/card.component';
 import { DotDangerComponent } from '../../../components/colors/dot-danger/dot-danger.component';
 import { DotSuccessComponent } from '../../../components/colors/dot-success/dot-success.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
-import { PaginationComponent } from '../../../components/pagination/pagination.component';
 import { DateRangeSelectorComponent } from '../../../components/selectors/date-range-selector/date-range-selector.component';
-import { TableHeaderComponent } from '../../../components/tables/table-header/table-header.component';
-import { TableHeaderConfig } from '../../../components/tables/table-header/table-header.config';
-import { TableInputSearchComponent } from '../../../components/tables/table-input-search/table-input-search.component';
-import { TableComponent } from '../../../components/tables/table/table.component';
+import { TableFilterComponent } from '../../../components/tables/table-filter/table-filter.component';
 import { logError } from '../../../core/errors/log-messages';
 import { ApiResult } from '../../../core/features/api-result/api-result';
-import { LogicalOperators } from '../../../core/features/api-result/types/logical-operator';
-import { OrderTypes } from '../../../core/features/api-result/types/order-type';
-import { RelationalOperators } from '../../../core/features/api-result/types/relational-operator';
-import { ApiUrls } from '../../../core/urls/api-urls';
-import { SiteUrls } from '../../../core/urls/site-urls';
+import { LogicalOperator } from '../../../core/features/api-result/types/logical-operator';
+import { OrderType } from '../../../core/features/api-result/types/order-type';
+import { RelationalOperator } from '../../../core/features/api-result/types/relational-operator';
+import { PeriodDatetime } from '../../../core/models/period-datetime';
+import { ApiUrl } from '../../../core/urls/api-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
-import { DatetimeUtils } from '../../../core/utils/datetime-utils';
-import { TooltipDirective } from '../../../directives/tooltip.directive';
+import { DateTimeUtils } from '../../../core/utils/datetime-utils';
 import { ClosedBy } from '../../../models/entities/types/closed-by.model';
 import { TimeState } from '../../../models/entities/types/time-state.model';
 import { ResultResponse } from '../../../models/result-response.model';
 import { ClosedByPipe } from '../../../pipes/closed-by.pipe';
-import { DatetimePipe } from '../../../pipes/datetime.pipe';
+import { DatetimePipe as DateTimePipe } from '../../../pipes/datetime.pipe';
 import { DeviceTypePipe } from '../../../pipes/device-type.pipe';
 import { DurationToTimePipe } from '../../../pipes/duration-to-time.pipe';
 import { TimeControlApiService } from '../../../services/api/time-control-api.service';
 import { SimpleGeolocationService } from '../../../services/simple-geolocation.service';
-import { TimeControlRecordResponse } from './time-contol-record-response.model';
-import { timeControlRecordListTableHeaders } from './time-control-record-list-table-header';
+import { SnackBarService } from '../../../services/snackbar.service';
+import { TimeControlRecordResponse } from './time-control-record-response.model';
 
 @Component({
   selector: 'aw-time-control-record-list',
   templateUrl: './time-control-record-list.component.html',
   standalone: true,
   imports: [
-    NgClass,
     RouterLink,
+    MatCardModule,
+    MatTableModule,
+    MatSortModule,
+    MatButtonModule,
+    MatIconModule,
+    MatPaginatorModule,
+    MatButtonToggleModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule,
     PageBaseComponent,
     PageHeaderComponent,
-    CardComponent,
-    TableInputSearchComponent,
-    TableComponent,
-    TableHeaderComponent,
-    TooltipDirective,
+    DateRangeSelectorComponent,
     DotSuccessComponent,
     DotDangerComponent,
-    PaginationComponent,
-    DateRangeSelectorComponent,
-    DatetimePipe,
+    TableFilterComponent,
+    DateTimePipe,
     ClosedByPipe,
     DurationToTimePipe,
     DeviceTypePipe
@@ -65,34 +70,50 @@ import { timeControlRecordListTableHeaders } from './time-control-record-list-ta
 export class TimeControlRecordListComponent {
   private readonly timeControlApiService = inject(TimeControlApiService);
   private readonly simpleGeolocationService = inject(SimpleGeolocationService);
-  private readonly toastrService = inject(ToastrService);
+  private readonly snackBarService = inject(SnackBarService);
   private readonly router = inject(Router);
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   readonly breadcrumb = new BreadcrumbCollection();
 
+  displayedColumns = [
+    'firstName',
+    'lastName',
+    'start',
+    'finish',
+    'closedBy',
+    'timeState',
+    'duration',
+    'incidence',
+    'actions'
+  ];
+  fieldsFilter = ['user.firstName', 'user.lastName'];
+  dataSource!: MatTableDataSource<TimeControlRecordResponse, MatPaginator>;
   apiResult = new ApiResult<TimeControlRecordResponse>();
-  tableHeaderConfig = new TableHeaderConfig();
-  loading = false;
-  siteUrls = SiteUrls;
+  loading = true;
+  siteUrl = SiteUrl;
   timeState = TimeState;
   closedBy = ClosedBy;
-  from: Date = new Date();
-  to: Date = new Date();
   loadingTimeState = false;
+  dateTimeShortFormat = DateTime.DATETIME_SHORT;
 
   /** Custom filters. */
-  filterOpenTimesValue = false;
+  filterPeriod!: PeriodDatetime;
+  filterOpenTimes = false;
   filterIncidences = false;
-  filterStateDateRange = true;
+  filterDateRangeState = true;
 
   constructor() {
-    this.apiResult.addOrder('start', OrderTypes.ascending, 1);
+    this.apiResult.addOrder('start', OrderType.Ascending);
 
-    this.configureTableHeaders();
     this.setBreadcrumb();
 
-    // El seteo de datos, el componente aw-date-range-selector hará un emit y cargara los datos.
-    this.from.setDate(this.from.getDate() - 7);
+    const end = DateTime.local();
+    const start = end.minus({ days: 7 });
+    this.filterPeriod = new PeriodDatetime(start, end);
+    this.loadTimesControl();
   }
 
   getStartOpenStreetMapLink(timeControl: TimeControlRecordResponse): string | null {
@@ -114,31 +135,47 @@ export class TimeControlRecordListComponent {
     return null;
   }
 
-  handleFilterOpenTimesChange(): void {
-    this.filterOpenTimesValue = !this.filterOpenTimesValue;
-    this.filterIncidences = false;
+  handleCustomFilters(eventValue: string): void {
+    // filterOpenTimesValue.
+    if (eventValue === 'open-times' && !this.filterOpenTimes) {
+      this.filterOpenTimes = true;
+      this.filterIncidences = false;
+      this.loadTimesControl();
 
-    this.loadTimeControlRecords();
-  }
+      return;
+    }
 
-  handleFilterIncidencesChange(): void {
-    this.filterIncidences = !this.filterIncidences;
-    this.filterOpenTimesValue = false;
+    if (eventValue === 'open-times' && this.filterOpenTimes) {
+      this.filterOpenTimes = false;
+      this.filterIncidences = false;
+      this.loadTimesControl();
 
-    this.loadTimeControlRecords();
+      return;
+    }
+
+    // filterIncidences.
+    if (eventValue === 'incidences' && !this.filterIncidences) {
+      this.filterIncidences = true;
+      this.filterOpenTimes = false;
+      this.loadTimesControl();
+
+      return;
+    }
+
+    if (eventValue === 'incidences' && this.filterIncidences) {
+      this.filterIncidences = false;
+      this.filterOpenTimes = false;
+      this.loadTimesControl();
+    }
   }
 
   handleTimeControlUpdate(timeControl: TimeControlRecordResponse): void {
-    const url = CommonUtils.urlReplaceParams(SiteUrls.timeControlRecords.update, { id: timeControl.id });
+    const url = CommonUtils.urlReplaceParams(SiteUrl.timeControlRecords.update, { id: timeControl.id });
     this.router.navigateByUrl(url);
   }
 
-  handleReloadData(): void {
-    this.loadTimeControlRecords();
-  }
-
   handleDetailsTimeControl(timeControl: TimeControlRecordResponse): void {
-    const url = CommonUtils.urlReplaceParams(SiteUrls.timeControlRecords.details, { id: timeControl.id });
+    const url = CommonUtils.urlReplaceParams(SiteUrl.timeControlRecords.details, { id: timeControl.id });
 
     this.router.navigateByUrl(url);
   }
@@ -148,15 +185,15 @@ export class TimeControlRecordListComponent {
     const data = { timeControlId: timeControl.id };
 
     this.timeControlApiService
-      .put<typeof data, ResultResponse>(data, ApiUrls.timeControl.finishTimeControlByStaff)
+      .put<typeof data, ResultResponse>(data, ApiUrl.timeControl.finishTimeControlByStaff)
       .pipe(finalize(() => (this.loadingTimeState = false)))
       .subscribe({
         next: (result: ResultResponse) => {
           if (result.succeeded) {
-            this.loadTimeControlRecords();
-            this.toastrService.success('Tiempo finalizado con éxito.');
+            this.loadTimesControl();
+            this.snackBarService.success('Tiempo finalizado con éxito.');
           } else {
-            this.toastrService.error('Ha ocurrido un error al iniciar el tiempo.');
+            this.snackBarService.error('Ha ocurrido un error al iniciar el tiempo.');
             logError(result.errors.join());
           }
         }
@@ -164,70 +201,70 @@ export class TimeControlRecordListComponent {
   }
 
   handleDeleteTimeControl(timeControl: TimeControlRecordResponse): void {
-    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.deleteTimeControl, { id: timeControl.id });
+    const url = CommonUtils.urlReplaceParams(ApiUrl.timeControl.deleteTimeControl, { id: timeControl.id });
 
     this.timeControlApiService.delete<ResultResponse>(url).subscribe({
       next: (result: ResultResponse) => {
         if (result.succeeded) {
-          this.loadTimeControlRecords();
-          this.toastrService.success('Tiempo eliminado con éxito.');
+          this.loadTimesControl();
+          this.snackBarService.success('Tiempo eliminado con éxito.');
         } else {
-          this.toastrService.error('Ha ocurrido un error al eliminar el tiempo.');
+          this.snackBarService.error('Ha ocurrido un error al eliminar el tiempo.');
           logError(result.errors.join());
         }
       }
     });
   }
 
-  handleClickClean(event: ApiResult<TimeControlRecordResponse>): void {
-    this.apiResult = event;
-    this.handleReloadData();
+  /** Cambia el valor del filtro para date range. */
+  handleDateChange(period: PeriodDatetime): void {
+    this.filterPeriod = period;
+    this.loadTimesControl();
   }
 
-  handleDateRangeValueChange(value: (Date | undefined)[] | undefined): void {
-    this.from = new Date();
-    this.to = new Date();
-
-    if (value && value.length === 2) {
-      this.from = value[0] as Date;
-      this.to = value[1] as Date;
-
-      this.loadTimeControlRecords();
-    }
-  }
-
-  handleState(): void {
-    this.filterStateDateRange = !this.filterStateDateRange;
-    this.loadTimeControlRecords();
+  /** Activa/desactiva el filtro de date range.  */
+  handleToggleFilterDate(): void {
+    this.filterDateRangeState = !this.filterDateRangeState;
+    this.loadTimesControl();
   }
 
   handleNavigateEmployeeDetails(timeControl: TimeControlRecordResponse): void {
-    const url = CommonUtils.urlReplaceParams(this.siteUrls.employees.details, { id: timeControl.userId });
+    const url = CommonUtils.urlReplaceParams(SiteUrl.employees.details, { id: timeControl.userId });
     this.router.navigateByUrl(url);
   }
 
-  private configureTableHeaders(): void {
-    this.tableHeaderConfig.addHeaders(timeControlRecordListTableHeaders);
+  handlePageEvent(pageEvent: PageEvent): void {
+    this.apiResult = this.apiResult.handlePageEvent(pageEvent);
+
+    this.loadTimesControl();
+  }
+
+  handleFilterChange(apiResult: ApiResult<TimeControlRecordResponse>): void {
+    this.apiResult = apiResult;
+    this.loadTimesControl();
+  }
+
+  handleSortChange(sortState: Sort): void {
+    this.apiResult.handleSortChange(sortState);
+    this.loadTimesControl();
   }
 
   private setBreadcrumb(): void {
-    this.breadcrumb.add('Registro de tiempos', SiteUrls.timeControlRecords.list, '', false);
+    this.breadcrumb.add('Registro de tiempos', SiteUrl.timeControlRecords.list, '', false);
   }
 
   /** La primera carga la hace el emit de date-range-selector al setear datos. */
-  private loadTimeControlRecords(): void {
-    this.loading = false;
+  private loadTimesControl(): void {
+    const start = DateTimeUtils.toISOString(this.filterPeriod.start);
+    const end = DateTimeUtils.toISOString(this.filterPeriod.end);
 
     // Filtro date range, requiere 'null' en caso de estar desactivado.
-    const url = CommonUtils.urlReplaceParams(ApiUrls.timeControl.getTimesControlByRangePaginated, {
-      from: this.filterStateDateRange
-        ? DatetimeUtils.toISOString(DateTime.fromJSDate(this.from).startOf('day'))
-        : 'null',
-      to: this.filterStateDateRange ? DatetimeUtils.toISOString(DateTime.fromJSDate(this.to).endOf('day')) : 'null'
+    const url = CommonUtils.urlReplaceParams(ApiUrl.timeControl.getTimesControlByRangePaginated, {
+      from: this.filterDateRangeState ? start : String(null),
+      to: this.filterDateRangeState ? end : String(null)
     });
 
-    // Filtros.
-    this.apiResult = ApiResult.clone<TimeControlRecordResponse>(this.apiResult);
+    // Update filters.
     this.updateFilters();
 
     this.timeControlApiService
@@ -235,7 +272,9 @@ export class TimeControlRecordListComponent {
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (result: ApiResult<TimeControlRecordResponse>) => {
-          this.apiResult = result;
+          this.apiResult = ApiResult.clone<TimeControlRecordResponse>(result);
+          this.dataSource = new MatTableDataSource(result.items);
+          this.dataSource.sort = this.sort;
         }
       });
   }
@@ -244,21 +283,21 @@ export class TimeControlRecordListComponent {
     this.apiResult.removeFilterByPropertyName('incidence');
     this.apiResult.removeFilterByPropertyName('timeState');
 
-    if (this.filterOpenTimesValue) {
+    if (this.filterOpenTimes) {
       this.apiResult.addFilter(
         'timeState',
-        RelationalOperators.equalTo,
-        TimeState.open.toString(),
-        this.apiResult.filters.length === 0 ? LogicalOperators.none : LogicalOperators.and
+        RelationalOperator.EqualTo,
+        TimeState.Open.toString(),
+        this.apiResult.filters.length === 0 ? LogicalOperator.None : LogicalOperator.And
       );
     }
 
     if (this.filterIncidences) {
       this.apiResult.addFilter(
         'incidence',
-        RelationalOperators.equalTo,
+        RelationalOperator.EqualTo,
         this.filterIncidences ? 'true' : 'false',
-        this.apiResult.filters.length === 0 ? LogicalOperators.none : LogicalOperators.and
+        this.apiResult.filters.length === 0 ? LogicalOperator.None : LogicalOperator.And
       );
     }
   }

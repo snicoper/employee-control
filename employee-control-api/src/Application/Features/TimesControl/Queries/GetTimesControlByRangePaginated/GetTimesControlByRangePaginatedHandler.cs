@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using EmployeeControl.Application.Common.Interfaces.Features.TimesControl;
 using EmployeeControl.Application.Common.Models;
 using MediatR;
