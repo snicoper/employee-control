@@ -49,12 +49,13 @@ export class EmployeeInviteComponent {
 
   readonly breadcrumb = new BreadcrumbCollection();
 
+  readonly formInputType = FormInputType;
+  readonly siteUrl = SiteUrl;
+
   form: FormGroup = this.formBuilder.group({});
   badRequest: BadRequest | undefined;
-  formInputType = FormInputType;
   submitted = false;
   loading = false;
-  siteUrl = SiteUrl;
 
   constructor() {
     this.setBreadcrumb();

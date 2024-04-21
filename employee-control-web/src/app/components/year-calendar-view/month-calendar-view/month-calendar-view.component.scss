@@ -1,0 +1,47 @@
+@import "variables";
+
+.calendar {
+  width: 325px;
+  margin: 0 5px 5px 0;
+  min-height: 358px;
+}
+
+/** Ocultar selector. */
+::ng-deep mat-calendar-header {
+  display: none;
+}
+
+/** Ocultar titulo del mes. */
+::ng-deep .mat-calendar-body-label {
+  visibility: hidden;
+}
+
+/** Día marcado como no laborable. */
+::ng-deep .not-working-day {
+  background-color: $aw-not-working-day !important;
+  border-radius: 20px !important;
+
+  .mat-calendar-body-cell-content {
+    color: white !important;
+  }
+}
+
+/** Día marcado festivo de empresa. */
+::ng-deep .company-holiday {
+  background-color: $aw-company-holiday !important;
+  border-radius: 100% !important;
+
+  .mat-calendar-body-cell-content {
+    color: white !important;
+  }
+}
+
+/** Día marcado como festivo de empleado. */
+::ng-deep .employee-holiday {
+  background-color: $aw-employee-holiday !important;
+  border-radius: 20px !important;
+
+  .mat-calendar-body-cell-content {
+    color: black !important;
+  }
+}

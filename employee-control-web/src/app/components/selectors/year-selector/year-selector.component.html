@@ -1,1 +1,6 @@
-<p>year-selector works!</p>,
+<mat-form-field>
+  <mat-label>Seleccionar año</mat-label>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="value" [readonly]="readOnly()" />
+  <mat-datepicker-toggle matIconSuffix [for]="picker" />
+  <mat-datepicker #picker startView="multi-year" (yearSelected)="handleChange($event, picker)" />
+</mat-form-field>

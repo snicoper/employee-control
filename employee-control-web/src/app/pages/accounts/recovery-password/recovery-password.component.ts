@@ -41,10 +41,11 @@ export class RecoveryPasswordComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly accountsApiService = inject(AccountsApiService);
 
+  readonly siteUrl = SiteUrl;
+  readonly formInputType = FormInputType;
+
   form: FormGroup = this.formBuilder.group({});
   badRequest: BadRequest | undefined;
-  formInputType = FormInputType;
-  siteUrl = SiteUrl;
   submitted = false;
   loading = false;
   messageResponse = false;

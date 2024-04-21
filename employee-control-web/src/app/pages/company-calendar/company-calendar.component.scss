@@ -1,0 +1,16 @@
+@import "variables";
+
+.legend {
+  .legend-item {
+    padding: 4px 8px;
+    border-radius: 100%;
+
+    &.non-working-day {
+      background-color: $aw-not-working-day;
+    }
+
+    &.company-holiday {
+      background-color: $aw-company-holiday;
+    }
+  }
+}

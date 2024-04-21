@@ -5,8 +5,9 @@
     <mat-card-content>
       <!-- toolbar -->
       <div class="d-flex flex-row">
-        <button mat-button color="primary" [routerLink]="siteUrl.employees.invite">
-          <mat-icon>add</mat-icon> Invitar empleado
+        <button [routerLink]="siteUrl.employees.invite" color="primary" mat-button>
+          <mat-icon>add</mat-icon>
+          Invitar empleado
         </button>
         <div class="ms-auto">
           <aw-table-filter

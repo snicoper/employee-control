@@ -22,7 +22,6 @@ import { TimeControlIncidenceCreateRequest } from './time-control-incidence-crea
 @Component({
   selector: 'aw-time-control-incidence-create',
   templateUrl: './time-control-incidence-create.component.html',
-  styleUrl: './time-control-incidence-create.component.scss',
   standalone: true,
   imports: [
     NgClass,

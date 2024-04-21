@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { ApiUrl } from '../../core/urls/api-urls';
 import { CompanyEmployeeStateResponse } from '../../models/states/company-employee-state-response.model';
 import { CompaniesApiService } from '../api/companies-api.service';
@@ -12,6 +12,8 @@ export class CompanyEmployeeStateService implements StateService<CompanyEmployee
   private readonly jwtService = inject(JwtService);
 
   private readonly currentCompanyEmployeeResponse$ = signal<CompanyEmployeeStateResponse | null>(null);
+
+  readonly currentCompanyEmployeeResponse = computed(() => this.currentCompanyEmployeeResponse$());
 
   refresh(): void {
     // Si no esta autenticado, no obtener CurrentCompanyEmployeeResponse.

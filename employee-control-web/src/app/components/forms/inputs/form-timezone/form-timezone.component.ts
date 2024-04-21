@@ -32,7 +32,7 @@ export class FormTimezoneComponent implements ControlValueAccessor {
   submitted = input.required<boolean>();
   fieldName = input.required<string>();
   label = input.required<string>();
-  id = input(Math.random.toString());
+  id = input(Math.random().toString());
   placeholder = input('');
 
   value = '';

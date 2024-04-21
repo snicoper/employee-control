@@ -53,12 +53,13 @@ export class DepartmentListComponent {
 
   readonly breadcrumb = new BreadcrumbCollection();
 
-  displayedColumns = ['name', 'active', 'background', 'color'];
-  fieldsFilter = ['name'];
+  readonly displayedColumns = ['name', 'active', 'background', 'color'];
+  readonly fieldsFilter = ['name'];
+  readonly siteUrl = SiteUrl;
+
   dataSource = new MatTableDataSource<Department, MatPaginator>();
   apiResult = new ApiResult<Department>();
   loading = true;
-  siteUrl = SiteUrl;
 
   constructor() {
     this.setBreadcrumb();

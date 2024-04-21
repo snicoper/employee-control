@@ -1,20 +1,29 @@
 <aw-page-base>
-  <h1>Pagina de tests</h1>
+  <aw-page-header>Pagina de tests</aw-page-header>
 
-  <div class="d-flex justify-between">
-    <form [formGroup]="form">
-      <aw-form-datetime-picker
-        label="Hora de inicio"
-        formControlName="start"
-        fieldName="start"
-        [badRequest]="badRequest"
-        [form]="form"
-        [submitted]="false" />
+  <div class="d-flex flex-row flex-wrap justify-content-center">
+    <mat-card class="calendar">
+      <mat-card-content>
+        <mat-calendar [(selected)]="selected" />
+      </mat-card-content>
+    </mat-card>
 
-      {{ form.valid }}<br />
-      {{ form.errors | json }}<br />
+    <mat-card class="calendar">
+      <mat-card-content>
+        <mat-calendar [(selected)]="selected" />
+      </mat-card-content>
+    </mat-card>
 
-      <button type="submit">Submit</button>
-    </form>
+    <mat-card class="calendar">
+      <mat-card-content>
+        <mat-calendar [(selected)]="selected" />
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="calendar">
+      <mat-card-content>
+        <mat-calendar [(selected)]="selected" />
+      </mat-card-content>
+    </mat-card>
   </div>
 </aw-page-base>

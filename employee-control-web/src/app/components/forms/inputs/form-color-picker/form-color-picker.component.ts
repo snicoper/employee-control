@@ -27,7 +27,7 @@ export class FormColorPickerComponent implements AfterViewInit, OnDestroy, Contr
   submitted = input.required<boolean>();
   fieldName = input.required<string>();
   label = input.required<string>();
-  id = input(Math.random.toString());
+  id = input(Math.random().toString());
   readonly = input(true);
   options = input<Partial<ColorPickerOptions>>();
   dataFormat = input<'hex' | 'rgb' | 'hsl' | 'hsv'>('hex');

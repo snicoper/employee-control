@@ -45,9 +45,10 @@ export class DepartmentDetailsComponent implements OnInit {
   readonly departmentSelected = computed(() => this.departmentSelectedService.departmentSelected());
   readonly departmentSelectedLoading = computed(() => this.departmentSelectedService.departmentSelectedLoading());
 
+  readonly siteUrl = SiteUrl;
+
   urlToEdit!: string;
   loadingDepartmentState = false;
-  siteUrl = SiteUrl;
 
   ngOnInit(): void {
     this.urlToEdit = CommonUtils.urlReplaceParams(SiteUrl.departments.update, { id: this.departmentId() });

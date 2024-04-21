@@ -40,9 +40,10 @@ export class CompanySettingsDetailsComponent {
 
   readonly breadcrumb = new BreadcrumbCollection();
 
+  readonly siteUrl = SiteUrl;
+
   nowWithTimezone = '';
   timezoneInfo: TimeZone | undefined;
-  siteUrl = SiteUrl;
 
   constructor() {
     this.setBreadcrumb();
@@ -65,6 +66,6 @@ export class CompanySettingsDetailsComponent {
   private setNowWithOriginalTimezone(): void {
     this.nowWithTimezone = DateTime.local()
       .setZone(this.companySettings()?.timezone)
-      .toLocaleString(DateTime.TIME_WITH_SHORT_OFFSET);
+      .toLocaleString(DateTime.TIME_SIMPLE);
   }
 }

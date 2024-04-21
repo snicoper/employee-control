@@ -86,10 +86,10 @@ public static class QueryableOrderByExtensions
 
         var command = orderByCommandType switch
         {
-            OrderByCommandType.OrderBy => field.Order == OrderType.Asc
+            OrderByCommandType.OrderBy => field.OrderType == OrderType.Asc
                 ? QueryableOrderByCommandType.OrderByDescending
                 : QueryableOrderByCommandType.OrderBy,
-            OrderByCommandType.ThenBy => field.Order == OrderType.Desc
+            OrderByCommandType.ThenBy => field.OrderType == OrderType.Desc
                 ? QueryableOrderByCommandType.ThenByDescending
                 : QueryableOrderByCommandType.ThenBy,
             _ => throw new NotImplementedException()

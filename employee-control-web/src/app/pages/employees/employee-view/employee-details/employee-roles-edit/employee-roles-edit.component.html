@@ -44,7 +44,10 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-flat-button mat-dialog-close color="accent" class="me-2"><mat-icon>close</mat-icon> Cerrar</button>
+  <button class="me-2" color="accent" mat-dialog-close mat-flat-button>
+    <mat-icon>close</mat-icon>
+    Cerrar
+  </button>
 
-  <aw-btn-loading icon="save" btnText="Guardar cambios" (eventClick)="handleSaveChanges()" [loading]="loading" />
+  <aw-btn-loading (eventClick)="handleSaveChanges()" [loading]="loading" btnText="Guardar cambios" icon="save" />
 </mat-dialog-actions>

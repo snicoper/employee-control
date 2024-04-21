@@ -47,13 +47,14 @@ export class LoginComponent {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
+  readonly siteUrl = SiteUrl;
+  readonly formInputType = FormInputType;
+
   form: FormGroup = this.formBuilder.group({});
   badRequest: BadRequest | undefined;
-  formInputType = FormInputType;
   submitted = false;
   invalidResponse = false;
   loading = false;
-  siteUrl = SiteUrl;
 
   constructor() {
     this.buildForm();

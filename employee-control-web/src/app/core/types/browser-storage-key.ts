@@ -4,5 +4,5 @@ export enum BrowserStorageKey {
   RefreshToken = 'refresh_token',
   Theme = 'theme',
   Locale = 'locale',
-  Sidebar = 'sidebar'
+  Sidenav = 'sidenav'
 }

@@ -50,11 +50,12 @@ export class CompanyTaskCreateComponent {
 
   readonly breadcrumb = new BreadcrumbCollection();
 
+  readonly siteUrl = SiteUrl;
+
   form: FormGroup = this.formBuilder.group({});
   badRequest: BadRequest | undefined;
   submitted = false;
   loading = false;
-  siteUrl = SiteUrl;
 
   constructor() {
     this.setBreadcrumb();

@@ -47,9 +47,10 @@ export class CompanyTaskDetailsComponent implements OnInit {
   readonly companyTaskSelected = computed(() => this.companyTaskViewService.companyTaskSelected());
   readonly companyTaskVLoading = computed(() => this.companyTaskViewService.companyTaskVLoading());
 
+  readonly siteUrl = SiteUrl;
+
   urlToEdit!: string;
   loadingStateTask = false;
-  siteUrl = SiteUrl;
 
   ngOnInit(): void {
     this.urlToEdit = CommonUtils.urlReplaceParams(SiteUrl.companyTasks.update, { id: this.companyTaskId() });

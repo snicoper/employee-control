@@ -22,6 +22,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<Department> Departments => Set<Department>();
 
+    public DbSet<EmployeeClaimHoliday> EmployeeClaimHolidays => Set<EmployeeClaimHoliday>();
+
     public DbSet<EmployeeCompanyTask> EmployeeCompanyTasks => Set<EmployeeCompanyTask>();
 
     public DbSet<EmployeeHoliday> EmployeeHolidays => Set<EmployeeHoliday>();

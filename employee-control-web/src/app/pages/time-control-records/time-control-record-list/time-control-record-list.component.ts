@@ -78,7 +78,7 @@ export class TimeControlRecordListComponent {
 
   readonly breadcrumb = new BreadcrumbCollection();
 
-  displayedColumns = [
+  readonly displayedColumns = [
     'firstName',
     'lastName',
     'start',
@@ -89,15 +89,16 @@ export class TimeControlRecordListComponent {
     'incidence',
     'actions'
   ];
-  fieldsFilter = ['user.firstName', 'user.lastName'];
+  readonly fieldsFilter = ['user.firstName', 'user.lastName'];
+  readonly siteUrl = SiteUrl;
+  readonly dateTimeShortFormat = DateTime.DATETIME_SHORT;
+  readonly timeState = TimeState;
+  readonly closedBy = ClosedBy;
+
   dataSource!: MatTableDataSource<TimeControlRecordResponse, MatPaginator>;
   apiResult = new ApiResult<TimeControlRecordResponse>();
   loading = true;
-  siteUrl = SiteUrl;
-  timeState = TimeState;
-  closedBy = ClosedBy;
   loadingTimeState = false;
-  dateTimeShortFormat = DateTime.DATETIME_SHORT;
 
   /** Custom filters. */
   filterPeriod!: PeriodDatetime;
@@ -107,7 +108,6 @@ export class TimeControlRecordListComponent {
 
   constructor() {
     this.apiResult.addOrder('start', OrderType.Ascending);
-
     this.setBreadcrumb();
 
     const end = DateTime.local();

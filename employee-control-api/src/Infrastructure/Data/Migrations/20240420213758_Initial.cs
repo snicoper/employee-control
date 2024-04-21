@@ -349,6 +349,31 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmployeeClaimHolidays",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    Accepted = table.Column<bool>(type: "boolean", nullable: false),
+                    Description = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeClaimHolidays", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmployeeClaimHolidays_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EmployeeHolidays",
                 columns: table => new
                 {
@@ -655,6 +680,22 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_EmployeeClaimHolidays_Date_UserId",
+                table: "EmployeeClaimHolidays",
+                columns: new[] { "Date", "UserId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeClaimHolidays_Id",
+                table: "EmployeeClaimHolidays",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployeeClaimHolidays_UserId",
+                table: "EmployeeClaimHolidays",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_EmployeeCompanyTasks_CompanyId_UserId_CompanyTaskId",
                 table: "EmployeeCompanyTasks",
                 columns: new[] { "CompanyId", "UserId", "CompanyTaskId" },
@@ -761,6 +802,9 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "CompanySettings");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeClaimHolidays");
 
             migrationBuilder.DropTable(
                 name: "EmployeeCompanyTasks");

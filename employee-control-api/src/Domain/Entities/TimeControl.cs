@@ -9,8 +9,6 @@ namespace EmployeeControl.Domain.Entities;
 /// </summary>
 public class TimeControl : BaseAuditableEntity, ICompany
 {
-    public string UserId { get; set; } = default!;
-
     public DateTimeOffset Start { get; set; }
 
     public DateTimeOffset Finish { get; set; }
@@ -34,6 +32,8 @@ public class TimeControl : BaseAuditableEntity, ICompany
     public double? LatitudeFinish { get; set; }
 
     public double? LongitudeFinish { get; set; }
+
+    public string UserId { get; set; } = default!;
 
     public ApplicationUser User { get; set; } = null!;
 

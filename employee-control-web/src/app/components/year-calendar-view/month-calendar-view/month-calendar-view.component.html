@@ -1,0 +1,16 @@
+<mat-card class="calendar">
+  <mat-card-content>
+    <h4>{{ title }}</h4>
+    @if (!loading() && calendarEvents() && selected) {
+      <mat-calendar
+        [startAt]="selected"
+        [dateClass]="dateClass"
+        [dateFilter]="handleDateFilter"
+        (selectedChange)="handleSelectedChange($event)" />
+    } @else {
+      <div class="d-flex justify-content-center p-5">
+        <mat-progress-spinner color="primary" mode="indeterminate" />
+      </div>
+    }
+  </mat-card-content>
+</mat-card>

@@ -124,13 +124,16 @@
       }
     </table>
 
-    <aw-btn-back />
+    <!-- buttons -->
+    <div class="mt-2">
+      <aw-btn-back />
 
-    <!-- edit button -->
-    @if (canUpdateStates) {
-      <button mat-flat-button color="primary" class="ms-2" [routerLink]="urlToEdit">
-        <mat-icon>edit</mat-icon> Editar
-      </button>
-    }
+      @if (canUpdateStates) {
+        <button mat-flat-button color="primary" class="ms-2" [routerLink]="urlToEdit">
+          <mat-icon>edit</mat-icon>
+          Editar
+        </button>
+      }
+    </div>
   </mat-card-content>
 </mat-card>

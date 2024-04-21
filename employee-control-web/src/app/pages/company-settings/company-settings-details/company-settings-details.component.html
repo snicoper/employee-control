@@ -4,8 +4,9 @@
   <mat-card>
     <mat-card-content>
       <!-- toolbar-->
-      <button mat-button color="primary" [routerLink]="[siteUrl.companySettings.update]">
-        <mat-icon>edit</mat-icon> Editar
+      <button [routerLink]="[siteUrl.companySettings.update]" color="primary" mat-button>
+        <mat-icon>edit</mat-icon>
+        Editar
       </button>
 
       @if (!loadingCompanySettings()) {

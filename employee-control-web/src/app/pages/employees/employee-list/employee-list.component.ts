@@ -51,12 +51,13 @@ export class EmployeeListComponent {
 
   readonly breadcrumb = new BreadcrumbCollection();
 
-  displayedColumns = ['firstName', 'lastName', 'email', 'active', 'emailConfirmed'];
-  fieldsFilter = ['firstName', 'lastName', 'email'];
+  readonly displayedColumns = ['firstName', 'lastName', 'email', 'active', 'emailConfirmed'];
+  readonly fieldsFilter = ['firstName', 'lastName', 'email'];
+  readonly siteUrl = SiteUrl;
+
   dataSource!: MatTableDataSource<EmployeeListResponse, MatPaginator>;
   apiResult = new ApiResult<EmployeeListResponse>();
   loading = true;
-  siteUrl = SiteUrl;
 
   constructor() {
     this.employeeSelectedService.clean();

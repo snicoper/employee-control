@@ -20,8 +20,8 @@ export const SiteUrl = {
     update: '/category-absences/{id}/update'
   },
 
-  companyHolidaysManage: {
-    manage: '/company-holidays-manage'
+  companyCalendar: {
+    calendar: '/company-calendar'
   },
 
   companySettings: {
@@ -40,6 +40,11 @@ export const SiteUrl = {
     dashboard: '/dashboard'
   },
 
+  employeeSettings: {
+    settings: '/employee-settings',
+    update: '/employee-settings/update'
+  },
+
   departments: {
     list: '/departments',
     details: '/departments/{id}',
@@ -51,14 +56,16 @@ export const SiteUrl = {
     list: '/employees',
     details: '/employees/{id}',
     update: '/employees/{id}/update',
-    invite: '/employees/invite',
-    settings: '/employees/settings',
-    settingsUpdate: '/employees/settings/update'
+    invite: '/employees/invite'
   },
 
   errors: {
     forbidden: '/errors/403',
     notFound: '/errors/404'
+  },
+
+  manageHolidays: {
+    manage: '/manage-holidays'
   },
 
   timeControlRecords: {

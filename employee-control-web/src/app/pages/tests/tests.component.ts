@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { Component } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateTime } from 'luxon';
-import { FormDatetimePickerComponent } from '../../components/forms/inputs/form-datetime-picker/form-datetime-picker.component';
 import { PageBaseComponent } from '../../components/pages/page-base/page-base.component';
-import { CustomValidators } from '../../core/validators/custom-validators-form';
-import { BadRequest } from '../../models/bad-request';
+import { PageHeaderComponent } from '../../components/pages/page-header/page-header.component';
+import { YearCalendarViewComponent } from '../../components/year-calendar-view/year-calendar-view.component';
 
 @Component({
   selector: 'aw-tests',
@@ -15,24 +14,13 @@ import { BadRequest } from '../../models/bad-request';
   styleUrl: './tests.component.scss',
   imports: [
     CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatButtonModule,
+    MatCardModule,
+    MatDatepickerModule,
     PageBaseComponent,
-    FormDatetimePickerComponent
+    PageHeaderComponent,
+    YearCalendarViewComponent
   ]
 })
 export class TestsComponent {
-  private readonly formBuilder = inject(FormBuilder);
-
-  form: FormGroup = this.formBuilder.group({});
-  badRequest: BadRequest | undefined;
-  submitted = false;
-  loading = false;
-
-  constructor() {
-    this.form = this.formBuilder.group({
-      start: [DateTime.local(), [Validators.required, CustomValidators.noFutureDate]]
-    });
-  }
+  selected = DateTime.local(217, 3, 2).year;
 }

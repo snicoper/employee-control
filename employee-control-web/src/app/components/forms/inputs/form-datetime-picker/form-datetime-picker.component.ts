@@ -53,7 +53,7 @@ export class FormDatetimePickerComponent implements ControlValueAccessor, Valida
   submitted = input.required<boolean>();
   fieldName = input.required<string>();
   label = input.required<string>();
-  id = input(Math.random.toString());
+  id = input(Math.random().toString());
   readonly = input(false);
   placeholder = input('');
 

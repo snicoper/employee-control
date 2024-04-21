@@ -49,3 +49,11 @@ mat-sidenav-container {
     height: calc(100vh - 57px);
   }
 }
+
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 !important;
+
+  .mat-mdc-list-item {
+    padding-left: 30px !important;
+  }
+}

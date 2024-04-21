@@ -52,12 +52,13 @@ export class CategoryAbsenceListComponent {
 
   readonly breadcrumb = new BreadcrumbCollection();
 
-  displayedColumns = ['description', 'active', 'background', 'color', 'actions'];
-  fieldsFilter = ['description'];
+  readonly siteUrl = SiteUrl;
+  readonly displayedColumns = ['description', 'active', 'background', 'color', 'actions'];
+  readonly fieldsFilter = ['description'];
+
   dataSource!: MatTableDataSource<CategoryAbsence, MatPaginator>;
   apiResult = new ApiResult<CategoryAbsence>();
   loading = true;
-  siteUrl = SiteUrl;
 
   constructor() {
     this.setBreadcrumb();

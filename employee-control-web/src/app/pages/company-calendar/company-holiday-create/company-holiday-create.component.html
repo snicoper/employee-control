@@ -1,0 +1,36 @@
+<div class="company-holiday-create-content">
+  <h2 mat-dialog-title>Añadir día festivo</h2>
+  <mat-divider />
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <!-- day -->
+      <aw-form-datepicker
+        [badRequest]="badRequest"
+        [form]="form"
+        [submitted]="submitted"
+        fieldName="date"
+        formControlName="date"
+        label="Fecha" />
+
+      <!-- description -->
+      <div class="mb-2">
+        <aw-form-input
+          [badRequest]="badRequest"
+          [form]="form"
+          [submitted]="submitted"
+          fieldName="description"
+          formControlName="description"
+          label="Descripción" />
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-divider />
+
+  <mat-dialog-actions>
+    <div>
+      <button mat-flat-button mat-dialog-close color="accent" class="me-2"><mat-icon>close</mat-icon> Cerrar</button>
+      <aw-btn-loading [loading]="loadingForm" icon="save" btnText="Añadir" (eventClick)="handleSubmit()" />
+    </div>
+  </mat-dialog-actions>
+</div>

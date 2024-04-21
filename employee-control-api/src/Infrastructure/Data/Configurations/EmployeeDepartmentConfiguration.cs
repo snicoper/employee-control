@@ -18,13 +18,13 @@ public class EmployeeDepartmentConfiguration : IEntityTypeConfiguration<Employee
 
         // Relations.
         builder.HasOne(ed => ed.User)
-            .WithMany(au => au.UserDepartments)
+            .WithMany(au => au.EmployeeDepartments)
             .HasForeignKey(ed => ed.UserId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
         builder.HasOne(ed => ed.Department)
-            .WithMany(d => d.UserDepartments)
+            .WithMany(d => d.EmployeeDepartments)
             .HasForeignKey(ed => ed.DepartmentId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();

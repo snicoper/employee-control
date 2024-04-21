@@ -41,8 +41,8 @@ export const appConfig: ApplicationConfig = {
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3500 } },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },
     { provide: TitleStrategy, useClass: TemplatePageTitleStrategyService },
-    { provide: DateAdapter, useValue: new CustomDateAdapter('es-ES') },
     provideLuxonDateAdapter(),
+    { provide: DateAdapter, useValue: new CustomDateAdapter('es-ES') },
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi())

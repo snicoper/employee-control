@@ -15,9 +15,9 @@ public class ApplicationUser : IdentityUser, ICompany, IEntityDomainEvent
     public ApplicationUser()
     {
         _domainEvents = new List<BaseEvent>();
-        UserCompanyTasks = new List<EmployeeCompanyTask>();
+        EmployeeCompanyTasks = new List<EmployeeCompanyTask>();
         TimeControls = new List<TimeControl>();
-        UserDepartments = new List<EmployeeDepartment>();
+        EmployeeDepartments = new List<EmployeeDepartment>();
         UserRoles = new List<IdentityUserRole<string>>();
     }
 
@@ -35,13 +35,13 @@ public class ApplicationUser : IdentityUser, ICompany, IEntityDomainEvent
 
     public EmployeeSettings EmployeeSettings { get; set; } = null!;
 
-    public EmployeeHoliday EmployeeHolidays { get; set; } = null!;
+    public EmployeeHoliday EmployeeHoliday { get; set; } = null!;
 
-    public ICollection<EmployeeCompanyTask> UserCompanyTasks { get; set; }
+    public ICollection<EmployeeCompanyTask> EmployeeCompanyTasks { get; set; }
 
     public ICollection<TimeControl> TimeControls { get; set; }
 
-    public ICollection<EmployeeDepartment> UserDepartments { get; set; }
+    public ICollection<EmployeeDepartment> EmployeeDepartments { get; set; }
 
     public ICollection<IdentityUserRole<string>> UserRoles { get; set; }
 

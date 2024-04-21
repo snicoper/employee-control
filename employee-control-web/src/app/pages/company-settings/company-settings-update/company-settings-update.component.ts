@@ -52,14 +52,15 @@ export class CompanySettingsUpdateComponent {
 
   readonly breadcrumb = new BreadcrumbCollection();
 
+  readonly siteUrl = SiteUrl;
+  readonly formInputTypes = FormInputType;
+
   form: FormGroup = this.formBuilder.group({});
   badRequest: BadRequest | undefined;
   loadingForm = false;
   submitted = false;
   nowWithOriginalTimezone = '';
   nowWithTimezoneSelected = '';
-  siteUrl = SiteUrl;
-  formInputTypes = FormInputType;
 
   constructor() {
     this.setBreadcrumb();
@@ -104,7 +105,7 @@ export class CompanySettingsUpdateComponent {
   private setNowWithOriginalTimezone(): void {
     this.nowWithOriginalTimezone = DateTime.local()
       .setZone(this.companySettings()?.timezone)
-      .toLocaleString(DateTime.TIME_WITH_SHORT_OFFSET);
+      .toLocaleString(DateTime.TIME_SIMPLE);
   }
 
   private buildForm(): void {
@@ -122,7 +123,7 @@ export class CompanySettingsUpdateComponent {
   private eventListener(): void {
     this.form.controls['timezone'].valueChanges.pipe(takeUntilDestroyed()).subscribe((timezone: string) => {
       this.setNowWithOriginalTimezone();
-      this.nowWithTimezoneSelected = DateTime.local().setZone(timezone).toLocaleString(DateTime.TIME_WITH_SHORT_OFFSET);
+      this.nowWithTimezoneSelected = DateTime.local().setZone(timezone).toLocaleString(DateTime.TIME_SIMPLE);
     });
   }
 }

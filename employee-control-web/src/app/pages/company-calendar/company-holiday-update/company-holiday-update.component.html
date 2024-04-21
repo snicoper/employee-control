@@ -1,0 +1,48 @@
+<div class="company-holiday-create-content">
+  <h2 mat-dialog-title>Actualizar día festivo</h2>
+  <mat-divider />
+  <mat-dialog-content>
+    <form [formGroup]="form">
+      <!-- date -->
+      <aw-form-datepicker
+        [badRequest]="badRequest"
+        [form]="form"
+        [submitted]="submitted"
+        fieldName="date"
+        formControlName="date"
+        label="Fecha" />
+
+      <!-- description -->
+      <div class="mb-2">
+        <aw-form-input
+          [badRequest]="badRequest"
+          [form]="form"
+          [submitted]="submitted"
+          fieldName="description"
+          formControlName="description"
+          label="Descripción" />
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-divider />
+
+  <mat-dialog-actions>
+    <div>
+      <button class="me-2" color="accent" mat-dialog-close mat-flat-button>
+        <mat-icon>close</mat-icon>
+        Cerrar
+      </button>
+      <aw-btn-loading
+        (eventClick)="handleSubmit()"
+        [loading]="loadingForm"
+        btnText="Actualizar"
+        class="me-2"
+        icon="save" />
+      <button (click)="handleDelete()" color="warn" mat-flat-button>
+        <mat-icon>delete</mat-icon>
+        Eliminar
+      </button>
+    </div>
+  </mat-dialog-actions>
+</div>

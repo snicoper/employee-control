@@ -46,10 +46,11 @@ export class RecoveryPasswordChangeComponent {
   private readonly accountsApiService = inject(AccountsApiService);
   private readonly snackBarService = inject(SnackBarService);
 
+  readonly formInputType = FormInputType;
+  readonly siteUrl = SiteUrl;
+
   form: FormGroup = this.formBuilder.group({});
   badRequest: BadRequest | undefined;
-  formInputType = FormInputType;
-  siteUrl = SiteUrl;
   submitted = false;
   loading = false;
   errorMessages: Array<string> = [];

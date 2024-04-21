@@ -8,9 +8,9 @@ export interface TimeControl {
   id: string;
   start: Date;
   finish?: Date;
-  duration?: number;
   incidence: boolean;
   incidenceDescription?: string;
+  duration?: number;
   closedBy: ClosedBy;
   timeState: TimeState;
   deviceTypeStart: DeviceType;
@@ -19,8 +19,8 @@ export interface TimeControl {
   longitudeStart?: number;
   latitudeFinish?: number;
   longitudeFinish?: number;
-  user?: User;
   userId: string;
-  company?: Company;
+  user?: User;
   companyId: string;
+  company?: Company;
 }

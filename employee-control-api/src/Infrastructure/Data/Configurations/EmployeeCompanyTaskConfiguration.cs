@@ -19,13 +19,13 @@ public class EmployeeCompanyTaskConfiguration : IEntityTypeConfiguration<Employe
 
         // Relations.
         builder.HasOne(ect => ect.User)
-            .WithMany(au => au.UserCompanyTasks)
+            .WithMany(au => au.EmployeeCompanyTasks)
             .HasForeignKey(ect => ect.UserId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
         builder.HasOne(ect => ect.CompanyTask)
-            .WithMany(ct => ct.UserCompanyTasks)
+            .WithMany(ct => ct.EmployeeCompanyTasks)
             .HasForeignKey(ect => ect.CompanyTaskId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();

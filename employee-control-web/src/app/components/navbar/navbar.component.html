@@ -16,7 +16,13 @@
     </span>
   </button>
 
-  <button mat-icon-button>
-    <mat-icon>share</mat-icon>
+  <button mat-button [mat-menu-trigger-for]="profile" aria-label="Perfil de usuario">
+    {{ userName }}
   </button>
+  <mat-menu #profile="matMenu">
+    <button mat-menu-item [routerLink]="siteUrl.auth.logout">
+      <mat-icon>logout</mat-icon>
+      Desconectar
+    </button>
+  </mat-menu>
 </mat-toolbar>

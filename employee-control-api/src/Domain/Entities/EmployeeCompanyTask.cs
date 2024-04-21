@@ -16,7 +16,7 @@ public class EmployeeCompanyTask : BaseAuditableEntity, ICompany
 
     public CompanyTask CompanyTask { get; set; } = null!;
 
-    public Company Company { get; set; } = null!;
-
     public string CompanyId { get; set; } = default!;
+
+    public Company Company { get; set; } = null!;
 }

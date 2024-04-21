@@ -4,8 +4,9 @@
   <mat-card>
     <mat-card-content>
       <!-- toolbar -->
-      <button mat-button color="primary" [routerLink]="[siteUrl.employees.settingsUpdate]">
-        <mat-icon>edit</mat-icon> Editar
+      <button [routerLink]="[siteUrl.employeeSettings.update]" color="primary" mat-button>
+        <mat-icon>edit</mat-icon>
+        Editar
       </button>
 
       <!-- table -->
@@ -18,7 +19,7 @@
                 Zona horaria
                 <mat-icon matTooltip="Los tiempos se vera en base a la zona horaria" color="primary">info</mat-icon>
               </td>
-              <td>{{ employeeSettings()?.timezone }} - {{ nowWithTimezone }}</td>
+              <td>{{ employeeSettings()?.timezone }} {{ nowWithTimezone }}</td>
             </tr>
           </tbody>
         </table>

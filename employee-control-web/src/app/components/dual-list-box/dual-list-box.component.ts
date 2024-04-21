@@ -28,13 +28,13 @@ export class DualListBoxComponent implements OnInit {
 
   /** Box left. */
   boxLeftId = Math.random().toString();
-  dualListBoxItemsLeft: DualListBoxItem[] = [];
+  dualListBoxItemsLeft: Array<DualListBoxItem> = [];
   itemsLeftSelected: Array<string> | Array<number> = [];
   termLeftValue = '';
 
   /** Box right. */
   boxRightId = Math.random().toString();
-  dualListBoxItemsRight: DualListBoxItem[] = [];
+  dualListBoxItemsRight: Array<DualListBoxItem> = [];
   itemsRightSelected: Array<string> | Array<number> = [];
   termRightValue = '';
 

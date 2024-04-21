@@ -18,6 +18,8 @@ public interface IApplicationDbContext
 
     DbSet<Department> Departments { get; }
 
+    DbSet<EmployeeClaimHoliday> EmployeeClaimHolidays { get; }
+
     DbSet<EmployeeCompanyTask> EmployeeCompanyTasks { get; }
 
     DbSet<EmployeeHoliday> EmployeeHolidays { get; }

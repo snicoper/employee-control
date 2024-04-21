@@ -15,5 +15,5 @@ import { SiteUrl } from '../../../core/urls/site-urls';
   styleUrl: './not-found.component.scss'
 })
 export class NotFoundComponent {
-  siteUrl = SiteUrl;
+  readonly siteUrl = SiteUrl;
 }

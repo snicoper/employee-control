@@ -11,5 +11,5 @@ import { SiteUrl } from '../../../core/urls/site-urls';
   imports: [RouterLink, PageSimpleComponent, BtnBackComponent]
 })
 export class ForbiddenComponent {
-  siteUrl = SiteUrl;
+  readonly siteUrl = SiteUrl;
 }

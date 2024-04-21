@@ -1,7 +1,10 @@
 <!-- tab user-list -->
 @if (tabSelected() === "user-list") {
   <div class="d-flex mt-4">
-    <button mat-button color="primary" (click)="toggleTabSelected()"><mat-icon>add</mat-icon> Asociar empleados</button>
+    <button mat-button color="primary" (click)="toggleTabSelected()">
+      <mat-icon>add</mat-icon>
+      Asociar empleados
+    </button>
   </div>
 
   <aw-department-user-list />
@@ -13,7 +16,8 @@
 
   <div class="d-flex mt-4">
     <button mat-flat-button color="accent" (click)="toggleTabSelected()">
-      <mat-icon>navigate_before</mat-icon> Volver a empleados
+      <mat-icon>navigate_before</mat-icon>
+      Volver a empleados
     </button>
   </div>
 }

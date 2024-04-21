@@ -7,20 +7,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { DateTime } from 'luxon';
 import { finalize } from 'rxjs';
-import { BreadcrumbCollection } from '../../../../components/breadcrumb/breadcrumb-collection';
-import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-back.component';
-import { BtnLoadingComponent } from '../../../../components/buttons/btn-loading/btn-loading.component';
-import { FormTimezoneComponent } from '../../../../components/forms/inputs/form-timezone/form-timezone.component';
-import { PageBaseComponent } from '../../../../components/pages/page-base/page-base.component';
-import { PageHeaderComponent } from '../../../../components/pages/page-header/page-header.component';
-import { ApiUrl } from '../../../../core/urls/api-urls';
-import { SiteUrl } from '../../../../core/urls/site-urls';
-import { CommonUtils } from '../../../../core/utils/common-utils';
-import { BadRequest } from '../../../../models/bad-request';
-import { EmployeeSettings } from '../../../../models/entities/employee-settings.model';
-import { EmployeesApiService } from '../../../../services/api/employees-api.service';
-import { SnackBarService } from '../../../../services/snackbar.service';
-import { EmployeeSettingsStateService } from '../../../../services/states/employee-settings-state.service';
+import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-collection';
+import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
+import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
+import { FormTimezoneComponent } from '../../../components/forms/inputs/form-timezone/form-timezone.component';
+import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
+import { PageHeaderComponent } from '../../../components/pages/page-header/page-header.component';
+import { ApiUrl } from '../../../core/urls/api-urls';
+import { SiteUrl } from '../../../core/urls/site-urls';
+import { CommonUtils } from '../../../core/utils/common-utils';
+import { BadRequest } from '../../../models/bad-request';
+import { EmployeeSettings } from '../../../models/entities/employee-settings.model';
+import { EmployeesApiService } from '../../../services/api/employees-api.service';
+import { SnackBarService } from '../../../services/snackbar.service';
+import { EmployeeSettingsStateService } from '../../../services/states/employee-settings-state.service';
 
 @Component({
   selector: 'aw-employee-settings-update',
@@ -50,13 +50,14 @@ export class EmployeeSettingsUpdateComponent {
 
   readonly breadcrumb = new BreadcrumbCollection();
 
+  readonly siteUrl = SiteUrl;
+
   form: FormGroup = this.formBuilder.group({});
   badRequest: BadRequest | undefined;
   loadingForm = false;
   submitted = false;
   nowWithOriginalTimezone = '';
   nowWithTimezoneSelected = '';
-  siteUrl = SiteUrl;
 
   constructor() {
     this.setBreadcrumb();
@@ -86,7 +87,7 @@ export class EmployeeSettingsUpdateComponent {
         next: (result: EmployeeSettings) => {
           if (result) {
             this.snackBarService.success('Configuración actualizada con éxito');
-            this.router.navigateByUrl(SiteUrl.employees.settings);
+            this.router.navigateByUrl(SiteUrl.employeeSettings.settings);
             this.employeeSettingsStateService.refresh();
           }
         }
@@ -95,14 +96,14 @@ export class EmployeeSettingsUpdateComponent {
 
   private setBreadcrumb(): void {
     this.breadcrumb
-      .add('Configuración de empleado', SiteUrl.employees.settings)
-      .add('Editar', SiteUrl.employees.settingsUpdate, '', false);
+      .add('Configuración de empleado', SiteUrl.employeeSettings.settings)
+      .add('Editar', SiteUrl.employeeSettings.update, '', false);
   }
 
   private setNowWithOriginalTimezone(): void {
     this.nowWithOriginalTimezone = DateTime.local()
       .setZone(this.employeeSettings()?.timezone)
-      .toLocaleString(DateTime.TIME_WITH_SHORT_OFFSET);
+      .toLocaleString(DateTime.TIME_SIMPLE);
   }
 
   private buildForm(): void {
@@ -114,7 +115,7 @@ export class EmployeeSettingsUpdateComponent {
   private eventListener(): void {
     this.form.controls['timezone'].valueChanges.pipe(takeUntilDestroyed()).subscribe((timezone: string) => {
       this.setNowWithOriginalTimezone();
-      this.nowWithTimezoneSelected = DateTime.local().setZone(timezone).toLocaleString(DateTime.TIME_WITH_SHORT_OFFSET);
+      this.nowWithTimezoneSelected = DateTime.local().setZone(timezone).toLocaleString(DateTime.TIME_SIMPLE);
     });
   }
 }
