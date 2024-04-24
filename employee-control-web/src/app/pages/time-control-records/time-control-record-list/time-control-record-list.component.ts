@@ -32,7 +32,7 @@ import { ClosedBy } from '../../../models/entities/types/closed-by.model';
 import { TimeState } from '../../../models/entities/types/time-state.model';
 import { ResultResponse } from '../../../models/result-response.model';
 import { ClosedByPipe } from '../../../pipes/closed-by.pipe';
-import { DatetimePipe as DateTimePipe } from '../../../pipes/datetime.pipe';
+import { DateFormatPipe as DateTimePipe } from '../../../pipes/date-format.pipe';
 import { DeviceTypePipe } from '../../../pipes/device-type.pipe';
 import { DurationToTimePipe } from '../../../pipes/duration-to-time.pipe';
 import { TimeControlApiService } from '../../../services/api/time-control-api.service';
@@ -79,8 +79,8 @@ export class TimeControlRecordListComponent {
   readonly breadcrumb = new BreadcrumbCollection();
 
   readonly displayedColumns = [
-    'firstName',
-    'lastName',
+    'user.firstName',
+    'user.lastName',
     'start',
     'finish',
     'closedBy',

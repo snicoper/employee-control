@@ -6,7 +6,7 @@ using EmployeeControl.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
-namespace EmployeeControl.Infrastructure.Services.CompanyHolidays;
+namespace EmployeeControl.Infrastructure.Services.Features.CompanyHolidays;
 
 public class CompanyHolidaysValidatorService(
     IApplicationDbContext context,
@@ -18,7 +18,7 @@ public class CompanyHolidaysValidatorService(
     {
         var dateExists = await context
             .CompanyHolidays
-            .AnyAsync(ch => ch.Date == companyHoliday.Date && ch.CompanyId == companyHoliday.CompanyId, cancellationToken);
+            .AnyAsync(ch => ch.Date == companyHoliday.Date, cancellationToken);
 
         if (!dateExists)
         {
@@ -33,9 +33,7 @@ public class CompanyHolidaysValidatorService(
     {
         var dateExists = await context
             .CompanyHolidays
-            .AnyAsync(
-                ch => ch.Id != companyHoliday.Id && ch.Date == companyHoliday.Date && ch.CompanyId == companyHoliday.CompanyId,
-                cancellationToken);
+            .AnyAsync(ch => ch.Id != companyHoliday.Id && ch.Date == companyHoliday.Date, cancellationToken);
 
         if (!dateExists)
         {

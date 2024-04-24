@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using EmployeeControl.Application.Common.Constants;
 using EmployeeControl.Application.Common.Interfaces.Features.Identity;
 using EmployeeControl.Application.Common.Models.Settings;
 using EmployeeControl.Domain.Entities;
@@ -17,12 +16,7 @@ public class TokenService(IOptions<JwtSettings> jwtSettings, UserManager<Applica
 {
     public async Task<string> GenerateAccessTokenAsync(ApplicationUser user)
     {
-        var claims = new List<Claim>
-        {
-            new(ClaimTypes.Sid, user.Id),
-            new(ClaimTypes.Name, user.UserName ?? string.Empty),
-            new(CustomClaims.CompanyId, user.CompanyId)
-        };
+        var claims = new List<Claim> { new(ClaimTypes.Sid, user.Id), new(ClaimTypes.Name, user.UserName ?? string.Empty) };
         var roles = await userManager.GetRolesAsync(user);
 
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));

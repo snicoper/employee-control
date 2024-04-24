@@ -11,7 +11,6 @@ import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-ba
 import { TableFilterComponent } from '../../../../components/tables/table-filter/table-filter.component';
 import { ApiResult } from '../../../../core/features/api-result/api-result';
 import { ApiUrl } from '../../../../core/urls/api-urls';
-import { CommonUtils } from '../../../../core/utils/common-utils';
 import { TimeControlApiService } from '../../../../services/api/time-control-api.service';
 import { TimeControlRecordCreateService } from '../time-control-record-create.service';
 import { TimeControlRecordEmployeeResponse } from '../time-control-record-employee-response.model';
@@ -73,12 +72,8 @@ export class TimeControlSelectEmployeeComponent {
   }
 
   private loadEmployees(): void {
-    const url = CommonUtils.urlReplaceParams(ApiUrl.employees.getEmployeesPaginated, {
-      id: this.timeControlRecordCreateService.employeeSelected()?.id ?? ''
-    });
-
     this.timeControlApiService
-      .getPaginated<TimeControlRecordEmployeeResponse>(this.apiResult, url)
+      .getPaginated<TimeControlRecordEmployeeResponse>(this.apiResult, ApiUrl.employees.getEmployeesPaginated)
       .pipe(finalize(() => (this.loading = false)))
       .subscribe({
         next: (result: ApiResult<TimeControlRecordEmployeeResponse>) => {

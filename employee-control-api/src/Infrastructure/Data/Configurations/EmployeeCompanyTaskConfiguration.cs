@@ -14,7 +14,7 @@ public class EmployeeCompanyTaskConfiguration : IEntityTypeConfiguration<Employe
         builder.HasKey(ect => new { ect.UserId, ect.CompanyTaskId });
 
         // Indexes.
-        builder.HasIndex(ect => new { ect.CompanyId, ect.UserId, ect.CompanyTaskId })
+        builder.HasIndex(ect => new { ect.UserId, ect.CompanyTaskId })
             .IsUnique();
 
         // Relations.

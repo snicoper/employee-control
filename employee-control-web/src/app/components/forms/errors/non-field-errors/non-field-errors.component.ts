@@ -1,12 +1,13 @@
 import { Component, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
 import { ValidationError } from '../../../../core/types/validation-error';
 import { BadRequest } from '../../../../models/bad-request';
 
 @Component({
   selector: 'aw-non-field-errors',
   standalone: true,
-  imports: [MatCardModule],
+  imports: [MatCardModule, MatListModule],
   templateUrl: './non-field-errors.component.html'
 })
 export class NonFieldErrorsComponent {

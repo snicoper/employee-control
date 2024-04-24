@@ -10,5 +10,5 @@ public interface IDepartmentEmailsService
     /// <param name="department"><see cref="Department" />.</param>
     /// <param name="company"><see cref="Company" />.</param>
     /// <param name="users">Lista de <see cref="ApplicationUser" /> añadidos al departamento.</param>
-    Task SendEmployeeAssignDepartmentAsync(Department department, Domain.Entities.Company company, List<ApplicationUser> users);
+    Task SendEmployeeAssignDepartmentAsync(Department department, Company company, List<ApplicationUser> users);
 }

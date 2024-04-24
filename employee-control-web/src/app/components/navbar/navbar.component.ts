@@ -1,4 +1,4 @@
-import { Component, computed, inject, output } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -10,6 +10,7 @@ import { ThemeColor } from '../../core/types/theme-color';
 import { SiteUrl } from '../../core/urls/site-urls';
 import { RequiredRoleDirective } from '../../directives/required-role.directive';
 import { JwtService } from '../../services/jwt.service';
+import { SidenavService } from '../../services/sidenav.service';
 import { ThemeManagerService } from '../../services/theme-manager.service';
 
 @Component({
@@ -19,10 +20,9 @@ import { ThemeManagerService } from '../../services/theme-manager.service';
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent {
+  private readonly sidenavService = inject(SidenavService);
   private readonly themeManagerService = inject(ThemeManagerService);
   private readonly jwtService = inject(JwtService);
-
-  readonly changeSidenavState = output<void>();
 
   readonly theme = computed(() => this.themeManagerService.theme());
 
@@ -39,6 +39,10 @@ export class NavbarComponent {
 
   /** Emitir cambio de estado de sidenav. */
   handleToggleSidenavState(): void {
-    this.changeSidenavState.emit();
+    this.sidenavService.toggleSidenavState();
+  }
+
+  handleToggleSidenavToolbarState(): void {
+    this.sidenavService.toggleSidenavToolbarState();
   }
 }

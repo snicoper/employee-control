@@ -6,11 +6,16 @@ public class CreateDepartmentValidator : AbstractValidator<CreateDepartmentComma
 {
     public CreateDepartmentValidator()
     {
-        RuleFor(r => r.CompanyId)
-            .NotEmpty();
-
         RuleFor(r => r.Name)
             .NotEmpty()
             .MaximumLength(100);
+
+        RuleFor(r => r.Background)
+            .NotEmpty()
+            .MaximumLength(7);
+
+        RuleFor(r => r.Color)
+            .NotEmpty()
+            .MaximumLength(7);
     }
 }

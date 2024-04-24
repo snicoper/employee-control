@@ -3,8 +3,12 @@
 mat-sidenav-container {
   height: calc(100vh - 64px);
 
-  mat-sidenav {
-    width: 250px;
+  .sidenav {
+    width: 300px;
+  }
+
+  .sidenav-toolbar {
+    width: 400px;
   }
 
   .sidenav-header {
@@ -44,16 +48,16 @@ mat-sidenav-container {
   }
 }
 
-@media screen and (max-width: 600px) {
-  mat-sidenav-container {
-    height: calc(100vh - 57px);
-  }
-}
-
 ::ng-deep .mat-expansion-panel-body {
   padding: 0 !important;
 
   .mat-mdc-list-item {
     padding-left: 30px !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  mat-sidenav-container {
+    height: calc(100vh - 57px);
   }
 }

@@ -1,12 +1,11 @@
 ﻿using EmployeeControl.Domain.Common;
-using EmployeeControl.Domain.Interfaces;
 
 namespace EmployeeControl.Domain.Entities;
 
 /// <summary>
 /// Departamentos en la compañía.
 /// </summary>
-public class Department : BaseAuditableEntity, ICompany
+public class Department : BaseAuditableEntity
 {
     public string Name { get; set; } = default!;
 
@@ -17,8 +16,4 @@ public class Department : BaseAuditableEntity, ICompany
     public string Color { get; set; } = default!;
 
     public ICollection<EmployeeDepartment> EmployeeDepartments { get; set; } = new List<EmployeeDepartment>();
-
-    public string CompanyId { get; set; } = default!;
-
-    public Company Company { get; set; } = null!;
 }

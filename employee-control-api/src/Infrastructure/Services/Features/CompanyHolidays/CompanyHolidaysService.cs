@@ -5,7 +5,7 @@ using EmployeeControl.Application.Common.Interfaces.Features.CompanyHolidays;
 using EmployeeControl.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EmployeeControl.Infrastructure.Services.CompanyHolidays;
+namespace EmployeeControl.Infrastructure.Services.Features.CompanyHolidays;
 
 public class CompanyHolidaysService(
     IApplicationDbContext context,

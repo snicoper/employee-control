@@ -51,15 +51,20 @@ export const routes: Routes = [
     loadChildren: () => import('./pages/dashboard/dashboard.routes').then((m) => m.routes)
   },
   {
-    path: 'employee-settings',
-    data: { roles: [Role.Employee] },
-    loadChildren: () => import('./pages/employee-settings/employee-settings.routes').then((m) => m.routes)
-  },
-  {
     path: 'departments',
     data: { roles: [Role.HumanResources] },
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/departments/departments.routes').then((m) => m.routes)
+  },
+  {
+    path: 'employee-calendar',
+    data: { roles: [Role.Employee] },
+    loadChildren: () => import('./pages/employee-calendar/employee-calendar.routes').then((m) => m.routes)
+  },
+  {
+    path: 'employee-settings',
+    data: { roles: [Role.Employee] },
+    loadChildren: () => import('./pages/employee-settings/employee-settings.routes').then((m) => m.routes)
   },
   {
     path: 'employees',

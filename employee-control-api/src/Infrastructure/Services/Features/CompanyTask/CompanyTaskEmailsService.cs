@@ -11,14 +11,14 @@ using Microsoft.Extensions.Options;
 namespace EmployeeControl.Infrastructure.Services.Features.CompanyTask;
 
 public class CompanyTaskEmailsService(
-        IEmailService emailService,
-        IOptions<WebApiSettings> webApiSettings,
-        IStringLocalizer<CompanyTaskLocalizer> localizer)
+    IEmailService emailService,
+    IOptions<WebApiSettings> webApiSettings,
+    IStringLocalizer<CompanyTaskLocalizer> localizer)
     : ICompanyTaskEmailsService
 {
     public async Task SendEmployeeAssignTaskAsync(
         Domain.Entities.CompanyTask companyTask,
-        Domain.Entities.Company company,
+        Company company,
         List<ApplicationUser> users)
     {
         var siteName = webApiSettings.Value.SiteName ?? string.Empty;

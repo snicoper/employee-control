@@ -16,7 +16,7 @@ public class CategoryAbsenceConfiguration : IEntityTypeConfiguration<CategoryAbs
         // Indexes.
         builder.HasIndex(ca => ca.Id);
 
-        builder.HasIndex(ca => new { ca.Description, ca.CompanyId })
+        builder.HasIndex(ca => new { ca.Description })
             .IsUnique();
 
         // Properties.
@@ -33,8 +33,5 @@ public class CategoryAbsenceConfiguration : IEntityTypeConfiguration<CategoryAbs
             .HasMaxLength(7);
 
         builder.Property(ca => ca.Active);
-
-        builder.Property(ca => ca.CompanyId)
-            .IsRequired();
     }
 }

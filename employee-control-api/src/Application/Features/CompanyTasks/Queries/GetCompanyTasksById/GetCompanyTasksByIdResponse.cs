@@ -5,7 +5,6 @@ namespace EmployeeControl.Application.Features.CompanyTasks.Queries.GetCompanyTa
 
 public record GetCompanyTasksByIdResponse(
     string Id,
-    string CompanyId,
     string Name,
     string Background,
     string Color,

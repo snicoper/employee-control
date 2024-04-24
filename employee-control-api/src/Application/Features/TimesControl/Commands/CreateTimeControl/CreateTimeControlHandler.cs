@@ -12,7 +12,6 @@ namespace EmployeeControl.Application.Features.TimesControl.Commands.CreateTimeC
 
 internal class CreateTimeControlHandler(
     IMapper mapper,
-    ICurrentUserService currentUserService,
     ITimesControlService timesControlService,
     IValidationFailureService validationFailureService,
     IStringLocalizer<TimeControlLocalizer> localizer)
@@ -32,7 +31,6 @@ internal class CreateTimeControlHandler(
         TimeControl resultResponse;
         var timeControl = mapper.Map<TimeControl>(request);
 
-        timeControl.CompanyId = currentUserService.CompanyId;
         timeControl.Incidence = false;
         timeControl.DeviceTypeStart = request.DeviceType;
 

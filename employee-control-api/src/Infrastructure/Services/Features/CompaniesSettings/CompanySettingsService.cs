@@ -19,7 +19,7 @@ public class CompanySettingsService(
         var result = await context
                          .CompanySettings
                          .SingleOrDefaultAsync(cs => cs.Id == companySettingsId, cancellationToken) ??
-                     throw new NotFoundException(nameof(CompanySettings), nameof(CompanySettings.CompanyId));
+                     throw new NotFoundException(nameof(CompanySettings), nameof(CompanySettings.Id));
 
         return result;
     }
@@ -29,7 +29,7 @@ public class CompanySettingsService(
         var result = await context
                          .CompanySettings
                          .FirstOrDefaultAsync(cancellationToken) ??
-                     throw new NotFoundException(nameof(CompanySettings), nameof(CompanySettings.CompanyId));
+                     throw new NotFoundException(nameof(CompanySettings), nameof(CompanySettings.Id));
 
         return result;
     }

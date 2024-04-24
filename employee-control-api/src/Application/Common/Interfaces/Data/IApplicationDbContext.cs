@@ -18,13 +18,15 @@ public interface IApplicationDbContext
 
     DbSet<Department> Departments { get; }
 
-    DbSet<EmployeeClaimHoliday> EmployeeClaimHolidays { get; }
-
     DbSet<EmployeeCompanyTask> EmployeeCompanyTasks { get; }
 
-    DbSet<EmployeeHoliday> EmployeeHolidays { get; }
-
     DbSet<EmployeeDepartment> EmployeeDepartments { get; }
+
+    DbSet<EmployeeHolidayClaim> EmployeeHolidaysClaims { get; }
+
+    DbSet<EmployeeHolidayClaimLine> EmployeeHolidaysClaimLines { get; }
+
+    DbSet<EmployeeHoliday> EmployeeHolidays { get; }
 
     DbSet<EmployeeSettings> EmployeeSettings { get; }
 

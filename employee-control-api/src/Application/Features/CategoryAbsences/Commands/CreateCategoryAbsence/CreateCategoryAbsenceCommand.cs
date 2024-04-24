@@ -7,7 +7,7 @@ using MediatR;
 namespace EmployeeControl.Application.Features.CategoryAbsences.Commands.CreateCategoryAbsence;
 
 [Authorize(Roles = Roles.HumanResources)]
-public record CreateCategoryAbsenceCommand(string Description, string Background, string Color, string CompanyId)
+public record CreateCategoryAbsenceCommand(string Description, string Background, string Color)
     : IRequest<CategoryAbsence>
 {
     internal class Mapping : Profile

@@ -40,7 +40,7 @@ internal class GetEmployeesUnassignedDepartmentByDepartmentIdHandler(
                 au => au
                     .EmployeeCompanyTasks
                     .Where(uct => uct.CompanyTaskId == request.Id && uct.CompanyTaskId == department.Id))
-            .Where(au => !userIdsInDepartment.Contains(au.Id) && au.CompanyId == department.CompanyId);
+            .Where(au => !userIdsInDepartment.Contains(au.Id));
 
         if (!users.Any())
         {

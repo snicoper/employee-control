@@ -16,9 +16,6 @@ public class CompanySettingsConfiguration : IEntityTypeConfiguration<CompanySett
         // Indexes.
         builder.HasIndex(cs => cs.Id);
 
-        builder.HasIndex(cs => cs.CompanyId)
-            .IsUnique();
-
         // Relations.
 
         // Properties.
@@ -32,8 +29,5 @@ public class CompanySettingsConfiguration : IEntityTypeConfiguration<CompanySett
             .IsRequired();
 
         builder.Property(cs => cs.GeolocationRequired);
-
-        builder.Property(cs => cs.CompanyId)
-            .IsRequired();
     }
 }

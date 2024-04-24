@@ -1,0 +1,67 @@
+<aw-page-base>
+  <aw-page-header>Calendario</aw-page-header>
+
+  <!-- toolbar -->
+  <mat-card>
+    <mat-card-content>
+      <div class="d-flex flex-row flex-wrap align-items-center">
+        <aw-year-selector
+          (changeYearSelected)="handleYearSelectorChange($event)"
+          [dateSelected]="yearSelected"
+          [readOnly]="true" />
+
+        <div class="d-flex flex-column ms-auto">
+          <h1>Calendario laboral {{ yearSelected.year }}</h1>
+
+          <div class="d-flex justify-content-center">
+            @if (!loading) {
+              Horas estimadas: <span class="text-success">{{ workingHoursYear }}</span>
+            } @else {
+              <div class="d-flex justify-content-center">
+                <mat-progress-spinner color="primary" mode="indeterminate" [diameter]="50" />
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-center ms-auto legend">
+          <div><span class="legend-item non-working-day mx-2">&nbsp;</span> Días no laborable</div>
+          <div><span class="legend-item company-holiday mx-2">&nbsp;</span> Festivos</div>
+          <div><span class="legend-item employee-holiday mx-2">&nbsp;</span> Vacaciones</div>
+        </div>
+      </div>
+
+      <mat-divider class="my-2" />
+
+      <!-- employee info -->
+      <div class="d-flex flex-column employee-info">
+        <span class="holidays-title">Días de vacaciones restantes</span>
+        <div class="holidays">
+          @if (loading) {
+            <mat-progress-spinner color="primary" mode="indeterminate" [diameter]="50" />
+          } @else if (!loading && employeeHoliday) {
+            {{ employeeHoliday.available }}
+          } @else {
+            <span>0</span>
+          }
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="mt-2"></div>
+
+  <!-- calendar -->
+  <aw-year-calendar-view
+    (selectedChange)="handleSelectChange($event)"
+    [calendarEvents]="calendarEvents"
+    [loading]="loading"
+    [yearSelected]="yearSelected.year" />
+
+  <!-- navbar toolbar -->
+  @if (sidenavToolbarState()) {
+    <div sidenavToolbar>
+      <aw-employee-calendar-toolbar [yearSelected]="yearSelected.year" [employeeHoliday]="employeeHoliday" />
+    </div>
+  }
+</aw-page-base>

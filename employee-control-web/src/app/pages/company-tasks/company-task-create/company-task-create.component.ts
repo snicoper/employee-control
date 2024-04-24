@@ -19,7 +19,6 @@ import { SiteUrl } from '../../../core/urls/site-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { CompanyTaskApiService } from '../../../services/api/company-task-api.service';
-import { JwtService } from '../../../services/jwt.service';
 import { SnackBarService } from '../../../services/snackbar.service';
 import { CompanyTaskCreateRequest } from './company-task-create-request.model';
 
@@ -44,7 +43,6 @@ import { CompanyTaskCreateRequest } from './company-task-create-request.model';
 export class CompanyTaskCreateComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly companyTaskApiService = inject(CompanyTaskApiService);
-  private readonly jwtService = inject(JwtService);
   private readonly snackBarService = inject(SnackBarService);
   private readonly router = inject(Router);
 
@@ -72,7 +70,6 @@ export class CompanyTaskCreateComponent {
     this.loading = true;
 
     const companyTaskCreateRequest = this.form.value as CompanyTaskCreateRequest;
-    companyTaskCreateRequest.companyId = this.jwtService.getCompanyId();
 
     this.companyTaskApiService
       .post<CompanyTaskCreateRequest, string>(companyTaskCreateRequest, ApiUrl.companyTasks.createCompanyTask)

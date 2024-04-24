@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-  <mat-sidenav [opened]="sidenavState()" opened="sidebarOpen" mode="side">
+  <mat-sidenav [opened]="sidenavState()" opened="sidebarOpen" mode="side" class="sidenav">
     <!-- header -->
     <div class="sidenav-header">
       <img
@@ -19,70 +19,12 @@
     </div>
 
     <!-- menus -->
-    <mat-accordion multi>
-      <!-- administration -->
-      <mat-expansion-panel
-        class="mat-elevation-z0"
-        (closed)="handleClosedExpansionPanel('administration')"
-        (opened)="handleOpenExpansionPanel('administration')"
-        [awRequiredRole]="role.Admin"
-        [expanded]="stateSidebarMenu('administration')">
-        <mat-expansion-panel-header>
-          <mat-panel-title><mat-icon>view_list</mat-icon> Administración</mat-panel-title>
-        </mat-expansion-panel-header>
+    <aw-sidenav-menu [sidenavState]="sidenavState()" />
+  </mat-sidenav>
 
-        <mat-nav-list role="list">
-          <mat-list-item [routerLink]="siteUrl.dashboard.dashboard">Panel</mat-list-item>
-        </mat-nav-list>
-      </mat-expansion-panel>
-
-      <!-- empresa -->
-      <mat-expansion-panel
-        class="mat-elevation-z0"
-        (closed)="handleClosedExpansionPanel('enterprise')"
-        (opened)="handleOpenExpansionPanel('enterprise')"
-        [awRequiredRole]="role.HumanResources"
-        [expanded]="stateSidebarMenu('enterprise')">
-        <mat-expansion-panel-header>
-          <mat-panel-title><mat-icon>view_list</mat-icon> Empresa</mat-panel-title>
-        </mat-expansion-panel-header>
-
-        <mat-nav-list role="list">
-          <span [awRequiredRole]="role.Staff">
-            <mat-list-item [routerLink]="siteUrl.companySettings.details">Configuración</mat-list-item>
-          </span>
-          <mat-list-item [routerLink]="siteUrl.employees.list">Empleados</mat-list-item>
-          <mat-list-item [routerLink]="siteUrl.departments.list">Departamentos</mat-list-item>
-          <mat-list-item [routerLink]="siteUrl.companyTasks.list">Tareas</mat-list-item>
-          <mat-list-item [routerLink]="siteUrl.categoryAbsences.list">Ausencias</mat-list-item>
-          <mat-list-item [routerLink]="siteUrl.timeControlRecords.list">
-            Registro de tiempos
-            <mat-chip [highlighted]="timeControlIncidencesCount() > 0" color="warn">
-              {{ timeControlIncidencesCount() }}
-            </mat-chip>
-          </mat-list-item>
-          <mat-list-item [routerLink]="siteUrl.companyCalendar.calendar">Calendario</mat-list-item>
-          <mat-list-item [routerLink]="siteUrl.manageHolidays.manage">Días festivos</mat-list-item>
-        </mat-nav-list>
-      </mat-expansion-panel>
-
-      <!-- employee -->
-      <mat-expansion-panel
-        class="mat-elevation-z0"
-        (closed)="handleClosedExpansionPanel('employee')"
-        (opened)="handleOpenExpansionPanel('employee')"
-        [awRequiredRole]="role.Employee"
-        [expanded]="stateSidebarMenu('employee')">
-        <mat-expansion-panel-header>
-          <mat-panel-title><mat-icon>view_list</mat-icon> Empleado</mat-panel-title>
-        </mat-expansion-panel-header>
-
-        <mat-nav-list role="list" [awRequiredRole]="role.Employee">
-          <mat-list-item [routerLink]="siteUrl.employeeSettings.settings">Configuración</mat-list-item>
-          <mat-list-item [routerLink]="siteUrl.timesControlProgress.list">Control de tiempo</mat-list-item>
-        </mat-nav-list>
-      </mat-expansion-panel>
-    </mat-accordion>
+  <!-- sidenav toolbar -->
+  <mat-sidenav [opened]="sidenavToolbarState()" mode="side" position="end" class="sidenav-toolbar">
+    <ng-content select="[sidenavToolbar]" />
   </mat-sidenav>
 
   <!-- page content -->

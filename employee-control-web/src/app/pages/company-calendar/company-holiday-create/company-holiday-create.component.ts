@@ -14,7 +14,6 @@ import { ApiUrl } from '../../../core/urls/api-urls';
 import { DateTimeUtils } from '../../../core/utils/datetime-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { CompanyHolidaysApiService } from '../../../services/api/company-holidays-api.service';
-import { JwtService } from '../../../services/jwt.service';
 import { SnackBarService } from '../../../services/snackbar.service';
 import { CompanyHolidayManageCreateRequest } from './company-holiday-manage-create.request';
 
@@ -38,7 +37,6 @@ export class CompanyHolidayCreateComponent implements OnInit {
   private readonly dialogData = inject<{ calendarEvent: CalendarEvent }>(MAT_DIALOG_DATA);
   private readonly dialogRef = inject(MatDialogRef<CompanyHolidayCreateComponent>);
   private readonly companyHolidaysApiService = inject(CompanyHolidaysApiService);
-  private readonly jwtService = inject(JwtService);
   private readonly formBuilder = inject(FormBuilder);
   private readonly snackBarService = inject(SnackBarService);
 
@@ -60,7 +58,6 @@ export class CompanyHolidayCreateComponent implements OnInit {
 
     this.loadingForm = true;
     const companyHolidayManageCreateRequest = this.form.value as CompanyHolidayManageCreateRequest;
-    companyHolidayManageCreateRequest.companyId = this.jwtService.getCompanyId();
     companyHolidayManageCreateRequest.date = DateTimeUtils.dateOnly(this.dialogData.calendarEvent.date);
     this.createCompanyHoliday(companyHolidayManageCreateRequest);
   }

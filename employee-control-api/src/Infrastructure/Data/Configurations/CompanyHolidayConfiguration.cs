@@ -16,7 +16,7 @@ public class CompanyHolidayConfiguration : IEntityTypeConfiguration<CompanyHolid
         // Indexes.
         builder.HasIndex(ch => ch.Id);
 
-        builder.HasIndex(ch => new { Day = ch.Date, ch.CompanyId })
+        builder.HasIndex(ch => new { Day = ch.Date })
             .IsUnique();
 
         // Properties.
@@ -26,8 +26,5 @@ public class CompanyHolidayConfiguration : IEntityTypeConfiguration<CompanyHolid
         builder.Property(ch => ch.Description)
             .IsRequired()
             .HasMaxLength(50);
-
-        builder.Property(ch => ch.CompanyId)
-            .IsRequired();
     }
 }

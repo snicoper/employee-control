@@ -1,5 +1,5 @@
 <aw-page-base>
-  <aw-page-header>Gestionar días de vacaciones</aw-page-header>
+  <aw-page-header>Calendario de empresa</aw-page-header>
 
   <!-- toolbar -->
   <mat-card>
@@ -15,7 +15,7 @@
 
           <div class="d-flex justify-content-center">
             @if (!loading) {
-              Horas trabajadas: <span class="text-success">{{ workingHoursYear }}</span>
+              Horas estimadas: <span class="text-success">{{ workingHoursYear }}</span>
               <mat-icon color="primary" matTooltip="No aplica días festivos de empleados">info</mat-icon>
             } @else {
               <div class="d-flex justify-content-center">
@@ -27,7 +27,7 @@
 
         <div class="d-flex justify-content-center ms-auto legend">
           <div><span class="legend-item non-working-day mx-2">&nbsp;</span> Día no laborable</div>
-          <div><span class="legend-item company-holiday mx-2">&nbsp;</span> Día festivo</div>
+          <div><span class="legend-item company-holiday mx-2">&nbsp;</span> Festivos</div>
         </div>
       </div>
     </mat-card-content>

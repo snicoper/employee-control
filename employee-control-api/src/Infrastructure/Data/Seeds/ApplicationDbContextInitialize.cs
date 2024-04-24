@@ -59,32 +59,11 @@ public class ApplicationDbContextInitialize(
             return;
         }
 
-        var company = await context.Companies.FirstOrDefaultAsync();
-
-        if (company is null)
-        {
-            return;
-        }
-
         var categoryAbsences =
             new List<CategoryAbsence>
             {
-                new()
-                {
-                    Description = "Maternidad",
-                    CompanyId = company.Id,
-                    Active = true,
-                    Background = "#28961f",
-                    Color = "#ffffff"
-                },
-                new()
-                {
-                    Description = "Baja laboral",
-                    CompanyId = company.Id,
-                    Active = true,
-                    Background = "#8722d1",
-                    Color = "#dfedfe"
-                }
+                new() { Description = "Maternidad", Active = true, Background = "#28961f", Color = "#ffffff" },
+                new() { Description = "Baja laboral", Active = true, Background = "#8722d1", Color = "#dfedfe" }
             };
 
         context.CategoryAbsences.AddRange(categoryAbsences);
@@ -98,21 +77,7 @@ public class ApplicationDbContextInitialize(
             return;
         }
 
-        var company = await context.Companies.FirstOrDefaultAsync();
-
-        if (company is null)
-        {
-            return;
-        }
-
-        var department = new Department
-        {
-            Name = "IT",
-            Active = true,
-            CompanyId = company.Id,
-            Background = "#28961f",
-            Color = "#ffffff"
-        };
+        var department = new Department { Name = "IT", Active = true, Background = "#28961f", Color = "#ffffff" };
 
         context.Departments.Add(department);
         await context.SaveChangesAsync(CancellationToken.None);
@@ -125,21 +90,7 @@ public class ApplicationDbContextInitialize(
             return;
         }
 
-        var company = await context.Companies.FirstOrDefaultAsync();
-
-        if (company is null)
-        {
-            return;
-        }
-
-        var companyTask = new CompanyTask
-        {
-            Name = "Agenda",
-            Active = true,
-            CompanyId = company.Id,
-            Background = "#8722d1",
-            Color = "#dfedfe"
-        };
+        var companyTask = new CompanyTask { Name = "Agenda", Active = true, Background = "#8722d1", Color = "#dfedfe" };
 
         context.CompanyTasks.Add(companyTask);
         await context.SaveChangesAsync(CancellationToken.None);
@@ -171,17 +122,9 @@ public class ApplicationDbContextInitialize(
 
     private async Task CreateUsersAsync()
     {
-        var company = context.Companies.FirstOrDefault();
-
-        if (company is null)
-        {
-            return;
-        }
-
         // Admin user.
         var user = new ApplicationUser
         {
-            CompanyId = company.Id,
             UserName = "admin@localhost",
             FirstName = "Admin",
             LastName = "Admin1",
@@ -208,7 +151,6 @@ public class ApplicationDbContextInitialize(
         // EnterpriseStaff user.
         user = new ApplicationUser
         {
-            CompanyId = company.Id,
             UserName = "snicoper@gmail.com",
             FirstName = "Salvador",
             LastName = "Nicolas",
@@ -235,7 +177,6 @@ public class ApplicationDbContextInitialize(
         // HumanResources user.
         user = new ApplicationUser
         {
-            CompanyId = company.Id,
             UserName = "alice@example.com",
             FirstName = "Alice",
             LastName = "Smith",
@@ -262,7 +203,6 @@ public class ApplicationDbContextInitialize(
         // Employee user.
         user = new ApplicationUser
         {
-            CompanyId = company.Id,
             UserName = "bob@example.com",
             FirstName = "Bob",
             LastName = "Garcia",

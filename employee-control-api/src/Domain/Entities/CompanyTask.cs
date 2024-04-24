@@ -1,12 +1,11 @@
 ﻿using EmployeeControl.Domain.Common;
-using EmployeeControl.Domain.Interfaces;
 
 namespace EmployeeControl.Domain.Entities;
 
 /// <summary>
 /// Tareas en la compañía.
 /// </summary>
-public class CompanyTask : BaseAuditableEntity, ICompany
+public class CompanyTask : BaseAuditableEntity
 {
     public string Name { get; set; } = default!;
 
@@ -17,8 +16,4 @@ public class CompanyTask : BaseAuditableEntity, ICompany
     public string Color { get; set; } = default!;
 
     public ICollection<EmployeeCompanyTask> EmployeeCompanyTasks { get; set; } = new List<EmployeeCompanyTask>();
-
-    public Company Company { get; set; } = null!;
-
-    public string CompanyId { get; set; } = default!;
 }

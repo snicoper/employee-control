@@ -1,12 +1,11 @@
 ﻿using EmployeeControl.Domain.Common;
-using EmployeeControl.Domain.Interfaces;
 
 namespace EmployeeControl.Domain.Entities;
 
 /// <summary>
 /// Días laborables de la compañía.
 /// </summary>
-public class WorkingDaysWeek : BaseAuditableEntity, ICompany
+public class WorkingDaysWeek : BaseAuditableEntity
 {
     public bool Monday { get; set; }
 
@@ -21,8 +20,4 @@ public class WorkingDaysWeek : BaseAuditableEntity, ICompany
     public bool Saturday { get; set; }
 
     public bool Sunday { get; set; }
-
-    public string CompanyId { get; set; } = default!;
-
-    public Company Company { get; set; } = null!;
 }

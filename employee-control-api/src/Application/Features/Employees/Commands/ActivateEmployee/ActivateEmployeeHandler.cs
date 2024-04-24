@@ -15,7 +15,6 @@ namespace EmployeeControl.Application.Features.Employees.Commands.ActivateEmploy
 
 internal class ActivateEmployeeHandler(
     UserManager<ApplicationUser> userManager,
-    ICurrentUserService currentUserService,
     IIdentityService identityService,
     IValidationFailureService validationFailureService,
     IStringLocalizer<IdentityLocalizer> localizer)
@@ -23,8 +22,7 @@ internal class ActivateEmployeeHandler(
 {
     public async Task<Result> Handle(ActivateEmployeeCommand request, CancellationToken cancellationToken)
     {
-        var currentCompanyId = currentUserService.CompanyId;
-        var user = userManager.Users.SingleOrDefault(au => au.Id == request.EmployeeId && au.CompanyId == currentCompanyId)
+        var user = userManager.Users.SingleOrDefault(au => au.Id == request.EmployeeId)
                    ?? throw new NotFoundException(nameof(ApplicationUser), nameof(ApplicationUser.Id));
 
         // La cuenta del Administrator, no se puede desactivar.

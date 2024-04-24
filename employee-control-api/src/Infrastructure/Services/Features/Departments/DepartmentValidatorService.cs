@@ -19,8 +19,7 @@ public class DepartmentValidatorService(
         var company = await context
             .Departments
             .AnyAsync(
-                d => d.CompanyId == department.CompanyId &&
-                     d.Name.ToLower().Equals(department.Name.ToLower()) &&
+                d => d.Name.ToLower().Equals(department.Name.ToLower()) &&
                      d.Id != department.Id,
                 cancellationToken);
 
@@ -38,8 +37,7 @@ public class DepartmentValidatorService(
         var company = await context
             .Departments
             .AnyAsync(
-                d => d.CompanyId == department.CompanyId &&
-                     d.Background.ToLower().Equals(department.Background.ToLower()) &&
+                d => d.Background.ToLower().Equals(department.Background.ToLower()) &&
                      d.Color.ToLower().Equals(department.Color.ToLower()) &&
                      d.Id != department.Id,
                 cancellationToken);

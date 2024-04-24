@@ -17,8 +17,5 @@ public class CreateCategoryAbsenceValidator : AbstractValidator<CreateCategoryAb
         RuleFor(r => r.Color)
             .NotEmpty()
             .MaximumLength(7);
-
-        RuleFor(r => r.CompanyId)
-            .NotEmpty();
     }
 }

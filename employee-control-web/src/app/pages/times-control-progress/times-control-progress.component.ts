@@ -24,7 +24,7 @@ import { DateTimeUtils } from '../../core/utils/datetime-utils';
 import { DeviceType, deviceToDeviceType } from '../../models/entities/types/device-type.model';
 import { TimeState } from '../../models/entities/types/time-state.model';
 import { ResultResponse } from '../../models/result-response.model';
-import { DatetimeFormatPipe } from '../../pipes/datetime-format.pipe';
+import { DateFormatPipe } from '../../pipes/date-format.pipe';
 import { TimeControlApiService } from '../../services/api/time-control-api.service';
 import { JwtService } from '../../services/jwt.service';
 import { SimpleGeolocationService } from '../../services/simple-geolocation.service';
@@ -47,7 +47,7 @@ import { TimeControlProgressChangeStateRequest } from './time-control-progress-c
     DotDangerComponent,
     BtnLoadingComponent,
     TimeControlProgressComponent,
-    DatetimeFormatPipe
+    DateFormatPipe
   ]
 })
 export class TimesControlProgressComponent {
@@ -74,6 +74,7 @@ export class TimesControlProgressComponent {
   latitude: number | undefined;
   longitude: number | undefined;
   companyGeolocationRequired = false;
+  dateTimeFormat = DateTime.DATETIME_MED;
 
   constructor() {
     this.companyGeolocationRequired = this.companySettingsStateService.companySettings()

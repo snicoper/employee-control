@@ -9,10 +9,4 @@ import { SidenavComponent } from '../../sidenav/sidenav.component';
   imports: [NavbarComponent, SidenavComponent, FooterComponent],
   templateUrl: './page-base.component.html'
 })
-export class PageBaseComponent {
-  sidenavState = true;
-
-  handleToggleSidenavState(): void {
-    this.sidenavState = !this.sidenavState;
-  }
-}
+export class PageBaseComponent {}

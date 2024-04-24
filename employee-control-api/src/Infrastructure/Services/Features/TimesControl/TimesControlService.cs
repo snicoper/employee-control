@@ -185,7 +185,6 @@ public class TimesControlService(
             UserId = user.Id,
             Start = dateTimeService.UtcNow,
             Finish = dateTimeService.UtcNow,
-            CompanyId = user.CompanyId,
             DeviceTypeStart = deviceType,
             LatitudeStart = latitude,
             LongitudeStart = longitude

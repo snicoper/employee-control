@@ -21,12 +21,6 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
             .HasForeignKey(uc => uc.UserId)
             .IsRequired();
 
-        builder.HasOne(au => au.Company)
-            .WithMany(c => c.Users)
-            .HasForeignKey(au => au.CompanyId)
-            .OnDelete(DeleteBehavior.Cascade)
-            .IsRequired();
-
         builder.HasOne(au => au.EmployeeSettings)
             .WithOne(es => es.User)
             .HasForeignKey<EmployeeSettings>(es => es.UserId)
@@ -34,9 +28,6 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
             .IsRequired();
 
         // Properties.
-        builder.Property(au => au.CompanyId)
-            .IsRequired();
-
         builder.Property(au => au.Email)
             .IsRequired()
             .HasMaxLength(256);

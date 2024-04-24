@@ -6,7 +6,6 @@ namespace EmployeeControl.Application.Features.CompanyTasks.Queries.GetCompanyTa
 public record GetCompanyTasksPaginatedResponse(
     string Id,
     string Name,
-    string CompanyId,
     bool Active,
     string Background,
     string Color,

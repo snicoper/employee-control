@@ -37,7 +37,7 @@
               <td>Hora de inicio</td>
               <td>
                 <span [innerHTML]="timeControl.deviceTypeStart | deviceType"></span>
-                {{ timeControl.start | datetime: dateTimeShortFormat }}
+                {{ timeControl.start | dateFormat: dateTimeShortFormat }}
 
                 @if (getStartOpenStreetMapLink(timeControl)) {
                   <a matTooltip="Ver en mapa" [href]="getStartOpenStreetMapLink(timeControl)" target="_blank">
@@ -52,7 +52,7 @@
                 <span [innerHTML]="timeControl.deviceTypeFinish | deviceType"></span>
 
                 @if (timeControl.timeState === timeState.Close) {
-                  {{ timeControl.finish | datetime: dateTimeShortFormat }}
+                  {{ timeControl.finish | dateFormat: dateTimeShortFormat }}
                   @if (getFinishOpenStreetMapLink(timeControl)) {
                     <a matTooltip="Ver en mapa" [href]="getFinishOpenStreetMapLink(timeControl)" target="_blank">
                       <mat-icon>location_on</mat-icon>

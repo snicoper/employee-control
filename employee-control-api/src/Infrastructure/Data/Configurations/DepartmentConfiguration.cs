@@ -16,7 +16,7 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
         // Indexes.
         builder.HasIndex(d => d.Id);
 
-        builder.HasIndex(d => new { d.Name, d.CompanyId })
+        builder.HasIndex(d => new { d.Name })
             .IsUnique();
 
         builder.HasIndex(d => d.Name);
@@ -24,9 +24,6 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
         // Properties.
         builder.Property(d => d.Name)
             .HasMaxLength(100)
-            .IsRequired();
-
-        builder.Property(d => d.CompanyId)
             .IsRequired();
 
         builder.Property(d => d.Background)

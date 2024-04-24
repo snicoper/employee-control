@@ -22,7 +22,7 @@
             <aw-dot-success class="me-2" />
 
             <span class="small">
-              Tiempo iniciado: <strong>{{ currentTimeControl()?.start | datetimeFormat: "cccc t" }}</strong>
+              Tiempo iniciado: <strong>{{ currentTimeControl()?.start | dateFormat: dateTimeFormat }}</strong>
             </span>
           } @else {
             <aw-dot-danger class="me-2" />

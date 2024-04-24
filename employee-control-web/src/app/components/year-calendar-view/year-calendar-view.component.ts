@@ -17,7 +17,7 @@ export class YearCalendarViewComponent {
 
   selectedChange = output<CalendarEvent>();
 
-  selectedDates: Array<DateTime> = [];
+  months: Array<DateTime> = [];
 
   constructor() {
     this.loadListeners();
@@ -27,17 +27,17 @@ export class YearCalendarViewComponent {
     this.selectedChange.emit(calendarEvent);
   }
 
-  private composeDaysInMonth(): void {
-    this.selectedDates = [];
+  private composeMonthsInYear(): void {
+    this.months = [];
 
     for (let i = 1; i <= 12; i++) {
-      this.selectedDates.push(DateTime.local(this.yearSelected(), i, 1));
+      this.months.push(DateTime.local(this.yearSelected(), i, 1));
     }
   }
 
   private loadListeners(): void {
     effect(() => {
-      this.composeDaysInMonth();
+      this.composeMonthsInYear();
     });
   }
 }

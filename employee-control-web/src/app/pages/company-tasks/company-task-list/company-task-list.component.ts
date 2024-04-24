@@ -21,7 +21,7 @@ import { SiteUrl } from '../../../core/urls/site-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
 import { CompanyTask } from '../../../models/entities/company-task.model';
 import { BoolToIconPipe } from '../../../pipes/bool-to-icon.pipe';
-import { DatetimePipe } from '../../../pipes/datetime.pipe';
+import { DateFormatPipe } from '../../../pipes/date-format.pipe';
 import { CompanyTaskApiService } from '../../../services/api/company-task-api.service';
 
 @Component({
@@ -44,7 +44,7 @@ import { CompanyTaskApiService } from '../../../services/api/company-task-api.se
     BadgeComponent,
     DotComponent,
     BoolToIconPipe,
-    DatetimePipe,
+    DateFormatPipe,
     DatePipe
   ]
 })

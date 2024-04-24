@@ -1,0 +1,38 @@
+@import "variables";
+
+.legend {
+  .legend-item {
+    padding: 4px 8px;
+    border-radius: 100%;
+
+    &.non-working-day {
+      background-color: $aw-not-working-day;
+    }
+
+    &.company-holiday {
+      background-color: $aw-company-holiday;
+    }
+
+    &.employee-holiday {
+      background-color: $aw-employee-holiday;
+    }
+  }
+}
+
+.employee-info {
+  width: 100%;
+
+  .holidays-title {
+    margin-bottom: 10px;
+  }
+
+  .holidays {
+    max-width: 160px;
+    border: 1px solid var(--aw-background-secondary);
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+    font-size: 3rem;
+    color: $aw-color-success;
+  }
+}

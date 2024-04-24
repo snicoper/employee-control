@@ -14,11 +14,11 @@ public class CompanyTaskService(
     IApplicationDbContext context)
     : ICompanyTaskService
 {
-    public async Task<Domain.Entities.CompanyTask> GetByIdAsync(string companyTaskId, CancellationToken cancellationToken)
+    public async Task<Domain.Entities.CompanyTask> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
         var result = await context
                          .CompanyTasks
-                         .SingleOrDefaultAsync(cs => cs.Id == companyTaskId, cancellationToken) ??
+                         .SingleOrDefaultAsync(cs => cs.Id == id, cancellationToken) ??
                      throw new NotFoundException(nameof(Domain.Entities.CompanyTask), nameof(Domain.Entities.CompanyTask.Id));
 
         return result;
@@ -30,7 +30,7 @@ public class CompanyTaskService(
     {
         var companyTaskExists = context
             .CompanyTasks
-            .Where(ct => ct.CompanyId == newCompanyTask.CompanyId && ct.Name == newCompanyTask.Name);
+            .Where(ct => ct.Name == newCompanyTask.Name);
 
         if (companyTaskExists.Any())
         {

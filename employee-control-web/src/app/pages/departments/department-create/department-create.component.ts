@@ -20,7 +20,6 @@ import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { Department } from '../../../models/entities/department.model';
 import { DepartmentApiService } from '../../../services/api/department-api.service';
-import { JwtService } from '../../../services/jwt.service';
 import { SnackBarService } from '../../../services/snackbar.service';
 import { DepartmentCreateResponse } from './department-create-response.model';
 
@@ -45,7 +44,6 @@ import { DepartmentCreateResponse } from './department-create-response.model';
 export class DepartmentCreateComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly departmentApiService = inject(DepartmentApiService);
-  private readonly jwtService = inject(JwtService);
   private readonly snackBarService = inject(SnackBarService);
   private readonly router = inject(Router);
 
@@ -73,7 +71,6 @@ export class DepartmentCreateComponent {
     this.loading = true;
 
     const department = this.form.value as Department;
-    department.companyId = this.jwtService.getCompanyId();
 
     this.departmentApiService
       .post<Department, DepartmentCreateResponse>(department, ApiUrl.departments.createDepartment)

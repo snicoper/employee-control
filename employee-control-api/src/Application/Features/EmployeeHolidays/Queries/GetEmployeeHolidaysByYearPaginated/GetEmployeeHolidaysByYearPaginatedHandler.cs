@@ -12,7 +12,10 @@ internal class GetEmployeeHolidaysByYearPaginatedHandler(IApplicationDbContext c
         GetEmployeeHolidaysByYearPaginatedQuery request,
         CancellationToken cancellationToken)
     {
-        var employeeHolidays = context.EmployeeHolidays.Where(eh => eh.Year == request.Year);
+        var employeeHolidays = context
+            .EmployeeHolidays
+            .Where(eh => eh.Year == request.Year);
+
         var resultResponse = await ResponseData<GetEmployeeHolidaysByYearPaginatedResponse>.CreateAsync(
             employeeHolidays,
             request.RequestData,

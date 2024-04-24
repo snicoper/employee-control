@@ -12,8 +12,5 @@ public class CreateCompanyHolidayValidator : AbstractValidator<CreateCompanyHoli
         RuleFor(r => r.Description)
             .NotEmpty()
             .MaximumLength(50);
-
-        RuleFor(r => r.CompanyId)
-            .NotEmpty();
     }
 }

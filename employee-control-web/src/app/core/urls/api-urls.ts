@@ -58,7 +58,8 @@ export const ApiUrl = {
   },
 
   employeeHolidays: {
-    getEmployeeHolidaysByYearPaginated: '/employee-holidays/year/{year}/paginated'
+    getEmployeeHolidaysByYearPaginated: '/employee-holidays/year/{year}/paginated',
+    getEmployeeHolidaysByYearAndEmployeeId: '/employee-holidays/year/{year}/employees/{employeeId}'
   },
 
   employees: {

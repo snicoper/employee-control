@@ -7,7 +7,7 @@ using MediatR;
 namespace EmployeeControl.Application.Features.Employees.Commands.InviteEmployee;
 
 [Authorize(Roles = Roles.HumanResources)]
-public record InviteEmployeeCommand(string FirstName, string LastName, string Email, string CompanyId, string TimeZone)
+public record InviteEmployeeCommand(string FirstName, string LastName, string Email, string TimeZone)
     : IRequest<string>
 {
     internal class Mapping : Profile
@@ -17,8 +17,7 @@ public record InviteEmployeeCommand(string FirstName, string LastName, string Em
             CreateMap<InviteEmployeeCommand, ApplicationUser>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(dest => dest.CompanyId, opt => opt.MapFrom(src => src.CompanyId));
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email));
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace EmployeeControl.Domain.Entities;
 
 /// <summary>
-/// Días de vacaciones de empleados.
+/// Datos de días de vacaciones por año de empleados.
 /// </summary>
 public class EmployeeHoliday : BaseAuditableEntity
 {

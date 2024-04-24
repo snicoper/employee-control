@@ -1,4 +1,4 @@
-export interface ManageHolidayResponse {
+export interface HolidayAssignedResponse {
   id: string;
   year: number;
   totalDays: number;

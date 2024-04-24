@@ -1,5 +1,3 @@
-import { Company } from './company.model';
-
 export interface CompanyTask {
   id: string;
   name: string;
@@ -7,6 +5,4 @@ export interface CompanyTask {
   background: string;
   color: string;
   created: Date;
-  companyId: string;
-  company?: Company;
 }

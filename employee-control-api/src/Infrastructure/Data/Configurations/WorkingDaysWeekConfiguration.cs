@@ -16,9 +16,6 @@ public class WorkingDaysWeekConfiguration : IEntityTypeConfiguration<WorkingDays
         // Indexes.
         builder.HasIndex(wd => wd.Id);
 
-        builder.HasIndex(wd => wd.CompanyId)
-            .IsUnique();
-
         // Properties.
         builder.Property(wd => wd.Monday)
             .IsRequired();
@@ -39,9 +36,6 @@ public class WorkingDaysWeekConfiguration : IEntityTypeConfiguration<WorkingDays
             .IsRequired();
 
         builder.Property(wd => wd.Sunday)
-            .IsRequired();
-
-        builder.Property(wd => wd.CompanyId)
             .IsRequired();
     }
 }

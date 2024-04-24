@@ -1,4 +1,3 @@
-import { Company } from './company.model';
 import { ClosedBy } from './types/closed-by.model';
 import { DeviceType } from './types/device-type.model';
 import { TimeState } from './types/time-state.model';
@@ -21,6 +20,4 @@ export interface TimeControl {
   longitudeFinish?: number;
   userId: string;
   user?: User;
-  companyId: string;
-  company?: Company;
 }

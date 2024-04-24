@@ -1,0 +1,31 @@
+<div class="employee-calendar-toolbar">
+  <div class="d-flex justify-content-start">
+    <h1>Reclamar días de vacaciones</h1>
+    <button mat-button color="warn" class="ms-auto" (click)="handleCloseToolbar()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-divider />
+
+  <div>
+    <h3 class="d-flex flex-column">
+      <span>
+        Días seleccionados
+        <span class="text-info">{{ calendarDatesSelected().length }}</span>
+      </span>
+      <span>
+        Días restantes
+        <span class="text-info">{{ employeeHoliday().available - calendarDatesSelected().length }}</span>
+      </span>
+    </h3>
+
+    <mat-list>
+      @for (dateSelected of calendarDatesSelected(); track $index) {
+        <mat-list-item>{{ dateSelected | dateTimeFormat }}</mat-list-item>
+      }
+    </mat-list>
+  </div>
+
+  <mat-divider />
+</div>

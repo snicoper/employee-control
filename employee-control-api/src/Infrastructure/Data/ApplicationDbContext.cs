@@ -22,13 +22,15 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<Department> Departments => Set<Department>();
 
-    public DbSet<EmployeeClaimHoliday> EmployeeClaimHolidays => Set<EmployeeClaimHoliday>();
-
     public DbSet<EmployeeCompanyTask> EmployeeCompanyTasks => Set<EmployeeCompanyTask>();
 
-    public DbSet<EmployeeHoliday> EmployeeHolidays => Set<EmployeeHoliday>();
-
     public DbSet<EmployeeDepartment> EmployeeDepartments => Set<EmployeeDepartment>();
+
+    public DbSet<EmployeeHolidayClaimLine> EmployeeHolidaysClaimLines => Set<EmployeeHolidayClaimLine>();
+
+    public DbSet<EmployeeHolidayClaim> EmployeeHolidaysClaims => Set<EmployeeHolidayClaim>();
+
+    public DbSet<EmployeeHoliday> EmployeeHolidays => Set<EmployeeHoliday>();
 
     public DbSet<EmployeeSettings> EmployeeSettings => Set<EmployeeSettings>();
 

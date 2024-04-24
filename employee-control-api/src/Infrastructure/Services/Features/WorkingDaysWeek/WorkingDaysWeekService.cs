@@ -12,7 +12,7 @@ public class WorkingDaysWeekService(IApplicationDbContext context) : IWorkingDay
         var workDays = await context.WorkingDaysWeek.FirstOrDefaultAsync(cancellationToken)
                        ?? throw new NotFoundException(
                            nameof(Domain.Entities.WorkingDaysWeek),
-                           nameof(Domain.Entities.WorkingDaysWeek.CompanyId));
+                           nameof(Domain.Entities.WorkingDaysWeek.Id));
 
         return workDays;
     }

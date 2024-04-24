@@ -10,8 +10,7 @@ public record GetWorkingDaysWeekResponse(
     bool Thursday,
     bool Friday,
     bool Saturday,
-    bool Sunday,
-    string CompanyId)
+    bool Sunday)
 {
     internal class Mapper : Profile
     {

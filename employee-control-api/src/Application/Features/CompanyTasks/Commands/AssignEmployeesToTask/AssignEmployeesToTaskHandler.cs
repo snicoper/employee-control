@@ -1,53 +1,41 @@
-﻿using EmployeeControl.Application.Common.Exceptions;
-using EmployeeControl.Application.Common.Interfaces.Data;
+﻿using EmployeeControl.Application.Common.Interfaces.Data;
+using EmployeeControl.Application.Common.Interfaces.Features.Companies;
 using EmployeeControl.Application.Common.Interfaces.Features.CompanyTask;
 using EmployeeControl.Application.Common.Models;
 using EmployeeControl.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeControl.Application.Features.CompanyTasks.Commands.AssignEmployeesToTask;
 
 internal class AssignEmployeesToTaskHandler(
     IApplicationDbContext context,
+    ICompanyTaskService companyTaskService,
+    ICompanyService companyService,
     UserManager<ApplicationUser> userManager,
     ICompanyTaskEmailsService companyTaskEmailsService)
     : IRequestHandler<AssignEmployeesToTaskCommand, Result>
 {
     public async Task<Result> Handle(AssignEmployeesToTaskCommand request, CancellationToken cancellationToken)
     {
-        var companyTask = await context
-            .CompanyTasks
-            .Include(ct => ct.Company)
-            .SingleOrDefaultAsync(ct => ct.Id == request.Id, cancellationToken);
-
-        if (companyTask?.Company is null)
-        {
-            throw new NotFoundException(nameof(CompanyTask), nameof(CompanyTask.Id));
-        }
+        var companyTask = await companyTaskService.GetByIdAsync(request.Id, cancellationToken);
 
         var employees = userManager
             .Users
-            .Where(au => request.EmployeeIds.Contains(au.Id) && au.CompanyId == companyTask.CompanyId)
+            .Where(au => request.EmployeeIds.Contains(au.Id))
             .ToList();
 
-        var userCompanyTasks = new List<EmployeeCompanyTask>();
-
-        foreach (var employee in employees)
-        {
-            userCompanyTasks.Add(
-                new EmployeeCompanyTask
-                {
-                    CompanyId = companyTask.CompanyId, UserId = employee.Id, CompanyTaskId = companyTask.Id
-                });
-        }
+        var userCompanyTasks = employees
+            .Select(employee => new EmployeeCompanyTask { UserId = employee.Id, CompanyTaskId = companyTask.Id })
+            .ToList();
 
         await context.EmployeeCompanyTasks.AddRangeAsync(userCompanyTasks, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
 
+        var company = await companyService.GetCompanyAsync(cancellationToken);
+
         // Enviar email a los empleados asignados a la tarea.
-        await companyTaskEmailsService.SendEmployeeAssignTaskAsync(companyTask, companyTask.Company, employees);
+        await companyTaskEmailsService.SendEmployeeAssignTaskAsync(companyTask, company, employees);
 
         return Result.Success();
     }

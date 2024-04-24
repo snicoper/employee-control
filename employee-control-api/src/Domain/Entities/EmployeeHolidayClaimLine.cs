@@ -3,17 +3,17 @@
 namespace EmployeeControl.Domain.Entities;
 
 /// <summary>
-/// Reclamos vacaciones empleado.
+/// Días reclamados para vacaciones.
 /// </summary>
-public class EmployeeClaimHoliday : BaseAuditableEntity
+public class EmployeeHolidayClaimLine : BaseAuditableEntity
 {
     public DateOnly Date { get; set; }
-
-    public bool Accepted { get; set; }
-
-    public string? Description { get; set; }
 
     public string UserId { get; set; } = default!;
 
     public ApplicationUser User { get; set; } = null!;
+
+    public string EmployeeHolidayClaimId { get; set; } = null!;
+
+    public EmployeeHolidayClaim EmployeeHolidayClaim { get; set; } = null!;
 }

@@ -10,7 +10,6 @@ import {
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DateTime } from 'luxon';
 import { CommonUtils } from '../../../core/utils/common-utils';
-import { DatetimeFormatPipe } from '../../../pipes/datetime-format.pipe';
 import { CalendarClassColor } from '../calendar-class-color';
 import { CalendarEvent } from '../calendar-event.model';
 
@@ -19,21 +18,19 @@ import { CalendarEvent } from '../calendar-event.model';
   standalone: true,
   templateUrl: './month-calendar-view.component.html',
   styleUrl: './month-calendar-view.component.scss',
-  imports: [CommonModule, MatCardModule, MatDatepickerModule, MatProgressSpinnerModule, DatetimeFormatPipe]
+  imports: [CommonModule, MatCardModule, MatDatepickerModule, MatProgressSpinnerModule]
 })
 export class MonthCalendarViewComponent implements OnInit {
-  selectedDate = input.required<DateTime>();
+  month = input.required<DateTime>();
   calendarEvents = input.required<Array<CalendarEvent>>();
   loading = input.required<boolean>();
 
   selectedChange = output<CalendarEvent>();
 
-  selected!: DateTime;
   title = '';
 
   ngOnInit(): void {
-    this.selected = this.selectedDate();
-    this.title = CommonUtils.ucFirst(this.selected.toFormat('LLLL yyyy'));
+    this.title = CommonUtils.ucFirst(this.month().toFormat('LLLL yyyy'));
   }
 
   dateClass: MatCalendarCellClassFunction<DateTime> = (

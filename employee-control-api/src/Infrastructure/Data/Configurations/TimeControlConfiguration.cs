@@ -54,9 +54,6 @@ public class TimeControlConfiguration : IEntityTypeConfiguration<TimeControl>
 
         builder.Property(tc => tc.LongitudeFinish);
 
-        builder.Property(tc => tc.CompanyId)
-            .IsRequired();
-
         builder.Property(tc => tc.UserId)
             .IsRequired();
     }

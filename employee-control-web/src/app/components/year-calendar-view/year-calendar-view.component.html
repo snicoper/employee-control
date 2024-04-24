@@ -1,10 +1,10 @@
 <div class="d-flex flex-wrap justify-content-center year-calendar">
-  @if (selectedDates) {
+  @if (months) {
     <div class="d-flex flex-wrap justify-content-center year-calendar-container">
-      @for (selectedDate of selectedDates; track selectedDate) {
+      @for (month of months; track month) {
         <aw-month-calendar-view
           (selectedChange)="handleSelectChange($event)"
-          [selectedDate]="selectedDate"
+          [month]="month"
           [calendarEvents]="calendarEvents()"
           [loading]="loading()" />
       }

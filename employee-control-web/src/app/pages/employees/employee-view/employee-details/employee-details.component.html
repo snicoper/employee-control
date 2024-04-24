@@ -61,7 +61,7 @@
           </tr>
           <tr class="table-list-row">
             <td>Fecha de ingreso</td>
-            <td>{{ employeeSelected()?.entryDate | datetime }}</td>
+            <td>{{ employeeSelected()?.entryDate | dateFormat }}</td>
           </tr>
           <tr class="table-list-row">
             <td>Roles</td>
@@ -95,7 +95,7 @@
             <td>
               @if (employeeTimeControlState()?.timeState === timeStates.Open) {
                 <aw-dot-success />
-                {{ employeeTimeControlState()?.start | datetime }}
+                {{ employeeTimeControlState()?.start | dateFormat }}
               }
               @if (employeeTimeControlState()?.timeState === timeStates.Close) {
                 <aw-dot-danger />
