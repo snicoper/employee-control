@@ -26,23 +26,28 @@ export const appConfig: ApplicationConfig = {
     AppConfig,
     {
       provide: APP_INITIALIZER,
-      useFactory: (config: AppConfig) => (): Promise<boolean> => config.load(),
-      deps: [AppConfig],
-      multi: true
+      useFactory: (config: AppConfig) => (): Promise<void> => config.load(),
+      multi: true,
+      deps: [AppConfig]
     },
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler
     },
     { provide: LOCALE_ID, useValue: 'es-ES' },
+
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ApiResultInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ApiErrorInterceptor, multi: true },
+
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3500 } },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },
+
     { provide: TitleStrategy, useClass: TemplatePageTitleStrategyService },
+
     provideLuxonDateAdapter(),
     { provide: DateAdapter, useValue: new CustomDateAdapter('es-ES') },
+
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi())

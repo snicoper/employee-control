@@ -55,7 +55,11 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("CompanyCalendarId")
+                        .HasColumnType("text");
+
                     b.Property<string>("CompanyId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -125,6 +129,8 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CompanyCalendarId");
+
                     b.HasIndex("CompanyId");
 
                     b.HasIndex("Email")
@@ -162,6 +168,7 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                         .HasColumnType("character varying(7)");
 
                     b.Property<string>("CompanyId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("Created")
@@ -198,9 +205,6 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("CompanySettingsId")
-                        .HasColumnType("text");
-
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
 
@@ -218,26 +222,53 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.Property<string>("WorkingDaysWeekId")
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanySettingsId");
 
                     b.HasIndex("Id");
 
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.HasIndex("WorkingDaysWeekId");
-
                     b.ToTable("Companies", (string)null);
                 });
 
-            modelBuilder.Entity("EmployeeControl.Domain.Entities.CompanyHoliday", b =>
+            modelBuilder.Entity("EmployeeControl.Domain.Entities.CompanyCalendar", b =>
                 {
                     b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CompanyCalendar");
+                });
+
+            modelBuilder.Entity("EmployeeControl.Domain.Entities.CompanyCalendarHoliday", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CompanyCalendarId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("Created")
@@ -262,17 +293,23 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CompanyCalendarId");
+
                     b.HasIndex("Date")
                         .IsUnique();
 
                     b.HasIndex("Id");
 
-                    b.ToTable("CompanyHolidays", (string)null);
+                    b.ToTable("CompanyCalendarHolidays", (string)null);
                 });
 
             modelBuilder.Entity("EmployeeControl.Domain.Entities.CompanySettings", b =>
                 {
                     b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CompanyId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("Created")
@@ -302,6 +339,9 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CompanyId")
+                        .IsUnique();
 
                     b.HasIndex("Id");
 
@@ -705,6 +745,10 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
+                    b.Property<string>("CompanyId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
 
@@ -739,6 +783,9 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CompanyId")
+                        .IsUnique();
 
                     b.HasIndex("Id");
 
@@ -858,31 +905,52 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("EmployeeControl.Domain.Entities.ApplicationUser", b =>
                 {
-                    b.HasOne("EmployeeControl.Domain.Entities.Company", null)
+                    b.HasOne("EmployeeControl.Domain.Entities.CompanyCalendar", "CompanyCalendar")
                         .WithMany("Users")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyCalendarId");
+
+                    b.HasOne("EmployeeControl.Domain.Entities.Company", "Company")
+                        .WithMany("Users")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+
+                    b.Navigation("CompanyCalendar");
                 });
 
             modelBuilder.Entity("EmployeeControl.Domain.Entities.CategoryAbsence", b =>
                 {
-                    b.HasOne("EmployeeControl.Domain.Entities.Company", null)
+                    b.HasOne("EmployeeControl.Domain.Entities.Company", "Company")
                         .WithMany("CategoryAbsences")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("EmployeeControl.Domain.Entities.Company", b =>
+            modelBuilder.Entity("EmployeeControl.Domain.Entities.CompanyCalendarHoliday", b =>
                 {
-                    b.HasOne("EmployeeControl.Domain.Entities.CompanySettings", "CompanySettings")
-                        .WithMany()
-                        .HasForeignKey("CompanySettingsId");
+                    b.HasOne("EmployeeControl.Domain.Entities.CompanyCalendar", "CompanyCalendar")
+                        .WithMany("CompanyCalendarHolidays")
+                        .HasForeignKey("CompanyCalendarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("EmployeeControl.Domain.Entities.WorkingDaysWeek", "WorkingDaysWeek")
-                        .WithMany()
-                        .HasForeignKey("WorkingDaysWeekId");
+                    b.Navigation("CompanyCalendar");
+                });
 
-                    b.Navigation("CompanySettings");
+            modelBuilder.Entity("EmployeeControl.Domain.Entities.CompanySettings", b =>
+                {
+                    b.HasOne("EmployeeControl.Domain.Entities.Company", "Company")
+                        .WithOne("CompanySettings")
+                        .HasForeignKey("EmployeeControl.Domain.Entities.CompanySettings", "CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("WorkingDaysWeek");
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("EmployeeControl.Domain.Entities.CompanyTask", b =>
@@ -951,7 +1019,7 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
             modelBuilder.Entity("EmployeeControl.Domain.Entities.EmployeeHolidayClaim", b =>
                 {
                     b.HasOne("EmployeeControl.Domain.Entities.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("EmployeeHolidayClaims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -968,7 +1036,7 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("EmployeeControl.Domain.Entities.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("EmployeeHolidayClaimLines")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -998,6 +1066,17 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EmployeeControl.Domain.Entities.WorkingDaysWeek", b =>
+                {
+                    b.HasOne("EmployeeControl.Domain.Entities.Company", "Company")
+                        .WithOne("WorkingDaysWeek")
+                        .HasForeignKey("EmployeeControl.Domain.Entities.WorkingDaysWeek", "CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1061,6 +1140,10 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
 
                     b.Navigation("EmployeeDepartments");
 
+                    b.Navigation("EmployeeHolidayClaimLines");
+
+                    b.Navigation("EmployeeHolidayClaims");
+
                     b.Navigation("EmployeeHolidays");
 
                     b.Navigation("EmployeeSettings")
@@ -1075,9 +1158,22 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                 {
                     b.Navigation("CategoryAbsences");
 
+                    b.Navigation("CompanySettings")
+                        .IsRequired();
+
                     b.Navigation("CompanyTasks");
 
                     b.Navigation("Departaments");
+
+                    b.Navigation("Users");
+
+                    b.Navigation("WorkingDaysWeek")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EmployeeControl.Domain.Entities.CompanyCalendar", b =>
+                {
+                    b.Navigation("CompanyCalendarHolidays");
 
                     b.Navigation("Users");
                 });

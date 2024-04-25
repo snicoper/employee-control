@@ -71,7 +71,10 @@ export class CompanyHolidayCreateComponent implements OnInit {
 
   private createCompanyHoliday(companyHoliday: CompanyHolidayManageCreateRequest): void {
     this.companyHolidaysApiService
-      .post<CompanyHolidayManageCreateRequest, string>(companyHoliday, ApiUrl.companyHolidays.createCompanyHoliday)
+      .post<CompanyHolidayManageCreateRequest, string>(
+        companyHoliday,
+        ApiUrl.companyCalendarHolidays.createCompanyCalendarHoliday
+      )
       .pipe(finalize(() => (this.loadingForm = false)))
       .subscribe({
         next: (result: string) => {

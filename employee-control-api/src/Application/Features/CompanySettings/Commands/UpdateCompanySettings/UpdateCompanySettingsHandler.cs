@@ -10,7 +10,7 @@ internal class UpdateCompanySettingsHandler(ICompanySettingsService companySetti
 {
     public async Task<Result> Handle(UpdateCompanySettingsCommand request, CancellationToken cancellationToken)
     {
-        var companySettings = await companySettingsService.GatByIdAsync(request.Id, cancellationToken);
+        var companySettings = await companySettingsService.GetByIdAsync(request.Id, cancellationToken);
         var companySettingsUpdated = mapper.Map(request, companySettings);
 
         await companySettingsService.UpdateAsync(companySettingsUpdated, cancellationToken);

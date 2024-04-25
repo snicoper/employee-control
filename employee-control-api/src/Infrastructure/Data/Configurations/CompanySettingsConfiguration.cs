@@ -8,6 +8,7 @@ public class CompanySettingsConfiguration : IEntityTypeConfiguration<CompanySett
 {
     public void Configure(EntityTypeBuilder<CompanySettings> builder)
     {
+        // Table name.
         builder.ToTable("CompanySettings");
 
         // Key.

@@ -13,7 +13,7 @@ namespace EmployeeControl.Infrastructure.Services.Features.CompanyTask;
 public class CompanyTaskEmailsService(
     IEmailService emailService,
     IOptions<WebApiSettings> webApiSettings,
-    IStringLocalizer<CompanyTaskLocalizer> localizer)
+    IStringLocalizer<TaskLocalizer> localizer)
     : ICompanyTaskEmailsService
 {
     public async Task SendEmployeeAssignTaskAsync(

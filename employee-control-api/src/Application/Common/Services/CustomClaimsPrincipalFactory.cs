@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using EmployeeControl.Application.Common.Constants;
 using EmployeeControl.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -12,7 +13,7 @@ public class CustomClaimsPrincipalFactory(UserManager<ApplicationUser> userManag
     {
         var identity = await base.GenerateClaimsAsync(user);
 
-        // identity.AddClaim(new Claim(CustomClaims.CompanyId, user.CompanyId));
+        identity.AddClaim(new Claim(CustomClaims.CompanyId, user.CompanyId));
 
         return identity;
     }

@@ -64,7 +64,7 @@ export class CompanyHolidayUpdateComponent implements OnInit {
   }
 
   handleDelete(): void {
-    const url = CommonUtils.urlReplaceParams(ApiUrl.companyHolidays.updateCompanyHoliday, {
+    const url = CommonUtils.urlReplaceParams(ApiUrl.companyCalendarHolidays.updateCompanyCalendarHoliday, {
       id: this.dialogData.calendarEvent.id as string
     });
 
@@ -84,7 +84,7 @@ export class CompanyHolidayUpdateComponent implements OnInit {
   }
 
   private updateCompanyHoliday(companyHoliday: CompanyHolidayManageUpdateRequest): void {
-    const url = CommonUtils.urlReplaceParams(ApiUrl.companyHolidays.updateCompanyHoliday, {
+    const url = CommonUtils.urlReplaceParams(ApiUrl.companyCalendarHolidays.updateCompanyCalendarHoliday, {
       id: this.dialogData.calendarEvent.id as string
     });
 

@@ -8,6 +8,7 @@ public class EmployeeSettingsConfiguration : IEntityTypeConfiguration<EmployeeSe
 {
     public void Configure(EntityTypeBuilder<EmployeeSettings> builder)
     {
+        // Table name.
         builder.ToTable("EmployeeSettings");
 
         // Key.

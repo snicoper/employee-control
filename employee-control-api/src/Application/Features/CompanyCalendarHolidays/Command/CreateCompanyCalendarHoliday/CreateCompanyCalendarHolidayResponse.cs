@@ -1,0 +1,3 @@
+﻿namespace EmployeeControl.Application.Features.CompanyCalendarHolidays.Command.CreateCompanyCalendarHoliday;
+
+public record CreateCompanyCalendarHolidayResponse(string CompanyHolidayId);

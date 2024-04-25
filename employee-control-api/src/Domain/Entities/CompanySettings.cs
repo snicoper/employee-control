@@ -14,4 +14,8 @@ public class CompanySettings : BaseAuditableEntity
     public int WeeklyWorkingHours { get; set; } = 40;
 
     public bool GeolocationRequired { get; set; }
+
+    public string CompanyId { get; set; } = default!;
+
+    public Company Company { get; set; } = null!;
 }

@@ -14,7 +14,7 @@ public class CompanySettingsService(
     IDateTimeService dateTimeService)
     : ICompanySettingsService
 {
-    public async Task<CompanySettings> GatByIdAsync(string companySettingsId, CancellationToken cancellationToken)
+    public async Task<CompanySettings> GetByIdAsync(string companySettingsId, CancellationToken cancellationToken)
     {
         var result = await context
                          .CompanySettings

@@ -12,7 +12,7 @@ public interface ICompanySettingsService
     /// <param name="cancellationToken"><see cref="CancellationToken" />.</param>
     /// <exception cref="NotFoundException">Si no encuentra la <see cref="CompanySettings" />.</exception>
     /// <returns><see cref="CompanySettings" />.</returns>
-    Task<CompanySettings> GatByIdAsync(string companySettingsId, CancellationToken cancellationToken);
+    Task<CompanySettings> GetByIdAsync(string companySettingsId, CancellationToken cancellationToken);
 
     /// <summary>
     /// Obtener <see cref="CompanySettings" />.

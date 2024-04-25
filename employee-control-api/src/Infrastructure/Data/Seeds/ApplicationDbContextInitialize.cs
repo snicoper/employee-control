@@ -59,11 +59,27 @@ public class ApplicationDbContextInitialize(
             return;
         }
 
+        var company = context.Companies.First();
+
         var categoryAbsences =
             new List<CategoryAbsence>
             {
-                new() { Description = "Maternidad", Active = true, Background = "#28961f", Color = "#ffffff" },
-                new() { Description = "Baja laboral", Active = true, Background = "#8722d1", Color = "#dfedfe" }
+                new()
+                {
+                    Description = "Maternidad",
+                    Active = true,
+                    CompanyId = company.Id,
+                    Background = "#28961f",
+                    Color = "#ffffff"
+                },
+                new()
+                {
+                    Description = "Baja laboral",
+                    Active = true,
+                    CompanyId = company.Id,
+                    Background = "#8722d1",
+                    Color = "#dfedfe"
+                }
             };
 
         context.CategoryAbsences.AddRange(categoryAbsences);
@@ -122,6 +138,8 @@ public class ApplicationDbContextInitialize(
 
     private async Task CreateUsersAsync()
     {
+        var company = context.Companies.First();
+
         // Admin user.
         var user = new ApplicationUser
         {
@@ -131,7 +149,8 @@ public class ApplicationDbContextInitialize(
             Email = "admin@localhost",
             EntryDate = dateTimeService.UtcNow,
             Active = true,
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            CompanyId = company.Id
         };
 
         if (!await userManager.Users.AnyAsync(u => u.Email == user.Email))
@@ -157,7 +176,8 @@ public class ApplicationDbContextInitialize(
             Email = "snicoper@gmail.com",
             EntryDate = dateTimeService.UtcNow,
             Active = true,
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            CompanyId = company.Id
         };
 
         if (!await userManager.Users.AnyAsync(u => u.Email == user.Email))
@@ -183,7 +203,8 @@ public class ApplicationDbContextInitialize(
             Email = "alice@example.com",
             EntryDate = dateTimeService.UtcNow,
             Active = true,
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            CompanyId = company.Id
         };
 
         if (!await userManager.Users.AnyAsync(u => u.Email == user.Email))
@@ -209,7 +230,8 @@ public class ApplicationDbContextInitialize(
             Email = "bob@example.com",
             EntryDate = dateTimeService.UtcNow,
             Active = true,
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            CompanyId = company.Id
         };
 
         if (!await userManager.Users.AnyAsync(u => u.Email == user.Email))

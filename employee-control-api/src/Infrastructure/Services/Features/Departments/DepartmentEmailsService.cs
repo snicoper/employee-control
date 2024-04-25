@@ -13,7 +13,7 @@ namespace EmployeeControl.Infrastructure.Services.Features.Departments;
 public class DepartmentEmailsService(
     IEmailService emailService,
     IOptions<WebApiSettings> webApiSettings,
-    IStringLocalizer<CompanyTaskLocalizer> localizer)
+    IStringLocalizer<TaskLocalizer> localizer)
     : IDepartmentEmailsService
 {
     public async Task SendEmployeeAssignDepartmentAsync(

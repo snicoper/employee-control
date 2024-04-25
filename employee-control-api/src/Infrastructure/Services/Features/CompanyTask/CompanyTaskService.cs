@@ -9,7 +9,7 @@ using Microsoft.Extensions.Localization;
 namespace EmployeeControl.Infrastructure.Services.Features.CompanyTask;
 
 public class CompanyTaskService(
-    IStringLocalizer<CompanyTaskLocalizer> localizer,
+    IStringLocalizer<TaskLocalizer> localizer,
     IValidationFailureService validationFailureService,
     IApplicationDbContext context)
     : ICompanyTaskService

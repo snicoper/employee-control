@@ -10,7 +10,7 @@ public interface IApplicationDbContext
 
     DbSet<Company> Companies { get; }
 
-    DbSet<CompanyHoliday> CompanyHolidays { get; }
+    DbSet<CompanyCalendarHoliday> CompanyCalendarHoliday { get; }
 
     DbSet<CompanySettings> CompanySettings { get; }
 

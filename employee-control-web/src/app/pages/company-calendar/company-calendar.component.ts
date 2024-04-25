@@ -139,7 +139,7 @@ export class CompanyCalendarComponent {
   }
 
   private loadCompanyHolidays(): void {
-    const url = CommonUtils.urlReplaceParams(ApiUrl.companyHolidays.getCompanyHolidaysByYear, {
+    const url = CommonUtils.urlReplaceParams(ApiUrl.companyCalendarHolidays.getCompanyCalendarHolidaysByYear, {
       year: String(this.yearSelected.year)
     });
 

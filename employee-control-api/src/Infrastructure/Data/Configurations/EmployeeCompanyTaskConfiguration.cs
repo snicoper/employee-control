@@ -8,6 +8,7 @@ public class EmployeeCompanyTaskConfiguration : IEntityTypeConfiguration<Employe
 {
     public void Configure(EntityTypeBuilder<EmployeeCompanyTask> builder)
     {
+        // Table name.
         builder.ToTable("EmployeeCompanyTasks");
 
         // Key.

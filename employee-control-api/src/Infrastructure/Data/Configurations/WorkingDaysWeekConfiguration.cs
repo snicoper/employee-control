@@ -8,6 +8,7 @@ public class WorkingDaysWeekConfiguration : IEntityTypeConfiguration<WorkingDays
 {
     public void Configure(EntityTypeBuilder<WorkingDaysWeek> builder)
     {
+        // Table name.
         builder.ToTable("WorkingDaysWeek");
 
         // Key.

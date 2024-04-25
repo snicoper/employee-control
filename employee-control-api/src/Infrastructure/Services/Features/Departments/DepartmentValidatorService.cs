@@ -11,7 +11,7 @@ namespace EmployeeControl.Infrastructure.Services.Features.Departments;
 public class DepartmentValidatorService(
     IApplicationDbContext context,
     IValidationFailureService validationFailureService,
-    IStringLocalizer<DepartmentLocalization> localizer)
+    IStringLocalizer<DepartmentLocalizer> localizer)
     : IDepartmentValidatorService
 {
     public async Task ValidateNameAsync(Department department, CancellationToken cancellationToken)

@@ -12,18 +12,18 @@ export class AppConfig {
   private readonly localizationService = inject(LocalizationService);
   private readonly userStatesService = inject(UserStatesService);
 
-  load(): Promise<boolean> {
+  load(): Promise<void> {
     return new Promise((resolve) => {
       this.themeManagerService.initialize();
       this.localizationService.initialize();
 
       if (this.authService.authValue$()) {
         this.userStatesService.load().then(() => {
-          resolve(true);
+          resolve();
         });
       }
 
-      resolve(true);
+      resolve();
     });
   }
 }

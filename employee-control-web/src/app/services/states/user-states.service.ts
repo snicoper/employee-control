@@ -22,7 +22,7 @@ export class UserStatesService {
   private readonly workingDaysWeekStateService = inject(WorkingDaysWeekStateService);
 
   /** Carga estados del usuario. */
-  async load(): Promise<boolean> {
+  async load(): Promise<void> {
     return new Promise((resolve) => {
       this.signalRService.start();
 
@@ -36,7 +36,7 @@ export class UserStatesService {
         this.timeControlIncidencesCountStateService.refresh();
       }
 
-      resolve(true);
+      resolve();
     });
   }
 

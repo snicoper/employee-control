@@ -15,9 +15,13 @@ public class ApplicationUser : IdentityUser, IEntityDomainEvent
     public ApplicationUser()
     {
         _domainEvents = new List<BaseEvent>();
-        EmployeeCompanyTasks = new List<EmployeeCompanyTask>();
+
+        EmployeeHolidays = new List<EmployeeHoliday>();
+        EmployeeHolidayClaims = new List<EmployeeHolidayClaim>();
+        EmployeeHolidayClaimLines = new List<EmployeeHolidayClaimLine>();
         TimeControls = new List<TimeControl>();
         EmployeeDepartments = new List<EmployeeDepartment>();
+        EmployeeCompanyTasks = new List<EmployeeCompanyTask>();
         UserRoles = new List<IdentityUserRole<string>>();
     }
 
@@ -35,13 +39,25 @@ public class ApplicationUser : IdentityUser, IEntityDomainEvent
 
     public EmployeeSettings EmployeeSettings { get; set; } = null!;
 
-    public ICollection<EmployeeHoliday> EmployeeHolidays { get; set; } = null!;
+    public string CompanyId { get; set; } = default!;
 
-    public ICollection<EmployeeCompanyTask> EmployeeCompanyTasks { get; set; }
+    public Company Company { get; set; } = null!;
+
+    public string? CompanyCalendarId { get; set; }
+
+    public CompanyCalendar CompanyCalendar { get; set; } = null!;
+
+    public ICollection<EmployeeHoliday> EmployeeHolidays { get; set; }
+
+    public ICollection<EmployeeHolidayClaim> EmployeeHolidayClaims { get; set; }
+
+    public ICollection<EmployeeHolidayClaimLine> EmployeeHolidayClaimLines { get; set; }
 
     public ICollection<TimeControl> TimeControls { get; set; }
 
     public ICollection<EmployeeDepartment> EmployeeDepartments { get; set; }
+
+    public ICollection<EmployeeCompanyTask> EmployeeCompanyTasks { get; set; }
 
     public ICollection<IdentityUserRole<string>> UserRoles { get; set; }
 

@@ -17,11 +17,11 @@ export const ApiUrl = {
     getCompanyByCurrentUser: '/companies/current-user'
   },
 
-  companyHolidays: {
-    getCompanyHolidaysByYear: '/company-holidays/year/{year}',
-    createCompanyHoliday: '/company-holidays',
-    updateCompanyHoliday: '/company-holidays/{id}',
-    deleteCompanyHoliday: '/company-holidays/{id}'
+  companyCalendarHolidays: {
+    getCompanyCalendarHolidaysByYear: '/company-calendar-holidays/year/{year}',
+    createCompanyCalendarHoliday: '/company-calendar-holidays',
+    updateCompanyCalendarHoliday: '/company-calendar-holidays/{id}',
+    deleteCompanyCalendarHoliday: '/company-calendar-holidays/{id}'
   },
 
   categoryAbsences: {

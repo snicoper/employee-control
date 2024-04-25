@@ -14,4 +14,8 @@ public class CategoryAbsence : BaseAuditableEntity
     public string Color { get; set; } = default!;
 
     public bool Active { get; set; }
+
+    public string CompanyId { get; set; } = default!;
+
+    public Company Company { get; set; } = null!;
 }
