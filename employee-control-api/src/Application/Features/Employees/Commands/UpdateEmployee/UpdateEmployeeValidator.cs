@@ -18,5 +18,8 @@ public class UpdateEmployeeValidator : AbstractValidator<UpdateEmployeeCommand>
         RuleFor(r => r.Email)
             .NotEmpty()
             .EmailAddress();
+
+        RuleFor(r => r.CompanyCalendarId)
+            .NotEmpty();
     }
 }

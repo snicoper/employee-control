@@ -4,7 +4,7 @@
   <mat-card>
     <mat-card-content>
       <!-- form -->
-      @if (employee) {
+      @if (!loadingEmployee && employee) {
         <form (ngSubmit)="handleSubmit()" [formGroup]="form">
           <aw-non-field-errors [badRequest]="badRequest" />
           <!-- firstName -->
@@ -64,16 +64,25 @@
               label="Fecha de ingreso" />
           </div>
 
+          <!-- companyCalendarId -->
+          <div class="mb-2">
+            <aw-form-company-calendars
+              [badRequest]="badRequest"
+              [form]="form"
+              [submitted]="submitted"
+              fieldName="companyCalendarId"
+              formControlName="companyCalendarId" />
+          </div>
+
           <mat-divider class="mb-2" />
 
           <aw-btn-back class="me-2"></aw-btn-back>
           <aw-btn-loading icon="save" btnText="Guardar" [loading]="loadingForm" />
         </form>
-      }
-
-      <!-- spinner -->
-      @if (loadingEmployee) {
-        <mat-progress-spinner color="primary" mode="indeterminate" />
+      } @else {
+        <div class="d-flex justify-content-center">
+          <mat-progress-spinner color="primary" mode="indeterminate" />
+        </div>
       }
     </mat-card-content>
   </mat-card>

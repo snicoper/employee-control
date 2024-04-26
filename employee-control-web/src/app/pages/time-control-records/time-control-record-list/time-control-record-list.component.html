@@ -6,7 +6,7 @@
       <!-- toolbar -->
       <div class="d-flex justify-content-between mb-2">
         <!-- button add time -->
-        <button [routerLink]="siteUrl.timeControlRecords.create" color="primary" mat-button>
+        <button [routerLink]="siteUrl.timeControlRecords.create" color="primary" mat-stroked-button>
           <mat-icon>add</mat-icon>
           Añadir tiempo
         </button>
@@ -32,7 +32,10 @@
             [disabled]="!filterDateRangeState"
             [rangeValue]="filterPeriod" />
 
-          <button (click)="handleToggleFilterDate()" [color]="filterDateRangeState ? 'warn' : 'primary'" mat-button>
+          <button
+            (click)="handleToggleFilterDate()"
+            [color]="filterDateRangeState ? 'warn' : 'primary'"
+            mat-stroked-button>
             <mat-icon>event_available</mat-icon>
           </button>
         </div>
@@ -150,20 +153,24 @@
             <th mat-header-cell *matHeaderCellDef class="d-flex justify-content-end"></th>
             <td mat-cell *matCellDef="let row">
               <span class="d-flex justify-content-end">
-                <button mat-button color="primary" (click)="handleDetailsTimeControl(row)" matTooltip="Detalles">
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  (click)="handleDetailsTimeControl(row)"
+                  matTooltip="Detalles">
                   <mat-icon>visibility</mat-icon>
                 </button>
 
                 @if (row.timeState === timeState.Close) {
-                  <button mat-button color="accent" (click)="handleTimeControlUpdate(row)" matTooltip="Editar">
+                  <button mat-stroked-button color="accent" (click)="handleTimeControlUpdate(row)" matTooltip="Editar">
                     <mat-icon>edit</mat-icon>
                   </button>
 
-                  <button mat-button color="warn" (click)="handleDeleteTimeControl(row)" matTooltip="Eliminar">
+                  <button mat-stroked-button color="warn" (click)="handleDeleteTimeControl(row)" matTooltip="Eliminar">
                     <mat-icon>delete</mat-icon>
                   </button>
                 } @else {
-                  <button mat-button color="warn" (click)="handleCloseTimeControl(row)" matTooltip="Cerrar">
+                  <button mat-stroked-button color="warn" (click)="handleCloseTimeControl(row)" matTooltip="Cerrar">
                     <mat-icon>close</mat-icon>
                   </button>
                 }

@@ -1,3 +1,4 @@
+import { TimeProvider } from '../../../core/types/time-provider.type';
 import { ClosedBy } from '../../../models/entities/types/closed-by.model';
 import { DeviceType } from '../../../models/entities/types/device-type.model';
 import { TimeState } from '../../../models/entities/types/time-state.model';
@@ -9,8 +10,8 @@ export interface TimeControlRecordDetailsResponse {
   lastName: string;
   incidence: boolean;
   incidenceDescription?: string;
-  start: Date;
-  finish: Date;
+  start: TimeProvider;
+  finish: TimeProvider;
   closedBy: ClosedBy;
   timeState: TimeState;
   deviceTypeStart: DeviceType;

@@ -17,6 +17,8 @@ public class CompanyCalendar : BaseAuditableEntity
 
     public string Description { get; set; } = default!;
 
+    public bool Default { get; set; }
+
     public ICollection<ApplicationUser> Users { get; set; }
 
     public ICollection<CompanyCalendarHoliday> CompanyCalendarHolidays { get; set; }

@@ -1,5 +1,7 @@
+import { TimeProvider } from '../../core/types/time-provider.type';
+
 export interface CompanyHoliday {
   id: string;
-  date: Date;
+  date: TimeProvider;
   description: string;
 }

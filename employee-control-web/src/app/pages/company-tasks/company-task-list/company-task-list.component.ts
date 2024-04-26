@@ -1,8 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, ViewChild, inject } from '@angular/core';
-import { MatButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatIcon } from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
@@ -34,8 +34,8 @@ import { CompanyTaskApiService } from '../../../services/api/company-task-api.se
     MatCardModule,
     MatTableModule,
     MatSortModule,
-    MatIcon,
-    MatButton,
+    MatIconModule,
+    MatButtonModule,
     MatPaginatorModule,
     MatProgressSpinner,
     PageBaseComponent,
@@ -56,7 +56,6 @@ export class CompanyTaskListComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
   readonly breadcrumb = new BreadcrumbCollection();
-
   readonly displayedColumns = ['name', 'created', 'active', 'background', 'color'];
   readonly fieldsFilter = ['name'];
   readonly siteUrl = SiteUrl;

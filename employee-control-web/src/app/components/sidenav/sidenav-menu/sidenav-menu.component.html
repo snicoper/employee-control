@@ -7,7 +7,7 @@
     [awRequiredRole]="role.Admin"
     [expanded]="stateSidebarMenu('administration')">
     <mat-expansion-panel-header>
-      <mat-panel-title><mat-icon>view_list</mat-icon> Administración</mat-panel-title>
+      <mat-panel-title><mat-icon>settings</mat-icon> Administración</mat-panel-title>
     </mat-expansion-panel-header>
 
     <mat-nav-list>
@@ -42,7 +42,22 @@
           </mat-chip>
         </div>
       </mat-list-item>
-      <mat-list-item [routerLink]="siteUrl.companyCalendar.calendar">Calendario</mat-list-item>
+    </mat-nav-list>
+  </mat-expansion-panel>
+
+  <!-- calendars -->
+  <mat-expansion-panel
+    class="mat-elevation-z0"
+    (closed)="handleClosedExpansionPanel('calendar')"
+    (opened)="handleOpenExpansionPanel('calendar')"
+    [awRequiredRole]="role.HumanResources"
+    [expanded]="stateSidebarMenu('calendar')">
+    <mat-expansion-panel-header>
+      <mat-panel-title><mat-icon>calendar_month</mat-icon> Calendario</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-nav-list>
+      <mat-list-item [routerLink]="siteUrl.companyCalendar.calendar">Calendarios</mat-list-item>
       <mat-list-item [routerLink]="siteUrl.manageHolidays.claims">Vacaciones</mat-list-item>
     </mat-nav-list>
   </mat-expansion-panel>
@@ -55,7 +70,7 @@
     [awRequiredRole]="role.Employee"
     [expanded]="stateSidebarMenu('employee')">
     <mat-expansion-panel-header>
-      <mat-panel-title><mat-icon>view_list</mat-icon> Empleado</mat-panel-title>
+      <mat-panel-title><mat-icon>person</mat-icon> Empleado</mat-panel-title>
     </mat-expansion-panel-header>
 
     <mat-nav-list [awRequiredRole]="role.Employee">

@@ -1,0 +1,8 @@
+<mat-form-field>
+  <mat-label>Seleccionar calendario</mat-label>
+  <mat-select (valueChange)="handleCompanyCalendarChange($event)" [(value)]="companyCalendarIdSelected">
+    @for (calendar of companyCalendars; track $index) {
+      <mat-option [value]="calendar.id">{{ calendar.name }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>

@@ -16,6 +16,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public DbSet<Company> Companies => Set<Company>();
 
+    public DbSet<CompanyCalendar> CompanyCalendars => Set<CompanyCalendar>();
+
     public DbSet<CompanySettings> CompanySettings => Set<CompanySettings>();
 
     public DbSet<CompanyTask> CompanyTasks => Set<CompanyTask>();

@@ -11,7 +11,8 @@ public record GetEmployeeByIdResponse(
     string Email,
     DateTimeOffset? EntryDate,
     bool Active,
-    bool EmailConfirmed)
+    bool EmailConfirmed,
+    string? CompanyCalendarId)
 {
     internal class Mapping : Profile
     {

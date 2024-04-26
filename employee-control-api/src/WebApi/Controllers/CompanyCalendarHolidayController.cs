@@ -2,7 +2,7 @@
 using EmployeeControl.Application.Features.CompanyCalendarHolidays.Command.CreateCompanyCalendarHoliday;
 using EmployeeControl.Application.Features.CompanyCalendarHolidays.Command.DeleteCompanyCalendarHoliday;
 using EmployeeControl.Application.Features.CompanyCalendarHolidays.Command.UpdateCompanyCalendarHoliday;
-using EmployeeControl.Application.Features.CompanyCalendarHolidays.Queries.GetCompanyCalendarHolidaysByYear;
+using EmployeeControl.Application.Features.CompanyCalendarHolidays.Queries.GetCompanyCalendarHolidaysByCompanyCalendarIdAndYear;
 using EmployeeControl.Domain.Entities;
 using EmployeeControl.WebApi.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -13,15 +13,17 @@ namespace EmployeeControl.WebApi.Controllers;
 public class CompanyCalendarHolidayController : ApiControllerBase
 {
     /// <summary>
-    /// Obtener lista de <see cref="CompanyCalendarHoliday" /> filtrado por año.
+    /// Obtener lista de <see cref="CompanyCalendarHoliday" /> filtrado por año e Id de <see cref="CompanyCalendar" />.
     /// </summary>
+    /// <param name="companyCalendarId">Id <see cref="CompanyCalendar" /> a filtrar.</param>
     /// <param name="year">Año al que obtener <see cref="CompanyCalendarHoliday" />.</param>
     /// <returns>Lista de departamentos paginádos.</returns>
-    [HttpGet("year/{year}")]
+    [HttpGet("company-calendars/{companyCalendarId}/year/{year}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<List<GetCompanyCalendarHolidaysByYearResponse>>> GetCompanyCalendarHolidaysByYear(int year)
+    public async Task<ActionResult<List<GetCompanyCalendarHolidaysByCompanyCalendarIdAndYearResponse>>>
+        GetCompanyCalendarHolidaysByCompanyCalendarIdAndYear(string companyCalendarId, int year)
     {
-        var result = await Sender.Send(new GetCompanyCalendarHolidaysByYearQuery(year));
+        var result = await Sender.Send(new GetCompanyCalendarHolidaysByCompanyCalendarIdAndYearQuery(companyCalendarId, year));
 
         return result;
     }

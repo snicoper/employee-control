@@ -7,6 +7,7 @@ using EmployeeControl.Application.Features.Employees.Commands.RemoveRoleHumanRes
 using EmployeeControl.Application.Features.Employees.Commands.UpdateEmployee;
 using EmployeeControl.Application.Features.Employees.Commands.UpdateEmployeeRoles;
 using EmployeeControl.Application.Features.Employees.Commands.UpdateEmployeeSettings;
+using EmployeeControl.Application.Features.Employees.Queries.GetCurrentEmployee;
 using EmployeeControl.Application.Features.Employees.Queries.GetCurrentEmployeeSettings;
 using EmployeeControl.Application.Features.Employees.Queries.GetEmployeeById;
 using EmployeeControl.Application.Features.Employees.Queries.GetEmployeesPaginated;
@@ -62,6 +63,20 @@ public class EmployeesController : ApiControllerBase
         var result = await Sender.Send(new GetRolesByEmployeeIdQuery(id));
 
         return result.ToList();
+    }
+
+    /// <summary>
+    /// Obtener el empleado actual.
+    /// </summary>
+    /// <returns>Empleado actual.</returns>
+    [HttpGet("current")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<GetCurrentEmployeeResponse>> GetCurrentEmployee()
+    {
+        var result = await Sender.Send(new GetCurrentEmployeeQuery());
+
+        return result;
     }
 
     /// <summary>

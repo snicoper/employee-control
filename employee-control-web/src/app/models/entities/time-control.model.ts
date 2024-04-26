@@ -1,3 +1,4 @@
+import { TimeProvider } from '../../core/types/time-provider.type';
 import { ClosedBy } from './types/closed-by.model';
 import { DeviceType } from './types/device-type.model';
 import { TimeState } from './types/time-state.model';
@@ -5,8 +6,8 @@ import { User } from './user.model';
 
 export interface TimeControl {
   id: string;
-  start: Date;
-  finish?: Date;
+  start: TimeProvider;
+  finish?: TimeProvider;
   incidence: boolean;
   incidenceDescription?: string;
   duration?: number;

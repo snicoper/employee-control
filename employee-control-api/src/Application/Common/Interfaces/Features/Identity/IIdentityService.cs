@@ -20,6 +20,12 @@ public interface IIdentityService
     Task<ApplicationUser> GetByIdAsync(string userId);
 
     /// <summary>
+    /// Obtener usuario actual.
+    /// </summary>
+    /// <returns><see cref="ApplicationUser" />.</returns>
+    Task<ApplicationUser> GetCurrentAsync();
+
+    /// <summary>
     /// Obtener un usuario por su Email.
     /// </summary>
     /// <param name="email">Email del usuaio.</param>

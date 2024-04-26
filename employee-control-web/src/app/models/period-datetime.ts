@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { DateTimeUtils } from '../utils/datetime-utils';
+import { DateTimeUtils } from '../core/utils/datetime-utils';
 
 export class PeriodDatetime {
   start: DateTime;

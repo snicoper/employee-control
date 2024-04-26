@@ -5,20 +5,25 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DateTime } from 'luxon';
+import { BreadcrumbCollection } from '../../components/breadcrumb/breadcrumb-collection';
 import { PageBaseComponent } from '../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../components/pages/page-header/page-header.component';
+import { CompanyCalendarSelectorComponent } from '../../components/selectors/company-calendar-selector/company-calendar-selector.component';
 import { YearSelectorComponent } from '../../components/selectors/year-selector/year-selector.component';
 import { CalendarClassColor } from '../../components/year-calendar-view/calendar-class-color';
 import { CalendarEvent } from '../../components/year-calendar-view/calendar-event.model';
 import { YearCalendarViewComponent } from '../../components/year-calendar-view/year-calendar-view.component';
 import { WeekDay } from '../../core/types/week-day';
 import { ApiUrl } from '../../core/urls/api-urls';
+import { SiteUrl } from '../../core/urls/site-urls';
 import { CommonUtils } from '../../core/utils/common-utils';
 import { DateTimeUtils } from '../../core/utils/datetime-utils';
+import { CompanyCalendar } from '../../models/entities/company-calendar.model';
 import { CompanyHoliday } from '../../models/entities/company-holiday.model';
 import { CompanyHolidaysApiService } from '../../services/api/company-holidays-api.service';
 import { CompanySettingsStateService } from '../../services/states/company-settings-state.service';
 import { WorkingDaysWeekStateService } from '../../services/states/working-days-week-state.service';
+import { CompanyCalendarHeaderLinksComponent } from './company-calendar-header-links/company-calendar-header-links.component';
 import { CompanyHolidayCreateComponent } from './company-holiday-create/company-holiday-create.component';
 import { CompanyHolidayUpdateComponent } from './company-holiday-update/company-holiday-update.component';
 
@@ -35,7 +40,9 @@ import { CompanyHolidayUpdateComponent } from './company-holiday-update/company-
     PageBaseComponent,
     PageHeaderComponent,
     YearCalendarViewComponent,
-    YearSelectorComponent
+    YearSelectorComponent,
+    CompanyCalendarSelectorComponent,
+    CompanyCalendarHeaderLinksComponent
   ]
 })
 export class CompanyCalendarComponent {
@@ -49,12 +56,21 @@ export class CompanyCalendarComponent {
   /** Días de la semana laborables. */
   private workingDaysInWeek!: number;
 
+  readonly breadcrumb = new BreadcrumbCollection();
+
   yearSelected = DateTime.local();
+  companyCalendarSelected!: CompanyCalendar;
   calendarEvents: Array<CalendarEvent> = [];
   loading = true;
   workingHoursYear = 0;
 
   constructor() {
+    this.setBreadcrumb();
+  }
+
+  /** Se inicializa aquí,  */
+  handleCompanyCalendarChange(companyCalendar: CompanyCalendar): void {
+    this.companyCalendarSelected = companyCalendar;
     this.initialize();
   }
 
@@ -73,7 +89,7 @@ export class CompanyCalendarComponent {
 
   private createHolidayOpenDialog(calendarEvent: CalendarEvent): void {
     const dialogRef = this.matDialog.open(CompanyHolidayCreateComponent, {
-      data: { calendarEvent: calendarEvent }
+      data: { calendarEvent: calendarEvent, companyCalendarId: this.companyCalendarSelected.id }
     });
 
     dialogRef.afterClosed().subscribe(() => {
@@ -139,9 +155,13 @@ export class CompanyCalendarComponent {
   }
 
   private loadCompanyHolidays(): void {
-    const url = CommonUtils.urlReplaceParams(ApiUrl.companyCalendarHolidays.getCompanyCalendarHolidaysByYear, {
-      year: String(this.yearSelected.year)
-    });
+    const url = CommonUtils.urlReplaceParams(
+      ApiUrl.companyCalendarHolidays.getCompanyCalendarHolidaysByCompanyCalendarIdAndYear,
+      {
+        companyCalendarId: this.companyCalendarSelected.id,
+        year: String(this.yearSelected.year)
+      }
+    );
 
     this.companyHolidaysApiService.get<Array<CompanyHoliday>>(url).subscribe({
       next: (result: Array<CompanyHoliday>) => {
@@ -187,6 +207,10 @@ export class CompanyCalendarComponent {
 
     this.workingHoursYear = Math.abs(Math.round(dailyHours * this.workingDaysInYear));
     this.loading = false;
+  }
+
+  private setBreadcrumb(): void {
+    this.breadcrumb.add('Calendarios', SiteUrl.companyCalendar.calendar, '', false);
   }
 
   /** Inicializa cálculos y obtención de datos. */

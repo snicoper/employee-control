@@ -50,6 +50,24 @@ public class ApplicationDbContextInitialize(
         await CreateCompanyTasksAsync();
         await CreateDepartmentsAsync();
         await CreateCategoryAbsencesAsync();
+        await CreateCompanyCalendarsAsync();
+    }
+
+    private async Task CreateCompanyCalendarsAsync()
+    {
+        if (await context.CompanyCalendars.AnyAsync())
+        {
+            return;
+        }
+
+        var companyCalendars = new List<CompanyCalendar>
+        {
+            new() { Name = "Default", Description = "Calendario por defecto", Default = true },
+            new() { Name = "Default 1", Description = "Calendario secundario" }
+        };
+
+        context.CompanyCalendars.AddRange(companyCalendars);
+        await context.SaveChangesAsync(CancellationToken.None);
     }
 
     private async Task CreateCategoryAbsencesAsync()
@@ -61,26 +79,25 @@ public class ApplicationDbContextInitialize(
 
         var company = context.Companies.First();
 
-        var categoryAbsences =
-            new List<CategoryAbsence>
+        var categoryAbsences = new List<CategoryAbsence>
+        {
+            new()
             {
-                new()
-                {
-                    Description = "Maternidad",
-                    Active = true,
-                    CompanyId = company.Id,
-                    Background = "#28961f",
-                    Color = "#ffffff"
-                },
-                new()
-                {
-                    Description = "Baja laboral",
-                    Active = true,
-                    CompanyId = company.Id,
-                    Background = "#8722d1",
-                    Color = "#dfedfe"
-                }
-            };
+                Description = "Maternidad",
+                Active = true,
+                CompanyId = company.Id,
+                Background = "#28961f",
+                Color = "#ffffff"
+            },
+            new()
+            {
+                Description = "Baja laboral",
+                Active = true,
+                CompanyId = company.Id,
+                Background = "#8722d1",
+                Color = "#dfedfe"
+            }
+        };
 
         context.CategoryAbsences.AddRange(categoryAbsences);
         await context.SaveChangesAsync(CancellationToken.None);

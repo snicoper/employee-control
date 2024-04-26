@@ -20,6 +20,7 @@ public class IdentityService(
     IAuthorizationService authorizationService,
     IIdentityValidatorService identityValidatorService,
     IValidationFailureService validationFailureService,
+    ICurrentUserService currentUserService,
     IDateTimeService dateTimeService,
     ILogger<IdentityService> logger)
     : IIdentityService
@@ -37,6 +38,13 @@ public class IdentityService(
     {
         return await userManager.FindByIdAsync(userId) ??
                throw new NotFoundException(nameof(ApplicationUser), nameof(ApplicationUser.Email));
+    }
+
+    public async Task<ApplicationUser> GetCurrentAsync()
+    {
+        var user = await GetByIdAsync(currentUserService.Id);
+
+        return user;
     }
 
     public async Task<ApplicationUser> GetByEmailAsync(string email)

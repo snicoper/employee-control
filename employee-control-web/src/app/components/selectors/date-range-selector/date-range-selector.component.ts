@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DateTime } from 'luxon';
-import { PeriodDatetime } from '../../../core/models/period-datetime';
+import { PeriodDatetime } from '../../../models/period-datetime';
 
 @Component({
   selector: 'aw-date-range-selector',

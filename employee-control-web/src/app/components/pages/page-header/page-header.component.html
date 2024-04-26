@@ -1,15 +1,19 @@
 <mat-card>
   <mat-card-content>
     <h1>
+      <!-- content -->
       <ng-content />
 
-      <span>
-        <ng-content select="[awHeaderSubtitle]" />
-      </span>
+      <!-- subtitle -->
+      <ng-content select="[awHeaderSubtitle]" />
     </h1>
 
     <mat-divider />
+
     <aw-breadcrumb [breadcrumb]="breadcrumb()" />
+
+    <!-- header links -->
+    <ng-content select=".header-links" />
   </mat-card-content>
 </mat-card>
 

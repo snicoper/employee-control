@@ -1,11 +1,10 @@
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Component, computed, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DateTime } from 'luxon';
-import { finalize } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { PageBaseComponent } from '../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../components/pages/page-header/page-header.component';
 import { YearSelectorComponent } from '../../components/selectors/year-selector/year-selector.component';
@@ -157,45 +156,38 @@ export class EmployeeCalendarComponent {
       this.calendarEvents.push(calendarDayEvent);
     });
 
-    this.loadCompanyHolidays();
+    this.loadData();
   }
 
-  private loadCompanyHolidays(): void {
-    const url = CommonUtils.urlReplaceParams(ApiUrl.companyCalendarHolidays.getCompanyCalendarHolidaysByYear, {
-      year: String(this.yearSelected.year)
-    });
+  private loadData(): void {
+    const companyHolidaysUrl = CommonUtils.urlReplaceParams(
+      ApiUrl.companyCalendarHolidays.getCompanyCalendarHolidaysByCompanyCalendarIdAndYear,
+      {
+        companyCalendarId: 'TODO: REPARAR',
+        year: String(this.yearSelected.year)
+      }
+    );
 
-    this.companyHolidaysApiService.get<Array<CompanyHoliday>>(url).subscribe({
-      next: (result: Array<CompanyHoliday>) => {
-        this.workingDaysInYear -= result.length;
-        this.parseCompanyHolidays(result);
+    const employeeHolidayUrl = CommonUtils.urlReplaceParams(
+      ApiUrl.employeeHolidays.getEmployeeHolidaysByYearAndEmployeeId,
+      {
+        year: this.yearSelected.year.toString(),
+        employeeId: this.jwtService.getSid()
+      }
+    );
+
+    type resultResponse = { companyHolidays$: Array<CompanyHoliday>; employeeHoliday$: EmployeeHolidayResponse };
+
+    forkJoin({
+      companyHolidays$: this.companyHolidaysApiService.get<Array<CompanyHoliday>>(companyHolidaysUrl),
+      employeeHoliday$: this.employeeHolidaysApiService.get<EmployeeHolidayResponse>(employeeHolidayUrl)
+    }).subscribe({
+      next: (result: resultResponse) => {
+        this.workingDaysInYear -= result.companyHolidays$.length;
+        this.employeeHoliday = result.employeeHoliday$;
+        this.parseCompanyHolidays(result.companyHolidays$);
       }
     });
-  }
-
-  private loadEmployeeHolidays(): void {
-    const url = CommonUtils.urlReplaceParams(ApiUrl.employeeHolidays.getEmployeeHolidaysByYearAndEmployeeId, {
-      year: this.yearSelected.year.toString(),
-      employeeId: this.jwtService.getSid()
-    });
-
-    this.employeeHolidaysApiService
-      .get<EmployeeHolidayResponse>(url)
-      .pipe(
-        finalize(() => {
-          this.calculateWorkingHoursYear();
-        })
-      )
-      .subscribe({
-        next: (result: EmployeeHolidayResponse) => {
-          this.employeeHoliday = result;
-        },
-        error: (error: HttpErrorResponse) => {
-          if (error.status === HttpStatusCode.NotFound) {
-            // Nothing.
-          }
-        }
-      });
   }
 
   private parseCompanyHolidays(companyHolidays: Array<CompanyHoliday>): void {
@@ -213,16 +205,7 @@ export class EmployeeCalendarComponent {
       this.calendarEvents.push(calendarDayEvent);
     });
 
-    this.loadEmployeeHolidays();
-  }
-
-  /** Obtener toas las fechas de un año por su week day. */
-  private getWorkingDayWeek(weekDay: WeekDay): DateTime[] {
-    const weekDays = DateTimeUtils.weekDaysFromYear(this.yearSelected, weekDay);
-    this.workingDaysInYear -= weekDays.length;
-    this.workingDaysInWeek -= 1;
-
-    return weekDays;
+    this.calculateWorkingHoursYear();
   }
 
   /** Calcular horas de trabajo, no aplica vacaciones de empleado u otros días libres. */
@@ -234,6 +217,15 @@ export class EmployeeCalendarComponent {
 
     this.workingHoursYear = Math.abs(Math.round(total));
     this.loading = false;
+  }
+
+  /** Obtener toas las fechas de un año por su week day. */
+  private getWorkingDayWeek(weekDay: WeekDay): DateTime[] {
+    const weekDays = DateTimeUtils.weekDaysFromYear(this.yearSelected, weekDay);
+    this.workingDaysInYear -= weekDays.length;
+    this.workingDaysInWeek -= 1;
+
+    return weekDays;
   }
 
   /** Inicializa cálculos y obtención de datos. */

@@ -1,14 +1,24 @@
 <aw-page-base>
-  <aw-page-header>Calendario de empresa</aw-page-header>
+  <aw-page-header [breadcrumb]="breadcrumb">
+    Calendarios
+
+    <!-- header links -->
+    <div class="header-links">
+      <aw-company-calendar-header-links />
+    </div>
+  </aw-page-header>
 
   <!-- toolbar -->
   <mat-card>
     <mat-card-content>
       <div class="d-flex flex-row flex-wrap align-items-center">
-        <aw-year-selector
-          (changeYearSelected)="handleYearSelectorChange($event)"
-          [dateSelected]="yearSelected"
-          [readOnly]="true" />
+        <div>
+          <aw-year-selector
+            (changeYearSelected)="handleYearSelectorChange($event)"
+            [dateSelected]="yearSelected"
+            [readOnly]="true" />
+          <aw-company-calendar-selector (companyCalendarChange)="handleCompanyCalendarChange($event)" />
+        </div>
 
         <div class="d-flex flex-column ms-auto">
           <h1>Calendario laboral {{ yearSelected.year }}</h1>

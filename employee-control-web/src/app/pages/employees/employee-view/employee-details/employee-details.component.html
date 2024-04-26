@@ -84,7 +84,7 @@
                 <!-- edit roles -->
                 @if (currentEmployeeId !== employeeSelected()?.id) {
                   <span [awRequiredRole]="role.Staff" class="ms-auto">
-                    <button mat-button color="primary" (click)="handleEditRolesDialog()">Editar roles</button>
+                    <button mat-stroked-button color="primary" (click)="handleEditRolesDialog()">Editar roles</button>
                   </span>
                 }
               </span>

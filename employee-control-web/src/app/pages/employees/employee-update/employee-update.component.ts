@@ -12,6 +12,7 @@ import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
 import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
+import { FormCompanyCalendarsComponent } from '../../../components/forms/inputs/form-company-calendars/form-company-calendars.component';
 import { FormDatepickerComponent } from '../../../components/forms/inputs/form-datepicker/form-datepicker.component';
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
@@ -21,8 +22,10 @@ import { ApiUrl } from '../../../core/urls/api-urls';
 import { SiteUrl } from '../../../core/urls/site-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
 import { BadRequest } from '../../../models/bad-request';
+import { CompanyCalendar } from '../../../models/entities/company-calendar.model';
 import { User } from '../../../models/entities/user.model';
 import { ResultResponse } from '../../../models/result-response.model';
+import { CompanyCalendarsApiService } from '../../../services/api/company-calendars-api.service';
 import { EmployeesApiService } from '../../../services/api/employees-api.service';
 import { SnackBarService } from '../../../services/snackbar.service';
 
@@ -43,7 +46,8 @@ import { SnackBarService } from '../../../services/snackbar.service';
     FormInputComponent,
     BtnBackComponent,
     BtnLoadingComponent,
-    FormDatepickerComponent
+    FormDatepickerComponent,
+    FormCompanyCalendarsComponent
   ]
 })
 export class EmployeeUpdateComponent {
@@ -51,6 +55,7 @@ export class EmployeeUpdateComponent {
   private readonly router = inject(Router);
   private readonly formBuilder = inject(FormBuilder);
   private readonly employeesApiService = inject(EmployeesApiService);
+  private readonly companyCalendarsApiService = inject(CompanyCalendarsApiService);
   private readonly snackBarService = inject(SnackBarService);
 
   readonly siteUrl = SiteUrl;
@@ -61,10 +66,11 @@ export class EmployeeUpdateComponent {
   form: FormGroup = this.formBuilder.group({});
   badRequest: BadRequest | undefined;
   formInputType = FormInputType;
-  loadingEmployee = false;
+  loadingEmployee = true;
   loadingForm = false;
   submitted = false;
   employee: User | undefined;
+  companyCalendars: Array<CompanyCalendar> = [];
 
   constructor() {
     this.employeeId = this.route.snapshot.paramMap.get('id') as string;
@@ -119,12 +125,14 @@ export class EmployeeUpdateComponent {
       lastName: [this.employee?.lastName, [Validators.required]],
       email: [this.employee?.email, [Validators.email, Validators.required]],
       phoneNumber: [this.employee?.phoneNumber],
-      entryDate: [this.employee?.entryDate, [Validators.required]]
+      entryDate: [this.employee?.entryDate, [Validators.required]],
+      companyCalendarId: [this.employee?.companyCalendarId, [Validators.required]]
     });
   }
 
   private loadEmployee(): void {
     this.loadingEmployee = true;
+
     const url = CommonUtils.urlReplaceParams(ApiUrl.employees.getEmployeeById, { id: this.employeeId });
 
     this.employeesApiService
@@ -133,6 +141,7 @@ export class EmployeeUpdateComponent {
       .subscribe({
         next: (result: User) => {
           this.employee = result;
+
           this.buildForm();
         }
       });

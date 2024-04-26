@@ -9,12 +9,12 @@ import { finalize } from 'rxjs';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
 import { FormDatepickerComponent } from '../../../components/forms/inputs/form-datepicker/form-datepicker.component';
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
-import { CalendarEvent } from '../../../components/year-calendar-view/calendar-event.model';
 import { ApiUrl } from '../../../core/urls/api-urls';
 import { DateTimeUtils } from '../../../core/utils/datetime-utils';
 import { BadRequest } from '../../../models/bad-request';
 import { CompanyHolidaysApiService } from '../../../services/api/company-holidays-api.service';
 import { SnackBarService } from '../../../services/snackbar.service';
+import { CompanyHolidayCreateData } from './company-holiday-create-data.model';
 import { CompanyHolidayManageCreateRequest } from './company-holiday-manage-create.request';
 
 @Component({
@@ -34,7 +34,7 @@ import { CompanyHolidayManageCreateRequest } from './company-holiday-manage-crea
   ]
 })
 export class CompanyHolidayCreateComponent implements OnInit {
-  private readonly dialogData = inject<{ calendarEvent: CalendarEvent }>(MAT_DIALOG_DATA);
+  private readonly dialogData = inject<CompanyHolidayCreateData>(MAT_DIALOG_DATA);
   private readonly dialogRef = inject(MatDialogRef<CompanyHolidayCreateComponent>);
   private readonly companyHolidaysApiService = inject(CompanyHolidaysApiService);
   private readonly formBuilder = inject(FormBuilder);
@@ -70,6 +70,8 @@ export class CompanyHolidayCreateComponent implements OnInit {
   }
 
   private createCompanyHoliday(companyHoliday: CompanyHolidayManageCreateRequest): void {
+    companyHoliday.companyCalendarId = this.dialogData.companyCalendarId;
+
     this.companyHolidaysApiService
       .post<CompanyHolidayManageCreateRequest, string>(
         companyHoliday,

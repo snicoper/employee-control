@@ -42,12 +42,13 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CompanyCalendar",
+                name: "CompanyCalendars",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Default = table.Column<bool>(type: "boolean", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     LastModified = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
@@ -55,7 +56,7 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CompanyCalendar", x => x.Id);
+                    table.PrimaryKey("PK_CompanyCalendars", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -248,9 +249,9 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_CompanyCalendar_CompanyCalendarId",
+                        name: "FK_AspNetUsers_CompanyCalendars_CompanyCalendarId",
                         column: x => x.CompanyCalendarId,
-                        principalTable: "CompanyCalendar",
+                        principalTable: "CompanyCalendars",
                         principalColumn: "Id");
                 });
 
@@ -271,9 +272,9 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_CompanyCalendarHolidays", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CompanyCalendarHolidays_CompanyCalendar_CompanyCalendarId",
+                        name: "FK_CompanyCalendarHolidays_CompanyCalendars_CompanyCalendarId",
                         column: x => x.CompanyCalendarId,
-                        principalTable: "CompanyCalendar",
+                        principalTable: "CompanyCalendars",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -672,6 +673,17 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                 column: "Id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CompanyCalendars_Id",
+                table: "CompanyCalendars",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CompanyCalendars_Name",
+                table: "CompanyCalendars",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CompanySettings_CompanyId",
                 table: "CompanySettings",
                 column: "CompanyId",
@@ -882,7 +894,7 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                 name: "Companies");
 
             migrationBuilder.DropTable(
-                name: "CompanyCalendar");
+                name: "CompanyCalendars");
         }
     }
 }
