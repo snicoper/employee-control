@@ -7,7 +7,7 @@ using MediatR;
 namespace EmployeeControl.Application.Features.Employees.Commands.InviteEmployee;
 
 [Authorize(Roles = Roles.HumanResources)]
-public record InviteEmployeeCommand(string FirstName, string LastName, string Email, string TimeZone)
+public record InviteEmployeeCommand(string FirstName, string LastName, string Email, string TimeZone, string CompanyCalendarId)
     : IRequest<string>
 {
     internal class Mapping : Profile

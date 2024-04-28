@@ -37,7 +37,18 @@ public class IdentityService(
     public async Task<ApplicationUser> GetByIdAsync(string userId)
     {
         return await userManager.FindByIdAsync(userId) ??
-               throw new NotFoundException(nameof(ApplicationUser), nameof(ApplicationUser.Email));
+               throw new NotFoundException(nameof(ApplicationUser), nameof(ApplicationUser.Id));
+    }
+
+    public async Task<ApplicationUser> GetByIdWithCompanyCalendarAsync(string userId)
+    {
+        var user = await userManager
+                       .Users
+                       .Include(u => u.CompanyCalendar)
+                       .SingleOrDefaultAsync(u => u.Id == userId) ??
+                   throw new NotFoundException(nameof(ApplicationUser), nameof(ApplicationUser.Id));
+
+        return user;
     }
 
     public async Task<ApplicationUser> GetCurrentAsync()

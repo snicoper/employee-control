@@ -20,6 +20,13 @@ public interface IIdentityService
     Task<ApplicationUser> GetByIdAsync(string userId);
 
     /// <summary>
+    /// Obtener <see cref="ApplicationUser" /> con <see cref="CompanyCalendar" /> por el Id del usuario.
+    /// </summary>
+    /// <param name="userId">Id del usuario a obtener.</param>
+    /// <returns><see cref="ApplicationUser" />.</returns>
+    Task<ApplicationUser> GetByIdWithCompanyCalendarAsync(string userId);
+
+    /// <summary>
     /// Obtener usuario actual.
     /// </summary>
     /// <returns><see cref="ApplicationUser" />.</returns>

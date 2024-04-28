@@ -4,7 +4,10 @@
 
     <!-- header links -->
     <div class="header-links">
-      <aw-company-calendar-header-links />
+      <button mat-stroked-button color="primary" class="me-2" [routerLink]="siteUrl.companyCalendar.list">
+        Administrar calendarios
+      </button>
+      <button mat-stroked-button color="primary" [routerLink]="siteUrl.employees.list">Asignar calendario</button>
     </div>
   </aw-page-header>
 
@@ -12,14 +15,17 @@
   <mat-card>
     <mat-card-content>
       <div class="d-flex flex-row flex-wrap align-items-center">
+        <!-- calendar selectors -->
         <div>
           <aw-year-selector
             (changeYearSelected)="handleYearSelectorChange($event)"
             [dateSelected]="yearSelected"
             [readOnly]="true" />
+
           <aw-company-calendar-selector (companyCalendarChange)="handleCompanyCalendarChange($event)" />
         </div>
 
+        <!-- calendar title -->
         <div class="d-flex flex-column ms-auto">
           <h1>Calendario laboral {{ yearSelected.year }}</h1>
 
@@ -35,6 +41,7 @@
           </div>
         </div>
 
+        <!-- legend -->
         <div class="d-flex justify-content-center ms-auto legend">
           <div><span class="legend-item non-working-day mx-2">&nbsp;</span> Día no laborable</div>
           <div><span class="legend-item company-holiday mx-2">&nbsp;</span> Festivos</div>

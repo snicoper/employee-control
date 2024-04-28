@@ -16,7 +16,7 @@ public class EmployeeHolidayController : ApiControllerBase
     /// <param name="request">RequestData.</param>
     /// <param name="year">Año a obtener <see cref="EmployeeHoliday" />.</param>
     /// <returns>Lista de <see cref="EmployeeHoliday" /> paginádos.</returns>
-    [HttpGet("year/{year}/paginated")]
+    [HttpGet("year/{year:int}/paginated")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<ResponseData<GetEmployeeHolidaysByYearPaginatedResponse>>> GetEmployeeHolidaysByYearPaginated(
         [FromQuery] RequestData request,
@@ -33,7 +33,7 @@ public class EmployeeHolidayController : ApiControllerBase
     /// <param name="year">Año de días de vacaciones.</param>
     /// <param name="employeeId">Id del empleado.</param>
     /// <returns>Datos de <see cref="EmployeeHoliday" />.</returns>
-    [HttpGet("year/{year}/employees/{employeeId}")]
+    [HttpGet("year/{year:int}/employees/{employeeId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<GetEmployeeHolidaysByYearAndEmployeeIdResponse>> GetEmployeeHolidaysByYearAndEmployeeId(

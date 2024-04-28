@@ -53,8 +53,6 @@ export class CategoryAbsenceCreateComponent {
 
   readonly breadcrumb = new BreadcrumbCollection();
 
-  readonly siteUrl = SiteUrl;
-
   form: FormGroup = this.formBuilder.group({});
   badRequest: BadRequest | undefined;
   submitted = false;

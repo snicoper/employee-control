@@ -8,6 +8,7 @@ import { BreadcrumbCollection } from '../../../components/breadcrumb/breadcrumb-
 import { BtnBackComponent } from '../../../components/buttons/btn-back/btn-back.component';
 import { BtnLoadingComponent } from '../../../components/buttons/btn-loading/btn-loading.component';
 import { NonFieldErrorsComponent } from '../../../components/forms/errors/non-field-errors/non-field-errors.component';
+import { FormCompanyCalendarsComponent } from '../../../components/forms/inputs/form-company-calendars/form-company-calendars.component';
 import { FormInputComponent } from '../../../components/forms/inputs/form-input/form-input.component';
 import { FormTimezoneComponent } from '../../../components/forms/inputs/form-timezone/form-timezone.component';
 import { PageBaseComponent } from '../../../components/pages/page-base/page-base.component';
@@ -34,6 +35,7 @@ import { InviteEmployeeRequest } from './employee-invite-request.model';
     NonFieldErrorsComponent,
     FormInputComponent,
     FormTimezoneComponent,
+    FormCompanyCalendarsComponent,
     BtnBackComponent,
     BtnLoadingComponent
   ]
@@ -46,7 +48,6 @@ export class EmployeeInviteComponent {
   private readonly companySettingsStateService = inject(CompanySettingsStateService);
 
   readonly breadcrumb = new BreadcrumbCollection();
-
   readonly formInputType = FormInputType;
   readonly siteUrl = SiteUrl;
 
@@ -100,7 +101,8 @@ export class EmployeeInviteComponent {
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
       email: ['', [Validators.email, Validators.required]],
-      timezone: [companySettings?.timezone, [Validators.required]]
+      timezone: [companySettings?.timezone, [Validators.required]],
+      companyCalendarId: ['', [Validators.required]]
     });
   }
 }

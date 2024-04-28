@@ -36,6 +36,7 @@
                         color="warn"
                         icon="close"
                         btnText="Desactivar"
+                        onkeypress=""
                         (click)="handleDeactivateEmployee()"
                         [loading]="loadingUpdateActive" />
                     }
@@ -45,6 +46,7 @@
                         color="primary"
                         icon="done"
                         btnText="Activar"
+                        onkeypress=""
                         (click)="handleActivateEmployee()"
                         [loading]="loadingUpdateActive" />
                     }
@@ -91,6 +93,10 @@
             </td>
           </tr>
           <tr class="table-list-row">
+            <td>Calendario asignado</td>
+            <td>{{ employeeSelected()?.companyCalendarName }}</td>
+          </tr>
+          <tr class="table-list-row">
             <td>Estado control de tiempos</td>
             <td>
               @if (employeeTimeControlState()?.timeState === timeStates.Open) {
@@ -107,7 +113,7 @@
         <!-- no data -->
         <tbody>
           <tr>
-            <td class="text-center" colspan="100%">
+            <td class="d-flex justify-content-center" colspan="100%">
               <h6>Error al cargar datos de empleado.</h6>
             </td>
           </tr>
@@ -116,7 +122,7 @@
         <!-- loading spinner -->
         <tbody>
           <tr>
-            <td class="text-center" colspan="100%">
+            <td class="d-flex justify-content-center" colspan="100%">
               <mat-progress-spinner color="primary" mode="indeterminate" />
             </td>
           </tr>

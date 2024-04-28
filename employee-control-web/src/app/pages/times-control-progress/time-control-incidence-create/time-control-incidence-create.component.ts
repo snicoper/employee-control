@@ -4,6 +4,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { finalize } from 'rxjs';
@@ -22,6 +23,7 @@ import { TimeControlIncidenceCreateRequest } from './time-control-incidence-crea
 @Component({
   selector: 'aw-time-control-incidence-create',
   templateUrl: './time-control-incidence-create.component.html',
+  styleUrl: './time-control-incidence-create.component.scss',
   standalone: true,
   imports: [
     NgClass,
@@ -31,6 +33,7 @@ import { TimeControlIncidenceCreateRequest } from './time-control-incidence-crea
     MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    MatDividerModule,
     FormTextareaComponent,
     BtnLoadingComponent,
     NonFieldErrorsComponent

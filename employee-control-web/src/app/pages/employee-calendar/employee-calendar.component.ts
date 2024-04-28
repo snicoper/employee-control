@@ -21,6 +21,7 @@ import { EmployeeHolidaysApiService } from '../../services/api/employee-holidays
 import { JwtService } from '../../services/jwt.service';
 import { SidenavService } from '../../services/sidenav.service';
 import { CompanySettingsStateService } from '../../services/states/company-settings-state.service';
+import { CurrentEmployeeStateService } from '../../services/states/current-employee-state.service';
 import { WorkingDaysWeekStateService } from '../../services/states/working-days-week-state.service';
 import { EmployeeCalendarToolbarComponent } from './employee-calendar-toolbar/employee-calendar-toolbar.component';
 import { EmployeeCalendarToolbarService } from './employee-calendar-toolbar/employee-calendar-toolvar.service';
@@ -50,6 +51,7 @@ export class EmployeeCalendarComponent {
   private readonly companySettingsStateService = inject(CompanySettingsStateService);
   private readonly employeeHolidaysApiService = inject(EmployeeHolidaysApiService);
   private readonly employeeCalendarToolbarService = inject(EmployeeCalendarToolbarService);
+  private readonly currentEmployeeStateService = inject(CurrentEmployeeStateService);
   private readonly sidenavService = inject(SidenavService);
   private readonly jwtService = inject(JwtService);
 
@@ -163,7 +165,7 @@ export class EmployeeCalendarComponent {
     const companyHolidaysUrl = CommonUtils.urlReplaceParams(
       ApiUrl.companyCalendarHolidays.getCompanyCalendarHolidaysByCompanyCalendarIdAndYear,
       {
-        companyCalendarId: 'TODO: REPARAR',
+        companyCalendarId: String(this.currentEmployeeStateService.get()?.companyCalendarId),
         year: String(this.yearSelected.year)
       }
     );

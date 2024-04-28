@@ -1,9 +1,11 @@
 import { Component, inject } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
 import { DateTime } from 'luxon';
 import { BreadcrumbCollection } from '../../components/breadcrumb/breadcrumb-collection';
 import { PageBaseComponent } from '../../components/pages/page-base/page-base.component';
@@ -23,7 +25,6 @@ import { CompanyHoliday } from '../../models/entities/company-holiday.model';
 import { CompanyHolidaysApiService } from '../../services/api/company-holidays-api.service';
 import { CompanySettingsStateService } from '../../services/states/company-settings-state.service';
 import { WorkingDaysWeekStateService } from '../../services/states/working-days-week-state.service';
-import { CompanyCalendarHeaderLinksComponent } from './company-calendar-header-links/company-calendar-header-links.component';
 import { CompanyHolidayCreateComponent } from './company-holiday-create/company-holiday-create.component';
 import { CompanyHolidayUpdateComponent } from './company-holiday-update/company-holiday-update.component';
 
@@ -33,16 +34,17 @@ import { CompanyHolidayUpdateComponent } from './company-holiday-update/company-
   styleUrl: './company-calendar.component.scss',
   standalone: true,
   imports: [
+    RouterLink,
     MatCardModule,
     MatTooltipModule,
     MatIconModule,
+    MatButtonModule,
     MatProgressSpinnerModule,
     PageBaseComponent,
     PageHeaderComponent,
     YearCalendarViewComponent,
     YearSelectorComponent,
-    CompanyCalendarSelectorComponent,
-    CompanyCalendarHeaderLinksComponent
+    CompanyCalendarSelectorComponent
   ]
 })
 export class CompanyCalendarComponent {
@@ -57,6 +59,7 @@ export class CompanyCalendarComponent {
   private workingDaysInWeek!: number;
 
   readonly breadcrumb = new BreadcrumbCollection();
+  readonly siteUrl = SiteUrl;
 
   yearSelected = DateTime.local();
   companyCalendarSelected!: CompanyCalendar;

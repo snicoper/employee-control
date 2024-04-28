@@ -52,6 +52,16 @@
             label="Zona horaria" />
         </div>
 
+        <!-- companyCalendarId -->
+        <div class="mb-2">
+          <aw-form-company-calendars
+            [badRequest]="badRequest"
+            [form]="form"
+            [submitted]="submitted"
+            fieldName="companyCalendarId"
+            formControlName="companyCalendarId" />
+        </div>
+
         <!-- buttons-->
         <aw-btn-back class="me-2" />
 

@@ -44,13 +44,13 @@ public class ApplicationDbContextInitialize(
 
     private async Task TrySeedAsync()
     {
+        await CreateCompanyCalendarsAsync();
         await CreateCompanyAsync();
-        await CreateRolesAsync();
-        await CreateUsersAsync();
         await CreateCompanyTasksAsync();
         await CreateDepartmentsAsync();
         await CreateCategoryAbsencesAsync();
-        await CreateCompanyCalendarsAsync();
+        await CreateRolesAsync();
+        await CreateUsersAsync();
     }
 
     private async Task CreateCompanyCalendarsAsync()
@@ -156,6 +156,7 @@ public class ApplicationDbContextInitialize(
     private async Task CreateUsersAsync()
     {
         var company = context.Companies.First();
+        var companyCalendar = context.CompanyCalendars.First(cc => cc.Default);
 
         // Admin user.
         var user = new ApplicationUser
@@ -167,7 +168,8 @@ public class ApplicationDbContextInitialize(
             EntryDate = dateTimeService.UtcNow,
             Active = true,
             EmailConfirmed = true,
-            CompanyId = company.Id
+            CompanyId = company.Id,
+            CompanyCalendarId = companyCalendar.Id
         };
 
         if (!await userManager.Users.AnyAsync(u => u.Email == user.Email))
@@ -194,7 +196,8 @@ public class ApplicationDbContextInitialize(
             EntryDate = dateTimeService.UtcNow,
             Active = true,
             EmailConfirmed = true,
-            CompanyId = company.Id
+            CompanyId = company.Id,
+            CompanyCalendarId = companyCalendar.Id
         };
 
         if (!await userManager.Users.AnyAsync(u => u.Email == user.Email))
@@ -221,7 +224,8 @@ public class ApplicationDbContextInitialize(
             EntryDate = dateTimeService.UtcNow,
             Active = true,
             EmailConfirmed = true,
-            CompanyId = company.Id
+            CompanyId = company.Id,
+            CompanyCalendarId = companyCalendar.Id
         };
 
         if (!await userManager.Users.AnyAsync(u => u.Email == user.Email))
@@ -248,7 +252,8 @@ public class ApplicationDbContextInitialize(
             EntryDate = dateTimeService.UtcNow,
             Active = true,
             EmailConfirmed = true,
-            CompanyId = company.Id
+            CompanyId = company.Id,
+            CompanyCalendarId = companyCalendar.Id
         };
 
         if (!await userManager.Users.AnyAsync(u => u.Email == user.Email))

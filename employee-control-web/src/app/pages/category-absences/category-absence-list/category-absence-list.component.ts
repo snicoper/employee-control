@@ -1,5 +1,5 @@
 import { Component, ViewChild, inject } from '@angular/core';
-import { MatButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -32,7 +32,7 @@ import { CategoryAbsencesApiService } from '../../../services/api/category-absen
     MatTableModule,
     MatSortModule,
     MatIcon,
-    MatButton,
+    MatButtonModule,
     MatPaginatorModule,
     MatProgressSpinner,
     PageBaseComponent,

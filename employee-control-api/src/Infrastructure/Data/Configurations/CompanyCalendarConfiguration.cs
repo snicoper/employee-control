@@ -23,6 +23,7 @@ public class CompanyCalendarConfiguration : IEntityTypeConfiguration<CompanyCale
 
         // Properties.
         builder.Property(cc => cc.Name)
+            .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(cc => cc.Description)

@@ -15,5 +15,11 @@ public class InviteEmployeeValidator : AbstractValidator<InviteEmployeeCommand>
         RuleFor(r => r.Email)
             .NotEmpty()
             .EmailAddress();
+
+        RuleFor(r => r.TimeZone)
+            .NotEmpty();
+
+        RuleFor(r => r.CompanyCalendarId)
+            .NotEmpty();
     }
 }

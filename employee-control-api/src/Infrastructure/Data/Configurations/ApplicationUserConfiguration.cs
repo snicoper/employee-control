@@ -30,7 +30,8 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
 
         builder.HasOne<CompanyCalendar>(au => au.CompanyCalendar)
             .WithMany(cc => cc.Users)
-            .HasForeignKey(au => au.CompanyCalendarId);
+            .HasForeignKey(au => au.CompanyCalendarId)
+            .IsRequired();
 
         // Many-to-Many.
         builder.HasMany(au => au.UserRoles)
@@ -54,9 +55,17 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
         builder.Property(au => au.RefreshToken)
             .HasMaxLength(256);
 
+        builder.Property(au => au.Active);
+
+        builder.Property(au => au.RefreshTokenExpiryTime);
+
         builder.Property(au => au.EntryDate)
             .IsRequired();
 
-        builder.Property(au => au.RefreshTokenExpiryTime);
+        builder.Property(au => au.CompanyId)
+            .IsRequired();
+
+        builder.Property(au => au.CompanyCalendarId)
+            .IsRequired();
     }
 }

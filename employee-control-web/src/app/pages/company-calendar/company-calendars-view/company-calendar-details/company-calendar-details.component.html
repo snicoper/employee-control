@@ -1,0 +1,46 @@
+<aw-page-base>
+  <aw-page-header [breadcrumb]="breadcrumb">Detalles de calendario</aw-page-header>
+
+  <mat-card>
+    <mat-card-content>
+      <table class="table-list">
+        <tbody>
+          @if (companyCalendar) {
+            <tr class="table-list-row">
+              <td>Nombre</td>
+              <td>{{ companyCalendar.name }}</td>
+            </tr>
+            <tr class="table-list-row">
+              <td>Descripción</td>
+              <td>{{ companyCalendar.description }}</td>
+            </tr>
+            <tr class="table-list-row">
+              <td>Principal</td>
+              <td>
+                @if (companyCalendar.default) {
+                  <mat-icon class="text-success">check_circle</mat-icon>
+                } @else {
+                  <mat-icon class="text-danger me-2">cancel</mat-icon>
+                  <button mat-stroked-button color="primary" (click)="handleSetDefaultCalendar()">
+                    Establecer por defecto
+                  </button>
+                }
+              </td>
+            </tr>
+          } @else {
+            <tr>
+              <td colspan="100%" class="d-flex justify-content-center">
+                <mat-progress-spinner color="primary" mode="indeterminate" />
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <mat-divider class="mb-2" />
+
+      <aw-btn-back class="me-2" />
+      <button mat-flat-button color="primary" (click)="handleClickUpdate()"><mat-icon>edit</mat-icon> Editar</button>
+    </mat-card-content>
+  </mat-card>
+</aw-page-base>

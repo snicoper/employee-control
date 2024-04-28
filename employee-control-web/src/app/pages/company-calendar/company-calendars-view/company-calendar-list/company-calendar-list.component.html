@@ -5,7 +5,9 @@
     <mat-card-content>
       <!-- toolbar -->
       <div class="d-flex flex-row">
-        <button mat-stroked-button color="primary"><mat-icon>add</mat-icon> Crear calendario</button>
+        <button mat-stroked-button color="primary" [routerLink]="siteUrl.companyCalendar.create">
+          <mat-icon>add</mat-icon> Crear calendario
+        </button>
       </div>
 
       @if (!loading) {
@@ -30,6 +32,16 @@
             </td>
           </ng-container>
 
+          <!-- default -->
+          <ng-container matColumnDef="default">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Principal</th>
+            <td mat-cell *matCellDef="let row">
+              @if (row.default) {
+                <mat-icon class="text-success">check_circle</mat-icon>
+              }
+            </td>
+          </ng-container>
+
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="handleSelectRow(row)"></tr>
 
@@ -43,6 +55,10 @@
           <mat-progress-spinner color="primary" mode="indeterminate" />
         </div>
       }
+
+      <mat-divider class="mb-2" />
+
+      <aw-btn-back />
     </mat-card-content>
   </mat-card>
 </aw-page-base>

@@ -14,7 +14,7 @@ export interface User {
   email: string;
   entryDate?: TimeProvider;
   emailConfirmed: boolean;
-  companyCalendarId?: string;
+  companyCalendarId: string;
   companyCalendar: CompanyCalendar;
   employeeSettings: EmployeeSettings;
   employeeHoliday: EmployeeHoliday;

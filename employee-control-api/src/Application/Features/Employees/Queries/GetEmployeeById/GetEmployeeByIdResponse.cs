@@ -12,13 +12,15 @@ public record GetEmployeeByIdResponse(
     DateTimeOffset? EntryDate,
     bool Active,
     bool EmailConfirmed,
-    string? CompanyCalendarId)
+    string CompanyCalendarId,
+    string CompanyCalendarName)
 {
     internal class Mapping : Profile
     {
         public Mapping()
         {
-            CreateMap<ApplicationUser, GetEmployeeByIdResponse>();
+            CreateMap<ApplicationUser, GetEmployeeByIdResponse>()
+                .ForMember(dest => dest.CompanyCalendarName, opt => opt.MapFrom(src => src.CompanyCalendar.Name));
         }
     }
 }

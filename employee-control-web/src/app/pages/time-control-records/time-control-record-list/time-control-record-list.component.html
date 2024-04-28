@@ -33,9 +33,10 @@
             [rangeValue]="filterPeriod" />
 
           <button
+            mat-icon-button
+            class="ms-2 align-center"
             (click)="handleToggleFilterDate()"
-            [color]="filterDateRangeState ? 'warn' : 'primary'"
-            mat-stroked-button>
+            [color]="filterDateRangeState ? 'warn' : 'primary'">
             <mat-icon>event_available</mat-icon>
           </button>
         </div>
@@ -71,7 +72,7 @@
 
               @if (getStartOpenStreetMapLink(row)) {
                 <a matTooltip="Ver en mapa" [href]="getStartOpenStreetMapLink(row)" target="_blank">
-                  <mat-icon>location_on</mat-icon>
+                  <mat-icon class="align-center">location_on</mat-icon>
                 </a>
               }
             </td>
@@ -87,7 +88,7 @@
                 {{ row.finish | dateFormat: dateTimeShortFormat }}
                 @if (getFinishOpenStreetMapLink(row)) {
                   <a matTooltip="Ver en mapa" [href]="getFinishOpenStreetMapLink(row)" target="_blank">
-                    <mat-icon>location_on</mat-icon>
+                    <mat-icon class="align-center">location_on</mat-icon>
                   </a>
                 }
               }
@@ -99,7 +100,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Cerrado por</th>
             <td mat-cell *matCellDef="let row">
               @if (row.closedBy === closedBy.Staff || row.closedBy === closedBy.System) {
-                <mat-icon>exclamation</mat-icon>
+                <mat-icon class="align-center text-warning">warning</mat-icon>
               }
 
               {{ row.closedBy | closedBy }}
@@ -150,27 +151,23 @@
 
           <!-- actions -->
           <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef class="d-flex justify-content-end"></th>
+            <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let row">
               <span class="d-flex justify-content-end">
-                <button
-                  mat-stroked-button
-                  color="primary"
-                  (click)="handleDetailsTimeControl(row)"
-                  matTooltip="Detalles">
+                <button mat-icon-button color="primary" matTooltip="Detalles" (click)="handleDetailsTimeControl(row)">
                   <mat-icon>visibility</mat-icon>
                 </button>
 
                 @if (row.timeState === timeState.Close) {
-                  <button mat-stroked-button color="accent" (click)="handleTimeControlUpdate(row)" matTooltip="Editar">
+                  <button mat-icon-button color="accent" matTooltip="Editar" (click)="handleTimeControlUpdate(row)">
                     <mat-icon>edit</mat-icon>
                   </button>
 
-                  <button mat-stroked-button color="warn" (click)="handleDeleteTimeControl(row)" matTooltip="Eliminar">
+                  <button mat-icon-button color="warn" matTooltip="Eliminar" (click)="handleDeleteTimeControl(row)">
                     <mat-icon>delete</mat-icon>
                   </button>
                 } @else {
-                  <button mat-stroked-button color="warn" (click)="handleCloseTimeControl(row)" matTooltip="Cerrar">
+                  <button mat-icon-button color="warn" matTooltip="Cerrar" (click)="handleCloseTimeControl(row)">
                     <mat-icon>close</mat-icon>
                   </button>
                 }

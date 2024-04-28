@@ -20,6 +20,9 @@ public class CompanyCalendarHolidayConfiguration : IEntityTypeConfiguration<Comp
         builder.HasIndex(ch => new { Day = ch.Date })
             .IsUnique();
 
+        builder.HasIndex(ch => new { Day = ch.Description })
+            .IsUnique();
+
         // One-to-Many.
         builder.HasOne<CompanyCalendar>(cch => cch.CompanyCalendar)
             .WithMany(cc => cc.CompanyCalendarHolidays)

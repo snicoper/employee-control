@@ -4,10 +4,10 @@ import { Role } from '../../../core/types/role';
 import { ApiUrl } from '../../../core/urls/api-urls';
 import { CommonUtils } from '../../../core/utils/common-utils';
 import { UserRole } from '../../../models/entities/user-role.model';
-import { User } from '../../../models/entities/user.model';
 import { TimeControlStateResponse } from '../../../models/states/time-control-state-response.model';
 import { EmployeesApiService } from '../../../services/api/employees-api.service';
 import { TimeControlApiService } from '../../../services/api/time-control-api.service';
+import { EmployeeSelectedResponse } from './employee-selected-response.model';
 
 /**
  * Empleado seleccionado desde la lista (employee-list).
@@ -20,7 +20,7 @@ export class EmployeeSelectedService {
   private readonly employeesApiService = inject(EmployeesApiService);
   private readonly timeControlApiService = inject(TimeControlApiService);
 
-  private readonly employeeSelected$ = signal<User | null>(null);
+  private readonly employeeSelected$ = signal<EmployeeSelectedResponse | null>(null);
   private readonly employeeSelectedRoles$ = signal<UserRole[]>([]);
   private readonly timeControlStateResponse$ = signal<TimeControlStateResponse | null>(null);
   private readonly loadingEmployee$ = signal(false);
@@ -65,10 +65,10 @@ export class EmployeeSelectedService {
       });
 
     this.employeesApiService
-      .get<User>(urlEmployee)
+      .get<EmployeeSelectedResponse>(urlEmployee)
       .pipe(finalize(() => this.loadingEmployee$.set(false)))
       .subscribe({
-        next: (result: User) => this.employeeSelected$.set(result)
+        next: (result: EmployeeSelectedResponse) => this.employeeSelected$.set(result)
       });
 
     this.employeesApiService

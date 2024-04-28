@@ -19,10 +19,9 @@ internal class GetCompanyCalendarHolidaysByCompanyCalendarIdAndYearHandler(IAppl
             .Where(ch => ch.CompanyCalendarId == request.CompanyCalendarId && ch.Date.Year == request.Year)
             .OrderBy(ch => ch.Date);
 
-        var resultResponse =
-            mapper
-                .Map<ICollection<CompanyCalendarHoliday>,
-                    ICollection<GetCompanyCalendarHolidaysByCompanyCalendarIdAndYearResponse>>(companyHolidays.ToList());
+        var resultResponse = mapper
+            .Map<ICollection<CompanyCalendarHoliday>,
+                ICollection<GetCompanyCalendarHolidaysByCompanyCalendarIdAndYearResponse>>([.. companyHolidays]);
 
         return Task.FromResult(resultResponse.ToList());
     }

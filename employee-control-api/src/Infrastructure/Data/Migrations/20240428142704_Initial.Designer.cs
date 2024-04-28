@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EmployeeControl.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240425224657_Initial")]
+    [Migration("20240428142704_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -63,6 +63,7 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("CompanyCalendarId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("CompanyId")
@@ -266,7 +267,8 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
@@ -312,6 +314,9 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     b.HasIndex("CompanyCalendarId");
 
                     b.HasIndex("Date")
+                        .IsUnique();
+
+                    b.HasIndex("Description")
                         .IsUnique();
 
                     b.HasIndex("Id");
@@ -923,7 +928,9 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                 {
                     b.HasOne("EmployeeControl.Domain.Entities.CompanyCalendar", "CompanyCalendar")
                         .WithMany("Users")
-                        .HasForeignKey("CompanyCalendarId");
+                        .HasForeignKey("CompanyCalendarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("EmployeeControl.Domain.Entities.Company", "Company")
                         .WithMany("Users")

@@ -12,3 +12,29 @@
     }
   }
 }
+
+// Ocultar botones de acción hasta hacer hover en la row.
+// Example: <mat-icon class="btn-action">add</mat-icon>
+table {
+  tr {
+    td,
+    th {
+      .material-icons {
+        &.btn-action {
+          display: none !important;
+        }
+      }
+    }
+
+    &:hover {
+      td,
+      th {
+        .material-icons {
+          &.btn-action {
+            display: inline-block !important;
+          }
+        }
+      }
+    }
+  }
+}

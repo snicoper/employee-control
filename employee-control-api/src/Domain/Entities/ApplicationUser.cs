@@ -43,7 +43,7 @@ public class ApplicationUser : IdentityUser, IEntityDomainEvent
 
     public Company Company { get; set; } = null!;
 
-    public string? CompanyCalendarId { get; set; }
+    public string CompanyCalendarId { get; set; } = default!;
 
     public CompanyCalendar CompanyCalendar { get; set; } = null!;
 

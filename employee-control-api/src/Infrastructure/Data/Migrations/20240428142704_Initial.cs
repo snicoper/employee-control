@@ -46,7 +46,7 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     Default = table.Column<bool>(type: "boolean", nullable: false),
                     Created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
@@ -223,7 +223,7 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                     RefreshTokenExpiryTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     EntryDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CompanyId = table.Column<string>(type: "text", nullable: false),
-                    CompanyCalendarId = table.Column<string>(type: "text", nullable: true),
+                    CompanyCalendarId = table.Column<string>(type: "text", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
@@ -252,7 +252,8 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                         name: "FK_AspNetUsers_CompanyCalendars_CompanyCalendarId",
                         column: x => x.CompanyCalendarId,
                         principalTable: "CompanyCalendars",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -665,6 +666,12 @@ namespace EmployeeControl.Infrastructure.Data.Migrations
                 name: "IX_CompanyCalendarHolidays_Date",
                 table: "CompanyCalendarHolidays",
                 column: "Date",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CompanyCalendarHolidays_Description",
+                table: "CompanyCalendarHolidays",
+                column: "Description",
                 unique: true);
 
             migrationBuilder.CreateIndex(

@@ -17,8 +17,9 @@ public class CompanyValidatorService(
 {
     public async Task UniqueNameValidationAsync(string companyName, CancellationToken cancellationToken)
     {
-        var company = await context.Companies
-            .AnyAsync(c => c.Name.ToLower().Equals(companyName), cancellationToken);
+        var company = await context
+            .Companies
+            .AnyAsync(c => string.Equals(c.Name.ToLower(), companyName.ToLower()), cancellationToken);
 
         if (!company)
         {

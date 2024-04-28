@@ -18,7 +18,7 @@ public class CompanyCalendarHolidayController : ApiControllerBase
     /// <param name="companyCalendarId">Id <see cref="CompanyCalendar" /> a filtrar.</param>
     /// <param name="year">Año al que obtener <see cref="CompanyCalendarHoliday" />.</param>
     /// <returns>Lista de departamentos paginádos.</returns>
-    [HttpGet("company-calendars/{companyCalendarId}/year/{year}")]
+    [HttpGet("company-calendars/{companyCalendarId}/year/{year:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<GetCompanyCalendarHolidaysByCompanyCalendarIdAndYearResponse>>>
         GetCompanyCalendarHolidaysByCompanyCalendarIdAndYear(string companyCalendarId, int year)

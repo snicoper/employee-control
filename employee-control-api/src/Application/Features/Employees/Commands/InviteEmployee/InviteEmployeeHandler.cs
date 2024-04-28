@@ -22,6 +22,8 @@ internal class InviteEmployeeHandler(
     {
         var company = await companyService.GetCompanyAsync(cancellationToken);
         var user = mapper.Map<InviteEmployeeCommand, ApplicationUser>(request);
+        user.CompanyId = company.Id;
+
         var password = CommonUtils.GenerateRandomPassword(10);
         var roles = new[] { Roles.Employee };
 

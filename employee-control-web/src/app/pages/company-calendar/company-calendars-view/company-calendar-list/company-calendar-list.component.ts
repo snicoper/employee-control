@@ -2,13 +2,15 @@ import { CommonModule } from '@angular/common';
 import { Component, ViewChild, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { BreadcrumbCollection } from '../../../../components/breadcrumb/breadcrumb-collection';
+import { BtnBackComponent } from '../../../../components/buttons/btn-back/btn-back.component';
 import { PageBaseComponent } from '../../../../components/pages/page-base/page-base.component';
 import { PageHeaderComponent } from '../../../../components/pages/page-header/page-header.component';
 import { TableFilterComponent } from '../../../../components/tables/table-filter/table-filter.component';
@@ -25,15 +27,18 @@ import { CompanyCalendarsApiService } from '../../../../services/api/company-cal
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     MatCardModule,
     MatTableModule,
     MatSortModule,
     MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
+    MatDividerModule,
     PageBaseComponent,
     PageHeaderComponent,
-    TableFilterComponent
+    TableFilterComponent,
+    BtnBackComponent
   ]
 })
 export class CompanyCalendarListComponent {
@@ -43,7 +48,7 @@ export class CompanyCalendarListComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
   readonly breadcrumb = new BreadcrumbCollection();
-  readonly displayedColumns = ['name', 'description'];
+  readonly displayedColumns = ['name', 'description', 'default'];
   readonly siteUrl = SiteUrl;
 
   dataSource!: MatTableDataSource<CompanyCalendar>;
@@ -55,8 +60,8 @@ export class CompanyCalendarListComponent {
     this.loadCompanyCalendars();
   }
 
-  handleSelectRow(companyTask: CompanyCalendar): void {
-    const url = CommonUtils.urlReplaceParams(SiteUrl.companyTasks.details, { id: companyTask.id });
+  handleSelectRow(companyCalendar: CompanyCalendar): void {
+    const url = CommonUtils.urlReplaceParams(SiteUrl.companyCalendar.details, { id: companyCalendar.id });
     this.router.navigateByUrl(url);
   }
 

@@ -1,0 +1,56 @@
+<aw-page-base>
+  <aw-page-header [breadcrumb]="breadcrumb">Actualizar calendario</aw-page-header>
+
+  <mat-card>
+    <mat-card-content>
+      @if (!loadingCompanyCalendar && companyCalendar) {
+        <form (ngSubmit)="handleSubmit()" [formGroup]="form">
+          <aw-non-field-errors [badRequest]="badRequest" />
+
+          <!-- name -->
+          <div class="mb-2">
+            <aw-form-input
+              [badRequest]="badRequest"
+              [form]="form"
+              [submitted]="submitted"
+              fieldName="name"
+              formControlName="name"
+              label="Nombre" />
+          </div>
+
+          <!-- description -->
+          <div class="mb-2">
+            <aw-form-input
+              [badRequest]="badRequest"
+              [form]="form"
+              [submitted]="submitted"
+              fieldName="description"
+              formControlName="description"
+              label="Descripción" />
+          </div>
+
+          <!-- default -->
+          <div class="mb-2">
+            <aw-form-checkbox
+              [badRequest]="badRequest"
+              [form]="form"
+              [submitted]="submitted"
+              fieldName="default"
+              formControlName="default"
+              label="Establecer como principal" />
+          </div>
+
+          <mat-divider class="mt-4" />
+
+          <!-- buttons-->
+          <aw-btn-back class="me-2" />
+          <aw-btn-loading [loading]="loading" icon="add" btnText="Actualizar" />
+        </form>
+      } @else {
+        <div class="d-flex justify-content-center">
+          <mat-progress-spinner color="primary" mode="indeterminate" />
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</aw-page-base>

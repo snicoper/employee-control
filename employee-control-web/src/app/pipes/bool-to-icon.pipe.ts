@@ -14,9 +14,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class BoolToIconPipe implements PipeTransform {
   transform(value: boolean | undefined): string {
     if (value) {
-      return '<span class="material-icons text-success">toggle_on</span>';
+      return '<span class="material-icons text-success">check_circle</span>';
     }
 
-    return '<span class="material-icons text-danger">toggle_off</span>';
+    return '<span class="material-icons text-danger">cancel</span>';
   }
 }

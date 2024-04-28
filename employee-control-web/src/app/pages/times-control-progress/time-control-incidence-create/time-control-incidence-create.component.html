@@ -1,48 +1,53 @@
-<div>
-  <h2 mat-dialog-title>Crear incidencia</h2>
-  <mat-dialog-content>
-    <form [formGroup]="form">
-      <aw-non-field-errors [badRequest]="badRequest" />
+<h2 mat-dialog-title>
+  Crear incidencia
 
-      @if (timeControl) {
-        <div>
-          <!-- incidenceDescription -->
-          <aw-form-textarea
-            (keyup)="handleIncidenceCharacters()"
-            [badRequest]="badRequest"
-            [form]="form"
-            [submitted]="submitted"
-            fieldName="incidenceDescription"
-            formControlName="incidenceDescription"
-            label="Descripción" />
+  <mat-divider />
+</h2>
 
-          <span
-            [ngClass]="{
-              'text-success': incidenceLength <= incidenceMaxCharacters,
-              'text-danger': incidenceLength > incidenceMaxCharacters
-            }"
-            class="small">
-            {{ incidenceLength }}/{{ incidenceMaxCharacters }}
-          </span>
-        </div>
-      } @else {
-        <mat-progress-spinner color="primary" mode="indeterminate" />
-      }
-    </form>
-  </mat-dialog-content>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <aw-non-field-errors [badRequest]="badRequest" />
 
-  <mat-dialog-actions>
-    <div class="mt-2">
-      <button class="me-2" color="accent" mat-dialog-close mat-flat-button>
-        <mat-icon>close</mat-icon>
-        Cerrar
-      </button>
-      <aw-btn-loading
-        (eventClick)="handleSubmit()"
-        [disabled]="disabled"
-        [loading]="loadingForm"
-        btnText="Crear incidencia"
-        icon="save" />
-    </div>
-  </mat-dialog-actions>
-</div>
+    @if (timeControl) {
+      <div>
+        <!-- incidenceDescription -->
+        <aw-form-textarea
+          (keyup)="handleIncidenceCharacters()"
+          [badRequest]="badRequest"
+          [form]="form"
+          [submitted]="submitted"
+          fieldName="incidenceDescription"
+          formControlName="incidenceDescription"
+          label="Descripción" />
+
+        <span
+          [ngClass]="{
+            'text-success': incidenceLength <= incidenceMaxCharacters,
+            'text-danger': incidenceLength > incidenceMaxCharacters
+          }"
+          class="small">
+          {{ incidenceLength }}/{{ incidenceMaxCharacters }}
+        </span>
+      </div>
+    } @else {
+      <mat-progress-spinner color="primary" mode="indeterminate" />
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-divider />
+
+<mat-dialog-actions align="end">
+  <div class="mt-2">
+    <button class="me-2" color="accent" mat-dialog-close mat-flat-button>
+      <mat-icon>close</mat-icon>
+      Cerrar
+    </button>
+    <aw-btn-loading
+      (eventClick)="handleSubmit()"
+      [disabled]="disabled"
+      [loading]="loadingForm"
+      btnText="Crear incidencia"
+      icon="save" />
+  </div>
+</mat-dialog-actions>
