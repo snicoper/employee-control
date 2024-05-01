@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, OnDestroy, computed, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -45,7 +45,7 @@ import { EmployeeHolidayResponse } from './employee-holiday-response.model';
   ],
   providers: [EmployeeCalendarToolbarService]
 })
-export class EmployeeCalendarComponent {
+export class EmployeeCalendarComponent implements OnDestroy {
   private readonly workingDaysWeekStateService = inject(WorkingDaysWeekStateService);
   private readonly companyHolidaysApiService = inject(CompanyHolidaysApiService);
   private readonly companySettingsStateService = inject(CompanySettingsStateService);
@@ -79,6 +79,10 @@ export class EmployeeCalendarComponent {
 
   constructor() {
     this.initialize();
+  }
+
+  ngOnDestroy(): void {
+    this.sidenavService.close();
   }
 
   handleYearSelectorChange(year: DateTime): void {
@@ -171,7 +175,7 @@ export class EmployeeCalendarComponent {
     );
 
     const employeeHolidayUrl = CommonUtils.urlReplaceParams(
-      ApiUrl.employeeHolidays.getEmployeeHolidaysByYearAndEmployeeId,
+      ApiUrl.employeeHolidays.getOrCreateEmployeeHolidaysByYearAndEmployeeId,
       {
         year: this.yearSelected.year.toString(),
         employeeId: this.jwtService.getSid()

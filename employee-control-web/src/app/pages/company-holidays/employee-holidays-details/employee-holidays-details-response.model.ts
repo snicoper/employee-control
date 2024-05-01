@@ -1,4 +1,4 @@
-export interface EmployeeHolidayResponse {
+export interface EmployeeHolidaysDetailsResponse {
   id: string;
   year: number;
   totalDays: number;

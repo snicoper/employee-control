@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using EmployeeControl.Domain.Entities;
 
-namespace EmployeeControl.Application.Features.EmployeeHolidays.Queries.GetEmployeeHolidaysByYearAndEmployeeId;
+namespace EmployeeControl.Application.Features.EmployeeHolidays.Queries.GetOrCreateEmployeeHolidaysByYearAndEmployeeId;
 
-public record GetEmployeeHolidaysByYearAndEmployeeIdResponse
+public record GetOrCreateEmployeeHolidaysByYearAndEmployeeIdResponse
 {
     public string Id { get; set; } = default!;
 
@@ -21,7 +21,7 @@ public record GetEmployeeHolidaysByYearAndEmployeeIdResponse
     {
         public Mapping()
         {
-            CreateMap<EmployeeHoliday, GetEmployeeHolidaysByYearAndEmployeeIdResponse>()
+            CreateMap<EmployeeHoliday, GetOrCreateEmployeeHolidaysByYearAndEmployeeIdResponse>()
                 .ForMember(dest => dest.Available, opt => opt.MapFrom(src => src.TotalDays - src.Consumed));
         }
     }

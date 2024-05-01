@@ -58,7 +58,7 @@
 
     <mat-nav-list>
       <mat-list-item [routerLink]="siteUrl.companyCalendar.calendar">Calendarios</mat-list-item>
-      <mat-list-item [routerLink]="siteUrl.manageHolidays.claims">Vacaciones</mat-list-item>
+      <mat-list-item [routerLink]="siteUrl.companyHolidays.employees">Vacaciones</mat-list-item>
     </mat-nav-list>
   </mat-expansion-panel>
 
@@ -76,7 +76,7 @@
     <mat-nav-list [awRequiredRole]="role.Employee">
       <mat-list-item [routerLink]="siteUrl.employeeSettings.settings">Configuración</mat-list-item>
       <mat-list-item [routerLink]="siteUrl.timesControlProgress.list">Control de tiempo</mat-list-item>
-      <mat-list-item [routerLink]="siteUrl.employeeCalendar.index">Calendar</mat-list-item>
+      <mat-list-item [routerLink]="siteUrl.employeeCalendar.index">Calendario</mat-list-item>
     </mat-nav-list>
   </mat-expansion-panel>
 </mat-accordion>

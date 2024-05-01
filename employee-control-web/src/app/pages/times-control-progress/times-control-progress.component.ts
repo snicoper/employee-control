@@ -69,7 +69,7 @@ export class TimesControlProgressComponent {
   loadingTimeState = false;
   dateSelected = DateTime.local();
   timeStates = TimeState;
-  loadingTimeControls = false;
+  loadingTimeControls = true;
   timeTotalInMonth = '';
   latitude: number | undefined;
   longitude: number | undefined;
@@ -176,22 +176,23 @@ export class TimesControlProgressComponent {
       to: endDate
     });
 
-    this.timeControlApiService.get<TimeControlGroupResponse[]>(url).subscribe({
-      next: (result: TimeControlGroupResponse[]) => {
-        const timeControlProgressStacked = new TimeControlProgressStacked(result, this.dateSelected);
-        this.progressStackedCollection = timeControlProgressStacked.compose();
+    this.timeControlApiService
+      .get<TimeControlGroupResponse[]>(url)
+      .pipe(finalize(() => (this.loadingTimeControls = false)))
+      .subscribe({
+        next: (result: TimeControlGroupResponse[]) => {
+          const timeControlProgressStacked = new TimeControlProgressStacked(result, this.dateSelected);
+          this.progressStackedCollection = timeControlProgressStacked.compose();
 
-        const timeTotal = result
-          .filter((group) => group.totalMinutes > 0)
-          .reduce((current, next) => current + next.totalMinutes, 0);
+          const timeTotal = result
+            .filter((group) => group.totalMinutes > 0)
+            .reduce((current, next) => current + next.totalMinutes, 0);
 
-        this.timeTotalInMonth = DateUtils.formatMinutesToTime(timeTotal);
-        this.loadingTimeControls = false;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.loadingTimeControls = false;
-        logError(error.error);
-      }
-    });
+          this.timeTotalInMonth = DateUtils.formatMinutesToTime(timeTotal);
+        },
+        error: (error: HttpErrorResponse) => {
+          logError(error.error);
+        }
+      });
   }
 }

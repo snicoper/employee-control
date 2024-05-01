@@ -28,6 +28,12 @@ export const SiteUrl = {
     details: '/company-calendar/{id}/details'
   },
 
+  companyHolidays: {
+    employees: '/company-holidays',
+    claims: '/company-holidays/claims',
+    details: '/company-holidays/year/{year}/employees/{employeeId}'
+  },
+
   companySettings: {
     details: '/company-settings',
     update: '/company-settings/update'
@@ -70,13 +76,6 @@ export const SiteUrl = {
   errors: {
     forbidden: '/errors/403',
     notFound: '/errors/404'
-  },
-
-  manageHolidays: {
-    claims: '/manage-holidays/claims',
-    assign: '/manage-holidays/assign',
-    assigned: '/manage-holidays/assigned',
-    details: '/manage-holidays/{id}/details'
   },
 
   timeControlRecords: {

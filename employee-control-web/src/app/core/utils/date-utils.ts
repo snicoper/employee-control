@@ -71,6 +71,7 @@ export abstract class DateUtils {
    * @param date Fecha a incrementar offset.
    * @param time Fecha/hora a incrementar offset.
    * @returns Nueva fecha añadido el offset.
+   * @deprecated
    */
   static incrementOffset(date: Date, time?: Date): Date {
     // Lo importante si existe, es el time para obtener los offsets.
@@ -97,6 +98,7 @@ export abstract class DateUtils {
    * @param date Fecha a decrementar offset.
    * @param time Fecha/hora a decrementar offset.
    * @returns Nueva fecha el offset decrementado.
+   * @deprecated
    */
   static decrementOffset(date: Date, time?: Date): Date {
     // Lo importante si existe, es el time para obtener los offsets.

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, OnDestroy, computed, inject, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,7 +25,7 @@ import { EmployeeCalendarToolbarService } from './employee-calendar-toolvar.serv
     BadgeComponent
   ]
 })
-export class EmployeeCalendarToolbarComponent {
+export class EmployeeCalendarToolbarComponent implements OnDestroy {
   private readonly employeeCalendarToolbarService = inject(EmployeeCalendarToolbarService);
   private readonly sidenavService = inject(SidenavService);
 
@@ -33,6 +33,11 @@ export class EmployeeCalendarToolbarComponent {
 
   yearSelected = input.required<number>();
   employeeHoliday = input.required<EmployeeHolidayResponse>();
+
+  // TODO: IMPLEMENTAR....
+  ngOnDestroy(): void {
+    console.log('CLOSE');
+  }
 
   handleCloseToolbar(): void {
     this.sidenavService.toggleSidenavToolbarState();

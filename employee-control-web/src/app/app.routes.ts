@@ -34,6 +34,12 @@ export const routes: Routes = [
     loadChildren: () => import('./pages/company-calendar/company-calendar.routes').then((m) => m.routes)
   },
   {
+    path: 'company-holidays',
+    data: { roles: [Role.HumanResources] },
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/company-holidays/company-holidays.routes').then((m) => m.routes)
+  },
+  {
     path: 'company-settings',
     data: { roles: [Role.HumanResources] },
     canActivate: [AuthGuard],
@@ -77,12 +83,6 @@ export const routes: Routes = [
     data: { roles: [Role.Anonymous] },
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/errors/errors.routes').then((m) => m.routes)
-  },
-  {
-    path: 'manage-holidays',
-    data: { roles: [Role.HumanResources] },
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./pages/manage-holidays/manage-holidays.routes').then((m) => m.routes)
   },
   {
     path: 'time-control-records',

@@ -8,6 +8,11 @@ export class SidenavService {
   readonly sidenavState = computed(() => this.sidenavState$());
   readonly sidenavToolbarState = computed(() => this.sidenavToolbarState$());
 
+  close(): void {
+    this.sidenavState$.set(true);
+    this.sidenavToolbarState$.set(false);
+  }
+
   toggleSidenavState(): void {
     this.sidenavState$.set(!this.sidenavState$());
   }

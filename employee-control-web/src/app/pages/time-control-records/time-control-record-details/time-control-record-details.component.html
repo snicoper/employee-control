@@ -65,7 +65,7 @@
               <td>Cerrado por</td>
               <td>
                 @if (timeControl.closedBy === closedBy.Staff || timeControl.closedBy === closedBy.System) {
-                  <mat-icon>exclamation</mat-icon>
+                  <mat-icon class="align-center text-warning">warning</mat-icon>
                 }
 
                 {{ timeControl.closedBy | closedBy }}
